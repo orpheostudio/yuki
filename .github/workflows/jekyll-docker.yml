@@ -39,3 +39,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
+source "https://rubygems.org"
+
+gem "github-pages", group: :jekyll_plugins
