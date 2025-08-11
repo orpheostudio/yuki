@@ -3,22 +3,22 @@ name: Build and Deploy Jekyll Site to GitHub Pages
 on:
   push:
     branches:
-      - main  # ou a branch que você usar para deploy
+      - main  # ajuste para sua branch principal
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1
+          ruby-version: '3.1'
 
-      - name: Setup Bundler Cache
+      - name: Cache Ruby gems
         uses: actions/cache@v3
         with:
           path: vendor/bundle
@@ -31,7 +31,7 @@ jobs:
           gem install bundler
           bundle install
 
-      - name: Build site with Jekyll
+      - name: Build Jekyll site
         run: bundle exec jekyll build
 
       - name: Deploy to GitHub Pages
@@ -39,6 +39,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
-source "https://rubygems.org"
-
-gem "github-pages", group: :jekyll_plugins
