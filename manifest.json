@@ -1,19 +1,19 @@
 {
-  "name": "Kai Chatbot",
-  "short_name": "KaiChat",
+  "name": "Aria AI",
+  "short_name": "Aria",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#0a0a0f",
-  "theme_color": "#22d3ee",
-  "description": "Kai Chatbot com apps embutidos, voz e estilo futurista minimalista.",
+  "background_color": "#0d0d12",
+  "theme_color": "#7f5af0",
+  "description": "Aria AI — assistente virtual futurista com conhecimento avançado, estilo imersivo e interação dinâmica.",
   "icons": [
     {
-      "src": "icons/kai-icon-192.png",
+      "src": "icons/aria-icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icons/kai-icon-512.png",
+      "src": "icons/aria-icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
