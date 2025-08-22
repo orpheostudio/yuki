@@ -1,38 +1,65 @@
-const CACHE_NAME = 'kai-cache-v1';
-const urlsToCache = [
+// service-worker.js
+
+const CACHE_NAME = 'sophia-v11-cache';
+const FILES_TO_CACHE = [
   '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons/kai-icon-192.png',
-  '/icons/kai-icon-512.png',
-  // adiciona outros recursos essenciais, ex: CSS, JS externos
+  'index.html',
+  // Adicione aqui os caminhos para seus ícones
+  'icon-192x192.png',
+  'icon-512x512.png',
+  'maskable-icon.png',
+  // Adicione aqui outros recursos estáticos que você queira que funcionem offline
+  // Por exemplo, se você tivesse um arquivo style.css separado:
+  // 'style.css' 
 ];
 
-// Install - cache files
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache);
+// Evento de Instalação: Salva os arquivos essenciais no cache.
+self.addEventListener('install', (event) => {
+  console.log('[Service Worker] Instalando...');
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log('[Service Worker] Colocando arquivos essenciais no cache');
+      return cache.addAll(FILES_TO_CACHE);
     })
   );
   self.skipWaiting();
 });
 
-// Activate - clean old caches
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
-    ))
+// Evento de Ativação: Limpa caches antigos.
+self.addEventListener('activate', (event) => {
+  console.log('[Service Worker] Ativando...');
+  event.waitUntil(
+    caches.keys().then((keyList) => {
+      return Promise.all(keyList.map((key) => {
+        if (key !== CACHE_NAME) {
+          console.log('[Service Worker] Removendo cache antigo', key);
+          return caches.delete(key);
+        }
+      }));
+    })
   );
   self.clients.claim();
 });
 
-// Fetch - try cache, fallback to network
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(response => {
-      return response || fetch(e.request).catch(() => caches.match('/index.html'));
+// Evento de Fetch: Intercepta as requisições de rede.
+// Estratégia: "Cache first" - Tenta pegar do cache primeiro. Se falhar, vai para a rede.
+self.addEventListener('fetch', (event) => {
+  // Ignora requisições que não são GET (como as de APIs)
+  if (event.request.method !== 'GET') {
+    return;
+  }
+  
+  event.respondWith(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.match(event.request)
+        .then((response) => {
+          // Se encontrar no cache, retorna do cache.
+          // Se não, vai para a rede, pega o recurso, salva no cache e retorna.
+          return response || fetch(event.request).then((fetchResponse) => {
+            cache.put(event.request, fetchResponse.clone());
+            return fetchResponse;
+          });
+        });
     })
   );
 });
