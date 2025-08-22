@@ -1,4 +1,4 @@
-# ✦Ｓσρђɪα✦ v11.0 - Assistente Pessoal PWA
+# ✦Ｓσρђɪα✦ v1.0 - Assistente Pessoal
 
 ![Status](https://img.shields.io/badge/status-ativo-brightgreen)
 ![Versão](https://img.shields.io/badge/versão-11.0-blueviolet)
@@ -8,10 +8,10 @@
 
 ---
 
-### [➡️ ACESSE A DEMONSTRAÇÃO AO VIVO AQUI ⬅️](https://naotodev1.github.io/Sophia-PWA/) 
+### [➡️ ACESSE A DEMONSTRAÇÃO AO VIVO AQUI ⬅️](https://naotodev1.github.io/aria/) 
 *(Substitua pelo link do seu GitHub Pages)*
 
-![Screenshot da Sophia v11.0](https://i.imgur.com/link-para-sua-imagem.png) 
+![Screenshot da Sophia v1.0](https://i.imgur.com/link-para-sua-imagem.png) 
 *(Recomendado: tire um screenshot da interface e suba para um site como o imgur.com para colocar o link aqui)*
 
 ---
