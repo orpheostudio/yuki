@@ -1,6 +1,6 @@
 # ✦Ｓσρђɪα✦ v1.0 Beta
 
-![Criador](https://img.shields.io/badge/criador-naoto-dev-bluered)
+![Criador](https://img.shields.io/badge/criador-naoto-dev-yellow)
 ![Versão](https://img.shields.io/badge/versão-1.0_Beta-blueviolet)
 
 **Sophia é uma assistente pessoal de nova geração. Construída como um Progressive Web App (PWA), ela é inteligente, privada e acessível de qualquer dispositivo. Possui memória, capacidade de aprendizado e até mesmo personalidades alternativas, tudo rodando diretamente no seu navegador.**
