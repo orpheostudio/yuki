@@ -1,98 +1,103 @@
-# 🌌 Sophia - Assistente Pessoal
+# ✦Ｓσρђɪα✦ v11.0 - Assistente Pessoal PWA
 
-**Sophia** é uma assistente pessoal projetada para conversas dinâmicas, criativas e educativas.
-Ela combina **design futurista**, **memória de sessão** e **respostas diversificadas** em múltiplas áreas do conhecimento.
+![Status](https://img.shields.io/badge/status-ativo-brightgreen)
+![Versão](https://img.shields.io/badge/versão-11.0-blueviolet)
+![Licença](https://img.shields.io/badge/licença-MIT-blue)
 
----
-
-## ✨ Recursos Principais
-
-* 🎨 **Interface futurista** com animações, gradientes dinâmicos e transições suaves
-* 💬 **Chat estilo Omegle** — interativo, intuitivo e responsivo
-* 🤖 **Respostas inteligentes e variadas**, em múltiplos temas (ciência, arte, filosofia, cultura, etc.)
-* 🧠 **Memória de sessão** — lembra seu nome, apelido e contexto da conversa
-* ⏳ **Indicador de "digitando" animado**, trazendo mais realismo
-* 🌈 **Personalização de humor e hora do dia** — cores de fundo mudam conforme o clima da interação
-* ⚡ **Expansão modular** — fácil de adicionar novos módulos de conhecimento
+**Sophia é uma assistente pessoal avançada, projetada como um Progressive Web App (PWA) totalmente autossuficiente. Ela possui memória persistente, capacidade de aprendizado, personalidades duplas e se integra com APIs externas, tudo isso rodando diretamente no seu navegador, garantindo total privacidade e funcionamento offline.**
 
 ---
 
-## 🚀 Como usar
+### [➡️ ACESSE A DEMONSTRAÇÃO AO VIVO AQUI ⬅️](https://naotodev1.github.io/Sophia-PWA/) 
+*(Substitua pelo link do seu GitHub Pages)*
 
-1. Clone ou baixe o repositório:
-
-   ```bash
-   git clone https://github.com/seu-usuario/aria.git
-   cd aria
-   ```
-
-2. Abra o arquivo `index.html` no navegador:
-
-   * Dê **duplo clique** ou
-   * Rode um servidor local simples (exemplo com Python):
-
-     ```bash
-     python -m http.server
-     ```
-
-3. Converse com a **Aria AI** e aproveite! 🎉
+![Screenshot da Sophia v11.0](https://i.imgur.com/link-para-sua-imagem.png) 
+*(Recomendado: tire um screenshot da interface e suba para um site como o imgur.com para colocar o link aqui)*
 
 ---
 
-## 🧩 Estrutura do Projeto
+### ✨ Principais Funcionalidades
 
-```
-📂 aria
- ├── 📄 index.html   # Interface e lógica principal
- ├── 📄 README.md    # Documentação do projeto
- └── 📂 assets/      # (opcional) imagens, ícones e GIFs
-```
-
----
-
-## 🌍 Áreas de Conhecimento
-
-A Aria AI tem conhecimento programado em múltiplas disciplinas:
-
-* 🌍 **Geografia** (países, oceanos, placas tectônicas...)
-* ⚛️ **Física** (relatividade, quântica, forças fundamentais...)
-* 🔬 **Ciências** (DNA, fotossíntese, microbioma...)
-* 🔢 **Matemática** (Pi, Fibonacci, infinitos...)
-* 🏛️ **História** (civilizações, guerras, revoluções...)
-* 💻 **Programação** (linguagens, algoritmos, machine learning...)
-* 🌌 **Astronomia** (buracos negros, exoplanetas, Via Láctea...)
-* ⚕️ **Medicina** (cérebro humano, vacinas, biotecnologia...)
-* 💰 **Economia** (PIB, criptomoedas, inflação...)
-* 🎨 **Arte & Cultura** (literatura, música, cinema...)
-* 🧠 **Psicologia** (inteligência emocional, vieses cognitivos...)
-* 🤔 **Filosofia** (ética, moral, grandes pensadores...)
-* 🌱 **Meio Ambiente** (mudanças climáticas, sustentabilidade...)
+*   **Progressive Web App (PWA):** Instale a Sophia na sua área de trabalho ou tela inicial do celular para uma experiência de aplicativo nativo e com acesso offline.
+*   **Personalidade Dupla:** Alterne entre **Sophia**, a assistente prestativa e profissional, e **KAI**, o especialista técnico com uma interface de terminal.
+*   **Memória Persistente:** Sophia lembra do seu nome, preferências e tudo o que você a ensina entre as sessões, usando o `localStorage` do navegador.
+*   **Aprendizado Ativo:** Ensine novos conceitos à Sophia com o comando `lembre-se que...` e construa sua base de conhecimento pessoal.
+*   **Conexão com o Mundo Real:**
+    *   📰 **Notícias:** Busca as últimas notícias sobre qualquer tópico via GNews API.
+    *   📖 **Dicionário:** Fornece definições de palavras em português.
+*   **Gerenciamento de Dados do Usuário:**
+    *   📥 **Exportar Dados:** Baixe um arquivo `.json` com toda a memória da Sophia.
+    *   ❌ **Excluir Conta:** Apague completamente seus dados do navegador com um único comando.
+*   **Ferramentas de Produtividade:** Defina alarmes, crie lembretes e gere senhas seguras.
+*   **Interface Moderna e Responsiva:** Um design limpo e elegante que se adapta perfeitamente a qualquer tamanho de tela, de desktops a celulares.
 
 ---
 
-## 🎯 Roadmap
+### 🛠️ Tecnologias Utilizadas
 
-* [x] Interface futurista
-* [x] Memória de sessão (nome + apelido)
-* [x] Indicador de digitação
-* [x] Respostas dinâmicas em múltiplas áreas
-* [ ] Suporte a API externa de conhecimento
-* [ ] Integração com voz (speech-to-text & text-to-speech)
-* [ ] Expansão para modo **multiusuário online**
+*   **Frontend:** HTML5, CSS3, JavaScript (ES6+)
+*   **PWA:** Service Worker, Web App Manifest
+*   **APIs Externas:** GNews API, Dictionary API
+*   **Hospedagem:** GitHub Pages
 
-## 🤝 Contribuindo
+---
 
-Quer contribuir? 🚀
+### 🚀 Como Usar e Instalar
 
-* Faça um **fork** do projeto
-* Crie uma **branch** (`git checkout -b feature/minha-feature`)
-* Commit suas mudanças (`git commit -m 'feat: nova funcionalidade'`)
-* Faça um **push** (`git push origin feature/minha-feature`)
-* Abra um **Pull Request** 🎉
+A Sophia foi projetada para ser acessível a todos, sem necessidade de instalação complexa.
 
-## 📜 Licença
+1.  **Acesse o Link:** Simplesmente abra o link da [Demonstração Ao Vivo](https://naotodev1.github.io/aria/).
+2.  **Comece a Conversar:** Aceite os termos de uso e comece a interagir.
+3.  **(Opcional) Instale o App:**
+    *   **No Desktop (Chrome/Edge):** Um ícone de instalação (um monitor com uma seta para baixo) aparecerá na barra de endereço. Clique nele para "instalar" a Sophia como um aplicativo na sua área de trabalho.
+    *   **No Celular (Android/iOS):** Use a opção "Adicionar à tela de início" no menu do seu navegador.
 
-Este projeto está sob a licença **exclusive**.
-todos os direitos reservados a Studio Tsukiyo Platforms.
+A instalação permite que a Sophia funcione em sua própria janela e fique acessível mesmo quando você estiver offline.
 
+---
 
+### 🤖 Guia de Comandos
+
+Explore o menu lateral para descobrir as funcionalidades ou use os comandos de texto abaixo.
+
+#### **Sophia (Assistente Pessoal)**
+*   **Aprendizado:** `lembre-se que [conceito] é [definição]`
+*   **Consulta:** `o que é [conceito]?`
+*   **Notícias:** `notícias sobre tecnologia`
+*   **Dicionário:** `o que significa semântica`
+*   **Alarme:** `alarme para 15:30`
+*   **Lembrete:** `me lembre de fazer uma pausa em 10 minutos`
+*   **Senha:** `gere uma senha`
+*   **Sistema:** `limpar memória`, `renomear para [novo nome]`
+
+#### **KAI (Terminal Técnico)**
+*   Primeiro, ative o modo com: `ativar modo kai`
+*   **Código:** `gere um html básico`
+*   **Documentação:** `doc javascript map`
+*   **RPG:** `role 2d20`
+*   **Citações:** `citação nerd`
+*   Para voltar, digite: `sair do modo kai`
+
+---
+
+### 🔧 Configuração Essencial
+
+Para que a funcionalidade de notícias funcione na sua própria versão do projeto, você precisa de uma chave de API gratuita do GNews.
+
+1.  Obtenha sua chave em [gnews.io](https://gnews.io/).
+2.  Abra o arquivo `index.html`.
+3.  Encontre a linha: `const NEWS_API_KEY = 'SUA_CHAVE_DE_API_AQUI';`
+4.  Substitua `'SUA_CHAVE_DE_API_AQUI'` pela sua chave real.
+
+---
+
+### 🔮 O Futuro da Sophia
+
+A v11.0 é uma base sólida. Os próximos passos exploram uma inteligência ainda mais profunda:
+*   **Migração do Cérebro:** Mover a lógica principal para um backend em Python/Node.js para permitir processamento de linguagem natural (PLN) real.
+*   **Integração com LLMs:** Conectar a Sophia a modelos de linguagem locais (`.gguf`) ou via API (GPT, Gemini) para conversas verdadeiramente dinâmicas.
+*   **Integração com Google Workspace:** Permitir que a Sophia crie eventos no seu Google Calendar ou resuma Google Docs.
+
+---
+
+Desenvolvido por **Naoto Dev**.
