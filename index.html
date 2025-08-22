@@ -703,38 +703,68 @@
                 <h1 class="about-title">Sua Opinião Importa!</h1>
                 <p class="about-content">Ajude-nos a melhorar a Sophia com seu feedback:</p>
 
-                <form class="feedback-form" id="feedbackForm">
-                    <div class="form-group">
-                        <label class="form-label">Como você avalia sua experiência?</label>
-                        <div class="rating-container" id="rating">
-                            <span class="star" data-rating="1">⭐</span>
-                            <span class="star" data-rating="2">⭐</span>
-                            <span class="star" data-rating="3">⭐</span>
-                            <span class="star" data-rating="4">⭐</span>
-                            <span class="star" data-rating="5">⭐</span>
-                        </div>
-                    </div>
+                <div class="feedback-header">
+  <h2>Você tem 1 minuto? Seu feedback é valioso para continuar a melhorar nosso chatbot</h2>
+</div>
 
-                    <div class="form-group">
-                        <label class="form-label" for="experience">O que você mais gostou?</label>
-                        <textarea class="form-input form-textarea" id="experience" placeholder="Conte sobre sua experiência positiva..."></textarea>
-                    </div>
+<form 
+  class="feedback-form" 
+  id="feedbackForm"
+  action="https://docs.google.com/forms/d/e/SEU_FORM_ID/formResponse"
+  method="POST"
+  target="_blank">
 
-                    <div class="form-group">
-                        <label class="form-label" for="improvements">Sugestões de melhoria:</label>
-                        <textarea class="form-input form-textarea" id="improvements" placeholder="Como podemos melhorar a Sophia?"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="email">E-mail (opcional):</label>
-                        <input type="email" class="form-input" id="email" placeholder="seu@email.com">
-                    </div>
-
-                    <button type="submit" class="submit-btn">Enviar Feedback</button>
-                </form>
-            </div>
-        </div>
+  <div class="form-group">
+    <label class="form-label">Como você avalia sua experiência?</label>
+    <div class="rating-container" id="rating">
+      <label>
+        <input type="radio" name="entry.123456789" value="1"> ⭐
+      </label>
+      <label>
+        <input type="radio" name="entry.123456789" value="2"> ⭐⭐
+      </label>
+      <label>
+        <input type="radio" name="entry.123456789" value="3"> ⭐⭐⭐
+      </label>
+      <label>
+        <input type="radio" name="entry.123456789" value="4"> ⭐⭐⭐⭐
+      </label>
+      <label>
+        <input type="radio" name="entry.123456789" value="5"> ⭐⭐⭐⭐⭐
+      </label>
     </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="experience">O que você mais gostou?</label>
+    <textarea 
+      class="form-input form-textarea" 
+      id="experience" 
+      name="entry.987654321"
+      placeholder="Conte sobre sua experiência positiva..."></textarea>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="improvements">Sugestões de melhoria:</label>
+    <textarea 
+      class="form-input form-textarea" 
+      id="improvements" 
+      name="entry.192837465"
+      placeholder="Como podemos melhorar a Sophia?"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="email">E-mail (opcional):</label>
+    <input 
+      type="email" 
+      class="form-input" 
+      id="email" 
+      name="entry.564738291"
+      placeholder="seu@email.com">
+  </div>
+
+  <button type="submit" class="submit-btn">Enviar Feedback</button>
+</form>
 
     <!-- Menu Lateral -->
     <div class="sidebar" id="sidebar">
