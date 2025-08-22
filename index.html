@@ -6,7 +6,7 @@
     <title>Sophia - Sua Assistente Virtual</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%236366f1'/%3E%3Ccircle cx='35' cy='40' r='8' fill='white'/%3E%3Ccircle cx='65' cy='40' r='8' fill='white'/%3E%3Cpath d='M30 65 Q50 80 70 65' stroke='white' stroke-width='4' fill='none'/%3E%3C/svg%3E">
+    <link rel="icon" type="logo/png" href="https://i.imgur.com/SWpguGf.png">
     
     <style>
         * {
@@ -53,9 +53,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
             backdrop-filter: blur(10px);
             animation: float 3s ease-in-out infinite;
+            overflow: hidden;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         @keyframes float {
@@ -161,7 +169,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .header-logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         .menu-btn {
@@ -303,16 +319,26 @@
             font-weight: 600;
             font-size: 0.9rem;
             flex-shrink: 0;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .message-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         .message.bot .message-avatar {
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
+            border: 2px solid rgba(99, 102, 241, 0.3);
         }
 
         .message.user .message-avatar {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
+            border: 2px solid rgba(16, 185, 129, 0.3);
         }
 
         .message-content {
@@ -573,9 +599,11 @@
     <div class="container">
         <!-- Tela de Boas-vindas -->
         <div id="welcome" class="welcome-screen">
-            <div class="logo">🤖</div>
+            <div class="logo">
+                <img src="https://i.imgur.com/SWpguGf.png" alt="Sophia Avatar">
+            </div>
             <h1 class="welcome-title">Sophia</h1>
-            <p class="welcome-subtitle">Sua assistente virtual inteligente e divertida!</p>
+            <p class="welcome-subtitle">Sua assistente virtual!</p>
             
             <div class="terms-container">
                 <div class="checkbox-container">
@@ -593,7 +621,9 @@
         <div id="main" class="screen">
             <header class="header">
                 <div class="header-logo">
-                    <div class="header-logo-icon">🤖</div>
+                    <div class="header-logo-icon">
+                        <img src="https://i.imgur.com/SWpguGf.png" alt="Sophia">
+                    </div>
                     <span>Sophia</span>
                 </div>
                 <button class="menu-btn" id="menuBtn">☰</button>
@@ -997,7 +1027,18 @@
             
             const avatar = document.createElement('div');
             avatar.className = 'message-avatar';
-            avatar.textContent = sender === 'user' ? 'VU' : 'SF';
+            
+            if (sender === 'user') {
+                avatar.textContent = 'VU';
+                avatar.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                avatar.style.color = 'white';
+            } else {
+                const img = document.createElement('img');
+                img.src = 'https://i.imgur.com/SWpguGf.png';
+                img.alt = 'Sophia';
+                avatar.appendChild(img);
+                avatar.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+            }
             
             const content = document.createElement('div');
             content.className = 'message-content';
@@ -1055,7 +1096,9 @@
             typingDiv.className = 'typing-indicator';
             typingDiv.id = 'typingIndicator';
             typingDiv.innerHTML = `
-                <div class="message-avatar" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white;">SF</div>
+                <div class="message-avatar" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); border: 2px solid rgba(99, 102, 241, 0.3); overflow: hidden;">
+                    <img src="https://i.imgur.com/SWpguGf.png" alt="Sophia" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                </div>
                 <div>
                     <span>Sophia está digitando</span>
                     <div class="typing-dots">
