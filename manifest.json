@@ -1,21 +1,28 @@
 {
-  "name": "Aria AI",
-  "short_name": "Aria",
+  "name": "Sophia - Assistente Pessoal",
+  "short_name": "Sophia",
+  "description": "Uma assistente pessoal projetada por Naoto Dev.",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#0d0d12",
-  "theme_color": "#7f5af0",
-  "description": "Aria AI — assistente virtual futurista com conhecimento avançado, estilo imersivo e interação dinâmica.",
+  "background_color": "#121212",
+  "theme_color": "#BB86FC",
+  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "icons/aria-icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
     },
     {
-      "src": "icons/aria-icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "maskable-icon.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
     }
   ]
 }
