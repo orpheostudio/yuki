@@ -1,6 +1,6 @@
-# 🌌 Aria AI
+# 🌌 Sophia - Assistente Pessoal
 
-**Aria AI** é uma inteligência artificial interativa projetada para conversas dinâmicas, criativas e educativas.
+**Sophia** é uma assistente pessoal projetada para conversas dinâmicas, criativas e educativas.
 Ela combina **design futurista**, **memória de sessão** e **respostas diversificadas** em múltiplas áreas do conhecimento.
 
 ---
