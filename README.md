@@ -1,16 +1,16 @@
 # ✦Ｓσρђɪα✦ v1.0 Beta
 
-![Status](https://img.shields.io/badge/status-em_teste_beta-yellow)
+![Status](https://img.shields.io/badge/Criador-Naoto Dev-yellow)
 ![Versão](https://img.shields.io/badge/versão-1.0_Beta-blueviolet)
 
 **Sophia é uma assistente pessoal de nova geração. Construída como um Progressive Web App (PWA), ela é inteligente, privada e acessível de qualquer dispositivo. Possui memória, capacidade de aprendizado e até mesmo personalidades alternativas, tudo rodando diretamente no seu navegador.**
 
 ---
 
-### [➡️ EXPERIMENTE A SOPHIA AO VIVO AQUI ⬅️](https://naotodev1.github.io/seu-repositorio/) 
+### [➡️ EXPERIMENTE A SOPHIA AO VIVO AQUI ⬅️](https://naotodev1.github.io/sophia/) 
 *(Substitua pelo link do seu GitHub Pages)*
 
-![Screenshot da Sophia v1.0 Beta](https://i.imgur.com/link-para-sua-imagem.png) 
+![Screenshot da Sophia v1.0 Beta]((https://i.imgur.com/6CX2nxC.png)) 
 *(Recomendado: tire um screenshot da interface e suba para um site como o imgur.com para colocar o link aqui)*
 
 ---
