@@ -7,11 +7,9 @@
 
 ---
 
-### [➡️ EXPERIMENTE A SOPHIA AO VIVO AQUI ⬅️](https://naotodev1.github.io/sophia/) 
-*(Substitua pelo link do seu GitHub Pages)*
+### [➡️ EXPERIMENTE A SOPHIA AO VIVO AQUI ⬅️](https://naotodev1.github.io/sophia/)
 
-![Screenshot da Sophia v1.0 Beta]((https://i.imgur.com/6CX2nxC.png)) 
-*(Recomendado: tire um screenshot da interface e suba para um site como o imgur.com para colocar o link aqui)*
+![Screenshot da Sophia v1.0 Beta]((https://i.imgur.com/6CX2nxC.png))
 
 ---
 
