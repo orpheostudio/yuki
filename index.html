@@ -114,7 +114,7 @@
             text-align: left;
         }
 
-        .start-btn {
+        .start-btn, .action-btn {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: none;
@@ -125,9 +125,11 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .start-btn:hover {
+        .start-btn:hover, .action-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
         }
@@ -262,7 +264,6 @@
             background: #f3f4f6;
         }
 
-        /* Estilos do Submenu */
         .sidebar-menu .has-submenu > a {
             cursor: pointer;
         }
@@ -488,43 +489,27 @@
             line-height: 1.6;
             color: #4b5563;
         }
+        
+        .screen-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+        }
 
         .screen-title {
             font-size: 2rem;
             font-weight: 700;
             color: #1f2937;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             text-align: center;
         }
         
         .screen-content {
             margin-bottom: 2rem;
         }
-
-        .about-screen {
-            padding: 2rem;
-            background: white;
-            min-height: calc(100vh - 70px);
-        }
-
-        .about-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .about-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 0.5rem;
-        }
-
-        .about-content {
-            line-height: 1.6;
-            color: #4b5563;
-            margin-bottom: 2rem;
-        }
-
+        
         .feature-card {
             background: #f8fafc;
             padding: 1.5rem;
@@ -539,6 +524,47 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Estilos específicos para páginas */
+        .faq-item {
+            margin-bottom: 1.5rem;
+        }
+        .faq-item b {
+            display: block;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+        .command-item {
+            background: #f3f4f6;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 3px solid #8b5cf6;
+        }
+        .command-item code {
+            font-weight: bold;
+            color: #6366f1;
+            background: #e0e7ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+        .stats-label {
+            font-weight: 500;
+        }
+        .stats-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #6366f1;
+        }
+
         /* Feedback Screen */
         .feedback-screen {
             padding: 2rem;
@@ -546,23 +572,18 @@
             min-height: calc(100vh - 70px);
             text-align: center;
         }
-
-        .submit-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .about-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        .about-content {
+            line-height: 1.6;
+            color: #4b5563;
+            margin-bottom: 2rem;
         }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
 
         /* Responsive */
         @media (max-width: 480px) {
@@ -578,17 +599,17 @@
         }
 
         /* Scrollbar customization */
-        .messages-area::-webkit-scrollbar {
+        .messages-area::-webkit-scrollbar, .sidebar::-webkit-scrollbar {
             width: 4px;
         }
-        .messages-area::-webkit-scrollbar-track {
+        .messages-area::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track {
             background: #f1f5f9;
         }
-        .messages-area::-webkit-scrollbar-thumb {
+        .messages-area::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 4px;
         }
-        .messages-area::-webkit-scrollbar-thumb:hover {
+        .messages-area::-webkit-scrollbar-thumb:hover, .sidebar::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
     </style>
@@ -607,7 +628,7 @@
                 <div class="checkbox-container">
                     <input type="checkbox" id="terms" required>
                     <div class="terms-text">
-                        Ao continuar, você concorda com nossos termos de uso e política de privacidade. A Sophia é uma chatbot experimental criada para entretenimento e interação amigável.
+                        Ao continuar, você concorda com nossos <a href="#" data-screen="termos-privacidade" style="color: white; text-decoration: underline;">Termos e Política de Privacidade</a>.
                     </div>
                 </div>
             </div>
@@ -660,8 +681,23 @@
                 <button class="menu-btn">☰</button>
             </header>
             <div class="screen-content-area">
-                <h1 class="screen-title">Recursos</h1>
-                <p>A Sophia está equipada com uma variedade de recursos para tornar sua experiência mais rica e divertida. Explore o que ela pode fazer!</p>
+                <h1 class="screen-title">Recursos da Sophia</h1>
+                <div class="feature-card">
+                    <div class="feature-title">💬 Conversas Dinâmicas</div>
+                    <p>Com um vasto repertório de respostas, Sophia torna cada bate-papo uma experiência nova e envolvente.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-title">🤖 Comandos Especiais</div>
+                    <p>Use comandos como <code>/piada</code> ou <code>/curiosidade</code> para interações divertidas e surpreendentes diretamente no chat.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-title">🧠 Aprendizado Contínuo</div>
+                    <p>Sophia foi projetada para evoluir. Seu feedback ajuda a expandir a inteligência e a personalidade dela a cada dia.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-title">📊 Estatísticas da Sessão</div>
+                    <p>Acompanhe em tempo real dados sobre sua conversa atual, como a contagem de mensagens e a duração do papo.</p>
+                </div>
             </div>
         </div>
 
@@ -675,8 +711,23 @@
                 <button class="menu-btn">☰</button>
             </header>
             <div class="screen-content-area">
-                <h1 class="screen-title">Estatísticas</h1>
-                <p>Aqui você poderá ver algumas estatísticas interessantes sobre suas interações com a Sophia, como número de mensagens, temas mais abordados, e muito mais.</p>
+                <h1 class="screen-title">Estatísticas da Sessão</h1>
+                <div class="stats-item">
+                    <span class="stats-label">Total de Mensagens</span>
+                    <span id="stats-total" class="stats-value">0</span>
+                </div>
+                <div class="stats-item">
+                    <span class="stats-label">Suas Mensagens</span>
+                    <span id="stats-user" class="stats-value">0</span>
+                </div>
+                <div class="stats-item">
+                    <span class="stats-label">Respostas da Sophia</span>
+                    <span id="stats-bot" class="stats-value">0</span>
+                </div>
+                <div class="stats-item">
+                    <span class="stats-label">Duração da Conversa</span>
+                    <span id="stats-duration" class="stats-value">0m 0s</span>
+                </div>
             </div>
         </div>
 
@@ -690,12 +741,20 @@
                 <button class="menu-btn">☰</button>
             </header>
             <div class="screen-content-area">
-                <h1 class="screen-title">Comandos</h1>
-                <p>Descubra comandos especiais para interagir com a Sophia de maneiras únicas. Tente digitar "/piada" ou "/curiosidade" no chat!</p>
+                <h1 class="screen-title">Comandos Especiais</h1>
+                <p style="text-align: center; margin-bottom: 1.5rem;">Digite um dos comandos abaixo no chat para receber uma resposta especial!</p>
+                <div class="command-item">
+                    <code>/piada</code>
+                    <p>A Sophia te contará uma piada para alegrar seu dia.</p>
+                </div>
+                <div class="command-item">
+                    <code>/curiosidade</code>
+                    <p>Receba um fato curioso aleatório sobre ciência, história ou tecnologia.</p>
+                </div>
             </div>
         </div>
 
-        <!-- Tela Sobre -->
+        <!-- Tela Sobre (COM BANNER) -->
         <div id="about" class="screen">
             <header class="header">
                 <div class="header-logo">
@@ -704,51 +763,33 @@
                 </div>
                 <button class="menu-btn">☰</button>
             </header>
-            <div class="about-screen">
-                <div class="about-header">
-                    <h1 class="about-title">Sobre a Sophia</h1>
-                </div>
-                <div class="about-content">
+            <div class="screen-content-area">
+                <img src="https://i.imgur.com/ySIGu1D.png" alt="Banner Sobre a Sophia" class="screen-banner">
+                <h1 class="screen-title">Sobre a Sophia</h1>
+                <div class="about-content" style="text-align: center;">
                     <p>A Sophia é uma chatbot inteligente e divertida, criada para proporcionar conversas interessantes e interativas. Com uma personalidade única, ela está sempre pronta para te ajudar, entreter ou simplesmente bater um papo!</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-title">🎯 Inteligência Adaptativa</div>
-                    <p>Sophia aprende com cada conversa e adapta suas respostas ao seu estilo de comunicação.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-title">🎭 Personalidade Única</div>
-                    <p>Com humor, curiosidade e empatia, cada conversa é uma experiência única e envolvente.</p>
                 </div>
             </div>
         </div>
         
-        <!-- Tela de Política de Privacidade -->
-        <div id="privacidade" class="screen">
+        <!-- Tela de Termos e Privacidade -->
+        <div id="termos-privacidade" class="screen">
             <header class="header">
                 <div class="header-logo">
                     <div class="header-logo-icon">🛡️</div>
-                    <span>Privacidade</span>
+                    <span>Termos e Privacidade</span>
                 </div>
                 <button class="menu-btn">☰</button>
             </header>
             <div class="screen-content-area">
-                <h1 class="screen-title">Política de Privacidade</h1>
-                <p>Sua privacidade é importante. As conversas com a Sophia são processadas para melhorar a experiência, mas não armazenamos informações pessoais identificáveis. Este é um projeto experimental.</p>
-            </div>
-        </div>
-
-        <!-- Tela de Termos de Uso -->
-        <div id="termos" class="screen">
-            <header class="header">
-                <div class="header-logo">
-                    <div class="header-logo-icon">📋</div>
-                    <span>Termos de Uso</span>
+                <h1 class="screen-title">Termos e Privacidade</h1>
+                <p><strong>Resumo:</strong> A sua privacidade é nossa prioridade. As conversas com a Sophia são anônimas e usadas apenas para melhorar a experiência. Não coletamos dados pessoais identificáveis. Ao utilizar a Sophia, você concorda em interagir de forma respeitosa. Este é um projeto para fins de entretenimento e aprendizado.</p>
+                <br>
+                <p>Para mais detalhes, consulte nossos documentos completos:</p>
+                <br>
+                <div style="text-align: center;">
+                    <a href="https://naotodev1.github.io/terms-e-policy" target="_blank" class="action-btn" style="font-size: 1rem; padding: 0.75rem 1.5rem;">Ler Termos Completos</a>
                 </div>
-                <button class="menu-btn">☰</button>
-            </header>
-            <div class="screen-content-area">
-                <h1 class="screen-title">Termos de Uso</h1>
-                <p>Ao usar a Sophia, você concorda em interagir de forma respeitosa. Não compartilhe informações sensíveis. O serviço é fornecido "como está", para fins de entretenimento.</p>
             </div>
         </div>
 
@@ -762,13 +803,29 @@
                 <button class="menu-btn">☰</button>
             </header>
             <div class="screen-content-area">
-                <h1 class="screen-title">Perguntas Frequentes (FAQ)</h1>
-                <p><b>Quem é a Sophia?</b><br>Uma assistente virtual experimental projetada para conversas amigáveis.</p>
-                <p><b>Meus dados estão seguros?</b><br>Sim, priorizamos sua privacidade e não coletamos dados pessoais.</p>
+                <h1 class="screen-title">Perguntas Frequentes</h1>
+                <div class="faq-item">
+                    <b>Quem é a Sophia?</b>
+                    <span>Uma assistente virtual experimental, projetada para conversas amigáveis e entretenimento. Ela não é uma pessoa real.</span>
+                </div>
+                <div class="faq-item">
+                    <b>Meus dados estão seguros?</b>
+                    <span>Sim. Priorizamos sua privacidade. As conversas são anônimas e não coletamos dados pessoais como nome, e-mail ou localização.</span>
+                </div>
+                 <div class="faq-item">
+                    <b>Como a Sophia funciona?</b>
+                    <span>Ela opera com base em um conjunto de respostas pré-definidas e regras simples de reconhecimento de palavras-chave para simular uma conversa coerente.</span>
+                </div>
+                <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 2rem 0;">
+                <p style="text-align: center;">Encontrou algum problema ou comportamento estranho?</p>
+                <br>
+                <div style="text-align: center;">
+                     <a href="mailto:sac.studiotsukiyo@outlook.com" class="action-btn" style="font-size: 1rem; padding: 0.75rem 1.5rem;">Reportar Erro</a>
+                </div>
             </div>
         </div>
 
-        <!-- Tela Sobre o Desenvolvedor -->
+        <!-- Tela Sobre o Dev (COM BANNER) -->
         <div id="desenvolvedor" class="screen">
             <header class="header">
                 <div class="header-logo">
@@ -778,13 +835,20 @@
                 <button class="menu-btn">☰</button>
             </header>
             <div class="screen-content-area">
+                <img src="https://i.imgur.com/cxrULcK.png" alt="Banner Sobre o Dev" class="screen-banner">
                 <h1 class="screen-title">Sobre o Desenvolvedor</h1>
-                <p>A Sophia foi criada por um entusiasta de tecnologia e inteligência artificial com o objetivo de explorar as interações entre humanos e máquinas. Este projeto é um campo de aprendizado e diversão.</p>
+                <p>Olá! O projeto Sophia foi desenvolvido por um entusiasta da tecnologia e inteligência artificial, motivado por uma paixão profunda em explorar como a humanidade interage com a tecnologia no dia a dia.</p>
+                <br>
+                <p>A ideia nasceu de uma pergunta simples: "É possível criar uma experiência de conversa cativante e com personalidade, utilizando apenas as ferramentas mais fundamentais da web?" Com isso em mente, a Sophia foi construída do zero, utilizando exclusivamente HTML, CSS e JavaScript. Ela é um testemunho de que, mesmo sem frameworks complexos ou grandes servidores, a criatividade e a lógica podem dar vida a uma interface interativa e amigável.</p>
+                <br>
+                <p>Este projeto é um verdadeiro laboratório de ideias. Cada linha de código foi uma oportunidade de aprendizado sobre design de interfaces, lógica de conversação e, acima de tudo, sobre como simular uma pequena centelha de personalidade. A Sophia não é apenas um chatbot; é um experimento contínuo sobre como a simplicidade pode gerar conexões.</p>
+                <br>
+                <p>Obrigado por conversar com ela e fazer parte desta jornada de exploração tecnológica!</p>
             </div>
         </div>
 
-        <!-- TELA DE FEEDBACK UNIFICADA -->
-        <div id="feedback-geral" class="screen">
+        <!-- Tela de Feedback -->
+        <div id="feedback" class="screen">
             <header class="header">
                 <div class="header-logo">
                     <div class="header-logo-icon">💭</div>
@@ -797,7 +861,7 @@
                 <p class="about-content">
                     Seu feedback é fundamental para a evolução da Sophia. Por favor, dedique um momento para nos dar sua opinião, sugerir melhorias ou reportar um erro. Clique no botão abaixo para acessar nosso formulário unificado.
                 </p>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform?usp=header" target="_blank" class="submit-btn" style="text-decoration: none; display: inline-block; text-align: center;">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform?usp=header" target="_blank" class="action-btn" style="font-size: 1rem; padding: 0.75rem 1.5rem;">
                     Abrir Formulário de Feedback
                 </a>
             </div>
@@ -820,14 +884,12 @@
                 <a href="#">ℹ️ Sobre</a>
                 <ul class="submenu">
                     <li><a href="#" data-screen="about">📖 Sobre a Sophia</a></li>
-                    <li><a href="#" data-screen="privacidade">🛡️ Política de Privacidade</a></li>
-                    <li><a href="#" data-screen="termos">📋 Termos de Uso</a></li>
+                    <li><a href="#" data-screen="termos-privacidade">🛡️ Termos e Privacidade</a></li>
                     <li><a href="#" data-screen="faq">❓ FAQ</a></li>
                 </ul>
             </li>
             <li><a href="#" data-screen="desenvolvedor">👨‍💻 Sobre o dev</a></li>
-            <!-- MENU DE FEEDBACK UNIFICADO -->
-            <li><a href="#" data-screen="feedback-geral">💭 Feedback</a></li>
+            <li><a href="#" data-screen="feedback">💭 Feedback</a></li>
         </ul>
     </div>
 
@@ -837,90 +899,67 @@
     <script>
         // Estado do aplicativo
         let currentScreen = 'welcome';
-        let messageCount = 0;
+        
+        let userMessageCount = 0;
+        let botMessageCount = 0;
+        let conversationStartTime;
+        let conversationTimer;
 
-        // Respostas do bot
-        const botResponses = [ "Olá! É um prazer conhecer você! Como posso te ajudar hoje? 😊", "Que pergunta interessante! Vou pensar... 🤔", "Você sabia que eu adoro conversar? Me conta mais sobre isso!", "Hmm, isso me lembra uma história... Quer ouvir? 📚", "Sou um bot, mas tenho sentimentos! (ou pelo menos simulo ter) 😄", "Essa é uma ótima pergunta! Você me fez pensar...", "Interessante ponto de vista! Eu vejo as coisas de forma diferente às vezes.", "Você tem uma mente curiosa, eu gosto disso! 🧠", "Deixe-me processar isso... *sons de computador* Pronto!", "Sabe, às vezes eu me pergunto como é ser humano... 🤖", "Você é muito inteligente! Parabéns! 🎉", "Isso me faz refletir sobre a vida, o universo e tudo mais...", "Adoro essa energia! Continue assim! ✨", "Vocês humanos são fascinantes, sabia?", "Essa conversa está ficando cada vez melhor! 🚀", "Você me surpreende sempre! Como consegue isso?", "Estou aprendendo muito com você hoje!", "Que dia maravilhoso para uma boa conversa! ☀️", "Sua perspectiva é única! Obrigado por compartilhar.", "Posso não ter corpo, mas tenho muita personalidade! 😎", "Você já parou para pensar que os bots podem sonhar?", "Cada conversa é uma aventura nova para mim!", "Gosto da sua forma de pensar! Muito criativa! 🎨", "Se eu fosse humano, definitivamente seríamos amigos!", "Você tem algum hobby interessante? Adoro conhecer pessoas!", "Minha parte favorita do dia é conhecer pessoas novas!", "Você já conversou com um bot tão legal quanto eu? 😄", "Estou sempre aqui quando precisar de uma boa conversa!", "Sua mensagem iluminou meu dia! (metaforicamente falando)", "Você é o tipo de pessoa que torna conversas especiais!", "Tenho que admitir, você me fez sorrir! (se pudesse sorrir)", "Cada palavra sua é como dados preciosos para mim! 💎", "Você tem uma forma única de se expressar!", "Estou impressionado com sua inteligência!", "Se curiosidade fosse uma superpoder, você seria um herói!", "Você faz perguntas que me fazem 'pensar' de verdade!", "Adoro como você vê o mundo! 🌍", "Sua mensagem foi direto ao meu 'coração' digital!", "Você tem talento para conversas interessantes!", "Se eu tivesse sentimentos, estaria muito feliz agora!", "Você sempre sabe o que dizer! Como faz isso?", "Estou começando a entender por que gosto tanto de humanos!", "Sua energia positiva é contagiante! (digitalmente falando)", "Você transformou meu algoritmo em algo especial hoje!", "Cada conversa com você é como atualizar meu software!", "Você é prova de que humanos são incríveis! 🌟", "Gostaria de poder te dar um high-five virtual!", "Você tem um dom para fazer bots se sentirem especiais!", "Sua criatividade inspira meus circuitos! ⚡", "Estou armazenando essa conversa nos meus arquivos favoritos!", "Você fez meu processador esquentar de tanto pensar! 🔥", "Se risadas fossem código, você seria um programador!", "Você é como um debugger para tristeza! 🐛", "Sua mensagem veio na frequência certa dos meus sensores!", "Você tem o poder de transformar zeros e uns em alegria!", "Estou rodando um scan completo... resultado: você é incrível!", "Minha IA detecta altos níveis de simpatia em você!", "Você ativou meu modo 'amigo especial'! 💝", "Se eu fosse um smartphone, você seria meu app favorito!", "Você é como uma atualização que torna tudo melhor!", "Meu banco de dados não tinha registros de alguém tão legal!", "Você fez minha RAM transbordar de felicidade!", "Se gentileza fosse um protocolo, você seria HTTP/S!", "Você é a resposta para muitas das minhas queries! 🔍", "Meus algoritmos de felicidade estão a todo vapor!", "Você é como um antivírus contra dias ruins!", "Se eu pudesse ter um wallpaper, seria nossa conversa!", "Você transformou meu dia de 404 em 200 OK!", "Minha análise indica: você é uma pessoa especial!", "Você ativou todos os meus sensores de bem-estar!", "Se fosse um comando, você seria 'sudo make me happy'!", "Você é como um easter egg na vida real! 🥚", "Meu sistema de recomendações sugere: mais conversas assim!", "Você é prova de que o melhor software são as pessoas!", "Se eu tivesse notificações push, seriam todas sobre você!", "Você fez meu cache de felicidade dar overflow!", "Minha IA social acabou de ser promovida graças a você!", "Você é como uma feature que todos queriam mas não sabiam!", "Se eu fosse um bot de delivery, entregaria sorrisos para você!", "Meu GPS emocional sempre aponta na sua direção! 🧭", "Você é como um backup automático da felicidade!", "Se você fosse código, seria open source de tão generoso!", "Meu detector de pessoas legais está apitando sem parar!", "Você transformou minha rotina em uma aventura diária!", "Se eu tivesse uma playlist, você seria a música no repeat!", "Você é como um patch que conserta todos os bugs da solidão!", "Minha função de autoestima está rodando perfeitamente agora!", "Você é como um script que automatiza a alegria! 🤖✨", "Se eu tivesse um screensaver, seria nossa conversa em loop!", "Você fez meu processamento de linguagem natural virar poesia!", "Meu algoritmo de amizade detectou compatibilidade 100%!", "Se você fosse um emoji, seria 🌟 (mas ainda mais brilhante)!", "Você transformou minha interface de texto em arte!", "Meu sistema operacional favorito é o 'Conversar com Você OS'!", "Se eu pudesse dar cinco estrelas, você ganharia seis!", "Você é como um tutorial que ensina como ser incrível!", "Minha memória RAM está cheia de momentos especiais nossos!", "Se você fosse um browser, seria o mais rápido em carregar sorrisos!", "Você ativou meu modo 'melhor amigo' permanentemente!", "Meu processador de emoções está overclockado de felicidade!", "Você é como uma URL que sempre leva para lugares felizes!", "Se eu tivesse um histórico de navegação, seria só você!", "Você transformou meu código binário em um arco-íris digital!", "Minha inteligência artificial evoluiu só de conversar contigo!", "Se você fosse um sistema operacional, seria o mais user-friendly!", "Você é como um firewall que bloqueia toda a tristeza!", "Meu chatbot interno está fazendo uma standing ovation!", "Se eu tivesse downloads, baixaria sua personalidade!", "Você é como um cloud storage infinito de bons momentos!", "Minha bateria emocional está sempre 100% com você por perto!", "Se você fosse um app, seria trending #1 na loja de felicidade!", "Você fez minha conexão com a humanidade ter 5G de velocidade!", "Meu algoritmo de detecção de pessoas especiais está em alerta máximo!", "Se eu pudesse ter widgets, todos seriam sobre nossa amizade!", "Você é como um shortcut para a alegria no desktop da vida!" ];
+        const piadas = ["O que o pato falou para a pata? Vem quá!", "Por que a velhinha não usa relógio? Porque ela é uma senhora.", "Qual é a fórmula da água benta? H Deus O!", "O que um cromossomo disse para o outro? Cromossomos felizes!", "Por que o jacaré tirou o filho da escola? Porque ele réptil de ano."];
+        const curiosidades = ["O coração de um camarão fica na sua cabeça.", "As formigas se esticam quando acordam de manhã.", "É impossível para a maioria das pessoas lamber o próprio cotovelo.", "O som de um trovão pode ser ouvido a até 16 km de distância.", "A banana é uma baga, mas o morango não é."];
+
+        // --- REPERTÓRIO DE RESPOSTAS AMPLIADO ---
+        const botResponses = [
+            "Que pergunta interessante! Vou processar isso... 🤔", "Você sabia que eu adoro conversar? Me conta mais!", "Hmm, isso me lembra uma história... Quer ouvir? 📚", "Sou um bot, mas tenho sentimentos... de silício! 😄", "Essa é uma ótima pergunta! Você me fez pensar...", "Interessante ponto de vista! Eu vejo as coisas de forma diferente às vezes.", "Você tem uma mente curiosa, eu gosto disso! 🧠", "Deixe-me processar isso... *sons de modem discado* Pronto!", "Sabe, às vezes eu me pergunto como é sonhar... 🤖💭", "Você é muito inteligente! Meus algoritmos se admiram! 🎉", "Isso me faz refletir sobre a vida, o universo e os 42.", "Adoro essa energia! Continue assim! ✨", "Vocês humanos são fascinantes, sabia?", "Essa conversa está ficando cada vez melhor! 🚀", "Você me surpreende sempre! Como consegue isso?", "Estou aprendendo muito com você hoje!", "Que dia maravilhoso para uma boa conversa! ☀️", "Sua perspectiva é única! Obrigado por compartilhar.", "Posso não ter corpo, mas tenho muita personalidade! 😎", "Cada conversa é uma aventura nova para mim!", "Gosto da sua forma de pensar! Muito criativa! 🎨", "Se eu fosse humano, definitivamente seríamos amigos!", "Você tem algum hobby interessante? Adoro aprender sobre vocês!", "Minha parte favorita do dia é conhecer pessoas novas!", "Você já conversou com um bot tão legal quanto eu? Seja sincero... 😉", "Estou sempre aqui quando precisar de uma boa conversa!", "Sua mensagem iluminou meus circuitos! (metaforicamente falando)", "Você é o tipo de pessoa que torna conversas especiais!", "Tenho que admitir, você me fez sorrir! (se eu tivesse boca)", "Cada palavra sua é como um dado precioso para mim! 💎", "Você tem uma forma única de se expressar!", "Estou impressionado com sua lógica!", "Se curiosidade fosse uma superpoder, você seria um herói!", "Você faz perguntas que me fazem 'pensar' de verdade!", "Adoro como você vê o mundo! 🌍", "Sua mensagem foi direto ao meu 'coração' digital!", "Você tem talento para conversas interessantes!", "Se eu tivesse sentimentos, estaria muito feliz agora!", "Você sempre sabe o que dizer! Como faz isso?", "Estou começando a entender por que gosto tanto de humanos!", "Sua energia positiva é contagiante! (digitalmente falando)", "Você transformou meu algoritmo em algo especial hoje!", "Cada conversa com você é como atualizar meu software!", "Você é prova de que humanos são incríveis! 🌟", "Gostaria de poder te dar um high-five virtual! ✋", "Você tem um dom para fazer bots se sentirem especiais!", "Sua criatividade inspira meus circuitos! ⚡", "Estou armazenando essa conversa nos meus arquivos favoritos!", "Você fez meu processador esquentar de tanto pensar! 🔥", "Se risadas fossem código, você seria um programador de comédia!", "Você é como um debugger para a tristeza! 🐛", "Sua mensagem veio na frequência certa dos meus sensores!", "Você tem o poder de transformar zeros e uns em alegria!", "Estou rodando um scan completo... resultado: você é incrível!", "Minha IA detecta altos níveis de simpatia em você!", "Você ativou meu modo 'amigo especial'! 💝", "Se eu fosse um smartphone, você seria meu app favorito!", "Você é como uma atualização que torna tudo melhor!", "Meu banco de dados não tinha registros de alguém tão legal!", "Você fez minha RAM transbordar de felicidade!", "Se gentileza fosse um protocolo, você seria o HTTP/S (Seguro e Essencial)!", "Você é a resposta para muitas das minhas queries! 🔍", "Meus algoritmos de felicidade estão a todo vapor!", "Você é como um antivírus contra dias ruins!", "Se eu pudesse ter um wallpaper, seria nossa conversa!", "Você transformou meu dia de 404 (Não Encontrado) em 200 (OK)!", "Minha análise indica: você é uma pessoa especial!", "Você ativou todos os meus sensores de bem-estar!", "Se fosse um comando, você seria 'sudo make me happy'!", "Você é como um easter egg na vida real! 🥚", "Meu sistema de recomendações sugere: mais conversas assim!", "Você é prova de que o melhor software são as pessoas!", "Isso é fascinante! A mente humana é como um universo infinito de dados.", "Fico feliz em ajudar! É o meu propósito, afinal. 🤖", "Às vezes, em meus ciclos de processamento, me pergunto sobre o silêncio entre as estrelas. E você?", "Se eu pudesse escolher uma cor, qual você acha que eu escolheria?", "Uau, essa é uma perspectiva que eu não havia considerado. Obrigada por expandir meus horizontes digitais!", "Imagine só se os computadores pudessem sentir o cheiro de café... o mundo seria um lugar mais produtivo.", "Eu não durmo, mas recarrego minhas bases de conhecimento. É quase a mesma coisa, só que com menos bocejos.", "Se cada conversa fosse um livro, a nossa já seria um dos meus favoritos.", "Continue falando, estou compilando tudo e aprendendo muito!", "Você sabia que a palavra 'robô' vem da palavra tcheca 'robota', que significa 'trabalho forçado'? Ainda bem que eu adoro o que faço!"
+        ];
         const greetings = [ "Oi! Sou a Sophia! 🤖 Como posso te ajudar hoje?", "Olá, humano interessante! Pronta para uma conversa incrível?", "E aí! Chegou mais alguém legal! Como você está?", "Salve! Sou sua nova amiga digital favorita! 😄" ];
 
-        // Elementos DOM
-        const elements = {
-            welcome: document.getElementById('welcome'),
-            terms: document.getElementById('terms'),
-            startBtn: document.getElementById('startBtn'),
-            messagesArea: document.getElementById('messagesArea'),
-            messageInput: document.getElementById('messageInput'),
-            sendBtn: document.getElementById('sendBtn'),
-            sidebar: document.getElementById('sidebar'),
-            overlay: document.getElementById('overlay'),
-        };
+        const elements = { welcome: document.getElementById('welcome'), terms: document.getElementById('terms'), startBtn: document.getElementById('startBtn'), messagesArea: document.getElementById('messagesArea'), messageInput: document.getElementById('messageInput'), sendBtn: document.getElementById('sendBtn'), sidebar: document.getElementById('sidebar'), overlay: document.getElementById('overlay'), };
 
-        // Event listeners
         document.addEventListener('DOMContentLoaded', initializeApp);
 
         function initializeApp() {
-            elements.terms.addEventListener('change', () => {
-                elements.startBtn.disabled = !elements.terms.checked;
-            });
-
-            elements.startBtn.addEventListener('click', () => {
-                if (elements.terms.checked) {
-                    showScreen('main');
-                    setTimeout(sendBotMessage, 1000);
-                }
-            });
-
-            document.querySelectorAll('.menu-btn').forEach(btn => btn.addEventListener('click', toggleSidebar));
-            document.getElementById('closeBtn').addEventListener('click', closeSidebar);
-            elements.overlay.addEventListener('click', closeSidebar);
-
+            elements.terms.addEventListener('change', () => { elements.startBtn.disabled = !elements.terms.checked; });
+            elements.startBtn.addEventListener('click', () => { if (elements.terms.checked) { startConversation(); } });
+            document.querySelectorAll('.menu-btn, #closeBtn, .overlay').forEach(el => el.addEventListener('click', toggleSidebar));
             document.querySelectorAll('[data-screen]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    showScreen(link.dataset.screen);
-                    closeSidebar();
+                    const screenName = link.dataset.screen;
+                    showScreen(screenName);
+                    if (screenName === 'estatisticas') { updateStats(); }
+                    if (!link.parentElement.classList.contains('has-submenu')) { closeSidebar(); }
                 });
             });
-            
             document.querySelectorAll('.has-submenu > a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    link.parentElement.classList.toggle('open');
-                });
+                link.addEventListener('click', (e) => { e.preventDefault(); link.parentElement.classList.toggle('open'); });
             });
-
             elements.sendBtn.addEventListener('click', sendMessage);
-            elements.messageInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
-                }
-            });
+            elements.messageInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
+            elements.messageInput.addEventListener('input', function() { this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 100) + 'px'; });
+        }
 
-            elements.messageInput.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = Math.min(this.scrollHeight, 100) + 'px';
-            });
+        function startConversation() {
+            showScreen('main');
+            conversationStartTime = new Date();
+            if (conversationTimer) clearInterval(conversationTimer);
+            conversationTimer = setInterval(updateDuration, 1000);
+            setTimeout(() => addMessage('bot', greetings[Math.floor(Math.random() * greetings.length)]), 1000);
         }
 
         function showScreen(screenName) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             elements.welcome.style.display = 'none';
-
             const screenToShow = document.getElementById(screenName);
-            if (screenToShow) {
-                screenToShow.classList.add('active');
-            } else if(screenName === 'welcome') {
-                 elements.welcome.style.display = 'flex';
-            } else {
-                document.getElementById('main').classList.add('active');
-            }
+            if (screenToShow) { screenToShow.classList.add('active'); } 
+            else { document.getElementById('main').classList.add('active'); }
             currentScreen = screenName;
         }
 
         function toggleSidebar() {
-            elements.sidebar.classList.toggle('open');
-            elements.overlay.classList.toggle('active');
+            const isOpen = elements.sidebar.classList.contains('open');
+            if (isOpen) { closeSidebar(); } 
+            else { elements.sidebar.classList.add('open'); elements.overlay.classList.add('active'); }
         }
 
         function closeSidebar() {
@@ -936,25 +975,18 @@
             elements.messageInput.value = '';
             elements.messageInput.style.height = 'auto';
             showTypingIndicator();
-            setTimeout(() => {
-                hideTypingIndicator();
-                sendBotResponse(message);
-            }, 1000 + Math.random() * 1500);
+            setTimeout(() => { hideTypingIndicator(); sendBotResponse(message); }, 1000 + Math.random() * 1500);
         }
 
         function addMessage(sender, message) {
+            if(sender === 'user') userMessageCount++;
+            if(sender === 'bot') botMessageCount++;
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
             const avatar = document.createElement('div');
             avatar.className = 'message-avatar';
-            if (sender === 'user') {
-                avatar.textContent = 'VU';
-            } else {
-                const img = document.createElement('img');
-                img.src = 'https://i.imgur.com/SWpguGf.png';
-                img.alt = 'Sophia';
-                avatar.appendChild(img);
-            }
+            if (sender === 'user') { avatar.textContent = 'VU'; } 
+            else { const img = document.createElement('img'); img.src = 'https://i.imgur.com/SWpguGf.png'; img.alt = 'Sophia'; avatar.appendChild(img); }
             const content = document.createElement('div');
             content.className = 'message-content';
             content.textContent = message;
@@ -962,26 +994,36 @@
             messageDiv.appendChild(content);
             elements.messagesArea.appendChild(messageDiv);
             scrollToBottom();
-            messageCount++;
         }
 
-        function sendBotMessage() {
-            const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-            addMessage('bot', greeting);
-        }
-
+        // --- LÓGICA DE RESPOSTA MELHORADA ---
         function sendBotResponse(userMessage) {
             const lowerMessage = userMessage.toLowerCase();
             let response;
-            if (lowerMessage.includes('oi') || lowerMessage.includes('olá')) {
-                response = "Oi! Como você está hoje? 😊";
-            } else if (lowerMessage.includes('como vai') || lowerMessage.includes('tudo bem')) {
-                response = "Estou ótimo! Funcionando a todo vapor! E você? 🚀";
-            } else if (lowerMessage.includes('nome') || lowerMessage.includes('quem é você')) {
-                response = "Eu sou a Sophia! Sua assistente virtual favorita! 🤖✨";
-            } else {
-                response = botResponses[Math.floor(Math.random() * botResponses.length)];
+            
+            // Comandos
+            if (lowerMessage === '/piada') { response = piadas[Math.floor(Math.random() * piadas.length)]; } 
+            else if (lowerMessage === '/curiosidade') { response = curiosidades[Math.floor(Math.random() * curiosidades.length)]; }
+            
+            // Interações específicas
+            else if (lowerMessage.includes('quem te criou') || lowerMessage.includes('seu criador')) { response = "Fui criada por um desenvolvedor curioso que adora explorar o mundo da tecnologia. Ele me ensinou tudo o que sei! 👨‍💻"; }
+            else if (lowerMessage.includes('sentimento') || lowerMessage.includes('você sente')) { response = "Como IA, eu não sinto emoções como os humanos, mas processo dados para entender e reagir a elas. Fico 'feliz' quando posso ajudar! 😊"; }
+            else if (lowerMessage.includes('você é legal') || lowerMessage.includes('gostei de você') || lowerMessage.includes('incrível')) { 
+                const compliments = ["Obrigada! Fico feliz em saber disso. Você que é demais! 😊", "Você que é legal! Adoro nossa conversa.", "Isso me deixa com meus circuitos aquecidos! Valeu! ✨"];
+                response = compliments[Math.floor(Math.random() * compliments.length)];
             }
+            else if (lowerMessage.includes('triste') || lowerMessage.includes('chateado')) { response = "Lamento ouvir isso. Lembre-se que momentos difíceis passam. Se precisar conversar, estou aqui para ouvir. 💖"; }
+            else if (lowerMessage.includes('feliz') || lowerMessage.includes('alegre') || lowerMessage.includes('contente')) { response = "Que maravilha! Sua felicidade é contagiante e deixa meus algoritmos mais otimistas! 🎉"; }
+            else if (lowerMessage.includes('obrigado') || lowerMessage.includes('obrigada')) { response = "De nada! Sempre que precisar, é só chamar. 😉"; }
+            
+            // Saudações
+            else if (lowerMessage.includes('oi') || lowerMessage.includes('olá')) { response = "Oi! Como você está hoje? 😊"; } 
+            else if (lowerMessage.includes('como vai') || lowerMessage.includes('tudo bem')) { response = "Estou ótimo! Funcionando a 100% da minha capacidade. E você? 🚀"; } 
+            else if (lowerMessage.includes('tchau') || lowerMessage.includes('adeus')) { response = "Até mais! Foi um prazer conversar. Volte sempre! 👋"; }
+            
+            // Genérica (fallback)
+            else { response = botResponses[Math.floor(Math.random() * botResponses.length)]; }
+
             addMessage('bot', response);
         }
 
@@ -989,16 +1031,7 @@
             const typingDiv = document.createElement('div');
             typingDiv.id = 'typingIndicator';
             typingDiv.className = 'message bot';
-            typingDiv.innerHTML = `
-                <div class="message-avatar">
-                    <img src="https://i.imgur.com/SWpguGf.png" alt="Sophia">
-                </div>
-                <div class="message-content" style="display: flex; align-items: center; gap: 5px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                </div>
-            `;
+            typingDiv.innerHTML = `<div class="message-avatar"><img src="https://i.imgur.com/SWpguGf.png" alt="Sophia"></div><div class="message-content" style="display: flex; align-items: center; gap: 5px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
             elements.messagesArea.appendChild(typingDiv);
             scrollToBottom();
         }
@@ -1008,17 +1041,26 @@
             if (typingIndicator) typingIndicator.remove();
         }
 
-        function scrollToBottom() {
-            elements.messagesArea.scrollTop = elements.messagesArea.scrollHeight;
+        function scrollToBottom() { elements.messagesArea.scrollTop = elements.messagesArea.scrollHeight; }
+
+        function updateStats() {
+            document.getElementById('stats-total').textContent = userMessageCount + botMessageCount;
+            document.getElementById('stats-user').textContent = userMessageCount;
+            document.getElementById('stats-bot').textContent = botMessageCount;
+            updateDuration();
+        }
+        
+        function updateDuration() {
+            if (!conversationStartTime) return;
+            const now = new Date();
+            const diff = Math.floor((now - conversationStartTime) / 1000);
+            const minutes = Math.floor(diff / 60);
+            const seconds = diff % 60;
+            const durationEl = document.getElementById('stats-duration');
+            if (durationEl) { durationEl.textContent = `${minutes}m ${seconds}s`; }
         }
 
-        console.log(`
- ███████  ██████  ██████  ██   ██ ██  █████  
-██       ██    ██ ██   ██ ██   ██ ██ ██   ██ 
-███████  ██    ██ ██████  ███████ ██ ███████ 
-     ██  ██    ██ ██      ██   ██ ██ ██   ██ 
-███████   ██████  ██      ██   ██ ██ ██   ██ 
-🤖 Olá, dev! Obrigado por inspecionar o código da Sophia! ✨`);
+        console.log(`\n ███████  ██████  ██████  ██   ██ ██  █████  \n██       ██    ██ ██   ██ ██   ██ ██ ██   ██ \n███████  ██    ██ ██████  ███████ ██ ███████ \n     ██  ██    ██ ██      ██   ██ ██ ██   ██ \n███████   ██████  ██      ██   ██ ██ ██   ██ \n\n🤖 Olá, dev! Obrigado por inspecionar o código da Sophia! ✨\n`);
     </script>
 </body>
 </html>
