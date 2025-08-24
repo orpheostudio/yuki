@@ -196,104 +196,145 @@
         }
 
         /* Menu lateral */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 300px;
-            height: 100vh;
-            background: white;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-            transition: right 0.3s ease;
-            z-index: 1000;
-            padding: 2rem;
-            overflow-y: auto;
-        }
+        <!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h2>Menu</h2>
+        <button class="close-btn">✖</button>
+    </div>
+    <ul class="sidebar-menu">
+        <li class="has-submenu">
+            <a href="#"><span>📖</span> Sobre</a>
+            <ul class="submenu">
+                <li><a href="#" data-target="desenvolvedor">👨‍💻 Sobre o Dev</a></li>
+                <li><a href="#" data-target="faq">❓ FAQ</a></li>
+                <li><a href="#" data-target="privacidade">🛡️ Privacidade</a></li>
+                <li><a href="#" data-target="termos">📋 Termos de Uso</a></li>
+                <li><a href="#" data-target="sugerir-melhorias">💡 Sugerir Melhorias</a></li>
+                <li><a href="#" data-target="reportar-bug">🐛 Reportar Bug</a></li>
+                <li><a href="#" data-target="feedback">📝 Sobre sua Experiência</a></li>
+            </ul>
+        </li>
+        <li><a href="#" data-target="comandos">🤖 Comandos</a></li>
+        <li><a href="#" data-target="recursos">🚀 Recursos</a></li>
+        <li><a href="#" data-target="estatisticas">📊 Estatísticas</a></li>
+    </ul>
+</div>
 
-        .sidebar.open {
-            right: 0;
-        }
+<!-- CSS -->
+<style>
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 320px;
+    height: 100vh;
+    background: #fff;
+    box-shadow: -6px 0 20px rgba(0,0,0,0.1);
+    transition: right 0.4s ease;
+    z-index: 1000;
+    padding: 2rem;
+    overflow-y: auto;
+    border-left: 1px solid #e5e7eb;
+}
+.sidebar.open { right: 0; }
 
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
+.sidebar-header { 
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 2rem; padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
 
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #6b7280;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: background 0.3s;
-        }
+.close-btn {
+    background: none; border: none;
+    font-size: 1.5rem; cursor: pointer; color: #6b7280;
+    padding: 0.5rem; border-radius: 8px;
+    transition: background 0.3s;
+}
+.close-btn:hover { background: #f3f4f6; }
 
-        .close-btn:hover {
-            background: #f3f4f6;
-        }
+.sidebar-menu { list-style: none; padding: 0; margin: 0; }
+.sidebar-menu li { margin-bottom: 0.5rem; }
+.sidebar-menu a {
+    text-decoration: none; color: #374151;
+    font-weight: 500; display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.75rem; border-radius: 8px; transition: background 0.3s;
+}
+.sidebar-menu a:hover { background: #f3f4f6; }
 
-        .sidebar-menu {
-            list-style: none;
-        }
+.sidebar-menu .has-submenu > a { cursor: pointer; position: relative; }
+.sidebar-menu .has-submenu > a::after {
+    content: '▼'; font-size: 0.7em; margin-left: auto; transition: transform 0.3s;
+}
+.sidebar-menu .has-submenu.open > a::after { transform: rotate(180deg); }
 
-        .sidebar-menu li {
-            margin-bottom: 0.5rem;
-        }
+.sidebar-menu .submenu {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+    list-style: none; padding-left: 1.5rem; margin-top: 0.5rem;
+}
+.sidebar-menu .has-submenu.open .submenu { max-height: 1000px; }
 
-        .sidebar-menu a {
-            text-decoration: none;
-            color: #374151;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            border-radius: 8px;
-            transition: background 0.3s;
-        }
+.sidebar-menu .submenu a { font-size: 0.9rem; padding: 0.5rem 0; }
+.sidebar-menu a.active { background: #f0f9ff; color: #0c4a6e; font-weight: 600; }
+</style>
 
-        .sidebar-menu a:hover {
-            background: #f3f4f6;
-        }
+<!-- JS -->
+<script>
+const sidebar = document.querySelector('.sidebar');
+const menuBtn = document.querySelectorAll('.menu-btn');
+const closeBtn = document.querySelector('.close-btn');
+const submenuItems = document.querySelectorAll('.sidebar-menu .has-submenu > a');
+const screenElements = document.querySelectorAll('.screen');
 
-        /* Estilos do Submenu */
-        .sidebar-menu .has-submenu > a {
-            cursor: pointer;
-        }
+// Abrir sidebar
+menuBtn.forEach(btn => btn.addEventListener('click', () => sidebar.classList.add('open')));
 
-        .sidebar-menu .has-submenu > a::after {
-            content: '▼';
-            font-size: 0.7em;
-            margin-left: auto;
-            transition: transform 0.3s;
-        }
+// Fechar sidebar
+closeBtn.addEventListener('click', () => sidebar.classList.remove('open'));
 
-        .sidebar-menu .has-submenu.open > a::after {
-            transform: rotate(180deg);
-        }
+// Alternar submenus
+submenuItems.forEach(item => {
+    item.addEventListener('click', e => {
+        e.preventDefault();
+        const parent = item.parentElement;
 
-        .sidebar-menu .submenu {
-            display: none;
-            list-style: none;
-            padding-left: 1.5rem;
-            margin-top: 0.5rem;
-        }
-        
-        .sidebar-menu .has-submenu.open .submenu {
-            display: block;
-        }
-        
-        .sidebar-menu .submenu a {
-            font-size: 0.9rem;
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-        }
+        submenuItems.forEach(i => {
+            if (i !== item) i.parentElement.classList.remove('open');
+        });
+
+        parent.classList.toggle('open');
+    });
+});
+
+// Navegação entre telas
+const menuLinks = document.querySelectorAll('.sidebar-menu a[data-target]');
+menuLinks.forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        const targetId = link.getAttribute('data-target');
+
+        screenElements.forEach(screen => {
+            if(screen.id === targetId){
+                screen.style.display = 'block';
+            } else {
+                screen.style.display = 'none';
+            }
+        });
+
+        // Destaque do link ativo
+        menuLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        // Fecha sidebar
+        sidebar.classList.remove('open');
+    });
+});
+
+// Inicializa mostrando apenas a tela principal
+screenElements.forEach(screen => {
+    screen.style.display = (screen.id === 'main') ? 'block' : 'none';
+});
+</script>
 
         /* Overlay */
         .overlay {
