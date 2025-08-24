@@ -1165,20 +1165,13 @@
             });
         }
 
-       // Seleciona todos os botões ou formulários de feedback da Sophia
-const feedbackButtons = document.querySelectorAll('.feedback-btn, #feedbackForm button, #sugerir-melhorias button, #reportar-bug button');
-
-// Link direto para o Google Forms
-const googleFormURL = "https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform?usp=sf_link";
-
-// Adiciona o evento de clique
-feedbackButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert('Obrigado pelo seu feedback! 🙏 Você será redirecionado para o formulário da Sophia.');
-        window.open(googleFormURL, '_blank');
-    });
-});         
+     // Feedback form
+elements.feedbackForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Obrigado pelo seu feedback! 🙏 Você será redirecionado para o formulário da Sophia.');
+    window.open("https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform?usp=sf_link", '_blank');
+    showScreen('main');
+});
             // Go back to chat
             showScreen('main');
         }
@@ -1222,7 +1215,7 @@ feedbackButtons.forEach(btn => {
                     }
                 }
             }
-        }, 60000); // Check every minute
+        }, 90000); // Check every minute
 
         // Add timestamps to messages (hidden)
         const originalAddMessage = addMessage;
