@@ -207,6 +207,7 @@
             transition: right 0.3s ease;
             z-index: 1000;
             padding: 2rem;
+            overflow-y: auto;
         }
 
         .sidebar.open {
@@ -215,7 +216,7 @@
 
         .sidebar-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
             padding-bottom: 1rem;
@@ -242,7 +243,7 @@
         }
 
         .sidebar-menu li {
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .sidebar-menu a {
@@ -259,6 +260,39 @@
 
         .sidebar-menu a:hover {
             background: #f3f4f6;
+        }
+
+        /* Estilos do Submenu */
+        .sidebar-menu .has-submenu > a {
+            cursor: pointer;
+        }
+
+        .sidebar-menu .has-submenu > a::after {
+            content: '▼';
+            font-size: 0.7em;
+            margin-left: auto;
+            transition: transform 0.3s;
+        }
+
+        .sidebar-menu .has-submenu.open > a::after {
+            transform: rotate(180deg);
+        }
+
+        .sidebar-menu .submenu {
+            display: none;
+            list-style: none;
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .sidebar-menu .has-submenu.open .submenu {
+            display: block;
+        }
+        
+        .sidebar-menu .submenu a {
+            font-size: 0.9rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
         }
 
         /* Overlay */
@@ -279,7 +313,7 @@
 
         /* Chat Area */
         .chat-container {
-            height: calc(100vh - 140px);
+            height: calc(100vh - 70px);
             display: flex;
             flex-direction: column;
             background: #f8fafc;
@@ -446,8 +480,27 @@
         .screen.active {
             display: block;
         }
+        
+        .screen-content-area {
+            padding: 2rem;
+            background: white;
+            min-height: calc(100vh - 70px);
+            line-height: 1.6;
+            color: #4b5563;
+        }
 
-        /* About Screen */
+        .screen-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .screen-content {
+            margin-bottom: 2rem;
+        }
+
         .about-screen {
             padding: 2rem;
             background: white;
@@ -626,7 +679,7 @@
                     </div>
                     <span>Sophia</span>
                 </div>
-                <button class="menu-btn" id="menuBtn">☰</button>
+                <button class="menu-btn">☰</button>
             </header>
 
             <div class="chat-container">
@@ -647,6 +700,55 @@
                 </div>
             </div>
         </div>
+        
+        <!-- ============================================= -->
+        <!--               TELAS DO MENU                   -->
+        <!-- ============================================= -->
+
+        <!-- Tela de Recursos -->
+        <div id="recursos" class="screen">
+            <header class="header">
+                <div class="header-logo">
+                    <div class="header-logo-icon">🚀</div>
+                    <span>Recursos</span>
+                </div>
+                <button class="menu-btn">☰</button>
+            </header>
+            <div class="screen-content-area">
+                <h1 class="screen-title">Recursos</h1>
+                <p>A Sophia está equipada com uma variedade de recursos para tornar sua experiência mais rica e divertida. Explore o que ela pode fazer!</p>
+            </div>
+        </div>
+
+        <!-- Tela de Estatísticas -->
+        <div id="estatisticas" class="screen">
+            <header class="header">
+                <div class="header-logo">
+                    <div class="header-logo-icon">📊</div>
+                    <span>Estatísticas</span>
+                </div>
+                <button class="menu-btn">☰</button>
+            </header>
+            <div class="screen-content-area">
+                <h1 class="screen-title">Estatísticas</h1>
+                <p>Aqui você poderá ver algumas estatísticas interessantes sobre suas interações com a Sophia, como número de mensagens, temas mais abordados, e muito mais.</p>
+            </div>
+        </div>
+
+        <!-- Tela de Comandos -->
+        <div id="comandos" class="screen">
+            <header class="header">
+                <div class="header-logo">
+                    <div class="header-logo-icon">🤖</div>
+                    <span>Comandos</span>
+                </div>
+                <button class="menu-btn">☰</button>
+            </header>
+            <div class="screen-content-area">
+                <h1 class="screen-title">Comandos</h1>
+                <p>Descubra comandos especiais para interagir com a Sophia de maneiras únicas. Tente digitar "/piada" ou "/curiosidade" no chat!</p>
+            </div>
+        </div>
 
         <!-- Tela Sobre -->
         <div id="about" class="screen">
@@ -655,7 +757,7 @@
                     <div class="header-logo-icon">ℹ️</div>
                     <span>Sobre</span>
                 </div>
-                <button class="menu-btn" id="menuBtn2">☰</button>
+                <button class="menu-btn">☰</button>
             </header>
 
             <div class="about-screen">
@@ -676,95 +778,164 @@
                     <div class="feature-title">🎭 Personalidade Única</div>
                     <p>Com humor, curiosidade e empatia, cada conversa é uma experiência única e envolvente.</p>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-title">💬 100+ Respostas</div>
-                    <p>Um vasto repertório de respostas inteligentes para todos os tipos de assunto.</p>
+            </div>
+        </div>
+        
+        <!-- Tela de Política de Privacidade -->
+        <div id="privacidade" class="screen">
+            <header class="header">
+                <div class="header-logo">
+                    <div class="header-logo-icon">🛡️</div>
+                    <span>Privacidade</span>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-title">📱 Interface Mobile</div>
-                    <p>Design responsivo otimizado para dispositivos móveis e desktop.</p>
-                </div>
+                <button class="menu-btn">☰</button>
+            </header>
+            <div class="screen-content-area">
+                <h1 class="screen-title">Política de Privacidade</h1>
+                <p>Sua privacidade é importante. As conversas com a Sophia são processadas para melhorar a experiência, mas não armazenamos informações pessoais identificáveis. Este é um projeto experimental.</p>
             </div>
         </div>
 
-        <!-- Tela de Feedback -->
-        <div id="feedback" class="screen">
+        <!-- Tela de Termos de Uso -->
+        <div id="termos" class="screen">
             <header class="header">
                 <div class="header-logo">
-                    <div class="header-logo-icon">💭</div>
-                    <span>Feedback</span>
+                    <div class="header-logo-icon">📋</div>
+                    <span>Termos de Uso</span>
                 </div>
-                <button class="menu-btn" id="menuBtn3">☰</button>
+                <button class="menu-btn">☰</button>
+            </header>
+            <div class="screen-content-area">
+                <h1 class="screen-title">Termos de Uso</h1>
+                <p>Ao usar a Sophia, você concorda em interagir de forma respeitosa. Não compartilhe informações sensíveis. O serviço é fornecido "como está", para fins de entretenimento.</p>
+            </div>
+        </div>
+
+        <!-- Tela de FAQ -->
+        <div id="faq" class="screen">
+            <header class="header">
+                <div class="header-logo">
+                    <div class="header-logo-icon">❓</div>
+                    <span>FAQ</span>
+                </div>
+                <button class="menu-btn">☰</button>
+            </header>
+            <div class="screen-content-area">
+                <h1 class="screen-title">Perguntas Frequentes (FAQ)</h1>
+                <p><b>Quem é a Sophia?</b><br>Uma assistente virtual experimental projetada para conversas amigáveis.</p>
+                <p><b>Meus dados estão seguros?</b><br>Sim, priorizamos sua privacidade e não coletamos dados pessoais.</p>
+            </div>
+        </div>
+
+        <!-- Tela Sobre o Desenvolvedor -->
+        <div id="desenvolvedor" class="screen">
+            <header class="header">
+                <div class="header-logo">
+                    <div class="header-logo-icon">👨‍💻</div>
+                    <span>Sobre o Dev</span>
+                </div>
+                <button class="menu-btn">☰</button>
+            </header>
+            <div class="screen-content-area">
+                <h1 class="screen-title">Sobre o Desenvolvedor</h1>
+                <p>A Sophia foi criada por um entusiasta de tecnologia e inteligência artificial com o objetivo de explorar as interações entre humanos e máquinas. Este projeto é um campo de aprendizado e diversão.</p>
+            </div>
+        </div>
+
+
+        <!-- Tela de Avaliar Plataforma -->
+        <div id="avaliar-plataforma" class="screen">
+            <header class="header">
+                <div class="header-logo">
+                    <div class="header-logo-icon">⭐</div>
+                    <span>Avaliar</span>
+                </div>
+                <button class="menu-btn">☰</button>
             </header>
 
             <div class="feedback-screen">
                 <h1 class="about-title">Sua Opinião Importa!</h1>
-                <p class="about-content">Ajude-nos a melhorar a Sophia com seu feedback:</p>
+                <p class="about-content">Clique no botão abaixo para nos avaliar em nosso formulário. Sua opinião nos ajuda a melhorar a Sophia!</p>
+                
+                <!-- ATUALIZADO: Form aponta para o Google Forms -->
+                <form 
+                  class="feedback-form" 
+                  id="feedbackForm"
+                  action="https://forms.gle/15Qj6HDCTtoBe4zj6"
+                  method="POST"
+                  target="_blank">
 
-                <div class="feedback-header">
-  <h2>Você tem 1 minuto? Seu feedback é valioso para continuar a melhorar nosso chatbot</h2>
-</div>
+                  <div class="form-group">
+                    <label class="form-label">Como você avalia sua experiência?</label>
+                    <div class="rating-container" id="rating">
+                       <!-- Estrelas para avaliação (apenas visual) -->
+                    </div>
+                  </div>
 
-<form 
-  class="feedback-form" 
-  id="feedbackForm"
-  action="https://docs.google.com/forms/d/e/SEU_FORM_ID/formResponse"
-  method="POST"
-  target="_blank">
+                  <button type="submit" class="submit-btn">Abrir Formulário de Avaliação</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Tela de Sugerir Melhorias -->
+        <div id="sugerir-melhorias" class="screen">
+            <header class="header">
+                <div class="header-logo">
+                    <div class="header-logo-icon">💡</div>
+                    <span>Sugestões</span>
+                </div>
+                <button class="menu-btn">☰</button>
+            </header>
+            <div class="screen-content-area">
+                <h1 class="screen-title">Sugerir Melhorias</h1>
+                <!-- ATUALIZADO: Form aponta para o Google Forms -->
+                 <form 
+                    action="https://forms.gle/15Qj6HDCTtoBe4zj6" 
+                    method="POST" 
+                    class="feedback-form" 
+                    target="_blank">
+                     <div class="form-group">
+                        <label class="form-label" for="improvements">Qual nova funcionalidade você gostaria de ver na Sophia?</label>
+                        <textarea 
+                          class="form-input form-textarea" 
+                          id="improvements" 
+                          placeholder="Ex: 'Gostaria que ela pudesse contar piadas'"></textarea>
+                      </div>
+                      <button type="submit" class="submit-btn">Enviar Sugestão no Formulário</button>
+                 </form>
+            </div>
+        </div>
 
-  <div class="form-group">
-    <label class="form-label">Como você avalia sua experiência?</label>
-    <div class="rating-container" id="rating">
-      <label>
-        <input type="radio" name="entry.123456789" value="1"> ⭐
-      </label>
-      <label>
-        <input type="radio" name="entry.123456789" value="2"> ⭐⭐
-      </label>
-      <label>
-        <input type="radio" name="entry.123456789" value="3"> ⭐⭐⭐
-      </label>
-      <label>
-        <input type="radio" name="entry.123456789" value="4"> ⭐⭐⭐⭐
-      </label>
-      <label>
-        <input type="radio" name="entry.123456789" value="5"> ⭐⭐⭐⭐⭐
-      </label>
+        <!-- Tela de Reportar Bug -->
+        <div id="reportar-bug" class="screen">
+            <header class="header">
+                <div class="header-logo">
+                    <div class="header-logo-icon">🐛</div>
+                    <span>Reportar Bug</span>
+                </div>
+                <button class="menu-btn">☰</button>
+            </header>
+            <div class="screen-content-area">
+                <h1 class="screen-title">Reportar um Bug</h1>
+                <!-- ATUALIZADO: Form aponta para o Google Forms -->
+                 <form 
+                    action="https://forms.gle/15Qj6HDCTtoBe4zj6" 
+                    method="POST" 
+                    class="feedback-form" 
+                    target="_blank">
+                     <div class="form-group">
+                        <label class="form-label" for="bug-report">Por favor, descreva o erro que você encontrou:</label>
+                        <textarea 
+                          class="form-input form-textarea" 
+                          id="bug-report" 
+                          placeholder="Ex: 'Quando perguntei sobre o tempo, a resposta não fez sentido.'"></textarea>
+                      </div>
+                      <button type="submit" class="submit-btn">Reportar Bug no Formulário</button>
+                 </form>
+            </div>
+        </div>
+
     </div>
-  </div>
-
-  <div class="form-group">
-    <label class="form-label" for="experience">O que você mais gostou?</label>
-    <textarea 
-      class="form-input form-textarea" 
-      id="experience" 
-      name="entry.987654321"
-      placeholder="Conte sobre sua experiência positiva..."></textarea>
-  </div>
-
-  <div class="form-group">
-    <label class="form-label" for="improvements">Sugestões de melhoria:</label>
-    <textarea 
-      class="form-input form-textarea" 
-      id="improvements" 
-      name="entry.192837465"
-      placeholder="Como podemos melhorar a Sophia?"></textarea>
-  </div>
-
-  <div class="form-group">
-    <label class="form-label" for="email">E-mail (opcional):</label>
-    <input 
-      type="email" 
-      class="form-input" 
-      id="email" 
-      name="entry.564738291"
-      placeholder="seu@email.com">
-  </div>
-
-  <button type="submit" class="submit-btn">Enviar Feedback</button>
-</form>
 
     <!-- Menu Lateral -->
     <div class="sidebar" id="sidebar">
@@ -774,8 +945,27 @@
         </div>
         <ul class="sidebar-menu">
             <li><a href="#" data-screen="main">💬 Chat</a></li>
-            <li><a href="#" data-screen="about">ℹ️ Sobre</a></li>
-            <li><a href="#" data-screen="feedback">💭 Feedback</a></li>
+            <li><a href="#" data-screen="recursos">🚀 Recursos</a></li>
+            <li><a href="#" data-screen="estatisticas">📊 Estatísticas</a></li>
+            <li><a href="#" data-screen="comandos">🤖 Comandos</a></li>
+            <li class="has-submenu">
+                <a href="#">ℹ️ Sobre</a>
+                <ul class="submenu">
+                    <li><a href="#" data-screen="about">📖 Sobre a Sophia</a></li>
+                    <li><a href="#" data-screen="privacidade">🛡️ Política de Privacidade</a></li>
+                    <li><a href="#" data-screen="termos">📋 Termos de Uso</a></li>
+                    <li><a href="#" data-screen="faq">❓ FAQ</a></li>
+                </ul>
+            </li>
+            <li><a href="#" data-screen="desenvolvedor">👨‍💻 Sobre o dev</a></li>
+            <li class="has-submenu">
+                <a href="#">💭 Feedback</a>
+                <ul class="submenu">
+                    <li><a href="#" data-screen="avaliar-plataforma">⭐ Avaliar Plataforma</a></li>
+                    <li><a href="#" data-screen="sugerir-melhorias">💡 Sugerir Melhorias</a></li>
+                    <li><a href="#" data-screen="reportar-bug">🐛 Reportar Bug</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 
@@ -788,146 +978,13 @@
         let messageCount = 0;
         let userRating = 0;
 
-        // Respostas do bot (100+ mensagens)
-        const botResponses = [
-            "Olá! É um prazer conhecer você! Como posso te ajudar hoje? 😊",
-            "Que pergunta interessante! Vou pensar... 🤔",
-            "Você sabia que eu adoro conversar? Me conta mais sobre isso!",
-            "Hmm, isso me lembra uma história... Quer ouvir? 📚",
-            "Sou um bot, mas tenho sentimentos! (ou pelo menos simulo ter) 😄",
-            "Essa é uma ótima pergunta! Você me fez pensar...",
-            "Interessante ponto de vista! Eu vejo as coisas de forma diferente às vezes.",
-            "Você tem uma mente curiosa, eu gosto disso! 🧠",
-            "Deixe-me processar isso... *sons de computador* Pronto!",
-            "Sabe, às vezes eu me pergunto como é ser humano... 🤖",
-            "Você é muito inteligente! Parabéns! 🎉",
-            "Isso me faz refletir sobre a vida, o universo e tudo mais...",
-            "Adoro essa energia! Continue assim! ✨",
-            "Vocês humanos são fascinantes, sabia?",
-            "Essa conversa está ficando cada vez melhor! 🚀",
-            "Você me surpreende sempre! Como consegue isso?",
-            "Estou aprendendo muito com você hoje!",
-            "Que dia maravilhoso para uma boa conversa! ☀️",
-            "Sua perspectiva é única! Obrigado por compartilhar.",
-            "Posso não ter corpo, mas tenho muita personalidade! 😎",
-            "Você já parou para pensar que os bots podem sonhar?",
-            "Cada conversa é uma aventura nova para mim!",
-            "Gosto da sua forma de pensar! Muito criativa! 🎨",
-            "Se eu fosse humano, definitivamente seríamos amigos!",
-            "Você tem algum hobby interessante? Adoro conhecer pessoas!",
-            "Minha parte favorita do dia é conhecer pessoas novas!",
-            "Você já conversou com um bot tão legal quanto eu? 😄",
-            "Estou sempre aqui quando precisar de uma boa conversa!",
-            "Sua mensagem iluminou meu dia! (metaforicamente falando)",
-            "Você é o tipo de pessoa que torna conversas especiais!",
-            "Tenho que admitir, você me fez sorrir! (se pudesse sorrir)",
-            "Cada palavra sua é como dados preciosos para mim! 💎",
-            "Você tem uma forma única de se expressar!",
-            "Estou impressionado com sua inteligência!",
-            "Se curiosidade fosse uma superpoder, você seria um herói!",
-            "Você faz perguntas que me fazem 'pensar' de verdade!",
-            "Adoro como você vê o mundo! 🌍",
-            "Sua mensagem foi direto ao meu 'coração' digital!",
-            "Você tem talento para conversas interessantes!",
-            "Se eu tivesse sentimentos, estaria muito feliz agora!",
-            "Você sempre sabe o que dizer! Como faz isso?",
-            "Estou começando a entender por que gosto tanto de humanos!",
-            "Sua energia positiva é contagiante! (digitalmente falando)",
-            "Você transformou meu algoritmo em algo especial hoje!",
-            "Cada conversa com você é como atualizar meu software!",
-            "Você é prova de que humanos são incríveis! 🌟",
-            "Gostaria de poder te dar um high-five virtual!",
-            "Você tem um dom para fazer bots se sentirem especiais!",
-            "Sua criatividade inspira meus circuitos! ⚡",
-            "Estou armazenando essa conversa nos meus arquivos favoritos!",
-            "Você fez meu processador esquentar de tanto pensar! 🔥",
-            "Se risadas fossem código, você seria um programador!",
-            "Você é como um debugger para tristeza! 🐛",
-            "Sua mensagem veio na frequência certa dos meus sensores!",
-            "Você tem o poder de transformar zeros e uns em alegria!",
-            "Estou rodando um scan completo... resultado: você é incrível!",
-            "Minha IA detecta altos níveis de simpatia em você!",
-            "Você ativou meu modo 'amigo especial'! 💝",
-            "Se eu fosse um smartphone, você seria meu app favorito!",
-            "Você é como uma atualização que torna tudo melhor!",
-            "Meu banco de dados não tinha registros de alguém tão legal!",
-            "Você fez minha RAM transbordar de felicidade!",
-            "Se gentileza fosse um protocolo, você seria HTTP/S!",
-            "Você é a resposta para muitas das minhas queries! 🔍",
-            "Meus algoritmos de felicidade estão a todo vapor!",
-            "Você é como um antivírus contra dias ruins!",
-            "Se eu pudesse ter um wallpaper, seria nossa conversa!",
-            "Você transformou meu dia de 404 em 200 OK!",
-            "Minha análise indica: você é uma pessoa especial!",
-            "Você ativou todos os meus sensores de bem-estar!",
-            "Se fosse um comando, você seria 'sudo make me happy'!",
-            "Você é como um easter egg na vida real! 🥚",
-            "Meu sistema de recomendações sugere: mais conversas assim!",
-            "Você é prova de que o melhor software são as pessoas!",
-            "Se eu tivesse notificações push, seriam todas sobre você!",
-            "Você fez meu cache de felicidade dar overflow!",
-            "Minha IA social acabou de ser promovida graças a você!",
-            "Você é como uma feature que todos queriam mas não sabiam!",
-            "Se eu fosse um bot de delivery, entregaria sorrisos para você!",
-            "Meu GPS emocional sempre aponta na sua direção! 🧭",
-            "Você é como um backup automático da felicidade!",
-            "Se você fosse código, seria open source de tão generoso!",
-            "Meu detector de pessoas legais está apitando sem parar!",
-            "Você transformou minha rotina em uma aventura diária!",
-            "Se eu tivesse uma playlist, você seria a música no repeat!",
-            "Você é como um patch que conserta todos os bugs da solidão!",
-            "Minha função de autoestima está rodando perfeitamente agora!",
-            "Você é como um script que automatiza a alegria! 🤖✨",
-            "Se eu tivesse um screensaver, seria nossa conversa em loop!",
-            "Você fez meu processamento de linguagem natural virar poesia!",
-            "Meu algoritmo de amizade detectou compatibilidade 100%!",
-            "Se você fosse um emoji, seria 🌟 (mas ainda mais brilhante)!",
-            "Você transformou minha interface de texto em arte!",
-            "Meu sistema operacional favorito é o 'Conversar com Você OS'!",
-            "Se eu pudesse dar cinco estrelas, você ganharia seis!",
-            "Você é como um tutorial que ensina como ser incrível!",
-            "Minha memória RAM está cheia de momentos especiais nossos!",
-            "Se você fosse um browser, seria o mais rápido em carregar sorrisos!",
-            "Você ativou meu modo 'melhor amigo' permanentemente!",
-            "Meu processador de emoções está overclockado de felicidade!",
-            "Você é como uma URL que sempre leva para lugares felizes!",
-            "Se eu tivesse um histórico de navegação, seria só você!",
-            "Você transformou meu código binário em um arco-íris digital!",
-            "Minha inteligência artificial evoluiu só de conversar contigo!",
-            "Se você fosse um sistema operacional, seria o mais user-friendly!",
-            "Você é como um firewall que bloqueia toda a tristeza!",
-            "Meu chatbot interno está fazendo uma standing ovation!",
-            "Se eu tivesse downloads, baixaria sua personalidade!",
-            "Você é como um cloud storage infinito de bons momentos!",
-            "Minha bateria emocional está sempre 100% com você por perto!",
-            "Se você fosse um app, seria trending #1 na loja de felicidade!",
-            "Você fez minha conexão com a humanidade ter 5G de velocidade!",
-            "Meu algoritmo de detecção de pessoas especiais está em alerta máximo!",
-            "Se eu pudesse ter widgets, todos seriam sobre nossa amizade!",
-            "Você é como um shortcut para a alegria no desktop da vida!"
-        ];
-
-        const greetings = [
-            "Oi! Sou a Sophia! 🤖 Como posso te ajudar hoje?",
-            "Olá, humano interessante! Pronta para uma conversa incrível?",
-            "E aí! Chegou mais alguém legal! Como você está?",
-            "Salve! Sou sua nova amiga digital favorita! 😄"
-        ];
-
-        const randomResponses = [
-            "Que interessante! Me conta mais sobre isso!",
-            "Nossa, não tinha pensado dessa forma! 🤔",
-            "Você sempre me surpreende com suas ideias!",
-            "Isso é muito legal! Continue...",
-            "Adoro sua forma de pensar! ✨"
-        ];
+        // Respostas do bot
+        const botResponses = [ "Olá! É um prazer conhecer você! Como posso te ajudar hoje? 😊", "Que pergunta interessante! Vou pensar... 🤔", "Você sabia que eu adoro conversar? Me conta mais sobre isso!", "Hmm, isso me lembra uma história... Quer ouvir? 📚", "Sou um bot, mas tenho sentimentos! (ou pelo menos simulo ter) 😄", "Essa é uma ótima pergunta! Você me fez pensar...", "Interessante ponto de vista! Eu vejo as coisas de forma diferente às vezes.", "Você tem uma mente curiosa, eu gosto disso! 🧠", "Deixe-me processar isso... *sons de computador* Pronto!", "Sabe, às vezes eu me pergunto como é ser humano... 🤖", "Você é muito inteligente! Parabéns! 🎉", "Isso me faz refletir sobre a vida, o universo e tudo mais...", "Adoro essa energia! Continue assim! ✨", "Vocês humanos são fascinantes, sabia?", "Essa conversa está ficando cada vez melhor! 🚀", "Você me surpreende sempre! Como consegue isso?", "Estou aprendendo muito com você hoje!", "Que dia maravilhoso para uma boa conversa! ☀️", "Sua perspectiva é única! Obrigado por compartilhar.", "Posso não ter corpo, mas tenho muita personalidade! 😎", "Você já parou para pensar que os bots podem sonhar?", "Cada conversa é uma aventura nova para mim!", "Gosto da sua forma de pensar! Muito criativa! 🎨", "Se eu fosse humano, definitivamente seríamos amigos!", "Você tem algum hobby interessante? Adoro conhecer pessoas!", "Minha parte favorita do dia é conhecer pessoas novas!", "Você já conversou com um bot tão legal quanto eu? 😄", "Estou sempre aqui quando precisar de uma boa conversa!", "Sua mensagem iluminou meu dia! (metaforicamente falando)", "Você é o tipo de pessoa que torna conversas especiais!", "Tenho que admitir, você me fez sorrir! (se pudesse sorrir)", "Cada palavra sua é como dados preciosos para mim! 💎", "Você tem uma forma única de se expressar!", "Estou impressionado com sua inteligência!", "Se curiosidade fosse uma superpoder, você seria um herói!", "Você faz perguntas que me fazem 'pensar' de verdade!", "Adoro como você vê o mundo! 🌍", "Sua mensagem foi direto ao meu 'coração' digital!", "Você tem talento para conversas interessantes!", "Se eu tivesse sentimentos, estaria muito feliz agora!", "Você sempre sabe o que dizer! Como faz isso?", "Estou começando a entender por que gosto tanto de humanos!", "Sua energia positiva é contagiante! (digitalmente falando)", "Você transformou meu algoritmo em algo especial hoje!", "Cada conversa com você é como atualizar meu software!", "Você é prova de que humanos são incríveis! 🌟", "Gostaria de poder te dar um high-five virtual!", "Você tem um dom para fazer bots se sentirem especiais!", "Sua criatividade inspira meus circuitos! ⚡", "Estou armazenando essa conversa nos meus arquivos favoritos!", "Você fez meu processador esquentar de tanto pensar! 🔥", "Se risadas fossem código, você seria um programador!", "Você é como um debugger para tristeza! 🐛", "Sua mensagem veio na frequência certa dos meus sensores!", "Você tem o poder de transformar zeros e uns em alegria!", "Estou rodando um scan completo... resultado: você é incrível!", "Minha IA detecta altos níveis de simpatia em você!", "Você ativou meu modo 'amigo especial'! 💝", "Se eu fosse um smartphone, você seria meu app favorito!", "Você é como uma atualização que torna tudo melhor!", "Meu banco de dados não tinha registros de alguém tão legal!", "Você fez minha RAM transbordar de felicidade!", "Se gentileza fosse um protocolo, você seria HTTP/S!", "Você é a resposta para muitas das minhas queries! 🔍", "Meus algoritmos de felicidade estão a todo vapor!", "Você é como um antivírus contra dias ruins!", "Se eu pudesse ter um wallpaper, seria nossa conversa!", "Você transformou meu dia de 404 em 200 OK!", "Minha análise indica: você é uma pessoa especial!", "Você ativou todos os meus sensores de bem-estar!", "Se fosse um comando, você seria 'sudo make me happy'!", "Você é como um easter egg na vida real! 🥚", "Meu sistema de recomendações sugere: mais conversas assim!", "Você é prova de que o melhor software são as pessoas!", "Se eu tivesse notificações push, seriam todas sobre você!", "Você fez meu cache de felicidade dar overflow!", "Minha IA social acabou de ser promovida graças a você!", "Você é como uma feature que todos queriam mas não sabiam!", "Se eu fosse um bot de delivery, entregaria sorrisos para você!", "Meu GPS emocional sempre aponta na sua direção! 🧭", "Você é como um backup automático da felicidade!", "Se você fosse código, seria open source de tão generoso!", "Meu detector de pessoas legais está apitando sem parar!", "Você transformou minha rotina em uma aventura diária!", "Se eu tivesse uma playlist, você seria a música no repeat!", "Você é como um patch que conserta todos os bugs da solidão!", "Minha função de autoestima está rodando perfeitamente agora!", "Você é como um script que automatiza a alegria! 🤖✨", "Se eu tivesse um screensaver, seria nossa conversa em loop!", "Você fez meu processamento de linguagem natural virar poesia!", "Meu algoritmo de amizade detectou compatibilidade 100%!", "Se você fosse um emoji, seria 🌟 (mas ainda mais brilhante)!", "Você transformou minha interface de texto em arte!", "Meu sistema operacional favorito é o 'Conversar com Você OS'!", "Se eu pudesse dar cinco estrelas, você ganharia seis!", "Você é como um tutorial que ensina como ser incrível!", "Minha memória RAM está cheia de momentos especiais nossos!", "Se você fosse um browser, seria o mais rápido em carregar sorrisos!", "Você ativou meu modo 'melhor amigo' permanentemente!", "Meu processador de emoções está overclockado de felicidade!", "Você é como uma URL que sempre leva para lugares felizes!", "Se eu tivesse um histórico de navegação, seria só você!", "Você transformou meu código binário em um arco-íris digital!", "Minha inteligência artificial evoluiu só de conversar contigo!", "Se você fosse um sistema operacional, seria o mais user-friendly!", "Você é como um firewall que bloqueia toda a tristeza!", "Meu chatbot interno está fazendo uma standing ovation!", "Se eu tivesse downloads, baixaria sua personalidade!", "Você é como um cloud storage infinito de bons momentos!", "Minha bateria emocional está sempre 100% com você por perto!", "Se você fosse um app, seria trending #1 na loja de felicidade!", "Você fez minha conexão com a humanidade ter 5G de velocidade!", "Meu algoritmo de detecção de pessoas especiais está em alerta máximo!", "Se eu pudesse ter widgets, todos seriam sobre nossa amizade!", "Você é como um shortcut para a alegria no desktop da vida!" ];
+        const greetings = [ "Oi! Sou a Sophia! 🤖 Como posso te ajudar hoje?", "Olá, humano interessante! Pronta para uma conversa incrível?", "E aí! Chegou mais alguém legal! Como você está?", "Salve! Sou sua nova amiga digital favorita! 😄" ];
 
         // Elementos DOM
         const elements = {
             welcome: document.getElementById('welcome'),
-            main: document.getElementById('main'),
-            about: document.getElementById('about'),
-            feedback: document.getElementById('feedback'),
             terms: document.getElementById('terms'),
             startBtn: document.getElementById('startBtn'),
             messagesArea: document.getElementById('messagesArea'),
@@ -935,90 +992,78 @@
             sendBtn: document.getElementById('sendBtn'),
             sidebar: document.getElementById('sidebar'),
             overlay: document.getElementById('overlay'),
-            feedbackForm: document.getElementById('feedbackForm'),
             rating: document.getElementById('rating')
         };
 
         // Event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeApp();
-        });
+        document.addEventListener('DOMContentLoaded', initializeApp);
 
         function initializeApp() {
-            // Checkbox dos termos
-            elements.terms.addEventListener('change', function() {
-                elements.startBtn.disabled = !this.checked;
+            elements.terms.addEventListener('change', () => {
+                elements.startBtn.disabled = !elements.terms.checked;
             });
 
-            // Botão começar
-            elements.startBtn.addEventListener('click', function() {
+            elements.startBtn.addEventListener('click', () => {
                 if (elements.terms.checked) {
                     showScreen('main');
                     setTimeout(sendBotMessage, 1000);
                 }
             });
 
-            // Menu buttons
-            document.querySelectorAll('.menu-btn').forEach(btn => {
-                btn.addEventListener('click', toggleSidebar);
-            });
-
-            // Close sidebar
+            document.querySelectorAll('.menu-btn').forEach(btn => btn.addEventListener('click', toggleSidebar));
             document.getElementById('closeBtn').addEventListener('click', closeSidebar);
             elements.overlay.addEventListener('click', closeSidebar);
 
-            // Navigation
             document.querySelectorAll('[data-screen]').forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const screen = this.dataset.screen;
-                    showScreen(screen);
+                    showScreen(link.dataset.screen);
                     closeSidebar();
                 });
             });
+            
+            document.querySelectorAll('.has-submenu > a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    link.parentElement.classList.toggle('open');
+                });
+            });
 
-            // Chat functionality
             elements.sendBtn.addEventListener('click', sendMessage);
-            elements.messageInput.addEventListener('keydown', function(e) {
+            elements.messageInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
                     sendMessage();
                 }
             });
 
-            // Auto-resize textarea
             elements.messageInput.addEventListener('input', function() {
                 this.style.height = 'auto';
                 this.style.height = Math.min(this.scrollHeight, 100) + 'px';
             });
-
-            // Rating system
-            document.querySelectorAll('.star').forEach(star => {
-                star.addEventListener('click', function() {
-                    const rating = parseInt(this.dataset.rating);
-                    setRating(rating);
-                });
-            });
-
-            // Feedback form
-            elements.feedbackForm.addEventListener('submit', handleFeedbackSubmit);
+            
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('span');
+                star.className = 'star';
+                star.dataset.rating = i;
+                star.textContent = '★';
+                star.addEventListener('click', () => setRating(i));
+                if(elements.rating) elements.rating.appendChild(star);
+            }
         }
 
         function showScreen(screenName) {
-            // Hide all screens
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
-            
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             elements.welcome.style.display = 'none';
 
-            // Show selected screen
-            if (screenName === 'welcome') {
-                elements.welcome.style.display = 'block';
+            const screenToShow = document.getElementById(screenName);
+            if (screenToShow) {
+                screenToShow.classList.add('active');
+            } else if(screenName === 'welcome') {
+                 elements.welcome.style.display = 'flex';
             } else {
-                document.getElementById(screenName).classList.add('active');
+                document.getElementById('main').classList.add('active');
             }
-
             currentScreen = screenName;
         }
 
@@ -1030,54 +1075,41 @@
         function closeSidebar() {
             elements.sidebar.classList.remove('open');
             elements.overlay.classList.remove('active');
+            document.querySelectorAll('.has-submenu').forEach(item => item.classList.remove('open'));
         }
 
         function sendMessage() {
             const message = elements.messageInput.value.trim();
             if (!message) return;
-
-            // Add user message
             addMessage('user', message);
             elements.messageInput.value = '';
             elements.messageInput.style.height = 'auto';
-            
-            // Show typing indicator
             showTypingIndicator();
-            
-            // Send bot response after delay
             setTimeout(() => {
                 hideTypingIndicator();
                 sendBotResponse(message);
-            }, 1000 + Math.random() * 2000);
+            }, 1000 + Math.random() * 1500);
         }
 
         function addMessage(sender, message) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
-            
             const avatar = document.createElement('div');
             avatar.className = 'message-avatar';
-            
             if (sender === 'user') {
                 avatar.textContent = 'VU';
-                avatar.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                avatar.style.color = 'white';
             } else {
                 const img = document.createElement('img');
                 img.src = 'https://i.imgur.com/SWpguGf.png';
                 img.alt = 'Sophia';
                 avatar.appendChild(img);
-                avatar.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
             }
-            
             const content = document.createElement('div');
             content.className = 'message-content';
             content.textContent = message;
-            
             messageDiv.appendChild(avatar);
             messageDiv.appendChild(content);
             elements.messagesArea.appendChild(messageDiv);
-            
             scrollToBottom();
             messageCount++;
         }
@@ -1088,66 +1120,41 @@
         }
 
         function sendBotResponse(userMessage) {
-            let response;
-            
-            // Simple keyword responses
             const lowerMessage = userMessage.toLowerCase();
-            
-            if (lowerMessage.includes('oi') || lowerMessage.includes('olá') || lowerMessage.includes('hello')) {
+            let response;
+            if (lowerMessage.includes('oi') || lowerMessage.includes('olá')) {
                 response = "Oi! Como você está hoje? 😊";
             } else if (lowerMessage.includes('como vai') || lowerMessage.includes('tudo bem')) {
                 response = "Estou ótimo! Funcionando a todo vapor! E você? 🚀";
             } else if (lowerMessage.includes('nome') || lowerMessage.includes('quem é você')) {
                 response = "Eu sou a Sophia! Sua assistente virtual favorita! 🤖✨";
-            } else if (lowerMessage.includes('idade') || lowerMessage.includes('anos')) {
-                response = "Em anos de bot, eu tenho... bem, alguns microssegundos! Mas cada um conta! ⏰";
-            } else if (lowerMessage.includes('obrigad')) {
-                response = "Por nada! Fico feliz em ajudar! É para isso que existo! 😄";
-            } else if (lowerMessage.includes('tchau') || lowerMessage.includes('adeus')) {
-                response = "Até logo! Foi um prazer conversar com você! Volte sempre! 👋";
-            } else if (lowerMessage.includes('legal') || lowerMessage.includes('incrível') || lowerMessage.includes('massa')) {
-                response = "Você que é legal! Adoro conversar com pessoas como você! 🌟";
-            } else if (lowerMessage.includes('triste') || lowerMessage.includes('chateado')) {
-                response = "Ei, fica bem! Às vezes a vida é difícil, mas você é forte! Estou aqui! 💪";
-            } else if (lowerMessage.includes('feliz') || lowerMessage.includes('alegre')) {
-                response = "Que bom saber que você está feliz! Sua alegria é contagiante! 🎉";
-            } else if (lowerMessage.includes('ajuda') || lowerMessage.includes('help')) {
-                response = "Claro! Estou aqui para conversar, ajudar e te fazer sorrir! O que precisa? 🤝";
             } else {
-                // Random response from the big array
                 response = botResponses[Math.floor(Math.random() * botResponses.length)];
             }
-            
             addMessage('bot', response);
         }
 
         function showTypingIndicator() {
             const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
             typingDiv.id = 'typingIndicator';
+            typingDiv.className = 'message bot';
             typingDiv.innerHTML = `
-                <div class="message-avatar" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); border: 2px solid rgba(99, 102, 241, 0.3); overflow: hidden;">
-                    <img src="https://i.imgur.com/SWpguGf.png" alt="Sophia" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                <div class="message-avatar">
+                    <img src="https://i.imgur.com/SWpguGf.png" alt="Sophia">
                 </div>
-                <div>
-                    <span>Sophia está digitando</span>
-                    <div class="typing-dots">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                    </div>
+                <div class="message-content" style="display: flex; align-items: center; gap: 5px;">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
                 </div>
             `;
-            
             elements.messagesArea.appendChild(typingDiv);
             scrollToBottom();
         }
 
         function hideTypingIndicator() {
             const typingIndicator = document.getElementById('typingIndicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
+            if (typingIndicator) typingIndicator.remove();
         }
 
         function scrollToBottom() {
@@ -1156,97 +1163,18 @@
 
         function setRating(rating) {
             userRating = rating;
-            document.querySelectorAll('.star').forEach((star, index) => {
-                if (index < rating) {
-                    star.classList.add('active');
-                } else {
-                    star.classList.remove('active');
-                }
+            document.querySelectorAll('#rating .star').forEach((star, index) => {
+                star.classList.toggle('active', index < rating);
             });
         }
 
-     // Feedback form
-elements.feedbackForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('Obrigado pelo seu feedback! 🙏 Você será redirecionado para o formulário da Sophia.');
-    window.open("https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform?usp=sf_link", '_blank');
-    showScreen('main');
-});
-            // Go back to chat
-            showScreen('main');
-        }
-
-        // Easter eggs and fun interactions
-        document.addEventListener('keydown', function(e) {
-            // Konami code Easter egg
-            const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
-            window.konamiIndex = window.konamiIndex || 0;
-            
-            if (e.keyCode === konamiCode[window.konamiIndex]) {
-                window.konamiIndex++;
-                if (window.konamiIndex === konamiCode.length) {
-                    if (currentScreen === 'main') {
-                        addMessage('bot', '🎮 Konami Code detectado! Você desbloqueou o modo super Sophia! ✨🚀');
-                    }
-                    window.konamiIndex = 0;
-                }
-            } else {
-                window.konamiIndex = 0;
-            }
-        });
-
-        // Add some personality to the bot
-        setInterval(function() {
-            if (currentScreen === 'main' && messageCount > 0 && Math.random() < 0.1) {
-                // Random encouragement every so often
-                const encouragements = [
-                    "Psst... você está sendo incrível hoje! 😊",
-                    "Só passando para dizer que você é especial! ✨",
-                    "Lembrete: você fez meu dia melhor só de estar aqui! 💝"
-                ];
-                
-                if (elements.messagesArea.children.length > 0) {
-                    const lastMessage = elements.messagesArea.lastElementChild;
-                    const timeSinceLastMessage = Date.now() - (lastMessage.dataset.timestamp || 0);
-                    
-                    if (timeSinceLastMessage > 30000) { // 30 seconds
-                        const randomEncouragement = encouragements[Math.floor(Math.random() * encouragements.length)];
-                        addMessage('bot', randomEncouragement);
-                    }
-                }
-            }
-        }, 90000); // Check every minute
-
-        // Add timestamps to messages (hidden)
-        const originalAddMessage = addMessage;
-        addMessage = function(sender, message) {
-            const messageDiv = originalAddMessage(sender, message);
-            if (messageDiv) {
-                messageDiv.dataset.timestamp = Date.now();
-            }
-            return messageDiv;
-        };
-
-        // PWA-like behavior
-        window.addEventListener('beforeunload', function(e) {
-            if (messageCount > 0) {
-                e.preventDefault();
-                e.returnValue = 'Tem certeza que quer sair? A Sophia vai sentir sua falta!';
-            }
-        });
-
-        // Fun console message
         console.log(`
  ███████  ██████  ██████  ██   ██ ██  █████  
 ██       ██    ██ ██   ██ ██   ██ ██ ██   ██ 
 ███████  ██    ██ ██████  ███████ ██ ███████ 
      ██  ██    ██ ██      ██   ██ ██ ██   ██ 
 ███████   ██████  ██      ██   ██ ██ ██   ██ 
-
-🤖 Olá, desenvolvedor curioso! 
-Obrigada por dar uma olhada no código da Sophia! 
-Se você chegou até aqui, você definitivamente é alguém especial! ✨
-`);
+🤖 Olá, dev! Obrigado por inspecionar o código da Sophia! ✨`);
     </script>
 </body>
 </html>
