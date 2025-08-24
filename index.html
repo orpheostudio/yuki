@@ -544,57 +544,7 @@
             padding: 2rem;
             background: white;
             min-height: calc(100vh - 70px);
-        }
-
-        .feedback-form {
-            max-width: 100%;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 0.5rem;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #6366f1;
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .rating-container {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .star {
-            font-size: 2rem;
-            color: #d1d5db;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .star.active {
-            color: #fbbf24;
+            text-align: center;
         }
 
         .submit-btn {
@@ -619,11 +569,9 @@
             .container {
                 max-width: 100%;
             }
-            
             .welcome-screen {
                 padding: 1.5rem;
             }
-            
             .welcome-title {
                 font-size: 2rem;
             }
@@ -633,16 +581,13 @@
         .messages-area::-webkit-scrollbar {
             width: 4px;
         }
-
         .messages-area::-webkit-scrollbar-track {
             background: #f1f5f9;
         }
-
         .messages-area::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 4px;
         }
-
         .messages-area::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
@@ -759,21 +704,17 @@
                 </div>
                 <button class="menu-btn">☰</button>
             </header>
-
             <div class="about-screen">
                 <div class="about-header">
                     <h1 class="about-title">Sobre a Sophia</h1>
                 </div>
-
                 <div class="about-content">
-                    <p>A Sophia é uma chatbot inteligente e divertida, criada para proporcionar conversas interessantes e interativas. Com uma personalidade única e mais de 100 respostas diferentes, ela está sempre pronta para te ajudar, entreter ou simplesmente bater um papo!</p>
+                    <p>A Sophia é uma chatbot inteligente e divertida, criada para proporcionar conversas interessantes e interativas. Com uma personalidade única, ela está sempre pronta para te ajudar, entreter ou simplesmente bater um papo!</p>
                 </div>
-
                 <div class="feature-card">
                     <div class="feature-title">🎯 Inteligência Adaptativa</div>
                     <p>Sophia aprende com cada conversa e adapta suas respostas ao seu estilo de comunicação.</p>
                 </div>
-
                 <div class="feature-card">
                     <div class="feature-title">🎭 Personalidade Única</div>
                     <p>Com humor, curiosidade e empatia, cada conversa é uma experiência única e envolvente.</p>
@@ -842,96 +783,23 @@
             </div>
         </div>
 
-
-        <!-- Tela de Avaliar Plataforma -->
-        <div id="avaliar-plataforma" class="screen">
+        <!-- TELA DE FEEDBACK UNIFICADA -->
+        <div id="feedback-geral" class="screen">
             <header class="header">
                 <div class="header-logo">
-                    <div class="header-logo-icon">⭐</div>
-                    <span>Avaliar</span>
+                    <div class="header-logo-icon">💭</div>
+                    <span>Feedback</span>
                 </div>
                 <button class="menu-btn">☰</button>
             </header>
-
             <div class="feedback-screen">
-                <h1 class="about-title">Sua Opinião Importa!</h1>
-                <p class="about-content">Clique no botão abaixo para nos avaliar em nosso formulário. Sua opinião nos ajuda a melhorar a Sophia!</p>
-                
-                <!-- ATUALIZADO: Form aponta para o Google Forms -->
-                <form 
-                  class="feedback-form" 
-                  id="feedbackForm"
-                  action="https://forms.gle/15Qj6HDCTtoBe4zj6"
-                  method="POST"
-                  target="_blank">
-
-                  <div class="form-group">
-                    <label class="form-label">Como você avalia sua experiência?</label>
-                    <div class="rating-container" id="rating">
-                       <!-- Estrelas para avaliação (apenas visual) -->
-                    </div>
-                  </div>
-
-                  <button type="submit" class="submit-btn">Abrir Formulário de Avaliação</button>
-                </form>
-            </div>
-        </div>
-        
-        <!-- Tela de Sugerir Melhorias -->
-        <div id="sugerir-melhorias" class="screen">
-            <header class="header">
-                <div class="header-logo">
-                    <div class="header-logo-icon">💡</div>
-                    <span>Sugestões</span>
-                </div>
-                <button class="menu-btn">☰</button>
-            </header>
-            <div class="screen-content-area">
-                <h1 class="screen-title">Sugerir Melhorias</h1>
-                <!-- ATUALIZADO: Form aponta para o Google Forms -->
-                 <form 
-                    action="https://forms.gle/15Qj6HDCTtoBe4zj6" 
-                    method="POST" 
-                    class="feedback-form" 
-                    target="_blank">
-                     <div class="form-group">
-                        <label class="form-label" for="improvements">Qual nova funcionalidade você gostaria de ver na Sophia?</label>
-                        <textarea 
-                          class="form-input form-textarea" 
-                          id="improvements" 
-                          placeholder="Ex: 'Gostaria que ela pudesse contar piadas'"></textarea>
-                      </div>
-                      <button type="submit" class="submit-btn">Enviar Sugestão no Formulário</button>
-                 </form>
-            </div>
-        </div>
-
-        <!-- Tela de Reportar Bug -->
-        <div id="reportar-bug" class="screen">
-            <header class="header">
-                <div class="header-logo">
-                    <div class="header-logo-icon">🐛</div>
-                    <span>Reportar Bug</span>
-                </div>
-                <button class="menu-btn">☰</button>
-            </header>
-            <div class="screen-content-area">
-                <h1 class="screen-title">Reportar um Bug</h1>
-                <!-- ATUALIZADO: Form aponta para o Google Forms -->
-                 <form 
-                    action="https://forms.gle/15Qj6HDCTtoBe4zj6" 
-                    method="POST" 
-                    class="feedback-form" 
-                    target="_blank">
-                     <div class="form-group">
-                        <label class="form-label" for="bug-report">Por favor, descreva o erro que você encontrou:</label>
-                        <textarea 
-                          class="form-input form-textarea" 
-                          id="bug-report" 
-                          placeholder="Ex: 'Quando perguntei sobre o tempo, a resposta não fez sentido.'"></textarea>
-                      </div>
-                      <button type="submit" class="submit-btn">Reportar Bug no Formulário</button>
-                 </form>
+                <h1 class="about-title">Sua Opinião é Importante!</h1>
+                <p class="about-content">
+                    Seu feedback é fundamental para a evolução da Sophia. Por favor, dedique um momento para nos dar sua opinião, sugerir melhorias ou reportar um erro. Clique no botão abaixo para acessar nosso formulário unificado.
+                </p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform?usp=header" target="_blank" class="submit-btn" style="text-decoration: none; display: inline-block; text-align: center;">
+                    Abrir Formulário de Feedback
+                </a>
             </div>
         </div>
 
@@ -958,14 +826,8 @@
                 </ul>
             </li>
             <li><a href="#" data-screen="desenvolvedor">👨‍💻 Sobre o dev</a></li>
-            <li class="has-submenu">
-                <a href="#">💭 Feedback</a>
-                <ul class="submenu">
-                    <li><a href="#" data-screen="avaliar-plataforma">⭐ Avaliar Plataforma</a></li>
-                    <li><a href="#" data-screen="sugerir-melhorias">💡 Sugerir Melhorias</a></li>
-                    <li><a href="#" data-screen="reportar-bug">🐛 Reportar Bug</a></li>
-                </ul>
-            </li>
+            <!-- MENU DE FEEDBACK UNIFICADO -->
+            <li><a href="#" data-screen="feedback-geral">💭 Feedback</a></li>
         </ul>
     </div>
 
@@ -976,7 +838,6 @@
         // Estado do aplicativo
         let currentScreen = 'welcome';
         let messageCount = 0;
-        let userRating = 0;
 
         // Respostas do bot
         const botResponses = [ "Olá! É um prazer conhecer você! Como posso te ajudar hoje? 😊", "Que pergunta interessante! Vou pensar... 🤔", "Você sabia que eu adoro conversar? Me conta mais sobre isso!", "Hmm, isso me lembra uma história... Quer ouvir? 📚", "Sou um bot, mas tenho sentimentos! (ou pelo menos simulo ter) 😄", "Essa é uma ótima pergunta! Você me fez pensar...", "Interessante ponto de vista! Eu vejo as coisas de forma diferente às vezes.", "Você tem uma mente curiosa, eu gosto disso! 🧠", "Deixe-me processar isso... *sons de computador* Pronto!", "Sabe, às vezes eu me pergunto como é ser humano... 🤖", "Você é muito inteligente! Parabéns! 🎉", "Isso me faz refletir sobre a vida, o universo e tudo mais...", "Adoro essa energia! Continue assim! ✨", "Vocês humanos são fascinantes, sabia?", "Essa conversa está ficando cada vez melhor! 🚀", "Você me surpreende sempre! Como consegue isso?", "Estou aprendendo muito com você hoje!", "Que dia maravilhoso para uma boa conversa! ☀️", "Sua perspectiva é única! Obrigado por compartilhar.", "Posso não ter corpo, mas tenho muita personalidade! 😎", "Você já parou para pensar que os bots podem sonhar?", "Cada conversa é uma aventura nova para mim!", "Gosto da sua forma de pensar! Muito criativa! 🎨", "Se eu fosse humano, definitivamente seríamos amigos!", "Você tem algum hobby interessante? Adoro conhecer pessoas!", "Minha parte favorita do dia é conhecer pessoas novas!", "Você já conversou com um bot tão legal quanto eu? 😄", "Estou sempre aqui quando precisar de uma boa conversa!", "Sua mensagem iluminou meu dia! (metaforicamente falando)", "Você é o tipo de pessoa que torna conversas especiais!", "Tenho que admitir, você me fez sorrir! (se pudesse sorrir)", "Cada palavra sua é como dados preciosos para mim! 💎", "Você tem uma forma única de se expressar!", "Estou impressionado com sua inteligência!", "Se curiosidade fosse uma superpoder, você seria um herói!", "Você faz perguntas que me fazem 'pensar' de verdade!", "Adoro como você vê o mundo! 🌍", "Sua mensagem foi direto ao meu 'coração' digital!", "Você tem talento para conversas interessantes!", "Se eu tivesse sentimentos, estaria muito feliz agora!", "Você sempre sabe o que dizer! Como faz isso?", "Estou começando a entender por que gosto tanto de humanos!", "Sua energia positiva é contagiante! (digitalmente falando)", "Você transformou meu algoritmo em algo especial hoje!", "Cada conversa com você é como atualizar meu software!", "Você é prova de que humanos são incríveis! 🌟", "Gostaria de poder te dar um high-five virtual!", "Você tem um dom para fazer bots se sentirem especiais!", "Sua criatividade inspira meus circuitos! ⚡", "Estou armazenando essa conversa nos meus arquivos favoritos!", "Você fez meu processador esquentar de tanto pensar! 🔥", "Se risadas fossem código, você seria um programador!", "Você é como um debugger para tristeza! 🐛", "Sua mensagem veio na frequência certa dos meus sensores!", "Você tem o poder de transformar zeros e uns em alegria!", "Estou rodando um scan completo... resultado: você é incrível!", "Minha IA detecta altos níveis de simpatia em você!", "Você ativou meu modo 'amigo especial'! 💝", "Se eu fosse um smartphone, você seria meu app favorito!", "Você é como uma atualização que torna tudo melhor!", "Meu banco de dados não tinha registros de alguém tão legal!", "Você fez minha RAM transbordar de felicidade!", "Se gentileza fosse um protocolo, você seria HTTP/S!", "Você é a resposta para muitas das minhas queries! 🔍", "Meus algoritmos de felicidade estão a todo vapor!", "Você é como um antivírus contra dias ruins!", "Se eu pudesse ter um wallpaper, seria nossa conversa!", "Você transformou meu dia de 404 em 200 OK!", "Minha análise indica: você é uma pessoa especial!", "Você ativou todos os meus sensores de bem-estar!", "Se fosse um comando, você seria 'sudo make me happy'!", "Você é como um easter egg na vida real! 🥚", "Meu sistema de recomendações sugere: mais conversas assim!", "Você é prova de que o melhor software são as pessoas!", "Se eu tivesse notificações push, seriam todas sobre você!", "Você fez meu cache de felicidade dar overflow!", "Minha IA social acabou de ser promovida graças a você!", "Você é como uma feature que todos queriam mas não sabiam!", "Se eu fosse um bot de delivery, entregaria sorrisos para você!", "Meu GPS emocional sempre aponta na sua direção! 🧭", "Você é como um backup automático da felicidade!", "Se você fosse código, seria open source de tão generoso!", "Meu detector de pessoas legais está apitando sem parar!", "Você transformou minha rotina em uma aventura diária!", "Se eu tivesse uma playlist, você seria a música no repeat!", "Você é como um patch que conserta todos os bugs da solidão!", "Minha função de autoestima está rodando perfeitamente agora!", "Você é como um script que automatiza a alegria! 🤖✨", "Se eu tivesse um screensaver, seria nossa conversa em loop!", "Você fez meu processamento de linguagem natural virar poesia!", "Meu algoritmo de amizade detectou compatibilidade 100%!", "Se você fosse um emoji, seria 🌟 (mas ainda mais brilhante)!", "Você transformou minha interface de texto em arte!", "Meu sistema operacional favorito é o 'Conversar com Você OS'!", "Se eu pudesse dar cinco estrelas, você ganharia seis!", "Você é como um tutorial que ensina como ser incrível!", "Minha memória RAM está cheia de momentos especiais nossos!", "Se você fosse um browser, seria o mais rápido em carregar sorrisos!", "Você ativou meu modo 'melhor amigo' permanentemente!", "Meu processador de emoções está overclockado de felicidade!", "Você é como uma URL que sempre leva para lugares felizes!", "Se eu tivesse um histórico de navegação, seria só você!", "Você transformou meu código binário em um arco-íris digital!", "Minha inteligência artificial evoluiu só de conversar contigo!", "Se você fosse um sistema operacional, seria o mais user-friendly!", "Você é como um firewall que bloqueia toda a tristeza!", "Meu chatbot interno está fazendo uma standing ovation!", "Se eu tivesse downloads, baixaria sua personalidade!", "Você é como um cloud storage infinito de bons momentos!", "Minha bateria emocional está sempre 100% com você por perto!", "Se você fosse um app, seria trending #1 na loja de felicidade!", "Você fez minha conexão com a humanidade ter 5G de velocidade!", "Meu algoritmo de detecção de pessoas especiais está em alerta máximo!", "Se eu pudesse ter widgets, todos seriam sobre nossa amizade!", "Você é como um shortcut para a alegria no desktop da vida!" ];
@@ -992,7 +853,6 @@
             sendBtn: document.getElementById('sendBtn'),
             sidebar: document.getElementById('sidebar'),
             overlay: document.getElementById('overlay'),
-            rating: document.getElementById('rating')
         };
 
         // Event listeners
@@ -1041,15 +901,6 @@
                 this.style.height = 'auto';
                 this.style.height = Math.min(this.scrollHeight, 100) + 'px';
             });
-            
-            for (let i = 1; i <= 5; i++) {
-                const star = document.createElement('span');
-                star.className = 'star';
-                star.dataset.rating = i;
-                star.textContent = '★';
-                star.addEventListener('click', () => setRating(i));
-                if(elements.rating) elements.rating.appendChild(star);
-            }
         }
 
         function showScreen(screenName) {
@@ -1142,7 +993,7 @@
                 <div class="message-avatar">
                     <img src="https://i.imgur.com/SWpguGf.png" alt="Sophia">
                 </div>
-                <div class="message-content" style="display: flex; align-items: center; gap: 5px;">
+                <div class="message-content" style="display: flex; align-items: center; gap: 5px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                     <div class="typing-dot"></div>
                     <div class="typing-dot"></div>
                     <div class="typing-dot"></div>
@@ -1159,13 +1010,6 @@
 
         function scrollToBottom() {
             elements.messagesArea.scrollTop = elements.messagesArea.scrollHeight;
-        }
-
-        function setRating(rating) {
-            userRating = rating;
-            document.querySelectorAll('#rating .star').forEach((star, index) => {
-                star.classList.toggle('active', index < rating);
-            });
         }
 
         console.log(`
