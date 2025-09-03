@@ -11,42 +11,24 @@
             --background-color: #F3F6FA; --bot-message-bg: #FFFFFF; --user-message-bg: #2C3E50;
             --text-primary: #2C3E50; --text-light: #FFFFFF; --text-secondary: #8A94A6;
             --border-color: #E0E5EC; --button-outline: #D1D9E6; --shadow-color: rgba(44, 62, 80, 0.1);
-            --accent-color: #3498DB;
+            --accent-color: #3498DB; --orb-gradient: linear-gradient(135deg, #EC4899, #8B5CF6);
         }
-
         body.dark-mode {
             --background-color: #1A1A1A; --bot-message-bg: #2C2C2C; --user-message-bg: #3498DB;
             --text-primary: #EAEAEA; --text-light: #FFFFFF; --text-secondary: #888888;
             --border-color: #3D3D3D; --button-outline: #4A4A4A; --shadow-color: rgba(0, 0, 0, 0.2);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        
-        body {
-            background-color: #C8D0E7;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-            transition: background-color 0.3s;
-        }
-        
+        body { background-color: #C8D0E7; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 10px; transition: background-color 0.3s; }
         .container {
             width: 100%; max-width: 400px; height: 90vh; max-height: 850px;
-            background-color: var(--background-color);
-            border-radius: 40px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            border: 8px solid #fff;
-            transition: background-color 0.3s;
+            background-color: var(--background-color); border-radius: 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden; display: flex; flex-direction: column; position: relative; border: 8px solid #fff; transition: background-color 0.3s;
         }
         .screen { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: flex; flex-direction: column; transition: opacity 0.5s ease-in-out, visibility 0.5s; opacity: 1; visibility: visible; }
         .screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
+        /* TELA DE BOAS-VINDAS */
         .welcome-screen { justify-content: center; align-items: center; text-align: center; padding: 40px; }
         .welcome-avatar { width: 150px; height: 150px; margin-bottom: 2rem; }
         .welcome-avatar img { width: 100%; height: 100%; }
@@ -54,58 +36,75 @@
         .primary-btn { width: 100%; padding: 16px; border: 1px solid var(--button-outline); border-radius: 14px; background-color: var(--bot-message-bg); color: var(--text-primary); font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
         .primary-btn:hover { background-color: var(--border-color); }
 
+        /* TELA DE CHAT */
         .chat-screen { background-color: var(--background-color); }
-        .chat-header { padding: 12px 16px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border-color); flex-shrink: 0; }
-        
-        /* ATUALIZAÇÃO: Estilos para o grupo de título no header */
+        .chat-header { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); flex-shrink: 0; }
         .header-title-group { display: flex; align-items: center; gap: 12px; }
         .header-logo { height: 40px; }
-        .header-name {
-            font-size: 1.6rem;
-            font-weight: 600;
-            background: linear-gradient(90deg, #EC4899, #8B5CF6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-        }
+        .header-name { font-size: 1.6rem; font-weight: 600; background: linear-gradient(90deg, #EC4899, #8B5CF6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .chat-messages { flex-grow: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; }
+        .chat-body { flex-grow: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+        .assistant-ui {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; padding: 20px;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .assistant-ui.hidden { opacity: 0; transform: scale(0.9); pointer-events: none; }
+        .greeting-text { font-size: 1.8rem; font-weight: 300; color: var(--text-secondary); }
+        .greeting-text b { font-weight: 500; color: var(--text-primary); }
+        .help-text { font-size: 1.1rem; color: var(--text-primary); margin-top: 8px; }
+
+        .orb {
+            width: 150px; height: 150px; border-radius: 50%;
+            background: var(--orb-gradient); margin: 40px 0; position: relative;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+            animation: pulse 4s infinite ease-in-out; transition: all 0.4s ease;
+        }
+        .orb::before, .orb::after {
+            content: ''; position: absolute; width: 12px; height: 24px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 6px; top: 50%; transform: translateY(-50%); transition: all 0.4s ease;
+        }
+        .orb::before { left: 45px; } .orb::after { right: 45px; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3); } 50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(139, 92, 246, 0.4); } }
+        .orb.thinking { animation: thinking 2s infinite linear; }
+        @keyframes thinking { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .orb.listening { animation: none; transform: scale(1.1); }
+        .orb.listening::before, .orb.listening::after { opacity: 0; }
+        .listening-ring { position: absolute; top: 50%; left: 50%; border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%) scale(1); opacity: 0; animation: listening-wave 1.5s infinite ease-out; }
+        @keyframes listening-wave { from { transform: translate(-50%, -50%) scale(1); opacity: 0.6; } to { transform: translate(-50%, -50%) scale(2); opacity: 0; } }
+
+        .chat-messages {
+            flex-grow: 1; overflow-y: auto; padding: 20px;
+            display: flex; flex-direction: column;
+            opacity: 0; transition: opacity 0.5s ease;
+            scroll-behavior: smooth;
+        }
+        .chat-messages.active { opacity: 1; }
         .message-group { display: flex; gap: 10px; margin-bottom: 10px; max-width: 90%; align-self: flex-start; align-items: flex-end; animation: fadeIn 0.4s ease-out; }
         .message-group.user { align-self: flex-end; }
         .bot-avatar { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; overflow: hidden; }
         .bot-avatar img { width: 100%; height: 100%; }
         .message-bubbles { display: flex; flex-direction: column; gap: 8px; }
         .message { padding: 12px 16px; border-radius: 20px; line-height: 1.5; word-wrap: break-word; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .bot-message { background-color: var(--bot-message-bg); color: var(--text-primary); border-bottom-left-radius: 5px; box-shadow: 0 4px 10px var(--shadow-color); }
         .user-message { background-color: var(--user-message-bg); color: var(--text-light); border-bottom-right-radius: 5px; align-self: flex-end; }
-        
-        .rich-card { border: 1px solid var(--border-color); }
-        .rich-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-        .rich-card-title { font-weight: 500; }
-        .rich-card-body { font-size: 0.9rem; color: var(--text-secondary); }
-        .rich-card-body b { color: var(--text-primary); }
-        .rich-card-body a { color: var(--accent-color); text-decoration: none; }
+        .message-timestamp { font-size: 0.75rem; color: var(--text-secondary); opacity: 0.8; margin-top: 6px; text-align: right; }
+        .message strong { font-weight: 600; } .message em { font-style: italic; }
 
         .quick-reply-area { padding: 10px 20px 0; display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
         .quick-reply { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--button-outline); color: var(--text-primary); background-color: var(--bot-message-bg); cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
-        .quick-reply:hover { background-color: var(--border-color); }
         
         .chat-input-area { display: flex; align-items: center; padding: 15px; border-top: 1px solid var(--border-color); background-color: var(--background-color); flex-shrink: 0; gap: 10px; }
         .input-wrapper { display: flex; align-items: center; flex-grow: 1; border: 1px solid var(--border-color); background-color: var(--bot-message-bg); border-radius: 14px; }
         .chat-input { flex-grow: 1; border: none; background: transparent; padding: 14px 16px; font-size: 1rem; color: var(--text-primary); }
-        .chat-input:focus { outline: none; }
         .icon-btn { background-color: var(--bot-message-bg); border: 1px solid var(--border-color); width: 48px; height: 48px; border-radius: 14px; font-size: 1.2rem; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
-        .icon-btn:hover { color: var(--text-primary); }
-        .icon-btn.listening { color: #E74C3C; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); } 100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); } }
-
+        
         .typing-indicator { align-self: flex-start; }
         .typing-dots { display: flex; gap: 5px; }
         .typing-dot { width: 8px; height: 8px; background-color: var(--text-secondary); border-radius: 50%; animation: typing 1.4s infinite ease-in-out both; }
-        .typing-dot:nth-child(2) { animation-delay: .2s; }
-        .typing-dot:nth-child(3) { animation-delay: .4s; }
+        .typing-dot:nth-child(2) { animation-delay: .2s; } .typing-dot:nth-child(3) { animation-delay: .4s; }
         @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
 
         .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); display: none; justify-content: center; align-items: flex-end; z-index: 100; opacity: 0; transition: opacity 0.3s ease; }
@@ -114,8 +113,6 @@
         .modal-overlay.active .modal-content { transform: translateY(0); }
         .menu-list { list-style: none; }
         .menu-list a, .menu-list button { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); text-decoration: none; font-size: 1rem; background: none; border: none; width: 100%; text-align: left; cursor: pointer; }
-        .menu-list a:hover, .menu-list button:hover { background-color: var(--background-color); }
-        .menu-list li:last-child button { border-bottom: none; }
         .menu-list i { margin-right: 15px; color: var(--text-secondary); width: 20px; }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; margin-left: auto; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -123,39 +120,55 @@
         .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
         input:checked + .slider { background-color: var(--accent-color); }
         input:checked + .slider:before { transform: translateX(20px); }
+
+        .toast-notification {
+            position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+            background-color: var(--user-message-bg); color: var(--text-light);
+            padding: 12px 20px; border-radius: 10px; font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 200; transition: top 0.4s ease-in-out;
+        }
+        .toast-notification.show { top: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
         
         <div class="screen welcome-screen" id="welcomeScreen">
-            <div class="welcome-avatar">
-                <img src="https://i.imgur.com/HPsXQqv.png" alt="Sophia Avatar">
-            </div>
-            <!-- ATUALIZAÇÃO: Nome alterado para Sophia -->
+            <div class="welcome-avatar"><img src="https://i.imgur.com/HPsXQqv.png" alt="Hanabi Avatar"></div>
             <h1 class="welcome-title">Bem vindo(a)! Eu sou a Sophia.</h1>
-            <div class="welcome-actions">
-                <button class="primary-btn" id="getStartedBtn">Começar</button>
-            </div>
+            <div class="welcome-actions"><button class="primary-btn" id="getStartedBtn">Começar</button></div>
         </div>
 
         <div class="screen chat-screen hidden" id="chatScreen">
             <header class="chat-header">
-                <!-- ATUALIZAÇÃO: Header com logo e nome em gradiente -->
                 <div class="header-title-group">
-                    <img src="https://i.imgur.com/HPsXQqv.png" alt="Sophia Logo" class="header-logo">
+                    <img src="https://i.imgur.com/HPsXQqv.png" alt="Hanabi Logo" class="header-logo">
                     <h1 class="header-name">Sophia</h1>
                 </div>
+                <div>
+                    <button type="button" class="icon-btn" id="menuBtn" title="Menu" style="width: 40px; height: 40px;"><i class="fas fa-ellipsis-h"></i></button>
+                </div>
             </header>
-            <div class="chat-messages" id="chatMessages"></div>
+            
+            <div class="chat-body">
+                <div class="assistant-ui" id="assistantUI">
+                    <p class="greeting-text">Olá, <b id="greetingName">visitante</b>!</p>
+                    <p class="help-text">Como posso te ajudar hoje?</p>
+                    <div class="orb" id="orb"></div>
+                </div>
+
+                <div class="chat-messages" id="chatMessages"></div>
+            </div>
+
             <div class="quick-reply-area" id="quickReplyArea"></div>
+            
             <form class="chat-input-area" id="inputArea">
                 <div class="input-wrapper">
                     <input type="text" class="chat-input" id="userInput" placeholder="Digite sua mensagem...">
                 </div>
                 <button type="submit" class="icon-btn" id="sendButton"><i class="fas fa-arrow-up"></i></button>
                 <button type="button" class="icon-btn" id="micBtn" title="Usar Microfone"><i class="fas fa-microphone"></i></button>
-                <button type="button" class="icon-btn" id="menuBtn" title="Menu"><i class="fas fa-ellipsis-h"></i></button>
             </form>
         </div>
 
@@ -163,20 +176,17 @@
             <div class="modal-content">
                 <ul class="menu-list">
                     <li><button id="helpBtn"><i class="fas fa-question-circle"></i> Ajuda e Comandos</button></li>
-                    <li>
-                        <button style="display: flex; align-items: center; width: 100%;">
-                            <i class="fas fa-moon"></i> Modo Escuro
-                            <label class="switch">
-                                <input type="checkbox" id="darkModeToggle">
-                                <span class="slider"></span>
-                            </label>
-                        </button>
-                    </li>
+                    <li><button style="display: flex; align-items: center; width: 100%;"><i class="fas fa-moon"></i> Modo Escuro<label class="switch"><input type="checkbox" id="darkModeToggle"><span class="slider"></span></label></button></li>
+                    <li><a href="https://naotodev1.github.io/Nova" target="_blank"><i class="fas fa-rocket"></i> Conheça a Nova</a></li>
+                    <li><a href="https://naotodev1.github.io/terms-e-policy" target="_blank"><i class="fas fa-file-contract"></i> Termos de Uso</a></li>
                     <li><a href="https://studiotsukiyo.bio.link" target="_blank"><i class="fas fa-star"></i> Studio Tsukiyo</a></li>
+                    <li><button id="aboutDevBtn"><i class="fas fa-code"></i> Sobre o Dev: Naoto Dev</button></li>
+                    <li><button id="aboutHanabiBtn"><i class="fas fa-info-circle"></i> Sobre a Sophia</button></li>
                     <li><button id="clearChatBtn"><i class="fas fa-trash"></i> Limpar e Reiniciar</button></li>
                 </ul>
             </div>
         </div>
+        <div class="toast-notification" id="toast"></div>
     </div>
 
     <script>
@@ -189,36 +199,56 @@
                 quickReplyArea: document.getElementById('quickReplyArea'),
                 inputArea: document.getElementById('inputArea'),
                 userInput: document.getElementById('userInput'),
-                sendButton: document.getElementById('sendButton'),
                 micBtn: document.getElementById('micBtn'),
                 menuBtn: document.getElementById('menuBtn'),
                 menuOverlay: document.getElementById('menuOverlay'),
                 clearChatBtn: document.getElementById('clearChatBtn'),
                 helpBtn: document.getElementById('helpBtn'),
+                aboutDevBtn: document.getElementById('aboutDevBtn'),
+                aboutHanabiBtn: document.getElementById('aboutHanabiBtn'),
                 darkModeToggle: document.getElementById('darkModeToggle'),
+                assistantUI: document.getElementById('assistantUI'),
+                greetingName: document.getElementById('greetingName'),
+                orb: document.getElementById('orb'),
+                toast: document.getElementById('toast'),
             };
 
-            // ATUALIZAÇÃO: Chaves do localStorage alteradas para 'sophia'
-            let userName = localStorage.getItem('sophiaUserName') || '';
-            let conversationState = 'IDLE'; 
+            let userName = localStorage.getItem('hanabiUserName') || '';
+            let conversationState = 'IDLE';
             let riddleAnswer = '';
             let speechRecognition;
+            let isConversationActive = false;
+            
+            Array.prototype.random = function() { return this[Math.floor(Math.random() * this.length)]; };
 
             const knowledgeBase = {
                 greetings: ["Olá! Como vai?", "Oi! Que bom te ver.", "E aí! Tudo bem?"],
-                // ATUALIZAÇÃO: Nome alterado para Sophia
-                identity: "Eu sou a Sophia, uma assistente virtual criada pelo Studio Tsukiyo para te ajudar no dia a dia.",
+                identity: "Eu sou a Sophia, uma assistente virtual criada pelo Studio Tsukiyo Platforms para te ajudar no dia a dia.",
                 gratitude: ["De nada! Se precisar de mais alguma coisa, é só chamar.", "Fico feliz em ajudar!"],
                 farewell: ["Até mais! Volte sempre que precisar.", "Tchau! Tenha um ótimo dia."],
                 fallback: "Desculpe, não entendi. Que tal tentar uma das opções abaixo ou digitar `/ajuda` para ver meus comandos?",
-                animes: [ { title: "Attack on Titan", desc: "Humanidade luta por sobrevivência contra titãs gigantes." }, { title: "Jujutsu Kaisen", desc: "Feiticeiros lutam contra maldições para proteger o mundo." } ],
-                musics: [ { title: "Blinding Lights", artist: "The Weeknd" }, { title: "As It Was", artist: "Harry Styles" } ],
-                quotes: ["A persistência realiza o impossível.", "O sucesso é a soma de pequenos esforços repetidos diariamente."],
                 jokes: ["O que o pato falou para a pata? Vem Quá!", "Por que a velhinha não usa relógio? Porque ela é uma sem hora."],
-                riddles: [ { q: "O que é, o que é? Cai em pé e corre deitado?", a: "chuva" }, { q: "Tenho cidades, mas não casas. O que sou eu?", a: "mapa" } ]
+                riddles: [ { q: "O que é, o que é? Cai em pé e corre deitado?", a: "chuva" }, { q: "Tenho cidades, mas não casas. O que sou eu?", a: "mapa" } ],
+                animes: [
+                    { title: "Attack on Titan", desc: "Um anime épico sobre a luta da humanidade contra titãs." },
+                    { title: "Fullmetal Alchemist: Brotherhood", desc: "Dois irmãos em busca da Pedra Filosofal para restaurar seus corpos." },
+                    { title: "Demon Slayer", desc: "Um jovem se torna um caçador de demônios para salvar sua irmã." }
+                ],
+                musics: [
+                    { title: "Blinding Lights", artist: "The Weeknd" },
+                    { title: "Save Your Tears", artist: "The Weeknd" },
+                    { title: "Bohemian Rhapsody", artist: "Queen" }
+                ],
+                quotes: [
+                    "A persistência é o caminho do êxito. - Charles Chaplin",
+                    "O sucesso é a soma de pequenos esforços repetidos dia após dia. - Robert Collier"
+                ]
             };
 
+            const parseMarkdown = (text) => text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
+
             const addMessage = (content, isUser = false) => {
+                transitionToChatView();
                 const messageGroup = document.createElement('div');
                 messageGroup.className = `message-group ${isUser ? 'user' : ''}`;
                 if (!isUser) messageGroup.innerHTML += `<div class="bot-avatar"><img src="https://i.imgur.com/HPsXQqv.png" alt="Avatar"></div>`;
@@ -226,16 +256,22 @@
                 const bubblesContainer = document.createElement('div');
                 bubblesContainer.className = 'message-bubbles';
                 const messages = Array.isArray(content) ? content : [content];
+                
                 messages.forEach(msg => {
                     const bubble = document.createElement('div');
                     bubble.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-                    bubble.innerHTML = msg;
+                    bubble.innerHTML = parseMarkdown(msg);
+                    
+                    const timestamp = document.createElement('div');
+                    timestamp.className = 'message-timestamp';
+                    timestamp.textContent = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                    bubble.appendChild(timestamp);
+
                     bubblesContainer.appendChild(bubble);
                 });
                 
                 messageGroup.appendChild(bubblesContainer);
                 elements.chatMessages.appendChild(messageGroup);
-                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
                 
                 if (!isUser) speak(messages.join(' ').replace(/<[^>]*>/g, ''));
             };
@@ -254,22 +290,11 @@
                 document.querySelectorAll('.typing-indicator').forEach(el => el.remove());
                 if (show) {
                     const typingHTML = `<div class="message-group typing-indicator"><div class="bot-avatar"><img src="https://i.imgur.com/HPsXQqv.png" alt="Avatar"></div><div class="message-bubbles"><div class="message bot-message typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>`;
-                    elements.chatMessages.innerHTML += typingHTML;
+                    elements.chatMessages.insertAdjacentHTML('beforeend', typingHTML);
                     elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
                 }
             };
             
-            const startConversation = () => {
-                if (userName) {
-                    const greeting = new Date().getHours() < 12 ? "Bom dia" : new Date().getHours() < 18 ? "Boa tarde" : "Boa noite";
-                    addMessage([`${greeting}, ${userName}!`, "Como posso te ajudar hoje?"]);
-                } else {
-                    addMessage(["Olá! Eu sou a Sophia.", "Como posso te chamar?"]);
-                    conversationState = 'WAITING_FOR_NAME';
-                    elements.userInput.focus();
-                }
-            };
-
             const handleUserInput = (event) => {
                 if(event) event.preventDefault();
                 const text = elements.userInput.value.trim();
@@ -279,21 +304,22 @@
                 elements.userInput.value = '';
                 elements.quickReplyArea.innerHTML = '';
                 
-                showTypingIndicator();
+                setOrbState('thinking');
                 const responseDelay = 800 + Math.random() * 800;
                 setTimeout(() => generateResponse(text), responseDelay);
             };
 
             const generateResponse = (input) => {
                 showTypingIndicator(false);
+                setOrbState('idle');
                 const lowerInput = input.toLowerCase();
 
                 if (conversationState === 'WAITING_FOR_NAME') {
-                    userName = input.split(' ')[0];
-                    localStorage.setItem('sophiaUserName', userName);
+                    userName = input.split(' ')[0].replace(/[^a-zA-Z]/g, '');
+                    localStorage.setItem('hanabiUserName', userName);
                     conversationState = 'IDLE';
-                    addMessage([`Prazer em te conhecer, ${userName}!`, `O que você gostaria de fazer?`]);
-                    showQuickReplies(["Recomende um anime", "/clima São Paulo", "/noticias"]);
+                    addMessage([`Prazer em te conhecer, **${userName}**!`, `O que você gostaria de fazer?`]);
+                    showQuickReplies(["/noticias", "/clima São Paulo", "Me conte uma piada"]);
                     return;
                 }
                 
@@ -307,34 +333,40 @@
                 
                 if (lowerInput.startsWith('/')) { handleCommand(lowerInput); return; }
 
-                if (lowerInput.includes('anime')) { const a = knowledgeBase.animes.random(); addMessage(`Que tal <b style="color: #BF360C">${a.title}</b>? É sobre: ${a.desc}`); }
-                else if (lowerInput.includes('música')) { const m = knowledgeBase.musics.random(); addMessage(`Recomendo <b style="color: #00796B">${m.title}</b> de ${m.artist}.`); }
-                else if (lowerInput.includes('frase') || lowerInput.includes('motiva')) { addMessage(`Claro! <i>"${knowledgeBase.quotes.random()}"</i>`); }
-                else if (lowerInput.includes('quem é você')) { addMessage(knowledgeBase.identity); }
-                else if (lowerInput.includes('obrigad')) { addMessage(knowledgeBase.gratitude.random()); }
-                else if (lowerInput.includes('tchau') || lowerInput.includes('adeus')) { addMessage(knowledgeBase.farewell.random()); }
-                else if (lowerInput.includes('hora')) { addMessage(`Agora são ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}.`); }
-                else if (lowerInput.includes('dia') || lowerInput.includes('data')) { addMessage(`Hoje é ${new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}.`); }
-                else {
-                    addMessage(knowledgeBase.fallback);
-                    showQuickReplies(["Recomende uma música", "/calcular 10*5", "/ajuda"]);
+                const responses = { 
+                    'piada': () => knowledgeBase.jokes.random(), 
+                    'charada': () => handleCommand('/charada'), 
+                    'anime|desenho': () => `Que tal **${knowledgeBase.animes.random().title}**? ${knowledgeBase.animes.random().desc}`, 
+                    'música|som': () => `Recomendo **${knowledgeBase.musics.random().title}** de ${knowledgeBase.musics.random().artist}.`, 
+                    'frase|motiva': () => `Claro! *"${knowledgeBase.quotes.random()}"*`, 
+                    'quem é você|seu nome': () => knowledgeBase.identity, 
+                    'obrigad': () => knowledgeBase.gratitude.random(), 
+                    'tchau|adeus': () => knowledgeBase.farewell.random(), 
+                    'hora': () => `Agora são **${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}**.`, 
+                    'dia|data': () => `Hoje é **${new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}**.` 
+                };
+                
+                for (const key in responses) { 
+                    if (key.split('|').some(k => lowerInput.includes(k))) { 
+                        addMessage(responses[key]()); 
+                        return; 
+                    } 
                 }
+                
+                addMessage(knowledgeBase.fallback);
+                showQuickReplies(["/noticias", "/clima", "/ajuda", "Me conte uma piada"]);
             };
             
             const handleCommand = (input) => {
                 const [command, ...args] = input.substring(1).split(' ');
                 const query = args.join(' ');
-
                 switch(command) {
-                    case 'ajuda': addMessage("<b>Comandos disponíveis:</b><br>/clima [cidade]<br>/noticias<br>/buscar [termo]<br>/calcular [operação]<br>/piada<br>/charada"); break;
-                    case 'clima': fetchWeather(query || 'São Paulo'); break;
-                    case 'noticias': fetchNews(); break;
-                    case 'buscar': addMessage(`Aqui estão os resultados da busca para "${query}":<br><a href="https://www.google.com/search?q=${encodeURIComponent(query)}" target="_blank">Ver no Google</a>`); break;
-                    case 'calcular':
-                        try { addMessage(`O resultado é: ${eval(query.replace(/[^-()\d/*+.]/g, ''))}`); }
-                        catch { addMessage("Não consegui calcular isso."); }
+                    case 'ajuda': 
+                        addMessage("<b>Comandos disponíveis:</b><br>**/clima** [cidade]<br>**/noticias**<br>**/buscar** [termo]<br>**/calcular** [operação]<br>**/piada**<br>**/charada**"); 
                         break;
-                    case 'piada': addMessage(knowledgeBase.jokes.random()); break;
+                    case 'piada': 
+                        addMessage(knowledgeBase.jokes.random()); 
+                        break;
                     case 'charada':
                         const riddle = knowledgeBase.riddles.random();
                         riddleAnswer = riddle.a;
@@ -342,96 +374,168 @@
                         addMessage([riddle.q, "Qual é a sua resposta?"]);
                         elements.userInput.focus();
                         break;
-                    default: addMessage("Comando não reconhecido. Digite `/ajuda` para ver a lista.");
-                }
-            };
-
-            const fetchApi = async (url, errorMessage) => {
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    return await response.json();
-                } catch (error) {
-                    console.error("API Error:", error);
-                    addMessage(errorMessage);
-                    return null;
-                }
-            };
-
-            const fetchWeather = async (city) => {
-                const apiKey = 'SUA_CHAVE_API_OPENWEATHERMAP'; 
-                if(apiKey.includes('SUA_CHAVE')) { addMessage("A função de clima precisa de uma chave de API para funcionar."); return; }
-                const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=pt_br`;
-                const data = await fetchApi(url, "Não consegui buscar o clima agora.");
-                if (data) {
-                    const weatherCard = `<div class="message bot-message rich-card"><div class="rich-card-header"><img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" width="40" height="40"><span class="rich-card-title">Tempo em ${data.name}</span></div><div class="rich-card-body"><b>${Math.round(data.main.temp)}°C</b> (${data.weather[0].description})<br>Sensação de ${Math.round(data.main.feels_like)}°C.</div></div>`;
-                    addMessage([weatherCard]);
-                }
-            };
-            
-            const fetchNews = async () => {
-                const apiKey = 'SUA_CHAVE_API_NEWSAPI';
-                if(apiKey.includes('SUA_CHAVE')) { addMessage("A função de notícias precisa de uma chave de API para funcionar."); return; }
-                const url = `https://newsapi.org/v2/top-headlines?country=br&pageSize=5&apiKey=${apiKey}`;
-                const data = await fetchApi(url, "Não consegui buscar as notícias agora.");
-                if (data && data.articles) {
-                    const articles = data.articles.map(article => `<b>- <a href="${article.url}" target="_blank">${article.title}</a></b>`).join('<br>');
-                    addMessage(`Principais notícias de hoje no Brasil:<br><div class="rich-card-body">${articles}</div>`);
+                    case 'anime':
+                        const anime = knowledgeBase.animes.random();
+                        addMessage(`Recomendo: **${anime.title}** - ${anime.desc}`);
+                        break;
+                    case 'musica':
+                        const music = knowledgeBase.musics.random();
+                        addMessage(`Que tal ouvir: **${music.title}** de ${music.artist}?`);
+                        break;
+                    default: 
+                        addMessage("Comando não reconhecido. Digite `/ajuda` para ver a lista.");
                 }
             };
             
             const initializeSpeech = () => {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (!SpeechRecognition) { elements.micBtn.style.display = 'none'; return; }
+                if (!SpeechRecognition) { 
+                    elements.micBtn.style.display = 'none'; 
+                    return; 
+                }
+                
                 speechRecognition = new SpeechRecognition();
                 speechRecognition.lang = 'pt-BR';
                 speechRecognition.continuous = false;
-                speechRecognition.onstart = () => elements.micBtn.classList.add('listening');
-                speechRecognition.onend = () => elements.micBtn.classList.remove('listening');
-                speechRecognition.onresult = (event) => { elements.userInput.value = event.results[0][0].transcript; handleUserInput(); };
+                
+                speechRecognition.onstart = () => setOrbState('listening');
+                speechRecognition.onend = () => setOrbState('idle');
+                speechRecognition.onresult = (event) => { 
+                    elements.userInput.value = event.results[0][0].transcript; 
+                    handleUserInput(); 
+                };
+                
+                speechRecognition.onerror = (event) => {
+                    console.error('Erro no reconhecimento de voz:', event.error);
+                    setOrbState('idle');
+                    addMessage("Não consegui entender o que você disse. Pode repetir?");
+                };
             };
             
             const speak = (text) => {
-                speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'pt-BR';
-                speechSynthesis.speak(utterance);
-            };
-            
-            const toggleTheme = () => {
-                document.body.classList.toggle('dark-mode');
-                localStorage.setItem('sophiaTheme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+                if ('speechSynthesis' in window) {
+                    speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'pt-BR';
+                    utterance.rate = 1.0;
+                    utterance.pitch = 1.0;
+                    speechSynthesis.speak(utterance);
+                }
             };
 
-            // Init
+            const transitionToChatView = () => {
+                if (!isConversationActive) {
+                    isConversationActive = true;
+                    elements.assistantUI.classList.add('hidden');
+                    elements.chatMessages.classList.add('active');
+                }
+            };
+            
+            const showToast = (message) => {
+                elements.toast.textContent = message;
+                elements.toast.classList.add('show');
+                setTimeout(() => elements.toast.classList.remove('show'), 3000);
+            };
+
+            const toggleTheme = () => {
+                document.body.classList.toggle('dark-mode');
+                localStorage.setItem('hanabiTheme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            };
+
+            const setOrbState = (state) => {
+                elements.orb.classList.remove('thinking', 'listening');
+                elements.orb.innerHTML = '';
+                if (state === 'thinking') { 
+                    elements.orb.classList.add('thinking'); 
+                }
+                else if (state === 'listening') {
+                    elements.orb.classList.add('listening');
+                    elements.orb.innerHTML = '<div class="listening-ring"></div>';
+                }
+            };
+            
+            const startApp = () => {
+                elements.greetingName.textContent = userName || 'visitante';
+                if (!userName) {
+                    setTimeout(() => {
+                        addMessage(["Olá! Eu sou a Sophia.", "Como posso te chamar?"]);
+                        conversationState = 'WAITING_FOR_NAME';
+                        elements.userInput.focus();
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        addMessage([`Olá, ${userName}! Que bom te ver de novo.`, "Como posso te ajudar hoje?"]);
+                        showQuickReplies(["/noticias", "/clima", "Me conte uma piada", "/ajuda"]);
+                    }, 500);
+                }
+            };
+
+            const resetApp = () => {
+                elements.chatMessages.innerHTML = '';
+                elements.menuOverlay.classList.remove('active');
+                localStorage.removeItem('hanabiUserName');
+                userName = '';
+                showToast("Chat reiniciado!");
+                isConversationActive = false;
+                elements.assistantUI.classList.remove('hidden');
+                elements.chatMessages.classList.remove('active');
+                elements.greetingName.textContent = 'visitante';
+                startApp();
+            };
+
+            const showAboutHanabi = () => {
+                elements.menuOverlay.classList.remove('active');
+                addMessage([
+                    "**Sobre a Sophia**",
+                    "Eu sou a Sophia, uma assistente virtual inteligente criada pelo Studio Tsukiyo.",
+                    "",
+                    "**Recursos:**",
+                    "• Conversação inteligente e natural",
+                    "• Recomendações de animes e músicas",
+                    "• Piadas e charadas divertidas",
+                    "• Reconhecimento de voz",
+                    "• Interface moderna e responsiva",
+                    "",
+                    "**Versão 2.0** - Desenvolvida com ❤️ por **Naoto Dev**"
+                ]);
+            };
+
+            const showAboutDev = () => {
+                elements.menuOverlay.classList.remove('active');
+                addMessage("Naoto Dev é o desenvolvedor por trás da Sophia e de outros projetos do Studio Tsukiyo Platforms. Um entusiasta de tecnologia que cria assistentes inteligentes para melhorar seu dia a dia.");
+            };
+
+            // Inicialização do aplicativo
             elements.getStartedBtn.addEventListener('click', () => {
                 elements.welcomeScreen.classList.add('hidden');
                 elements.chatScreen.classList.remove('hidden');
-                startConversation();
+                startApp();
             });
+            
             elements.inputArea.addEventListener('submit', handleUserInput);
             elements.micBtn.addEventListener('click', () => speechRecognition?.start());
             elements.menuBtn.addEventListener('click', () => elements.menuOverlay.classList.add('active'));
-            elements.menuOverlay.addEventListener('click', (e) => { if (e.target === elements.menuOverlay) elements.menuOverlay.classList.remove('active'); });
-            
-            elements.clearChatBtn.addEventListener('click', () => {
-                elements.chatMessages.innerHTML = '';
-                elements.menuOverlay.classList.remove('active');
-                localStorage.removeItem('sophiaUserName');
-                userName = '';
-                startConversation();
+            elements.menuOverlay.addEventListener('click', (e) => { 
+                if (e.target === e.currentTarget) elements.menuOverlay.classList.remove('active'); 
             });
+            
+            elements.clearChatBtn.addEventListener('click', resetApp);
             elements.helpBtn.addEventListener('click', () => {
                 elements.menuOverlay.classList.remove('active');
                 handleCommand('/ajuda');
             });
+            
+            elements.aboutHanabiBtn.addEventListener('click', showAboutHanabi);
+            elements.aboutDevBtn.addEventListener('click', showAboutDev);
             elements.darkModeToggle.addEventListener('change', toggleTheme);
 
-            if (localStorage.getItem('sophiaTheme') === 'dark') {
+            // Configuração inicial do tema
+            if (localStorage.getItem('hanabiTheme') === 'dark') {
                 document.body.classList.add('dark-mode');
                 elements.darkModeToggle.checked = true;
             }
-            Array.prototype.random = function() { return this[Math.floor(Math.random() * this.length)]; };
+            
+            // Inicializar reconhecimento de voz
             initializeSpeech();
         });
     </script>
