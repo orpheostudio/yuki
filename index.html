@@ -3,2752 +3,437 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sophia - Assistente Virtual Avançada</title>
-    <link rel="icon" type="image/png" href="https://i.imgur.com/SWpguGf.png">
+    <title>Sophia - Super Assistente</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/HPsXQqv.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #6e8efb, #a777e3);
-            --bg-light: #ffffff;
-            --bg-dark: #1e1e1e;
-            --text-light: #1c1e21;
-            --text-dark: #e0e0e0;
-            --border-light: #e4e6ea;
-            --border-dark: #444;
-            --message-bot-bg: #f0f2f5;
-            --message-user-bg: linear-gradient(to right, #6e8efb, #a777e3);
-            --transition: all 0.3s ease;
-            --shadow: 0 2px 8px rgba(0,0,0,0.1);
-            --radius: 16px;
+            --background-color: #F3F6FA; --bot-message-bg: #FFFFFF; --user-message-bg: #2C3E50;
+            --text-primary: #2C3E50; --text-light: #FFFFFF; --text-secondary: #8A94A6;
+            --border-color: #E0E5EC; --button-outline: #D1D9E6; --shadow-color: rgba(44, 62, 80, 0.1);
+            --accent-color: #3498DB;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        body.dark-mode {
+            --background-color: #1A1A1A; --bot-message-bg: #2C2C2C; --user-message-bg: #3498DB;
+            --text-primary: #EAEAEA; --text-light: #FFFFFF; --text-secondary: #888888;
+            --border-color: #3D3D3D; --button-outline: #4A4A4A; --shadow-color: rgba(0, 0, 0, 0.2);
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        
         body {
-            background: var(--primary-gradient);
+            background-color: #C8D0E7;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            transition: var(--transition);
+            padding: 10px;
+            transition: background-color 0.3s;
         }
-
+        
         .container {
-            width: 100%;
-            max-width: 400px;
-            height: 700px;
-            background: var(--bg-light);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
+            width: 100%; max-width: 400px; height: 90vh; max-height: 850px;
+            background-color: var(--background-color);
+            border-radius: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             overflow: hidden;
             display: flex;
             flex-direction: column;
             position: relative;
-            transition: var(--transition);
+            border: 8px solid #fff;
+            transition: background-color 0.3s;
         }
+        .screen { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: flex; flex-direction: column; transition: opacity 0.5s ease-in-out, visibility 0.5s; opacity: 1; visibility: visible; }
+        .screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
-        /* Loading Screen */
-        .loading-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-light);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease;
-        }
+        .welcome-screen { justify-content: center; align-items: center; text-align: center; padding: 40px; }
+        .welcome-avatar { width: 150px; height: 150px; margin-bottom: 2rem; }
+        .welcome-avatar img { width: 100%; height: 100%; }
+        .welcome-title { font-size: 1.5rem; color: var(--text-primary); font-weight: 500; margin-bottom: 2rem; }
+        .primary-btn { width: 100%; padding: 16px; border: 1px solid var(--button-outline); border-radius: 14px; background-color: var(--bot-message-bg); color: var(--text-primary); font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .primary-btn:hover { background-color: var(--border-color); }
 
-        .loading-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loader {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #6e8efb;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Intro Screen */
-        .screen {
-            display: none;
-            width: 100%;
-            height: 100%;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .screen.active {
-            display: flex;
-        }
-
-        .intro-screen {
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            text-align: center;
-            background: var(--bg-light);
-        }
-
-        .intro-content {
-            width: 100%;
-            max-width: 350px;
-        }
-
-        .logo-container {
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-            border-radius: 50%;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-        }
-
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover img {
-            transform: scale(1.1);
-        }
-
-        .pulse-ring {
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border: 2px solid #6e8efb;
-            border-radius: 50%;
-            opacity: 0;
-            animation: pulse-ring 2s ease-out infinite;
-        }
-
-        @keyframes pulse-ring {
-            0% {
-                opacity: 1;
-                transform: scale(0.8);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(1.3);
-            }
-        }
-
-        .features-container {
-            background: linear-gradient(135deg, #f8f9ff, #f0f4ff);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow);
-        }
-
-        .features-container h2 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            color: var(--text-light);
-        }
-
-        .feature-dot {
-            width: 12px;
-            height: 12px;
-            background: var(--primary-gradient);
-            border-radius: 50%;
-            margin-right: 12px;
-            animation: pulse-dot 2s infinite;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.8rem;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #65676b;
-            font-size: 0.9rem;
-            padding: 8px;
-            border-radius: 8px;
-            transition: var(--transition);
-        }
-
-        .feature-item:hover {
-            background: rgba(110, 142, 251, 0.1);
-            transform: translateX(5px);
-        }
-
-        .feature-item i {
-            color: #6e8efb;
-            font-size: 1.1rem;
-        }
-
-        .gradient-text {
-            background: var(--primary-gradient);
+        .chat-screen { background-color: var(--background-color); }
+        .chat-header { padding: 12px 16px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border-color); flex-shrink: 0; }
+        
+        /* ATUALIZAÇÃO: Estilos para o grupo de título no header */
+        .header-title-group { display: flex; align-items: center; gap: 12px; }
+        .header-logo { height: 40px; }
+        .header-name {
+            font-size: 1.6rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, #EC4899, #8B5CF6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 700;
-        }
-
-        .start-button {
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            border-radius: var(--radius);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .start-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .start-button:hover::before {
-            left: 100%;
-        }
-
-        .start-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(108, 143, 251, 0.4);
-        }
-
-        /* Chat Interface */
-        .chat-header {
-            background: var(--bg-light);
-            color: var(--text-light);
-            padding: 16px;
-            border-bottom: 1px solid var(--border-light);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-        }
-
-        .chat-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 2px;
-            background: var(--primary-gradient);
-            border-radius: 2px;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            background: #4caf50;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-            animation: pulse-status 2s infinite;
-        }
-
-        @keyframes pulse-status {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .chatbot-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .chatbot-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .header-info h2 {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .header-info .status {
-            font-size: 0.8rem;
-            color: #65676b;
-            margin-top: 2px;
-        }
-
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .header-btn {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            color: #65676b;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-
-        .header-btn:hover {
-            background: rgba(108, 143, 251, 0.1);
-            color: #6e8efb;
-        }
-
-        .header-btn.active {
-            color: #6e8efb;
-            background: rgba(108, 143, 251, 0.1);
-        }
-
-        /* Chat Messages */
-        .chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 16px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            background: #f8f9fa;
-            scroll-behavior: smooth;
-        }
-
-        .chat-messages::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .chat-messages::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 2px;
-        }
-
-        .message {
-            max-width: 85%;
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-            animation: slideIn 0.4s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .bot-message {
-            align-self: flex-start;
-        }
-
-        .user-message {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-
-        .message-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            overflow: hidden;
-            flex-shrink: 0;
-            box-shadow: var(--shadow);
-        }
-
-        .message-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .message-avatar .placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .message-content {
-            padding: 12px 16px;
-            border-radius: 18px;
-            line-height: 1.5;
-            font-size: 0.95rem;
-            position: relative;
-            max-width: 100%;
-            word-wrap: break-word;
-        }
-
-        .bot-message .message-content {
-            background: var(--bg-light);
-            color: var(--text-light);
-            border-bottom-left-radius: 6px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-light);
-        }
-
-        .user-message .message-content {
-            background: var(--message-user-bg);
-            color: white;
-            border-bottom-right-radius: 6px;
-            box-shadow: 0 2px 8px rgba(108, 143, 251, 0.3);
-        }
-
-        .message-time {
-            font-size: 0.7rem;
-            opacity: 0.6;
-            margin-top: 4px;
-            text-align: right;
-        }
-
-        .typing-indicator {
-            display: none;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 0;
-        }
-
-        .typing-indicator.active {
-            display: flex;
-        }
-
-        .typing-dots {
-            display: flex;
-            gap: 4px;
-            padding: 12px 16px;
-            background: var(--bg-light);
-            border-radius: 18px;
-            border-bottom-left-radius: 6px;
-            box-shadow: var(--shadow);
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: #6e8efb;
-            border-radius: 50%;
-            animation: typing 1.4s ease-in-out infinite both;
-        }
-
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes typing {
-            0%, 80%, 100% {
-                transform: scale(0.8);
-                opacity: 0.5;
-            }
-            40% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* Suggestion Cards */
-        .suggestion-cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 0 16px 16px;
-            background: #f8f9fa;
-        }
-
-        .suggestion-card {
-            background: var(--bg-light);
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            padding: 8px 16px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-light);
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .suggestion-card:hover {
-            background: #f0f3ff;
-            border-color: #6e8efb;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        .suggestion-card i {
-            color: #6e8efb;
-            font-size: 0.8rem;
-        }
-
-        /* Chat Input */
-        .chat-input-container {
-            padding: 16px;
-            background: var(--bg-light);
-            border-top: 1px solid var(--border-light);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .input-wrapper {
-            flex: 1;
-            position: relative;
-            background: #f0f2f5;
-            border-radius: 24px;
-            overflow: hidden;
-        }
-
-        .chat-input {
-            width: 100%;
-            padding: 12px 50px 12px 16px;
-            border: none;
-            outline: none;
-            font-size: 0.95rem;
-            background: transparent;
-            resize: none;
-            min-height: 20px;
-            max-height: 100px;
-            overflow-y: auto;
-        }
-
-        .chat-input:focus {
-            box-shadow: 0 0 0 2px rgba(110, 142, 251, 0.3);
-        }
-
-        .input-actions {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            gap: 4px;
-        }
-
-        .icon-button {
-            background: none;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1rem;
-            color: #65676b;
-            transition: var(--transition);
-        }
-
-        .icon-button:hover {
-            background: rgba(108, 143, 251, 0.1);
-            color: #6e8efb;
-        }
-
-        .icon-button.listening {
-            color: #e60023;
-            background: rgba(230, 0, 35, 0.1);
-            animation: pulse-mic 1.5s infinite;
-        }
-
-        @keyframes pulse-mic {
-            0% { box-shadow: 0 0 0 0 rgba(230, 0, 35, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(230, 0, 35, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(230, 0, 35, 0); }
-        }
-
-        .send-button {
-            background: var(--primary-gradient);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .send-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(108, 143, 251, 0.4);
-        }
-
-        .send-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Side Menu */
-        .side-menu {
-            position: fixed;
-            top: 0;
-            right: -350px;
-            width: 350px;
-            height: 100%;
-            background: var(--bg-light);
-            z-index: 1001;
-            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            color: var(--text-light);
-            display: flex;
-            flex-direction: column;
-            box-shadow: -2px 0 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .side-menu.active {
-            right: 0;
-        }
-
-        .menu-header {
-            padding: 24px;
-            border-bottom: 1px solid var(--border-light);
-            position: relative;
-            background: var(--primary-gradient);
-            color: white;
-        }
-
-        .menu-header h2 {
-            font-size: 1.5rem;
-            text-align: center;
-        }
-
-        .close-menu {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .close-menu:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: rotate(90deg);
-        }
-
-        .menu-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 0;
-        }
-
-        .menu-section {
-            margin-bottom: 24px;
-        }
-
-        .menu-section-title {
-            padding: 0 20px 12px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #65676b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px 20px;
-            color: var(--text-light);
-            text-decoration: none;
-            transition: var(--transition);
-            cursor: pointer;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-        }
-
-        .menu-item:hover {
-            background: rgba(108, 143, 251, 0.1);
-            color: #6e8efb;
-        }
-
-        .menu-item.active {
-            background: rgba(108, 143, 251, 0.1);
-            color: #6e8efb;
-            border-right: 3px solid #6e8efb;
-        }
-
-        .menu-item i {
-            font-size: 1.2rem;
-            color: #6e8efb;
-            width: 20px;
-            text-align: center;
-        }
-
-        .menu-divider {
-            height: 1px;
-            background: var(--border-light);
-            margin: 12px 20px;
-        }
-
-        /* Tab Content */
-        .tab-content {
-            display: none;
-            padding: 20px;
-            animation: fadeInUp 0.4s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .tab-content h3 {
-            color: #6e8efb;
-            margin-bottom: 20px;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .tab-content p,
-        .tab-content li {
-            margin-bottom: 16px;
-            line-height: 1.6;
-            color: var(--text-light);
-        }
-
-        .tab-content ul {
-            padding-left: 20px;
-        }
-
-        .tab-content li {
-            margin-bottom: 8px;
-        }
-
-        /* Forms */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-light);
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid var(--border-light);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
-            background: var(--bg-light);
-            color: var(--text-light);
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: #6e8efb;
-            box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.1);
-            outline: none;
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: var(--transition);
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(108, 143, 251, 0.4);
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .quick-action {
-            background: var(--bg-light);
-            border: 2px solid var(--border-light);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            color: var(--text-light);
-        }
-
-        .quick-action:hover {
-            border-color: #6e8efb;
-            transform: translateY(-4px);
-            box-shadow: var(--shadow);
-        }
-
-        .quick-action i {
-            font-size: 1.5rem;
-            color: #6e8efb;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .quick-action span {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        /* Overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 1000;
-            display: none;
-            backdrop-filter: blur(4px);
-        }
-
-        .overlay.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Night Mode */
-        body.night-mode {
-            --bg-light: #1e1e1e;
-            --bg-dark: #121212;
-            --text-light: #e0e0e0;
-            --text-dark: #1c1e21;
-            --border-light: #444;
-            --border-dark: #e4e6ea;
-            --message-bot-bg: #2c2c2c;
-        }
-
-        .night-mode .container {
-            background: var(--bg-light);
-        }
-
-        .night-mode .chat-messages {
-            background: #121212;
-        }
-
-        .night-mode .suggestion-cards {
-            background: #121212;
-        }
-
-        .night-mode .bot-message .message-content {
-            background: var(--message-bot-bg);
-            color: var(--text-light);
-            border-color: var(--border-light);
-        }
-
-        .night-mode .input-wrapper {
-            background: #2c2c2c;
-        }
-
-        .night-mode .suggestion-card {
-            background: #2c2c2c;
-            border-color: var(--border-light);
-            color: var(--text-light);
-        }
-
-        .night-mode .typing-dots {
-            background: var(--message-bot-bg);
-        }
-
-        .night-mode .loading-screen {
-            background: var(--bg-light);
-            color: var(--text-light);
-        }
-
-        .night-mode .intro-screen {
-            background: var(--bg-light);
-            color: var(--text-light);
-        }
-
-        .night-mode .features-container {
-            background: linear-gradient(135deg, #2a2a2a, #353535);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 480px) {
-            .container {
-                height: 100vh;
-                max-width: 100%;
-                border-radius: 0;
-            }
-
-            .side-menu {
-                width: 100%;
-                right: -100%;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Accessibility */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #999;
-        }
-
-        /* Utility Classes */
-        .clickable-command {
-            color: #6e8efb;
-            cursor: pointer;
-            text-decoration: underline;
-            font-weight: 500;
-        }
-
-        .clickable-command:hover {
-            color: #5a7cfa;
-        }
-
-        .status-online {
-            color: #4caf50;
-        }
-
-        .status-busy {
-            color: #ff9800;
-        }
-
-        .status-away {
-            color: #757575;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.1); }
-        }
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        .chat-messages { flex-grow: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; }
+        .message-group { display: flex; gap: 10px; margin-bottom: 10px; max-width: 90%; align-self: flex-start; align-items: flex-end; animation: fadeIn 0.4s ease-out; }
+        .message-group.user { align-self: flex-end; }
+        .bot-avatar { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; overflow: hidden; }
+        .bot-avatar img { width: 100%; height: 100%; }
+        .message-bubbles { display: flex; flex-direction: column; gap: 8px; }
+        .message { padding: 12px 16px; border-radius: 20px; line-height: 1.5; word-wrap: break-word; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .bot-message { background-color: var(--bot-message-bg); color: var(--text-primary); border-bottom-left-radius: 5px; box-shadow: 0 4px 10px var(--shadow-color); }
+        .user-message { background-color: var(--user-message-bg); color: var(--text-light); border-bottom-right-radius: 5px; align-self: flex-end; }
+        
+        .rich-card { border: 1px solid var(--border-color); }
+        .rich-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .rich-card-title { font-weight: 500; }
+        .rich-card-body { font-size: 0.9rem; color: var(--text-secondary); }
+        .rich-card-body b { color: var(--text-primary); }
+        .rich-card-body a { color: var(--accent-color); text-decoration: none; }
+
+        .quick-reply-area { padding: 10px 20px 0; display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
+        .quick-reply { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--button-outline); color: var(--text-primary); background-color: var(--bot-message-bg); cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
+        .quick-reply:hover { background-color: var(--border-color); }
+        
+        .chat-input-area { display: flex; align-items: center; padding: 15px; border-top: 1px solid var(--border-color); background-color: var(--background-color); flex-shrink: 0; gap: 10px; }
+        .input-wrapper { display: flex; align-items: center; flex-grow: 1; border: 1px solid var(--border-color); background-color: var(--bot-message-bg); border-radius: 14px; }
+        .chat-input { flex-grow: 1; border: none; background: transparent; padding: 14px 16px; font-size: 1rem; color: var(--text-primary); }
+        .chat-input:focus { outline: none; }
+        .icon-btn { background-color: var(--bot-message-bg); border: 1px solid var(--border-color); width: 48px; height: 48px; border-radius: 14px; font-size: 1.2rem; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
+        .icon-btn:hover { color: var(--text-primary); }
+        .icon-btn.listening { color: #E74C3C; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); } 100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); } }
+
+        .typing-indicator { align-self: flex-start; }
+        .typing-dots { display: flex; gap: 5px; }
+        .typing-dot { width: 8px; height: 8px; background-color: var(--text-secondary); border-radius: 50%; animation: typing 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(2) { animation-delay: .2s; }
+        .typing-dot:nth-child(3) { animation-delay: .4s; }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+
+        .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); display: none; justify-content: center; align-items: flex-end; z-index: 100; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content { background-color: var(--bot-message-bg); color: var(--text-primary); width: 100%; padding: 20px; border-radius: 20px 20px 0 0; transform: translateY(100%); transition: transform 0.3s ease-out; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .menu-list { list-style: none; }
+        .menu-list a, .menu-list button { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); text-decoration: none; font-size: 1rem; background: none; border: none; width: 100%; text-align: left; cursor: pointer; }
+        .menu-list a:hover, .menu-list button:hover { background-color: var(--background-color); }
+        .menu-list li:last-child button { border-bottom: none; }
+        .menu-list i { margin-right: 15px; color: var(--text-secondary); width: 20px; }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; margin-left: auto; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent-color); }
+        input:checked + .slider:before { transform: translateX(20px); }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loader"></div>
-        <p>Inicializando Sophia...</p>
-    </div>
-
     <div class="container">
-        <!-- Intro Screen -->
-        <div id="welcome" class="screen active intro-screen">
-            <div class="intro-content">
-                <div class="logo-container">
-                    <div class="logo">
-                        <div class="pulse-ring"></div>
-                        <img src="https://i.imgur.com/SWpguGf.png" alt="Sophia Logo">
-                    </div>
-                </div>
-                
-                <div class="features-container">
-                    <h2>
-                        <span class="feature-dot"></span>
-                        <span class="gradient-text">Recursos Avançados</span>
-                    </h2>
-                    <div class="features-grid">
-                        <div class="feature-item">
-                            <i class="fas fa-brain"></i>
-                            <span>IA Aprimorada</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-microphone-alt"></i>
-                            <span>Reconhecimento de Voz</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-moon"></i>
-                            <span>Modo Escuro</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Analytics</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-cloud"></i>
-                            <span>Sincronização</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>Privacidade</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <button class="start-button" id="startButton">
-                    <span>Iniciar Conversa</span>
-                </button>
+        
+        <div class="screen welcome-screen" id="welcomeScreen">
+            <div class="welcome-avatar">
+                <img src="https://i.imgur.com/HPsXQqv.png" alt="Sophia Avatar">
+            </div>
+            <!-- ATUALIZAÇÃO: Nome alterado para Sophia -->
+            <h1 class="welcome-title">Bem vindo! Eu sou a Sophia.</h1>
+            <div class="welcome-actions">
+                <button class="primary-btn" id="getStartedBtn">Começar</button>
             </div>
         </div>
-        
-        <!-- Chat Interface -->
-        <div id="main" class="screen">
+
+        <div class="screen chat-screen hidden" id="chatScreen">
             <header class="chat-header">
-                <div class="header-left">
-                    <button class="header-btn" id="menuToggle" title="Menu">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-                
-                <div class="header-center">
-                    <div class="chatbot-avatar">
-                        <img src="https://i.imgur.com/SWpguGf.png" alt="Sophia Avatar">
-                        <div class="status-indicator"></div>
-                    </div>
-                    <div class="header-info">
-                        <h2>Sophia</h2>
-                        <div class="status status-online" id="sophiaStatus">Online</div>
-                    </div>
-                </div>
-                
-                <div class="header-controls">
-                    <button class="header-btn" id="nightModeToggle" title="Modo Noturno">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <button class="header-btn" id="ttsToggle" title="Ativar Voz">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
+                <!-- ATUALIZAÇÃO: Header com logo e nome em gradiente -->
+                <div class="header-title-group">
+                    <img src="https://i.imgur.com/HPsXQqv.png" alt="Sophia Logo" class="header-logo">
+                    <h1 class="header-name">Sophia</h1>
                 </div>
             </header>
-            
-            <div class="chat-container">
-                <div class="chat-messages" id="messagesArea">
-                    <!-- Messages will be added here -->
-                </div>
-                
-                <div class="typing-indicator" id="typingIndicator">
-                    <div class="message-avatar">
-                        <img src="https://i.imgur.com/SWpguGf.png" alt="Sophia">
-                    </div>
-                    <div class="typing-dots">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                    </div>
-                </div>
-                
-                <div class="suggestion-cards" id="suggestionCards">
-                    <!-- Suggestion cards will be added here -->
-                </div>
-            </div>
-            
-            <div class="chat-input-container">
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="quick-reply-area" id="quickReplyArea"></div>
+            <form class="chat-input-area" id="inputArea">
                 <div class="input-wrapper">
-                    <textarea class="chat-input" id="messageInput" placeholder="Digite sua mensagem..." rows="1"></textarea>
-                    <div class="input-actions">
-                        <button class="icon-button" id="speechBtn" title="Falar">
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <button class="icon-button" id="attachBtn" title="Anexar">
-                            <i class="fas fa-paperclip"></i>
-                        </button>
-                    </div>
+                    <input type="text" class="chat-input" id="userInput" placeholder="Digite sua mensagem...">
                 </div>
-                <button class="send-button" id="sendBtn" title="Enviar">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
+                <button type="submit" class="icon-btn" id="sendButton"><i class="fas fa-arrow-up"></i></button>
+                <button type="button" class="icon-btn" id="micBtn" title="Usar Microfone"><i class="fas fa-microphone"></i></button>
+                <button type="button" class="icon-btn" id="menuBtn" title="Menu"><i class="fas fa-ellipsis-h"></i></button>
+            </form>
         </div>
-        
-        <!-- Side Menu -->
-        <div class="side-menu" id="sidebar">
-            <div class="menu-header">
-                <h2>Menu Principal</h2>
-                <button class="close-menu" id="closeBtn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="menu-content">
-                <div class="menu-section">
-                    <div class="menu-section-title">Perfil</div>
-                    <button class="menu-item" data-tab="profile">
-                        <i class="fas fa-user-circle"></i>
-                        <span>Meu Perfil</span>
-                    </button>
-                    <button class="menu-item" data-tab="preferences">
-                        <i class="fas fa-cog"></i>
-                        <span>Preferências</span>
-                    </button>
-                </div>
-                
-                <div class="menu-divider"></div>
-                
-                <div class="menu-section">
-                    <div class="menu-section-title">Informações</div>
-                    <button class="menu-item" data-tab="about">
-                        <i class="fas fa-robot"></i>
-                        <span>Sobre a Sophia</span>
-                    </button>
-                    <button class="menu-item" data-tab="commands">
-                        <i class="fas fa-terminal"></i>
-                        <span>Comandos</span>
-                    </button>
-                    <button class="menu-item" data-tab="analytics">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Analytics</span>
-                    </button>
-                    <button class="menu-item" data-tab="faq">
-                        <i class="fas fa-question-circle"></i>
-                        <span>FAQ</span>
-                    </button>
-                </div>
-                
-                <div class="menu-divider"></div>
-                
-                <div class="menu-section">
-                    <div class="menu-section-title">Suporte</div>
-                    <button class="menu-item" data-tab="feedback">
-                        <i class="fas fa-comment-dots"></i>
-                        <span>Feedback</span>
-                    </button>
-                    <button class="menu-item" data-tab="report">
-                        <i class="fas fa-bug"></i>
-                        <span>Reportar Erro</span>
-                    </button>
-                    <button class="menu-item" data-tab="help">
-                        <i class="fas fa-life-ring"></i>
-                        <span>Ajuda</span>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Tab Content -->
-            <div class="tab-content" id="profile">
-                <h3><i class="fas fa-user-circle"></i> Perfil do Usuário</h3>
-                <form id="profileForm" class="profile-form">
-                    <div class="form-group">
-                        <label for="profilePicUrl">URL da Foto de Perfil</label>
-                        <input type="url" id="profilePicUrl" placeholder="https://exemplo.com/foto.png">
-                    </div>
-                    <div class="form-group">
-                        <label for="username">Nome de Usuário</label>
-                        <input type="text" id="username" placeholder="Seu nome">
-                    </div>
-                    <div class="form-group">
-                        <label for="userEmail">Email</label>
-                        <input type="email" id="userEmail" placeholder="seu@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="userBio">Biografia</label>
-                        <textarea id="userBio" rows="3" placeholder="Conte um pouco sobre você..."></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary">Salvar Perfil</button>
-                </form>
-            </div>
-            
-            <div class="tab-content" id="preferences">
-                <h3><i class="fas fa-cog"></i> Preferências</h3>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="autoTTS"> 
-                        Ativar texto para fala automaticamente
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="soundNotifications"> 
-                        Notificações sonoras
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="saveHistory"> 
-                        Salvar histórico de conversas
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label for="language">Idioma</label>
-                    <select id="language">
-                        <option value="pt-BR">Português (Brasil)</option>
-                        <option value="en-US">English (US)</option>
-                        <option value="es-ES">Español</option>
-                    </select>
-                </div>
-                <button class="btn-primary" onclick="savePreferences()">Salvar Preferências</button>
-            </div>
-            
-            <div class="tab-content" id="about">
-                <h3><i class="fas fa-robot"></i> Sobre a Sophia</h3>
-                <p>Sophia é uma assistente virtual avançada, projetada para oferecer uma experiência de conversação natural e inteligente.</p>
-                
-                <h4>Recursos Principais:</h4>
-                <ul>
-                    <li>Processamento de linguagem natural avançado</li>
-                    <li>Reconhecimento e síntese de voz</li>
-                    <li>Interface adaptativa e responsiva</li>
-                    <li>Sistema de aprendizado personalizado</li>
-                    <li>Integração com múltiplas APIs</li>
-                </ul>
-                
-                <div class="quick-actions">
-                    <div class="quick-action" onclick="showVersionInfo()">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Versão</span>
-                    </div>
-                    <div class="quick-action" onclick="showChangelog()">
-                        <i class="fas fa-list-ul"></i>
-                        <span>Changelog</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="tab-content" id="commands">
-                <h3><i class="fas fa-terminal"></i> Lista de Comandos</h3>
-                
-                <h4>Comandos Básicos:</h4>
-                <ul>
-                    <li><strong>/ajuda</strong> - Mostra esta lista de comandos</li>
-                    <li><strong>/limpar</strong> - Limpa o histórico de conversa</li>
-                    <li><strong>/status</strong> - Mostra status do sistema</li>
-                </ul>
-                
-                <h4>Entretenimento:</h4>
-                <ul>
-                    <li><strong>/piada</strong> - Conta uma piada aleatória</li>
-                    <li><strong>/curiosidade</strong> - Compartilha uma curiosidade</li>
-                    <li><strong>/historia</strong> - Narra uma história curta</li>
-                    <li><strong>/quiz</strong> - Inicia um quiz interativo</li>
-                </ul>
-                
-                <h4>Utilidades:</h4>
-                <ul>
-                    <li><strong>/hora</strong> - Mostra hora e data atual</li>
-                    <li><strong>/calcular [expressão]</strong> - Realiza cálculos</li>
-                    <li><strong>/clima [cidade]</strong> - Consulta o clima</li>
-                    <li><strong>/lembrete [tempo] [mensagem]</strong> - Cria lembretes</li>
-                </ul>
-                
-                <h4>Personalização:</h4>
-                <ul>
-                    <li><strong>/nome [seu nome]</strong> - Define seu nome</li>
-                    <li><strong>/tema [claro/escuro]</strong> - Altera tema</li>
-                    <li><strong>/voz [on/off]</strong> - Ativa/desativa voz</li>
-                </ul>
-            </div>
-            
-            <div class="tab-content" id="analytics">
-                <h3><i class="fas fa-chart-line"></i> Analytics da Conversa</h3>
-                <div id="analyticsContent">
-                    <div class="quick-actions">
-                        <div class="quick-action">
-                            <i class="fas fa-comments"></i>
-                            <span id="messageCount">0</span>
-                            <small>Mensagens</small>
-                        </div>
-                        <div class="quick-action">
-                            <i class="fas fa-clock"></i>
-                            <span id="sessionTime">00:00</span>
-                            <small>Tempo</small>
-                        </div>
-                        <div class="quick-action">
-                            <i class="fas fa-brain"></i>
-                            <span id="learnedCount">0</span>
-                            <small>Aprendido</small>
-                        </div>
-                    </div>
-                    <p>Estatísticas da sua sessão atual com a Sophia.</p>
-                </div>
-            </div>
-            
-            <div class="tab-content" id="faq">
-                <h3><i class="fas fa-question-circle"></i> Perguntas Frequentes</h3>
-                
-                <h4>Como a Sophia funciona?</h4>
-                <p>A Sophia utiliza algoritmos avançados de processamento de linguagem natural para compreender suas mensagens e fornecer respostas relevantes e personalizadas.</p>
-                
-                <h4>Meus dados estão seguros?</h4>
-                <p>Sim! Todas as conversas são processadas localmente e nenhum dado pessoal é enviado para servidores externos sem sua autorização explícita.</p>
-                
-                <h4>Posso ensinar a Sophia?</h4>
-                <p>Absolutamente! A Sophia possui um sistema de aprendizado que permite que ela aprenda com suas interações e se torne mais personalizada ao longo do tempo.</p>
-                
-                <h4>Como ativar o reconhecimento de voz?</h4>
-                <p>Clique no ícone do microfone na área de entrada de texto ou use o botão de voz no cabeçalho para ativar/desativar esta funcionalidade.</p>
-            </div>
-            
-            <div class="tab-content" id="feedback">
-                <h3><i class="fas fa-comment-dots"></i> Seu Feedback</h3>
-                <p>Sua opinião é fundamental para melhorarmos a Sophia!</p>
-                <p>Clique no botão abaixo para abrir nosso formulário de feedback:</p>
-                
-                <div class="quick-actions">
-                    <a href="https://docs.google.com/forms/d/1tNGkKwzpn9l8CGo1ibnErRfpv3W_lD8kt_7am72-C3c/viewform" target="_blank" class="quick-action">
-                        <i class="fas fa-external-link-alt"></i>
-                        <span>Abrir Formulário</span>
-                    </a>
-                </div>
-                
-                <p><small>O formulário será aberto em uma nova aba do seu navegador.</small></p>
-            </div>
-            
-            <div class="tab-content" id="report">
-                <h3><i class="fas fa-bug"></i> Reportar Erro</h3>
-                <p>Encontrou algum problema? Entre em contato conosco diretamente!</p>
-                <p>Clique no botão abaixo para enviar um e-mail descrevendo o erro:</p>
-                
-                <div class="quick-actions">
-                    <a href="mailto:sac.studiotsukiyo@outlook.com?subject=Reportar Erro - Sophia Chatbot&body=Descreva o erro encontrado:%0D%0A%0D%0ASeveridade: (Baixa/Média/Alta)%0D%0A%0D%0ADescrição:%0D%0A%0D%0APassos para reproduzir:%0D%0A1. %0D%0A2. %0D%0A3. %0D%0A%0D%0ANavegador: " class="quick-action">
-                        <i class="fas fa-envelope"></i>
-                        <span>Enviar E-mail</span>
-                    </a>
-                </div>
-                
-                <h4>Informações úteis para incluir:</h4>
-                <ul>
-                    <li>Descrição detalhada do erro</li>
-                    <li>Passos para reproduzir o problema</li>
-                    <li>Navegador e versão utilizada</li>
-                    <li>Sistema operacional</li>
-                    <li>Capturas de tela (se aplicável)</li>
-                </ul>
-            </div>
-            
-            <div class="tab-content" id="help">
-                <h3><i class="fas fa-life-ring"></i> Central de Ajuda</h3>
-                
-                <div class="quick-actions">
-                    <a href="mailto:sac.studiotsukiyo@outlook.com?subject=Ajuda - Sophia Chatbot&body=Descreva sua dúvida ou problema:%0D%0A%0D%0A" class="quick-action">
-                        <i class="fas fa-envelope"></i>
-                        <span>Contato</span>
-                    </a>
-                    <div class="quick-action" onclick="startTutorial()">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Tutorial</span>
-                    </div>
-                    <div class="quick-action" onclick="showShortcuts()">
-                        <i class="fas fa-keyboard"></i>
-                        <span>Atalhos</span>
-                    </div>
-                </div>
-                
-                <h4>Como podemos ajudar:</h4>
-                <ul>
-                    <li><strong>Dúvidas gerais:</strong> Use o tutorial integrado</li>
-                    <li><strong>Problemas técnicos:</strong> Reporte bugs via e-mail</li>
-                    <li><strong>Sugestões:</strong> Use o formulário de feedback</li>
-                    <li><strong>Suporte direto:</strong> Entre em contato por e-mail</li>
-                </ul>
-                
-                <h4>Informações de Contato:</h4>
-                <ul>
-                    <li><strong>E-mail:</strong> sac.studiotsukiyo@outlook.com</li>
-                    <li><strong>Desenvolvedor:</strong> Studio Tsukiyo</li>
+
+        <div class="modal-overlay" id="menuOverlay">
+            <div class="modal-content">
+                <ul class="menu-list">
+                    <li><button id="helpBtn"><i class="fas fa-question-circle"></i> Ajuda e Comandos</button></li>
+                    <li>
+                        <button style="display: flex; align-items: center; width: 100%;">
+                            <i class="fas fa-moon"></i> Modo Escuro
+                            <label class="switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </button>
+                    </li>
+                    <li><a href="https://studiotsukiyo.bio.link" target="_blank"><i class="fas fa-star"></i> Studio Tsukiyo</a></li>
+                    <li><button id="clearChatBtn"><i class="fas fa-trash"></i> Limpar e Reiniciar</button></li>
                 </ul>
             </div>
         </div>
-        
-        <div class="overlay" id="overlay"></div>
     </div>
 
     <script>
-        // Enhanced Sophia Chatbot - Advanced Version
-        class SophiaAssistant {
-            constructor() {
-                this.version = "3.0.0";
-                this.userProfile = this.loadUserProfile();
-                this.preferences = this.loadPreferences();
-                this.conversationHistory = [];
-                this.analytics = {
-                    messageCount: 0,
-                    sessionStartTime: Date.now(),
-                    learnedResponses: 0
-                };
-                this.isListening = false;
-                this.isTTSEnabled = false;
-                this.recognition = null;
-                this.synthesis = window.speechSynthesis;
-                this.voices = [];
-                this.selectedVoice = null;
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = {
+                welcomeScreen: document.getElementById('welcomeScreen'),
+                chatScreen: document.getElementById('chatScreen'),
+                getStartedBtn: document.getElementById('getStartedBtn'),
+                chatMessages: document.getElementById('chatMessages'),
+                quickReplyArea: document.getElementById('quickReplyArea'),
+                inputArea: document.getElementById('inputArea'),
+                userInput: document.getElementById('userInput'),
+                sendButton: document.getElementById('sendButton'),
+                micBtn: document.getElementById('micBtn'),
+                menuBtn: document.getElementById('menuBtn'),
+                menuOverlay: document.getElementById('menuOverlay'),
+                clearChatBtn: document.getElementById('clearChatBtn'),
+                helpBtn: document.getElementById('helpBtn'),
+                darkModeToggle: document.getElementById('darkModeToggle'),
+            };
+
+            // ATUALIZAÇÃO: Chaves do localStorage alteradas para 'sophia'
+            let userName = localStorage.getItem('sophiaUserName') || '';
+            let conversationState = 'IDLE'; 
+            let riddleAnswer = '';
+            let speechRecognition;
+
+            const knowledgeBase = {
+                greetings: ["Olá! Como vai?", "Oi! Que bom te ver.", "E aí! Tudo bem?"],
+                // ATUALIZAÇÃO: Nome alterado para Sophia
+                identity: "Eu sou a Sophia, uma assistente virtual criada pelo Studio Tsukiyo para te ajudar no dia a dia.",
+                gratitude: ["De nada! Se precisar de mais alguma coisa, é só chamar.", "Fico feliz em ajudar!"],
+                farewell: ["Até mais! Volte sempre que precisar.", "Tchau! Tenha um ótimo dia."],
+                fallback: "Desculpe, não entendi. Que tal tentar uma das opções abaixo ou digitar `/ajuda` para ver meus comandos?",
+                animes: [ { title: "Attack on Titan", desc: "Humanidade luta por sobrevivência contra titãs gigantes." }, { title: "Jujutsu Kaisen", desc: "Feiticeiros lutam contra maldições para proteger o mundo." } ],
+                musics: [ { title: "Blinding Lights", artist: "The Weeknd" }, { title: "As It Was", artist: "Harry Styles" } ],
+                quotes: ["A persistência realiza o impossível.", "O sucesso é a soma de pequenos esforços repetidos diariamente."],
+                jokes: ["O que o pato falou para a pata? Vem Quá!", "Por que a velhinha não usa relógio? Porque ela é uma sem hora."],
+                riddles: [ { q: "O que é, o que é? Cai em pé e corre deitado?", a: "chuva" }, { q: "Tenho cidades, mas não casas. O que sou eu?", a: "mapa" } ]
+            };
+
+            const addMessage = (content, isUser = false) => {
+                const messageGroup = document.createElement('div');
+                messageGroup.className = `message-group ${isUser ? 'user' : ''}`;
+                if (!isUser) messageGroup.innerHTML += `<div class="bot-avatar"><img src="https://i.imgur.com/HPsXQqv.png" alt="Avatar"></div>`;
                 
-                this.learnedResponses = this.loadLearnedResponses();
-                this.waitingForLearning = false;
-                this.lastUserMessage = "";
-                
-                this.initializeElements();
-                this.initializeEventListeners();
-                this.initializeSpeech();
-                this.loadTheme();
-                this.startSessionTimer();
-                
-                // Hide loading screen after initialization
-                setTimeout(() => {
-                    document.getElementById('loadingScreen').classList.add('hidden');
-                }, 1500);
-            }
-            
-            initializeElements() {
-                this.elements = {
-                    // Screens
-                    welcomeScreen: document.getElementById('welcome'),
-                    mainScreen: document.getElementById('main'),
-                    
-                    // UI Controls
-                    startButton: document.getElementById('startButton'),
-                    menuToggle: document.getElementById('menuToggle'),
-                    sidebar: document.getElementById('sidebar'),
-                    overlay: document.getElementById('overlay'),
-                    closeBtn: document.getElementById('closeBtn'),
-                    
-                    // Chat
-                    messagesArea: document.getElementById('messagesArea'),
-                    messageInput: document.getElementById('messageInput'),
-                    sendBtn: document.getElementById('sendBtn'),
-                    typingIndicator: document.getElementById('typingIndicator'),
-                    suggestionCards: document.getElementById('suggestionCards'),
-                    
-                    // Header controls
-                    nightModeToggle: document.getElementById('nightModeToggle'),
-                    ttsToggle: document.getElementById('ttsToggle'),
-                    sophiaStatus: document.getElementById('sophiaStatus'),
-                    
-                    // Speech
-                    speechBtn: document.getElementById('speechBtn'),
-                    attachBtn: document.getElementById('attachBtn'),
-                    
-                    // Menu items
-                    menuItems: document.querySelectorAll('.menu-item'),
-                    tabContents: document.querySelectorAll('.tab-content'),
-                    
-                    // Forms
-                    profileForm: document.getElementById('profileForm')
-                };
-                
-                // Validate required elements exist
-                const requiredElements = ['welcomeScreen', 'mainScreen', 'startButton', 'messagesArea', 'messageInput', 'sendBtn'];
-                const missingElements = requiredElements.filter(key => !this.elements[key]);
-                
-                if (missingElements.length > 0) {
-                    console.error('Missing required DOM elements:', missingElements);
-                    throw new Error(`Critical DOM elements not found: ${missingElements.join(', ')}`);
-                }
-            }
-            
-            initializeEventListeners() {
-                // Start button
-                if (this.elements.startButton) {
-                    this.elements.startButton.addEventListener('click', () => this.startChat());
-                }
-                
-                // Menu controls
-                if (this.elements.menuToggle) {
-                    this.elements.menuToggle.addEventListener('click', () => this.toggleMenu());
-                }
-                if (this.elements.closeBtn) {
-                    this.elements.closeBtn.addEventListener('click', () => this.toggleMenu());
-                }
-                if (this.elements.overlay) {
-                    this.elements.overlay.addEventListener('click', () => this.toggleMenu());
-                }
-                
-                // Theme toggle
-                if (this.elements.nightModeToggle) {
-                    this.elements.nightModeToggle.addEventListener('click', () => this.toggleNightMode());
-                }
-                
-                // TTS toggle
-                if (this.elements.ttsToggle) {
-                    this.elements.ttsToggle.addEventListener('click', () => this.toggleTTS());
-                }
-                
-                // Chat input
-                if (this.elements.messageInput) {
-                    this.elements.messageInput.addEventListener('keydown', (e) => this.handleInputKeydown(e));
-                    this.elements.messageInput.addEventListener('input', () => this.adjustInputHeight());
-                }
-                if (this.elements.sendBtn) {
-                    this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
-                }
-                
-                // Speech controls
-                if (this.elements.speechBtn) {
-                    this.elements.speechBtn.addEventListener('click', () => this.toggleSpeechRecognition());
-                }
-                if (this.elements.attachBtn) {
-                    this.elements.attachBtn.addEventListener('click', () => this.handleAttachment());
-                }
-                
-                // Menu navigation
-                if (this.elements.menuItems && this.elements.menuItems.length > 0) {
-                    this.elements.menuItems.forEach(item => {
-                        item.addEventListener('click', () => this.openTab(item.dataset.tab));
-                    });
-                }
-                
-                // Forms
-                if (this.elements.profileForm) {
-                    this.elements.profileForm.addEventListener('submit', (e) => this.saveProfile(e));
-                }
-                
-                // Message area clicks
-                if (this.elements.messagesArea) {
-                    this.elements.messagesArea.addEventListener('click', (e) => this.handleMessageClick(e));
-                }
-                
-                // Suggestion cards
-                if (this.elements.suggestionCards) {
-                    this.elements.suggestionCards.addEventListener('click', (e) => this.handleSuggestionClick(e));
-                }
-            }
-            
-            initializeSpeech() {
-                // Speech Recognition
-                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                    this.recognition = new SpeechRecognition();
-                    this.recognition.continuous = false;
-                    this.recognition.interimResults = false;
-                    this.recognition.lang = this.preferences.language || 'pt-BR';
-                    
-                    this.recognition.onstart = () => this.onSpeechStart();
-                    this.recognition.onend = () => this.onSpeechEnd();
-                    this.recognition.onresult = (event) => this.onSpeechResult(event);
-                    this.recognition.onerror = (event) => this.onSpeechError(event);
-                } else {
-                    this.elements.speechBtn.style.display = 'none';
-                }
-                
-                // Speech Synthesis
-                if (this.synthesis) {
-                    this.synthesis.onvoiceschanged = () => this.loadVoices();
-                    this.loadVoices();
-                }
-            }
-            
-            loadVoices() {
-                this.voices = this.synthesis.getVoices();
-                this.selectedVoice = this.voices.find(voice => 
-                    voice.lang === 'pt-BR' && voice.name.includes('Google')
-                ) || this.voices.find(voice => voice.lang === 'pt-BR');
-            }
-            
-            startChat() {
-                if (!this.elements.welcomeScreen || !this.elements.mainScreen) {
-                    console.error('Required screen elements not found');
-                    return;
-                }
-                
-                this.elements.welcomeScreen.style.opacity = '0';
-                setTimeout(() => {
-                    this.elements.welcomeScreen.classList.remove('active');
-                    this.elements.mainScreen.classList.add('active');
-                    
-                    this.addWelcomeMessage();
-                    this.showInitialSuggestions();
-                    this.updateStatus('online');
-                }, 500);
-            }
-            
-            addWelcomeMessage() {
-                const welcomeMessages = [
-                    `Olá${this.userProfile.name ? ', ' + this.userProfile.name : ''}! Eu sou a <span class="gradient-text">Sophia</span>.`,
-                    "Como posso ajudá-lo hoje?",
-                    "Digite uma mensagem ou use um dos comandos sugeridos abaixo."
-                ];
-                
-                welcomeMessages.forEach((message, index) => {
-                    setTimeout(() => {
-                        this.addMessage(message, false);
-                        if (index === welcomeMessages.length - 1) {
-                            this.showInitialSuggestions();
-                        }
-                    }, index * 1000);
+                const bubblesContainer = document.createElement('div');
+                bubblesContainer.className = 'message-bubbles';
+                const messages = Array.isArray(content) ? content : [content];
+                messages.forEach(msg => {
+                    const bubble = document.createElement('div');
+                    bubble.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+                    bubble.innerHTML = msg;
+                    bubblesContainer.appendChild(bubble);
                 });
-            }
-            
-            showInitialSuggestions() {
-                const suggestions = [
-                    { text: '/comandos', icon: 'fas fa-terminal' },
-                    { text: '/sobre', icon: 'fas fa-robot' },
-                    { text: '/piada', icon: 'fas fa-laugh' },
-                    { text: '/ajuda', icon: 'fas fa-question-circle' }
-                ];
                 
-                this.elements.suggestionCards.innerHTML = suggestions.map(suggestion => 
-                    `<div class="suggestion-card" data-command="${suggestion.text}">
-                        <i class="${suggestion.icon}"></i>
-                        <span>${suggestion.text}</span>
-                    </div>`
-                ).join('');
-            }
-            
-            addMessage(content, isUser = false, showTime = true) {
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message', isUser ? 'user-message' : 'bot-message');
+                messageGroup.appendChild(bubblesContainer);
+                elements.chatMessages.appendChild(messageGroup);
+                elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
                 
-                const avatar = document.createElement('div');
-                avatar.className = 'message-avatar';
-                
-                if (isUser) {
-                    if (this.userProfile.picture) {
-                        avatar.innerHTML = `<img src="${this.userProfile.picture}" alt="User">`;
-                    } else {
-                        const initials = this.userProfile.name ? this.userProfile.name.charAt(0).toUpperCase() : 'U';
-                        const colors = ['#007bff', '#28a745', '#dc3545', '#fd7e14', '#6f42c1'];
-                        const color = colors[this.userProfile.name?.length % colors.length || 0];
-                        avatar.innerHTML = `<div class="placeholder" style="background:${color}; color:white;">${initials}</div>`;
-                    }
-                } else {
-                    avatar.innerHTML = `<img src="https://i.imgur.com/SWpguGf.png" alt="Sophia">`;
-                }
-                
-                const messageContent = document.createElement('div');
-                messageContent.className = 'message-content';
-                messageContent.innerHTML = content;
-                
-                if (showTime) {
-                    const timeElement = document.createElement('div');
-                    timeElement.className = 'message-time';
-                    timeElement.textContent = new Date().toLocaleTimeString('pt-BR', { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
-                    });
-                    messageContent.appendChild(timeElement);
-                }
-                
-                messageElement.appendChild(avatar);
-                messageElement.appendChild(messageContent);
-                
-                this.elements.messagesArea.appendChild(messageElement);
-                this.scrollToBottom();
-                
-                this.analytics.messageCount++;
-                this.updateAnalytics();
-                
-                // Save to conversation history
-                this.conversationHistory.push({
-                    content,
-                    isUser,
-                    timestamp: Date.now()
-                });
-            }
-            
-            sendMessage() {
-                const message = this.elements.messageInput.value.trim();
-                if (!message) return;
-                
-                this.elements.messageInput.value = '';
-                this.adjustInputHeight();
-                this.addMessage(message, true);
-                this.hideTypingIndicator();
-                
-                setTimeout(() => {
-                    this.showTypingIndicator();
-                    this.processMessage(message);
-                }, 500);
-            }
-            
-            processMessage(input) {
-                const response = this.generateResponse(input.toLowerCase());
-                
-                setTimeout(() => {
-                    this.hideTypingIndicator();
-                    this.addMessage(response, false);
-                    
-                    if (this.isTTSEnabled) {
-                        this.speak(response);
-                    }
-                }, Math.random() * 2000 + 1000);
-            }
-            
-            generateResponse(input) {
-                // Handle learning mode
-                if (this.waitingForLearning) {
-                    this.learnNewResponse(this.lastUserMessage, input);
-                    this.waitingForLearning = false;
-                    this.lastUserMessage = "";
-                    return "Entendido! Agora eu sei como responder a essa pergunta. Obrigada por me ensinar!";
-                }
-                
-                this.lastUserMessage = input;
-                
-                // Command handling
-                if (input.startsWith('/')) {
-                    return this.handleCommand(input);
-                }
-                
-                // Check learned responses
-                if (this.learnedResponses[input]) {
-                    return this.learnedResponses[input];
-                }
-                
-                // Pattern matching
-                const patterns = {
-                    greetings: {
-                        keywords: ['olá', 'oi', 'ola', 'hey', 'eae', 'salve', 'bom dia', 'boa tarde', 'boa noite'],
-                        responses: [
-                            `Olá${this.userProfile.name ? ', ' + this.userProfile.name : ''}! Como posso ajudá-lo hoje?`,
-                            "Oi! Que bom falar com você novamente!",
-                            "Olá! Em que posso ser útil?"
-                        ]
-                    },
-                    howAreYou: {
-                        keywords: ['como você está', 'tudo bem', 'como vai', 'tudo bom'],
-                        responses: [
-                            "Estou funcionando perfeitamente, obrigada por perguntar! E você?",
-                            "Muito bem, obrigada! Pronta para ajudar no que precisar.",
-                            "Estou ótima e cheia de energia para conversar!"
-                        ]
-                    },
-                    farewell: {
-                        keywords: ['tchau', 'adeus', 'até mais', 'até logo', 'falou', 'bye'],
-                        responses: [
-                            "Até logo! Foi um prazer conversar com você!",
-                            "Tchau! Volte sempre que quiser conversar.",
-                            "Até a próxima! Cuide-se bem!"
-                        ]
-                    },
-                    thanks: {
-                        keywords: ['obrigado', 'obrigada', 'valeu', 'thanks', 'agradeço'],
-                        responses: [
-                            "De nada! Fico feliz em ajudar!",
-                            "Por nada! Estou sempre aqui quando precisar.",
-                            "Que bom que pude ajudar! Conte comigo sempre."
-                        ]
-                    },
-                    name: {
-                        keywords: ['seu nome', 'como se chama', 'quem é você'],
-                        responses: [
-                            "Eu sou a Sophia, sua assistente virtual inteligente!",
-                            "Meu nome é Sophia. Prazer em conhecê-lo!",
-                            "Sou a Sophia, criada para ser sua companheira de conversa."
-                        ]
-                    },
-                    abilities: {
-                        keywords: ['o que você faz', 'suas habilidades', 'o que pode fazer'],
-                        responses: [
-                            "Posso conversar, contar piadas, ajudar com cálculos, criar lembretes e muito mais! Digite /comandos para ver tudo.",
-                            "Tenho muitas habilidades! Posso falar, ouvir, calcular, entreter e aprender com você.",
-                            "Sou versátile! Posso ajudar com informações, entretenimento, cálculos e personalizar nossa conversa."
-                        ]
-                    }
-                };
-                
-                // Find matching pattern
-                for (const [category, pattern] of Object.entries(patterns)) {
-                    if (pattern.keywords.some(keyword => input.includes(keyword))) {
-                        const responses = pattern.responses;
-                        return responses[Math.floor(Math.random() * responses.length)];
-                    }
-                }
-                
-                // Default response for unknown input
-                const defaultResponses = [
-                    "Interessante! Não tenho uma resposta específica para isso. Que tal me ensinar como responder?",
-                    "Hmm, essa é nova para mim. Como você acha que eu deveria responder?",
-                    "Não conheço essa ainda. Você pode me ensinar a resposta apropriada?",
-                    "Essa pergunta me deixou curiosa! Qual seria uma boa resposta na sua opinião?"
-                ];
-                
-                this.waitingForLearning = true;
-                return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
-            }
-            
-            handleCommand(command) {
-                const parts = command.split(' ');
-                const cmd = parts[0];
-                const args = parts.slice(1).join(' ');
-                
-                switch (cmd) {
-                    case '/ajuda':
-                    case '/help':
-                        this.openTab('commands');
-                        return "Aqui estão todos os comandos disponíveis! Confira no menu lateral.";
-                        
-                    case '/comandos':
-                    case '/commands':
-                        this.openTab('commands');
-                        return "Lista completa de comandos disponível no menu lateral.";
-                        
-                    case '/sobre':
-                    case '/about':
-                        this.openTab('about');
-                        return "Aqui está mais informação sobre mim!";
-                        
-                    case '/limpar':
-                    case '/clear':
-                        this.clearChat();
-                        return "Chat limpo! Como posso ajudar agora?";
-                        
-                    case '/status':
-                        return this.getSystemStatus();
-                        
-                    case '/hora':
-                    case '/time':
-                        return `Agora são ${new Date().toLocaleTimeString('pt-BR')} de ${new Date().toLocaleDateString('pt-BR')}.`;
-                        
-                    case '/piada':
-                    case '/joke':
-                        return this.getRandomJoke();
-                        
-                    case '/curiosidade':
-                    case '/fact':
-                        return this.getRandomFact();
-                        
-                    case '/historia':
-                    case '/story':
-                        return this.getRandomStory();
-                        
-                    case '/quiz':
-                        return this.startQuiz();
-                        
-                    case '/calcular':
-                    case '/calc':
-                        return this.calculate(args);
-                        
-                    case '/lembrete':
-                    case '/reminder':
-                        return this.createReminder(args);
-                        
-                    case '/nome':
-                    case '/name':
-                        if (args) {
-                            this.userProfile.name = args;
-                            this.saveUserProfile();
-                            return `Prazer em conhecê-lo, ${args}!`;
-                        }
-                        return "Por favor, diga seu nome: /nome [seu nome]";
-                        
-                    case '/tema':
-                    case '/theme':
-                        if (args === 'escuro' || args === 'dark') {
-                            this.setNightMode(true);
-                            return "Tema escuro ativado!";
-                        } else if (args === 'claro' || args === 'light') {
-                            this.setNightMode(false);
-                            return "Tema claro ativado!";
-                        }
-                        return "Use /tema escuro ou /tema claro";
-                        
-                    case '/voz':
-                    case '/voice':
-                        if (args === 'on') {
-                            this.isTTSEnabled = true;
-                            this.updateTTSButton();
-                            return "Síntese de voz ativada!";
-                        } else if (args === 'off') {
-                            this.isTTSEnabled = false;
-                            this.updateTTSButton();
-                            return "Síntese de voz desativada!";
-                        }
-                        this.toggleTTS();
-                        return `Síntese de voz ${this.isTTSEnabled ? 'ativada' : 'desativada'}!`;
-                        
-                    case '/analytics':
-                        this.openTab('analytics');
-                        return "Confira suas estatísticas de conversa no menu lateral!";
-                        
-                    default:
-                        return `Comando "${cmd}" não reconhecido. Digite /ajuda para ver todos os comandos disponíveis.`;
-                }
-            }
-            
-            getRandomJoke() {
-                const jokes = [
-                    "Por que o livro de matemática estava triste? Porque tinha muitos problemas!",
-                    "O que a impressora falou para a outra impressora? - Essa folha é sua ou é impressão minha?",
-                    "Por que os pássaros voam para o sul no inverno? Porque é longe demais para ir andando!",
-                    "O que o pato falou para a pata? - Vem quá!",
-                    "Por que a velhinha não usa relógio? Porque ela é uma senhora!",
-                    "O que a fechadura falou para a chave? - Você me completa!",
-                    "Por que o mar is azul? Porque os peixinhos fazem blu-blu-blu!"
-                ];
-                return jokes[Math.floor(Math.random() * jokes.length)];
-            }
-            
-            getRandomFact() {
-                const facts = [
-                    "O coração de um camarão fica na sua cabeça.",
-                    "As formigas se esticam quando acordam de manhã.",
-                    "Um polvo tem três corações e sangue azul.",
-                    "Os flamingos são rosa por causa dos camarões que comem.",
-                    "Uma lesma pode dormir por três anos seguidos.",
-                    "Os golfinhos têm nomes específicos para cada indivíduo do grupo.",
-                    "O mel nunca estraga - pode durar milhares de anos!"
-                ];
-                return facts[Math.floor(Math.random() * facts.length)];
-            }
-            
-            getRandomStory() {
-                const stories = [
-                    "Era uma vez um robô que sonhava em ver as estrelas. Ele economizou energia por anos até conseguir construir um foguete e realizar seu sonho.",
-                    "Havia uma vez uma nuvem muito tímida que tinha medo de chover. Um dia ela conheceu uma flor seca e descobriu como sua chuva poderia ajudar.",
-                    "Em um reino digital distante, vivia uma IA que queria aprender sobre amizade. Ela descobriu que a melhor forma era conversando com humanos gentis.",
-                    "Um pequeno algoritmo se perdeu na internet. Durante sua jornada de volta, ele aprendeu sobre diferentes culturas e idiomas."
-                ];
-                return stories[Math.floor(Math.random() * stories.length)];
-            }
-            
-            calculate(expression) {
-                try {
-                    // Basic security: only allow numbers, operators, and parentheses
-                    const sanitized = expression.replace(/[^0-9+\-*/.() ]/g, '');
-                    if (!sanitized) return "Por favor, forneça uma expressão matemática válida.";
-                    
-                    const result = eval(sanitized);
-                    return `${expression} = ${result}`;
-                } catch (error) {
-                    return "Não foi possível calcular essa expressão. Verifique a sintaxe.";
-                }
-            }
-            
-            createReminder(text) {
-                if (!text) return "Use: /lembrete [tempo em minutos] [mensagem]";
-                
-                const parts = text.split(' ');
-                const minutes = parseInt(parts[0]);
-                const message = parts.slice(1).join(' ');
-                
-                if (isNaN(minutes) || !message) {
-                    return "Formato inválido. Use: /lembrete [minutos] [mensagem]";
-                }
-                
-                setTimeout(() => {
-                    this.addMessage(`🔔 LEMBRETE: ${message}`, false);
-                    this.speak(`Lembrete: ${message}`);
-                }, minutes * 60000);
-                
-                return `Lembrete criado para daqui a ${minutes} minutos: "${message}"`;
-            }
-            
-            startQuiz() {
-                const questions = [
-                    {
-                        question: "Qual é o maior planeta do sistema solar?",
-                        answer: "júpiter",
-                        options: ["Terra", "Marte", "Júpiter", "Saturno"]
-                    },
-                    {
-                        question: "Em que ano o Brasil foi descoberto?",
-                        answer: "1500",
-                        options: ["1498", "1500", "1502", "1505"]
-                    },
-                    {
-                        question: "Qual é a capital da Austrália?",
-                        answer: "canberra",
-                        options: ["Sydney", "Melbourne", "Canberra", "Perth"]
-                    }
-                ];
-                
-                const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
-                this.currentQuiz = randomQuestion;
-                
-                let response = `🧠 QUIZ TIME!\n\n${randomQuestion.question}\n\n`;
-                randomQuestion.options.forEach((option, index) => {
-                    response += `${index + 1}. ${option}\n`;
-                });
-                response += "\nDigite o número ou o nome da resposta!";
-                
-                return response;
-            }
-            
-            getSystemStatus() {
-                const uptime = Date.now() - this.analytics.sessionStartTime;
-                const uptimeMinutes = Math.floor(uptime / 60000);
-                
-                return `📊 STATUS DO SISTEMA
-                
-🟢 Status: Online
-⏱️ Sessão: ${uptimeMinutes} minutos
-💬 Mensagens: ${this.analytics.messageCount}
-🧠 Respostas aprendidas: ${Object.keys(this.learnedResponses).length}
-🎤 Reconhecimento de voz: ${this.recognition ? 'Disponível' : 'Indisponível'}
-🔊 Síntese de voz: ${this.synthesis ? 'Disponível' : 'Indisponível'}
-🌙 Modo escuro: ${document.body.classList.contains('night-mode') ? 'Ativo' : 'Inativo'}`;
-            }
-            
-            learnNewResponse(question, answer) {
-                this.learnedResponses[question] = answer;
-                this.saveLearnedResponses();
-                this.analytics.learnedResponses++;
-                this.updateAnalytics();
-            }
-            
-            clearChat() {
-                this.elements.messagesArea.innerHTML = '';
-                this.conversationHistory = [];
-                this.analytics.messageCount = 0;
-                this.updateAnalytics();
-            }
-            
-            showTypingIndicator() {
-                this.elements.typingIndicator.classList.add('active');
-                this.scrollToBottom();
-            }
-            
-            hideTypingIndicator() {
-                this.elements.typingIndicator.classList.remove('active');
-            }
-            
-            scrollToBottom() {
-                setTimeout(() => {
-                    this.elements.messagesArea.scrollTop = this.elements.messagesArea.scrollHeight;
-                }, 100);
-            }
-            
-            adjustInputHeight() {
-                const input = this.elements.messageInput;
-                input.style.height = 'auto';
-                input.style.height = Math.min(input.scrollHeight, 100) + 'px';
-            }
-            
-            handleInputKeydown(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    this.sendMessage();
-                }
-            }
-            
-            handleMessageClick(e) {
-                if (e.target.classList.contains('clickable-command')) {
-                    const action = e.target.dataset.action;
-                    if (action) {
-                        this.executeAction(action);
-                    }
-                }
-            }
-            
-            handleSuggestionClick(e) {
-                const card = e.target.closest('.suggestion-card');
-                if (card) {
-                    const command = card.dataset.command;
-                    this.elements.messageInput.value = command;
-                    this.sendMessage();
-                }
-            }
-            
-            executeAction(action) {
-                switch (action) {
-                    case 'open-feedback':
-                        this.openTab('feedback');
-                        break;
-                    case 'open-commands':
-                        this.openTab('commands');
-                        break;
-                    default:
-                        console.log('Unknown action:', action);
-                }
-            }
-            
-            // Menu and Navigation
-            toggleMenu() {
-                if (this.elements.sidebar) {
-                    this.elements.sidebar.classList.toggle('active');
-                }
-                if (this.elements.overlay) {
-                    this.elements.overlay.classList.toggle('active');
-                }
-            }
-            
-            openTab(tabId) {
-                if (!tabId) return;
-                
-                // Remove active class from all items and contents
-                if (this.elements.menuItems && this.elements.menuItems.length > 0) {
-                    this.elements.menuItems.forEach(item => {
-                        if (item && item.classList) {
-                            item.classList.remove('active');
-                        }
-                    });
-                }
-                
-                if (this.elements.tabContents && this.elements.tabContents.length > 0) {
-                    this.elements.tabContents.forEach(content => {
-                        if (content && content.classList) {
-                            content.classList.remove('active');
-                        }
-                    });
-                }
-                
-                // Add active class to selected items
-                const menuItem = document.querySelector(`[data-tab="${tabId}"]`);
-                const tabContent = document.getElementById(tabId);
-                
-                if (menuItem && menuItem.classList) {
-                    menuItem.classList.add('active');
-                }
-                if (tabContent && tabContent.classList) {
-                    tabContent.classList.add('active');
-                }
-                
-                // Ensure menu is open
-                if (this.elements.sidebar && !this.elements.sidebar.classList.contains('active')) {
-                    this.toggleMenu();
-                }
-            }
-            
-            // Theme Management
-            toggleNightMode() {
-                if (document.body && document.body.classList) {
-                    document.body.classList.toggle('night-mode');
-                    this.savePreferences();
-                    this.updateNightModeButton();
-                }
-            }
-            
-            setNightMode(enabled) {
-                if (!document.body || !document.body.classList) return;
-                
-                if (enabled) {
-                    document.body.classList.add('night-mode');
-                } else {
-                    document.body.classList.remove('night-mode');
-                }
-                this.savePreferences();
-                this.updateNightModeButton();
-            }
-            
-            updateNightModeButton() {
-                if (!this.elements.nightModeToggle) return;
-                
-                const isNightMode = document.body && document.body.classList && document.body.classList.contains('night-mode');
-                const icon = this.elements.nightModeToggle.querySelector('i');
-                
-                if (icon) {
-                    icon.className = isNightMode ? 'fas fa-sun' : 'fas fa-moon';
-                }
-                this.elements.nightModeToggle.title = isNightMode ? 'Modo Claro' : 'Modo Escuro';
-            }
-            
-            loadTheme() {
-                if (this.preferences.nightMode && document.body && document.body.classList) {
-                    document.body.classList.add('night-mode');
-                }
-                this.updateNightModeButton();
-            }
-            
-            // Speech Recognition
-            toggleSpeechRecognition() {
-                if (!this.recognition) return;
-                
-                if (this.isListening) {
-                    this.recognition.stop();
-                } else {
-                    try {
-                        this.recognition.start();
-                    } catch (error) {
-                        console.error('Speech recognition error:', error);
-                        this.addMessage("Erro ao iniciar reconhecimento de voz. Tente novamente.", false);
-                    }
-                }
-            }
-            
-            onSpeechStart() {
-                this.isListening = true;
-                this.elements.speechBtn.classList.add('listening');
-                this.updateStatus('listening');
-            }
-            
-            onSpeechEnd() {
-                this.isListening = false;
-                this.elements.speechBtn.classList.remove('listening');
-                this.updateStatus('online');
-            }
-            
-            onSpeechResult(event) {
-                const result = event.results[0][0].transcript;
-                this.elements.messageInput.value = result;
-                this.adjustInputHeight();
-                this.sendMessage();
-            }
-            
-            onSpeechError(event) {
-                console.error('Speech recognition error:', event.error);
-                let errorMessage = "Erro no reconhecimento de voz.";
-                
-                switch (event.error) {
-                    case 'not-allowed':
-                        errorMessage = "Permissão negada para usar o microfone.";
-                        break;
-                    case 'no-speech':
-                        errorMessage = "Nenhuma fala detectada.";
-                        break;
-                    case 'network':
-                        errorMessage = "Erro de rede no reconhecimento de voz.";
-                        break;
-                }
-                
-                this.addMessage(errorMessage, false);
-            }
-            
-            // Text-to-Speech
-            toggleTTS() {
-                this.isTTSEnabled = !this.isTTSEnabled;
-                this.updateTTSButton();
-                
-                const message = this.isTTSEnabled ? "Síntese de voz ativada!" : "Síntese de voz desativada.";
-                this.addMessage(message, false);
-                
-                if (this.isTTSEnabled) {
-                    this.speak(message);
-                }
-            }
-            
-            updateTTSButton() {
-                const icon = this.elements.ttsToggle.querySelector('i');
-                icon.className = this.isTTSEnabled ? 'fas fa-volume-mute' : 'fas fa-volume-up';
-                this.elements.ttsToggle.title = this.isTTSEnabled ? 'Desativar Voz' : 'Ativar Voz';
-            }
-            
-            speak(text) {
-                if (!this.synthesis || !this.isTTSEnabled) return;
-                
-                // Clean HTML tags from text
-                const cleanText = text.replace(/<[^>]*>/g, '').replace(/&[^;]+;/g, '');
-                
-                this.synthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(cleanText);
-                
-                if (this.selectedVoice) {
-                    utterance.voice = this.selectedVoice;
-                }
-                
-                utterance.lang = this.preferences.language || 'pt-BR';
-                utterance.rate = 0.9;
-                utterance.pitch = 1.0;
-                
-                this.synthesis.speak(utterance);
-            }
-            
-            // Status Management
-            updateStatus(status) {
-                const statusElement = this.elements.sophiaStatus;
-                const statusMap = {
-                    online: { text: 'Online', class: 'status-online' },
-                    listening: { text: 'Ouvindo...', class: 'status-busy' },
-                    thinking: { text: 'Pensando...', class: 'status-busy' },
-                    offline: { text: 'Offline', class: 'status-away' }
-                };
-                
-                const statusInfo = statusMap[status] || statusMap.online;
-                statusElement.textContent = statusInfo.text;
-                statusElement.className = `status ${statusInfo.class}`;
-            }
-            
-            // Analytics
-            startSessionTimer() {
-                setInterval(() => {
-                    this.updateAnalytics();
-                }, 60000); // Update every minute
-            }
-            
-            updateAnalytics() {
-                const messageCountEl = document.getElementById('messageCount');
-                const sessionTimeEl = document.getElementById('sessionTime');
-                const learnedCountEl = document.getElementById('learnedCount');
-                
-                if (messageCountEl) messageCountEl.textContent = this.analytics.messageCount;
-                if (learnedCountEl) learnedCountEl.textContent = Object.keys(this.learnedResponses).length;
-                
-                if (sessionTimeEl) {
-                    const elapsed = Date.now() - this.analytics.sessionStartTime;
-                    const minutes = Math.floor(elapsed / 60000);
-                    const seconds = Math.floor((elapsed % 60000) / 1000);
-                    sessionTimeEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                }
-            }
-            
-            // Form Handlers
-            saveProfile(e) {
-                e.preventDefault();
-                
-                this.userProfile = {
-                    name: document.getElementById('username').value || 'Usuário',
-                    email: document.getElementById('userEmail').value || '',
-                    picture: document.getElementById('profilePicUrl').value || '',
-                    bio: document.getElementById('userBio').value || ''
-                };
-                
-                this.saveUserProfile();
-                this.addMessage("Perfil atualizado com sucesso!", false);
-                this.toggleMenu();
-            }
-            
-            // File Attachment Handler
-            handleAttachment() {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'image/*,text/*,.pdf,.doc,.docx';
-                
-                input.onchange = (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        this.processFile(file);
-                    }
-                };
-                
-                input.click();
-            }
-            
-            processFile(file) {
-                const maxSize = 5 * 1024 * 1024; // 5MB
-                
-                if (file.size > maxSize) {
-                    this.addMessage("Arquivo muito grande. O limite é 5MB.", false);
-                    return;
-                }
-                
-                const reader = new FileReader();
-                
-                reader.onload = (e) => {
-                    const content = e.target.result;
-                    
-                    if (file.type.startsWith('image/')) {
-                        this.addMessage(`📎 Imagem enviada: ${file.name}`, true);
-                        this.addMessage("Legal! Recebi sua imagem. Infelizmente ainda não consigo analisá-la, mas essa funcionalidade está em desenvolvimento!", false);
-                    } else {
-                        this.addMessage(`📎 Arquivo enviado: ${file.name}`, true);
-                        this.addMessage("Arquivo recebido! Funcionalidade de análise de documentos será implementada em breve.", false);
-                    }
-                };
-                
-                if (file.type.startsWith('text/')) {
-                    reader.readAsText(file);
-                } else {
-                    reader.readAsDataURL(file);
-                }
-            }
-            
-            // Data Management
-            loadUserProfile() {
-                try {
-                    if (typeof Storage !== "undefined" && localStorage) {
-                        const saved = localStorage.getItem('sophia_user_profile');
-                        return saved ? JSON.parse(saved) : { name: 'Usuário', email: '', picture: '', bio: '' };
-                    }
-                } catch (error) {
-                    console.warn('localStorage not available:', error);
-                }
-                return { name: 'Usuário', email: '', picture: '', bio: '' };
-            }
-            
-            saveUserProfile() {
-                try {
-                    if (typeof Storage !== "undefined" && localStorage) {
-                        localStorage.setItem('sophia_user_profile', JSON.stringify(this.userProfile));
-                    }
-                } catch (error) {
-                    console.warn('Failed to save user profile:', error);
-                }
-            }
-            
-            loadPreferences() {
-                try {
-                    if (typeof Storage !== "undefined" && localStorage) {
-                        const saved = localStorage.getItem('sophia_preferences');
-                        return saved ? JSON.parse(saved) : {
-                            nightMode: false,
-                            autoTTS: false,
-                            soundNotifications: true,
-                            saveHistory: true,
-                            language: 'pt-BR'
-                        };
-                    }
-                } catch (error) {
-                    console.warn('localStorage not available:', error);
-                }
-                return {
-                    nightMode: false,
-                    autoTTS: false,
-                    soundNotifications: true,
-                    saveHistory: true,
-                    language: 'pt-BR'
-                };
-            }
-            
-            savePreferences() {
-                try {
-                    if (typeof Storage !== "undefined" && localStorage) {
-                        this.preferences.nightMode = document.body.classList.contains('night-mode');
-                        localStorage.setItem('sophia_preferences', JSON.stringify(this.preferences));
-                    }
-                } catch (error) {
-                    console.warn('Failed to save preferences:', error);
-                }
-            }
-            
-            loadLearnedResponses() {
-                try {
-                    if (typeof Storage !== "undefined" && localStorage) {
-                        const saved = localStorage.getItem('sophia_learned_responses');
-                        return saved ? JSON.parse(saved) : {};
-                    }
-                } catch (error) {
-                    console.warn('localStorage not available:', error);
-                }
-                return {};
-            }
-            
-            saveLearnedResponses() {
-                try {
-                    if (typeof Storage !== "undefined" && localStorage) {
-                        localStorage.setItem('sophia_learned_responses', JSON.stringify(this.learnedResponses));
-                    }
-                } catch (error) {
-                    console.warn('Failed to save learned responses:', error);
-                }
-            }
-        }
-        
-        // Global functions for button callbacks
-        function savePreferences() {
-            const preferences = {
-                autoTTS: document.getElementById('autoTTS')?.checked || false,
-                soundNotifications: document.getElementById('soundNotifications')?.checked || true,
-                saveHistory: document.getElementById('saveHistory')?.checked || true,
-                language: document.getElementById('language')?.value || 'pt-BR'
+                if (!isUser) speak(messages.join(' ').replace(/<[^>]*>/g, ''));
             };
             
-            try {
-                if (typeof Storage !== "undefined" && localStorage) {
-                    localStorage.setItem('sophia_preferences', JSON.stringify(preferences));
-                }
-                if (sophia) {
-                    sophia.addMessage("Preferências salvas com sucesso!", false);
-                }
-            } catch (error) {
-                console.warn('Failed to save preferences:', error);
-                if (sophia) {
-                    sophia.addMessage("Erro ao salvar preferências, mas as configurações foram aplicadas temporariamente.", false);
-                }
-            }
-        }
-        
-        function showVersionInfo() {
-            sophia.addMessage(`Sophia v${sophia.version}
-            
-Desenvolvida com tecnologias web modernas:
-• HTML5 & CSS3
-• JavaScript ES6+
-• Web Speech API
-• Local Storage
-• Responsive Design
-
-Última atualização: Janeiro 2025`, false);
-        }
-        
-        function showChangelog() {
-            sophia.addMessage(`Changelog - Sophia v${sophia.version}
-            
-🆕 Novidades:
-• Interface completamente redesenhada
-• Sistema de aprendizado melhorado
-• Novos comandos e funcionalidades
-• Síntese e reconhecimento de voz aprimorados
-• Sistema de analytics integrado
-• Modo escuro/claro automático
-• Suporte a anexos de arquivo
-• Quiz interativo
-• Sistema de lembretes
-• Melhor responsividade mobile
-
-🔧 Correções:
-• Correção de bugs de interface
-• Melhoria na performance
-• Otimização de memória
-• Correções de acessibilidade
-
-🎨 Melhorias de UI/UX:
-• Animações suaves
-• Indicadores de status
-• Typing indicator
-• Suggestion cards
-• Melhor navegação no menu`, false);
-        }
-        
-        function startTutorial() {
-            sophia.addMessage(`🎓 Tutorial da Sophia
-            
-Bem-vindo ao tutorial! Aqui estão os passos básicos:
-
-1️⃣ **Conversação básica**: Digite suas mensagens normalmente
-2️⃣ **Comandos**: Use / antes de comandos (ex: /piada)
-3️⃣ **Voz**: Clique no microfone para falar
-4️⃣ **Menu**: Use o botão ☰ para acessar configurações
-5️⃣ **Aprendizado**: Quando eu não souber algo, você pode me ensinar!
-
-🎯 **Dicas rápidas**:
-• Use Enter para enviar mensagens
-• Shift+Enter para quebrar linha
-• Clique nas sugestões para comandos rápidos
-• Explore o menu lateral para mais opções
-
-Digite "continuar tutorial" para ver comandos avançados!`, false);
-        }
-        
-        function showShortcuts() {
-            sophia.addMessage(`⌨️ Atalhos do Teclado
-            
-**Chat:**
-• Enter - Enviar mensagem
-• Shift+Enter - Nova linha
-• Ctrl+L - Limpar chat
-• Ctrl+M - Abrir/fechar menu
-
-**Navegação:**
-• Esc - Fechar menu/modal
-• Ctrl+1 - Ir para perfil
-• Ctrl+2 - Ir para comandos
-• Ctrl+3 - Ir para sobre
-
-**Acessibilidade:**
-• Tab - Navegar entre elementos
-• Space - Ativar botões
-• Arrow keys - Navegar em listas
-
-Esses atalhos tornam a navegação mais rápida e acessível!`, false);
-        }
-
-        // Initialize the application when DOM is loaded
-        let sophia;
-        document.addEventListener('DOMContentLoaded', () => {
-            sophia = new SophiaAssistant();
-            
-            // Load user preferences into forms
-            const preferences = sophia.preferences;
-            if (document.getElementById('autoTTS')) {
-                document.getElementById('autoTTS').checked = preferences.autoTTS || false;
-            }
-            if (document.getElementById('soundNotifications')) {
-                document.getElementById('soundNotifications').checked = preferences.soundNotifications !== false;
-            }
-            if (document.getElementById('saveHistory')) {
-                document.getElementById('saveHistory').checked = preferences.saveHistory !== false;
-            }
-            if (document.getElementById('language')) {
-                document.getElementById('language').value = preferences.language || 'pt-BR';
-            }
-            
-            // Load user profile into form
-            const profile = sophia.userProfile;
-            if (document.getElementById('username')) {
-                document.getElementById('username').value = profile.name || '';
-            }
-            if (document.getElementById('userEmail')) {
-                document.getElementById('userEmail').value = profile.email || '';
-            }
-            if (document.getElementById('profilePicUrl')) {
-                document.getElementById('profilePicUrl').value = profile.picture || '';
-            }
-            if (document.getElementById('userBio')) {
-                document.getElementById('userBio').value = profile.bio || '';
-            }
-            
-            // Add keyboard shortcuts
-            document.addEventListener('keydown', (e) => {
-                if (e.ctrlKey || e.metaKey) {
-                    switch(e.key.toLowerCase()) {
-                        case 'l':
-                            e.preventDefault();
-                            sophia.clearChat();
-                            break;
-                        case 'm':
-                            e.preventDefault();
-                            sophia.toggleMenu();
-                            break;
-                        case '1':
-                            e.preventDefault();
-                            sophia.openTab('profile');
-                            break;
-                        case '2':
-                            e.preventDefault();
-                            sophia.openTab('commands');
-                            break;
-                        case '3':
-                            e.preventDefault();
-                            sophia.openTab('about');
-                            break;
-                    }
-                } else if (e.key === 'Escape') {
-                    if (sophia.elements.sidebar.classList.contains('active')) {
-                        sophia.toggleMenu();
-                    }
-                }
-            });
-            
-            // Enhanced error handling
-            window.addEventListener('error', (e) => {
-                console.error('Application error:', e.error);
-                if (sophia) {
-                    sophia.addMessage("Ops! Ocorreu um erro inesperado. A aplicação foi recarregada automaticamente.", false);
-                }
-            });
-            
-            // Service worker registration for offline functionality (future enhancement)
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js').catch(() => {
-                    console.log('Service worker registration failed - continuing without offline support');
+            const showQuickReplies = (replies) => {
+                elements.quickReplyArea.innerHTML = replies.map(reply => `<button class="quick-reply">${reply}</button>`).join('');
+                document.querySelectorAll('.quick-reply').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        elements.userInput.value = btn.textContent;
+                        handleUserInput();
+                    });
                 });
-            }
+            };
+
+            const showTypingIndicator = (show = true) => {
+                document.querySelectorAll('.typing-indicator').forEach(el => el.remove());
+                if (show) {
+                    const typingHTML = `<div class="message-group typing-indicator"><div class="bot-avatar"><img src="https://i.imgur.com/HPsXQqv.png" alt="Avatar"></div><div class="message-bubbles"><div class="message bot-message typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>`;
+                    elements.chatMessages.innerHTML += typingHTML;
+                    elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+                }
+            };
             
-            // Performance monitoring
-            if ('performance' in window) {
-                window.addEventListener('load', () => {
-                    const perfData = performance.timing;
-                    const loadTime = perfData.loadEventEnd - perfData.navigationStart;
-                    console.log(`Application loaded in ${loadTime}ms`);
-                });
+            const startConversation = () => {
+                if (userName) {
+                    const greeting = new Date().getHours() < 12 ? "Bom dia" : new Date().getHours() < 18 ? "Boa tarde" : "Boa noite";
+                    addMessage([`${greeting}, ${userName}!`, "Como posso te ajudar hoje?"]);
+                } else {
+                    addMessage(["Olá! Eu sou a Sophia.", "Como posso te chamar?"]);
+                    conversationState = 'WAITING_FOR_NAME';
+                    elements.userInput.focus();
+                }
+            };
+
+            const handleUserInput = (event) => {
+                if(event) event.preventDefault();
+                const text = elements.userInput.value.trim();
+                if (!text) return;
+                
+                addMessage(text, true);
+                elements.userInput.value = '';
+                elements.quickReplyArea.innerHTML = '';
+                
+                showTypingIndicator();
+                const responseDelay = 800 + Math.random() * 800;
+                setTimeout(() => generateResponse(text), responseDelay);
+            };
+
+            const generateResponse = (input) => {
+                showTypingIndicator(false);
+                const lowerInput = input.toLowerCase();
+
+                if (conversationState === 'WAITING_FOR_NAME') {
+                    userName = input.split(' ')[0];
+                    localStorage.setItem('sophiaUserName', userName);
+                    conversationState = 'IDLE';
+                    addMessage([`Prazer em te conhecer, ${userName}!`, `O que você gostaria de fazer?`]);
+                    showQuickReplies(["Recomende um anime", "/clima São Paulo", "/noticias"]);
+                    return;
+                }
+                
+                if (conversationState === 'WAITING_FOR_RIDDLE_ANSWER') {
+                    if (lowerInput.includes(riddleAnswer)) { addMessage("Parabéns, você acertou! 🎉"); } 
+                    else { addMessage(`Não foi dessa vez. A resposta era: **${riddleAnswer}**.`); }
+                    conversationState = 'IDLE';
+                    showQuickReplies(["Me conte uma piada", "/ajuda"]);
+                    return;
+                }
+                
+                if (lowerInput.startsWith('/')) { handleCommand(lowerInput); return; }
+
+                if (lowerInput.includes('anime')) { const a = knowledgeBase.animes.random(); addMessage(`Que tal <b style="color: #BF360C">${a.title}</b>? É sobre: ${a.desc}`); }
+                else if (lowerInput.includes('música')) { const m = knowledgeBase.musics.random(); addMessage(`Recomendo <b style="color: #00796B">${m.title}</b> de ${m.artist}.`); }
+                else if (lowerInput.includes('frase') || lowerInput.includes('motiva')) { addMessage(`Claro! <i>"${knowledgeBase.quotes.random()}"</i>`); }
+                else if (lowerInput.includes('quem é você')) { addMessage(knowledgeBase.identity); }
+                else if (lowerInput.includes('obrigad')) { addMessage(knowledgeBase.gratitude.random()); }
+                else if (lowerInput.includes('tchau') || lowerInput.includes('adeus')) { addMessage(knowledgeBase.farewell.random()); }
+                else if (lowerInput.includes('hora')) { addMessage(`Agora são ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}.`); }
+                else if (lowerInput.includes('dia') || lowerInput.includes('data')) { addMessage(`Hoje é ${new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}.`); }
+                else {
+                    addMessage(knowledgeBase.fallback);
+                    showQuickReplies(["Recomende uma música", "/calcular 10*5", "/ajuda"]);
+                }
+            };
+            
+            const handleCommand = (input) => {
+                const [command, ...args] = input.substring(1).split(' ');
+                const query = args.join(' ');
+
+                switch(command) {
+                    case 'ajuda': addMessage("<b>Comandos disponíveis:</b><br>/clima [cidade]<br>/noticias<br>/buscar [termo]<br>/calcular [operação]<br>/piada<br>/charada"); break;
+                    case 'clima': fetchWeather(query || 'São Paulo'); break;
+                    case 'noticias': fetchNews(); break;
+                    case 'buscar': addMessage(`Aqui estão os resultados da busca para "${query}":<br><a href="https://www.google.com/search?q=${encodeURIComponent(query)}" target="_blank">Ver no Google</a>`); break;
+                    case 'calcular':
+                        try { addMessage(`O resultado é: ${eval(query.replace(/[^-()\d/*+.]/g, ''))}`); }
+                        catch { addMessage("Não consegui calcular isso."); }
+                        break;
+                    case 'piada': addMessage(knowledgeBase.jokes.random()); break;
+                    case 'charada':
+                        const riddle = knowledgeBase.riddles.random();
+                        riddleAnswer = riddle.a;
+                        conversationState = 'WAITING_FOR_RIDDLE_ANSWER';
+                        addMessage([riddle.q, "Qual é a sua resposta?"]);
+                        elements.userInput.focus();
+                        break;
+                    default: addMessage("Comando não reconhecido. Digite `/ajuda` para ver a lista.");
+                }
+            };
+
+            const fetchApi = async (url, errorMessage) => {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    console.error("API Error:", error);
+                    addMessage(errorMessage);
+                    return null;
+                }
+            };
+
+            const fetchWeather = async (city) => {
+                const apiKey = 'SUA_CHAVE_API_OPENWEATHERMAP'; 
+                if(apiKey.includes('SUA_CHAVE')) { addMessage("A função de clima precisa de uma chave de API para funcionar."); return; }
+                const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=pt_br`;
+                const data = await fetchApi(url, "Não consegui buscar o clima agora.");
+                if (data) {
+                    const weatherCard = `<div class="message bot-message rich-card"><div class="rich-card-header"><img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" width="40" height="40"><span class="rich-card-title">Tempo em ${data.name}</span></div><div class="rich-card-body"><b>${Math.round(data.main.temp)}°C</b> (${data.weather[0].description})<br>Sensação de ${Math.round(data.main.feels_like)}°C.</div></div>`;
+                    addMessage([weatherCard]);
+                }
+            };
+            
+            const fetchNews = async () => {
+                const apiKey = 'SUA_CHAVE_API_NEWSAPI';
+                if(apiKey.includes('SUA_CHAVE')) { addMessage("A função de notícias precisa de uma chave de API para funcionar."); return; }
+                const url = `https://newsapi.org/v2/top-headlines?country=br&pageSize=5&apiKey=${apiKey}`;
+                const data = await fetchApi(url, "Não consegui buscar as notícias agora.");
+                if (data && data.articles) {
+                    const articles = data.articles.map(article => `<b>- <a href="${article.url}" target="_blank">${article.title}</a></b>`).join('<br>');
+                    addMessage(`Principais notícias de hoje no Brasil:<br><div class="rich-card-body">${articles}</div>`);
+                }
+            };
+            
+            const initializeSpeech = () => {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) { elements.micBtn.style.display = 'none'; return; }
+                speechRecognition = new SpeechRecognition();
+                speechRecognition.lang = 'pt-BR';
+                speechRecognition.continuous = false;
+                speechRecognition.onstart = () => elements.micBtn.classList.add('listening');
+                speechRecognition.onend = () => elements.micBtn.classList.remove('listening');
+                speechRecognition.onresult = (event) => { elements.userInput.value = event.results[0][0].transcript; handleUserInput(); };
+            };
+            
+            const speak = (text) => {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'pt-BR';
+                speechSynthesis.speak(utterance);
+            };
+            
+            const toggleTheme = () => {
+                document.body.classList.toggle('dark-mode');
+                localStorage.setItem('sophiaTheme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            };
+
+            // Init
+            elements.getStartedBtn.addEventListener('click', () => {
+                elements.welcomeScreen.classList.add('hidden');
+                elements.chatScreen.classList.remove('hidden');
+                startConversation();
+            });
+            elements.inputArea.addEventListener('submit', handleUserInput);
+            elements.micBtn.addEventListener('click', () => speechRecognition?.start());
+            elements.menuBtn.addEventListener('click', () => elements.menuOverlay.classList.add('active'));
+            elements.menuOverlay.addEventListener('click', (e) => { if (e.target === elements.menuOverlay) elements.menuOverlay.classList.remove('active'); });
+            
+            elements.clearChatBtn.addEventListener('click', () => {
+                elements.chatMessages.innerHTML = '';
+                elements.menuOverlay.classList.remove('active');
+                localStorage.removeItem('sophiaUserName');
+                userName = '';
+                startConversation();
+            });
+            elements.helpBtn.addEventListener('click', () => {
+                elements.menuOverlay.classList.remove('active');
+                handleCommand('/ajuda');
+            });
+            elements.darkModeToggle.addEventListener('change', toggleTheme);
+
+            if (localStorage.getItem('sophiaTheme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                elements.darkModeToggle.checked = true;
             }
+            Array.prototype.random = function() { return this[Math.floor(Math.random() * this.length)]; };
+            initializeSpeech();
         });
-        
-        // Export for potential module usage
-        if (typeof module !== 'undefined' && module.exports) {
-            module.exports = SophiaAssistant;
-        }
     </script>
 </body>
 </html>
