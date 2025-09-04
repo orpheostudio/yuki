@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sophia</title>
+    <title>Yuki</title>
     <link rel="icon" type="image/png" href="https://i.imgur.com/HPsXQqv.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -136,7 +136,7 @@
         
         <div class="screen welcome-screen" id="welcomeScreen">
             <div class="welcome-avatar"><img src="https://i.imgur.com/HPsXQqv.png" alt="Hanabi Avatar"></div>
-            <h1 class="welcome-title">Bem vindo(a)! Eu sou a Sophia.</h1>
+            <h1 class="welcome-title">Bem vindo(a)! Eu sou a Yuki.</h1>
             <div class="welcome-actions"><button class="primary-btn" id="getStartedBtn">Começar</button></div>
         </div>
 
@@ -144,7 +144,7 @@
             <header class="chat-header">
                 <div class="header-title-group">
                     <img src="https://i.imgur.com/HPsXQqv.png" alt="Hanabi Logo" class="header-logo">
-                    <h1 class="header-name">Sophia</h1>
+                    <h1 class="header-name">Yuki</h1>
                 </div>
                 <div>
                     <button type="button" class="icon-btn" id="menuBtn" title="Menu" style="width: 40px; height: 40px;"><i class="fas fa-ellipsis-h"></i></button>
@@ -181,7 +181,7 @@
                     <li><a href="https://naotodev1.github.io/terms-e-policy" target="_blank"><i class="fas fa-file-contract"></i> Termos de Uso</a></li>
                     <li><a href="https://studiotsukiyo.bio.link" target="_blank"><i class="fas fa-star"></i> Studio Tsukiyo</a></li>
                     <li><button id="aboutDevBtn"><i class="fas fa-code"></i> Sobre o Dev: Naoto Dev</button></li>
-                    <li><button id="aboutHanabiBtn"><i class="fas fa-info-circle"></i> Sobre a Sophia</button></li>
+                    <li><button id="aboutHanabiBtn"><i class="fas fa-info-circle"></i> Sobre a Yuki</button></li>
                     <li><button id="clearChatBtn"><i class="fas fa-trash"></i> Limpar e Reiniciar</button></li>
                 </ul>
             </div>
@@ -223,26 +223,126 @@
 
             const knowledgeBase = {
                 greetings: ["Olá! Como vai?", "Oi! Que bom te ver.", "E aí! Tudo bem?"],
-                identity: "Eu sou a Sophia, uma assistente virtual criada pelo Studio Tsukiyo Platforms para te ajudar no dia a dia.",
+                identity: "Eu sou a Yuki, uma assistente virtual criada pelo Studio Tsukiyo Platforms para te ajudar no dia a dia.",
                 gratitude: ["De nada! Se precisar de mais alguma coisa, é só chamar.", "Fico feliz em ajudar!"],
                 farewell: ["Até mais! Volte sempre que precisar.", "Tchau! Tenha um ótimo dia."],
                 fallback: "Desculpe, não entendi. Que tal tentar uma das opções abaixo ou digitar `/ajuda` para ver meus comandos?",
                 jokes: ["O que o pato falou para a pata? Vem Quá!", "Por que a velhinha não usa relógio? Porque ela é uma sem hora."],
                 riddles: [ { q: "O que é, o que é? Cai em pé e corre deitado?", a: "chuva" }, { q: "Tenho cidades, mas não casas. O que sou eu?", a: "mapa" } ],
-                animes: [
-                    { title: "Attack on Titan", desc: "Um anime épico sobre a luta da humanidade contra titãs." },
-                    { title: "Fullmetal Alchemist: Brotherhood", desc: "Dois irmãos em busca da Pedra Filosofal para restaurar seus corpos." },
-                    { title: "Demon Slayer", desc: "Um jovem se torna um caçador de demônios para salvar sua irmã." }
+               const animes = [
+    { title: "Fullmetal Alchemist: Brotherhood", desc: "Dois irmãos alquimistas tentam restaurar seus corpos após um experimento que deu errado." },
+    { title: "Steins;Gate", desc: "Um grupo de amigos descobre acidentalmente como enviar mensagens para o passado, desencadeando uma série de eventos." },
+    { title: "Hunter x Hunter", desc: "Um garoto parte em uma jornada para encontrar seu pai e se tornar um Hunter." },
+    { title: "Gintama", desc: "Um samurai vagabundo luta contra alienígenas em um Japão feudal alternativo." },
+    { title: "Clannad: After Story", desc: "A sequência emocional de Clannad, explorando a vida adulta e os desafios do casamento e da paternidade." },
+    { title: "Your Lie in April", desc: "Um prodígio do piano encontra inspiração e cura emocional ao conhecer uma violinista." },
+    { title: "Cowboy Bebop", desc: "Acompanhe um grupo de caçadores de recompensas pelo espaço em uma jornada cheia de ação e reflexão." },
+    { title: "Code Geass: Lelouch of the Rebellion", desc: "Um jovem recebe o poder do Geass e busca derrubar um império tirânico." },
+    { title: "Made in Abyss", desc: "Uma garota desce em um abismo misterioso em busca de sua mãe, enfrentando perigos inimagináveis." },
+    { title: "Mob Psycho 100", desc: "Um jovem com poderes psíquicos tenta viver uma vida normal enquanto enfrenta dilemas emocionais." },
+    { title: "Jujutsu Kaisen", desc: "Um estudante ingere um objeto amaldiçoado e se vê envolvido em batalhas contra maldições." },
+    { title: "Frieren: Beyond Journey's End", desc: "Uma maga imortal reflete sobre sua jornada e as amizades formadas após a derrota do Rei Demônio." },
+    { title: "Attack on Titan", desc: "Em um mundo devastado por gigantes devoradores de humanos, um grupo de soldados luta pela sobrevivência." },
+    { title: "Death Note", desc: "Um estudante encontra um caderno que permite matar qualquer pessoa cujo nome seja escrito nele." },
+    { title: "Neon Genesis Evangelion", desc: "Jovens pilotos de mechas enfrentam criaturas misteriosas enquanto lidam com seus próprios traumas." },
+    { title: "One Piece", desc: "Um grupo de piratas busca o tesouro lendário conhecido como One Piece." },
+    { title: "Naruto", desc: "Acompanhe a jornada de um jovem ninja em busca de reconhecimento e poder." },
+    { title: "My Hero Academia", desc: "Em um mundo onde quase todos têm superpoderes, um jovem sem habilidades sonha em se tornar um herói." },
+    { title: "Haikyuu!!", desc: "A história de um time de vôlei escolar e sua luta para se tornar o melhor do Japão." },
+    { title: "Vinland Saga", desc: "Acompanhe a vida de um jovem viking em busca de vingança e redenção." },
+    { title: "The Rising of the Shield Hero", desc: "Um homem é transportado para outro mundo e se torna o herói do escudo, enfrentando desafios e traições." },
+    { title: "Kaguya-sama: Love is War", desc: "Dois estudantes de elite travam uma guerra psicológica para forçar o outro a confessar seu amor." },
+    { title: "Mob Psycho 100 II", desc: "Continuação das aventuras de Mob, agora enfrentando novos desafios e amadurecendo emocionalmente." },
+    { title: "Demon Slayer: Kimetsu no Yaiba", desc: "Um jovem se torna um caçador de demônios para salvar sua irmã transformada em demônio." },
+    { title: "Re:Zero − Starting Life in Another World", desc: "Um jovem é transportado para outro mundo e descobre que pode voltar no tempo cada vez que morre." },
+    { title: "Toradora!", desc: "Uma comédia romântica sobre dois estudantes com personalidades fortes que se ajudam a conquistar seus amores." },
+    { title: "FLCL", desc: "Uma história surreal e energética sobre a adolescência e o crescimento pessoal." },
+    { title: "Ghost in the Shell: Stand Alone Complex", desc: "Em um futuro cyberpunk, uma unidade de elite combate crimes cibernéticos." },
+    { title: "Cowboy Bebop: The Movie", desc: "Os caçadores de recompensas enfrentam um novo inimigo em uma missão no espaço." },
+    { title: "Samurai Champloo", desc: "Três viajantes improváveis percorrem o Japão feudal em uma jornada cheia de ação e música." },
+    { title: "Berserk", desc: "A história sombria de um mercenário em busca de vingança em um mundo medieval brutal." },
+    { title: "JoJo's Bizarre Adventure", desc: "Uma família luta contra forças sobrenaturais ao longo de várias gerações." },
+    { title: "Black Clover", desc: "Dois órfãos competem para se tornar o Rei Mago em um mundo onde todos têm magia." },
+    { title: "Bleach", desc: "Um adolescente ganha poderes de um ceifador de almas e deve proteger os vivos e os mortos." },
+    { title: "Tokyo Ghoul", desc: "Um jovem se transforma em meio-ghoul após um acidente e deve aprender a viver entre humanos e ghouls." },
+    { title: "Akira", desc: "Em um futuro pós-apocalíptico, um jovem com poderes psíquicos ameaça destruir a cidade." },
+    { title: "Mushishi", desc: "Um homem viaja pelo Japão investigando fenômenos misteriosos causados por seres chamados mushi." },
+    { title: "Anohana: The Flower We Saw That Day", desc: "Um grupo de amigos se reúne para lidar com a perda de um ente querido." },
+    { title: "March Comes in Like a Lion", desc: "Um jovem jogador de shogi luta contra a depressão e encontra apoio em uma família." },
+    { title: "Erased", desc: "Um homem viaja no tempo para impedir o sequestro e assassinato de uma criança." },
+    { title: "Made in Abyss: Dawn of the Deep Soul", desc: "Continuação da jornada perigosa no abismo misterioso." },
+    { title: "The Promised Neverland", desc: "Crianças em um orfanato descobrem um segredo sombrio e planejam uma fuga." },
+    { title: "K-On!", desc: "Cinco garotas formam uma banda escolar e lidam com os desafios da vida adolescente." },
+    { title: "Fruits Basket", desc: "Uma jovem se envolve com uma família que carrega uma maldição." },
+    { title: "Mob Psycho 100 III", desc: "A terceira temporada segue Mob enquanto ele enfrenta novos desafios e cresce como pessoa." },
+    { title: "One Punch Man", desc: "Um herói invencível busca um adversário digno de sua força." },
+    { title: "Attack on Titan: The Final Season", desc: "A última temporada da luta épica contra os titãs." },
+    { title: "Yuri on Ice", desc: "Um patinador artístico luta para se recuperar de uma derrota e encontrar seu caminho." },
+    { title: "Dorohedoro", desc: "Um homem com cabeça de réptil busca descobrir sua verdadeira identidade em um mundo caótico." },
+    { title: "Beastars", desc: "Em um mundo habitado por animais antropomórficos, um lobo lida com seus sentimentos e identidade." },
+    { title: "The Ancient Magus' Bride", desc: "Uma jovem é comprada por um mago e se torna sua aprendiz e noiva." },
+    { title: "Mob Psycho 100: Reigen", desc: "Um especial que explora mais sobre o mentor de Mob, Reigen." },
+    { title: "Black Lagoon", desc: "Mercenários enfrentam perigos em uma cidade cheia de criminosos internacionais." },
+    { title: "Trigun", desc: "Um pistoleiro com um passado misterioso viaja pelo deserto em busca de redenção." },
+    { title: "Hellsing", desc: "Uma organização secreta combate criaturas sobrenaturais com a ajuda de um vampiro." },
+    { title: "Soul Eater", desc: "Estudantes treinam para se tornar caçadores de almas em uma escola especializada." },
+    { title: "Noragami", desc: "Um deus menor tenta ganhar seguidores enquanto ajuda humanos com seus problemas." },
+    { title: "Black Clover: Sword of the Wizard King", desc: "Um filme que expande a história do anime com novas aventuras." }
                 ],
-                musics: [
-                    { title: "Blinding Lights", artist: "The Weeknd" },
-                    { title: "Save Your Tears", artist: "The Weeknd" },
-                    { title: "Bohemian Rhapsody", artist: "Queen" }
-                ],
-                quotes: [
-                    "A persistência é o caminho do êxito. - Charles Chaplin",
-                    "O sucesso é a soma de pequenos esforços repetidos dia após dia. - Robert Collier"
-                ]
+               const musics = [
+    { title: "Blinding Lights", artist: "The Weeknd" },
+    { title: "Save Your Tears", artist: "The Weeknd" },
+    { title: "Bohemian Rhapsody", artist: "Queen" },
+    { title: "Don't Start Now", artist: "Dua Lipa" },
+    { title: "Levitating", artist: "Dua Lipa" },
+    { title: "Shape of You", artist: "Ed Sheeran" },
+    { title: "Perfect", artist: "Ed Sheeran" },
+    { title: "Bad Guy", artist: "Billie Eilish" },
+    { title: "Happier Than Ever", artist: "Billie Eilish" },
+    { title: "Smells Like Teen Spirit", artist: "Nirvana" },
+    { title: "Enter Sandman", artist: "Metallica" },
+    { title: "Thriller", artist: "Michael Jackson" },
+    { title: "Billie Jean", artist: "Michael Jackson" },
+    { title: "Rolling in the Deep", artist: "Adele" },
+    { title: "Hello", artist: "Adele" },
+    { title: "Watermelon Sugar", artist: "Harry Styles" },
+    { title: "As It Was", artist: "Harry Styles" },
+    { title: "Uptown Funk", artist: "Mark Ronson ft. Bruno Mars" },
+    { title: "24K Magic", artist: "Bruno Mars" },
+    { title: "Someone Like You", artist: "Adele" },
+    { title: "Stay", artist: "The Kid LAROI & Justin Bieber" },
+    { title: "Peaches", artist: "Justin Bieber ft. Daniel Caesar & Giveon" },
+    { title: "Drivers License", artist: "Olivia Rodrigo" },
+    { title: "Good 4 U", artist: "Olivia Rodrigo" },
+    { title: "Shallow", artist: "Lady Gaga & Bradley Cooper" },
+    { title: "Bad Romance", artist: "Lady Gaga" },
+    { title: "Rolling Stone", artist: "Bob Dylan" },
+    { title: "Imagine", artist: "John Lennon" },
+    { title: "Hey Jude", artist: "The Beatles" },
+    { title: "Let It Be", artist: "The Beatles" }
+],
+               const quotes = [
+    "A persistência é o caminho do êxito. - Charles Chaplin",
+    "O sucesso é a soma de pequenos esforços repetidos dia após dia. - Robert Collier",
+    "A vida é 10% o que acontece comigo e 90% como eu reajo a isso. - Charles R. Swindoll",
+    "O único lugar onde o sucesso vem antes do trabalho é no dicionário. - Vidal Sassoon",
+    "Não espere por oportunidades extraordinárias. Agarre ocasiões comuns e torne-as grandes. - Orison Swett Marden",
+    "Acredite que você pode, assim você já está no meio do caminho. - Theodore Roosevelt",
+    "A melhor maneira de prever o futuro é criá-lo. - Peter Drucker",
+    "Coragem é a resistência ao medo, domínio do medo, não ausência do medo. - Mark Twain",
+    "Você perde 100% dos tiros que não dá. - Wayne Gretzky",
+    "Grandes espíritos sempre encontraram violenta oposição de mentes medíocres. - Albert Einstein",
+    "O sucesso não é definitivo, o fracasso não é fatal: é a coragem de continuar que conta. - Winston Churchill",
+    "A única limitação que você tem é aquela que você acredita ter. - Napoleon Hill",
+    "Não conte os dias, faça os dias contarem. - Muhammad Ali",
+    "O otimismo é a fé que leva à realização. Nada pode ser feito sem esperança e confiança. - Helen Keller",
+    "Transforme suas feridas em sabedoria. - Oprah Winfrey",
+    "O único modo de fazer um excelente trabalho é amar o que você faz. - Steve Jobs",
+    "Não é a montanha que conquistamos, mas a nós mesmos. - Sir Edmund Hillary",
+    "Se você quer algo que nunca teve, precisa fazer algo que nunca fez. - Thomas Jefferson",
+    "A felicidade não é algo pronto. Ela vem de suas próprias ações. - Dalai Lama",
+    "Você não precisa ser ótimo para começar, mas precisa começar para ser ótimo. - Zig Ziglar"
+];
             };
 
             const parseMarkdown = (text) => text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
@@ -319,7 +419,7 @@
                     localStorage.setItem('hanabiUserName', userName);
                     conversationState = 'IDLE';
                     addMessage([`Prazer em te conhecer, **${userName}**!`, `O que você gostaria de fazer?`]);
-                    showQuickReplies(["/noticias", "/clima São Paulo", "Me conte uma piada"]);
+                    showQuickReplies(["/noticias", "/clima Vitória", "Me conte uma piada"]);
                     return;
                 }
                 
@@ -486,8 +586,8 @@
             const showAboutHanabi = () => {
                 elements.menuOverlay.classList.remove('active');
                 addMessage([
-                    "**Sobre a Sophia**",
-                    "Eu sou a Sophia, uma assistente virtual inteligente criada pelo Studio Tsukiyo.",
+                    "**Sobre a Yuki**",
+                    "Eu sou a Yuki, uma assistente virtual inteligente criada pelo Studio Tsukiyo.",
                     "",
                     "**Recursos:**",
                     "• Conversação inteligente e natural",
@@ -502,7 +602,7 @@
 
             const showAboutDev = () => {
                 elements.menuOverlay.classList.remove('active');
-                addMessage("Naoto Dev é o desenvolvedor por trás da Sophia e de outros projetos do Studio Tsukiyo Platforms. Um entusiasta de tecnologia que cria assistentes inteligentes para melhorar seu dia a dia.");
+                addMessage("Naoto Dev é o desenvolvedor por trás da Yuki e de outros projetos do Studio Tsukiyo Platforms. Um entusiasta de tecnologia que cria assistentes inteligentes para melhorar seu dia a dia.");
             };
 
             // Inicialização do aplicativo
