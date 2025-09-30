@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yuki</title>
-    <link rel="icon" type="image/png" href="https://imgur.com/0Bamd4t.png">
+    <title>Sophia</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/orvGJOL.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -164,8 +164,8 @@
     <div class="container">
         
         <div class="screen welcome-screen" id="welcomeScreen">
-            <div class="welcome-avatar"><img src="https://imgur.com/0Bamd4t.png" alt="Yuki Avatar"></div>
-            <h1 class="welcome-title">Bem vindo(a)! Eu sou a Yuki.</h1>
+            <div class="welcome-avatar"><img src="https://i.imgur.com/orvGJOL.png" alt="Yuki Avatar"></div>
+            <h1 class="welcome-title">Bem vindo(a)! Eu sou a Lúmen.</h1>
             <div class="welcome-actions"><button class="primary-btn" id="getStartedBtn">Começar</button></div>
         </div>
 
@@ -173,8 +173,8 @@
             <header class="chat-header">
                 <div style="width: 48px;"></div>
                 <div class="header-title-group">
-                    <img src="https://imgur.com/0Bamd4t.png" alt="Yuki Logo" class="header-logo">
-                    <h1 class="header-name">Yuki</h1>
+                    <img src="https://i.imgur.com/orvGJOL.png" alt="Lúmen Logo" class="header-logo">
+                    <h1 class="header-name">Lúmen</h1>
                 </div>
                 <button type="button" class="icon-btn header-menu-btn" id="menuBtn" title="Menu"><i class="fas fa-ellipsis-h"></i></button>
             </header>
@@ -182,7 +182,7 @@
             <div class="chat-body">
                 <div class="assistant-ui" id="assistantUI">
                     <p class="greeting-text">Olá, <b id="greetingName">visitante</b>!</p>
-                    <p class="help-text">Como posso te ajudar hoje?</p>
+                    <p class="help-text">É um prazer te ver aqui.</p>
                     <div class="orb" id="orb"></div>
                 </div>
                 <div class="chat-messages" id="chatMessages"></div>
@@ -198,7 +198,7 @@
                 </div>
                 <button type="submit" class="icon-btn" id="sendButton"><i class="fas fa-arrow-up"></i></button>
             </form>
-            <div class="footer">Powered by Naoto Dev</div>
+            <div class="footer">Powered by ORPHEO Platforms</div>
         </div>
 
         <div class="modal-overlay" id="menuOverlay">
@@ -288,7 +288,7 @@
 
             initializeKnowledgeBase() {
                 this.knowledgeBase = {
-                    identity: "Eu sou a Yuki, uma assistente virtual criada pelo Studio Tsukiyo Platforms para te ajudar no dia a dia com entretenimento, conhecimento e companhia!",
+                    identity: "Eu sou a Lúmen, uma assistente virtual criada pelo ORPHEO Platforms para te ajudar no dia a dia com entretenimento, conhecimento e companhia!",
                     
                     animes: [
                         { title: "Demon Slayer", desc: "Tanjiro luta contra demônios para salvar sua irmã Nezuko.", genre: "ação", rating: 9.0 },
@@ -523,7 +523,7 @@
                 messageGroup.className = `message-group ${isUser ? 'user' : ''}`;
                 
                 if (!isUser) {
-                    messageGroup.innerHTML += `<div class="bot-avatar"><img src="https://imgur.com/0Bamd4t.png" alt="Avatar"></div>`;
+                    messageGroup.innerHTML += `<div class="bot-avatar"><img src="https://i.imgur.com/orvGJOL.png" alt="Avatar"></div>`;
                 }
                 
                 const bubblesContainer = document.createElement('div');
@@ -568,7 +568,7 @@
                 const indicator = document.createElement('div');
                 indicator.className = 'message-group typing-indicator-group';
                 indicator.innerHTML = `
-                    <div class="bot-avatar"><img src="https://imgur.com/0Bamd4t.png" alt="Avatar"></div>
+                    <div class="bot-avatar"><img src="https://i.imgur.com/orvGJOL.png" alt="Avatar"></div>
                     <div class="message bot-message typing-indicator">
                         <div class="typing-dot"></div>
                         <div class="typing-dot"></div>
@@ -961,7 +961,7 @@
             showHelp() {
                 this.elements.menuOverlay.classList.remove('active');
                 this.addMessage([
-                    "🆘 **Central de Ajuda da Yuki**",
+                    "🆘 **Central de Ajuda da Lúmen**",
                     "",
                     "**📱 Comandos Principais:**",
                     "`/anime` - Recomendações de animes",
@@ -987,7 +987,7 @@
             showPremiumInfo() {
                 this.elements.menuOverlay.classList.remove('active');
                 this.addMessage([
-                    "⭐ **Yuki Premium** - Em Breve!",
+                    "⭐ **Lúmen Premium** - Em Breve!",
                     "",
                     "🚀 **Recursos que estão chegando:**",
                     "• Recomendações personalizadas com IA",
@@ -1006,9 +1006,9 @@
             showAboutYuki() {
                 this.elements.menuOverlay.classList.remove('active');
                 this.addMessage([
-                    "🤖 **Sobre a Yuki v3.0**",
+                    "🤖 **Sobre a Lúmen v3.0**",
                     "",
-                    "Olá! Eu sou a Yuki, sua assistente virtual de entretenimento! 💙",
+                    "Olá! Eu sou a Lúmen, sua assistente virtual de entretenimento! 💙",
                     "",
                     "🎯 **Minha missão:**",
                     "Trazer diversão, conhecimento e companhia para o seu dia!",
@@ -1021,7 +1021,7 @@
                     "• Converso sobre seus assuntos favoritos",
                     "",
                     "💻 **Criada com ❤️ por:** Naoto Dev",
-                    "🏢 **Studio:** Tsukiyo Platforms",
+                    "🏢 **ORPHEO** Platforms",
                     "",
                     "Sempre evoluindo para te atender melhor! 🌟"
                 ], false, true);
@@ -1033,7 +1033,7 @@
                 this.addMessage([
                     "👨‍💻 **Sobre o Desenvolvedor**",
                     "",
-                    "**Naoto Dev** é o criador por trás da Yuki e outros projetos incríveis do Studio Tsukiyo Platforms.",
+                    "**ORPHEO Platforms** é o criador por trás da Lúmen e outros projetos incríveis do Studio Tsukiyo Platforms.",
                     "",
                     "🎮 **Especialidades:**",
                     "• Desenvolvimento de assistentes virtuais",
@@ -1046,7 +1046,7 @@
                     "",
                     "📬 **Contato:** sac.studiotsukiyo@outlook.com",
                     "",
-                    "Obrigada por usar a Yuki! 💙"
+                    "Obrigada por usar a Lúmen! 💙"
                 ], false, true);
                 this.showQuickReplies(["/ajuda", "/anime", "/música"]);
             }
@@ -1342,7 +1342,7 @@
                 if (!this.userName) {
                     setTimeout(() => {
                         this.addMessage([
-                            "Olá! Eu sou a Yuki, sua assistente virtual! 🤖💙", 
+                            "Olá! Eu sou a Lúmen, sua assistente virtual! 🤖💙", 
                             "Como posso te chamar?"
                         ]);
                         this.conversationState = 'WAITING_FOR_NAME';
@@ -1359,7 +1359,7 @@
                     setTimeout(() => {
                         this.addMessage([
                             greetings.random(),
-                            "O que vamos fazer hoje?"
+                            "Para explorar todo meu potencial, que tal explorar as opções de comandos no menu?! para acessar basta clicar no icone de "hamburguer" e acessar comandos."
                         ], false, true);
                         this.showQuickReplies(["/anime", "/piada", "/música", "/ajuda"]);
                     }, 500);
