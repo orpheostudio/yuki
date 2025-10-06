@@ -3,216 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sophia</title>
+    <title>Yume - Assistente Virtual</title>
     <link rel="icon" type="image/png" href="https://i.imgur.com/orvGJOL.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --background-color: #F3F6FA; --bot-message-bg: #FFFFFF; --user-message-bg: #2C3E50;
-            --text-primary: #2C3E50; --text-light: #FFFFFF; --text-secondary: #8A94A6;
-            --border-color: #E0E5EC; --button-outline: #D1D9E6; --shadow-color: rgba(44, 62, 80, 0.1);
-            --accent-color: #3498DB; --orb-gradient: linear-gradient(135deg, #EC4899, #8B5CF6);
-            --success-color: #27AE60; --warning-color: #F39C12; --error-color: #E74C3C;
-        }
-        body.dark-mode {
-            --background-color: #1A1A1A; --bot-message-bg: #2C2C2C; --user-message-bg: #3498DB;
-            --text-primary: #EAEAEA; --text-light: #FFFFFF; --text-secondary: #888888;
-            --border-color: #3D3D3D; --button-outline: #4A4A4A; --shadow-color: rgba(0, 0, 0, 0.2);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: #C8D0E7; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 10px; transition: background-color 0.3s; }
-        .container {
-            width: 100%; max-width: 400px; height: 90vh; max-height: 850px;
-            background-color: var(--background-color); border-radius: 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            overflow: hidden; display: flex; flex-direction: column; position: relative; border: 8px solid #fff; transition: background-color 0.3s;
-        }
-        .screen { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: flex; flex-direction: column; transition: opacity 0.5s ease-in-out, visibility 0.5s; opacity: 1; visibility: visible; }
-        .screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-
-        .welcome-screen { justify-content: center; align-items: center; text-align: center; padding: 40px; }
-        .welcome-avatar { width: 150px; height: 150px; margin-bottom: 2rem; }
-        .welcome-avatar img { width: 100%; height: 100%; }
-        .welcome-title { font-size: 1.5rem; color: var(--text-primary); font-weight: 500; margin-bottom: 2rem; }
-        .primary-btn { width: 100%; padding: 16px; border: 1px solid var(--button-outline); border-radius: 14px; background-color: var(--bot-message-bg); color: var(--text-primary); font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
-        
-        .chat-screen { background-color: var(--background-color); }
-        .chat-header {
-            padding: 12px 16px; display: grid; grid-template-columns: 48px auto 48px; align-items: center;
-            border-bottom: 1px solid var(--border-color); flex-shrink: 0;
-        }
-        .header-title-group { grid-column: 2; display: flex; align-items: center; justify-content: center; gap: 12px; }
-        .header-logo { height: 40px; }
-        .header-name { font-size: 1.6rem; font-weight: 600; background: linear-gradient(90deg, #EC4899, #8B5CF6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .header-menu-btn { grid-column: 3; justify-self: end; }
-        
-        .chat-body { flex-grow: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
-        .assistant-ui {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; justify-content: center;
-            align-items: center; text-align: center; padding: 20px;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .assistant-ui.hidden { opacity: 0; transform: scale(0.9); pointer-events: none; }
-        .greeting-text { font-size: 1.8rem; font-weight: 300; color: var(--text-secondary); }
-        .greeting-text b { font-weight: 500; color: var(--text-primary); }
-        .help-text { font-size: 1.1rem; color: var(--text-primary); margin-top: 8px; }
-
-        .orb {
-            width: 150px; height: 150px; border-radius: 50%;
-            background: var(--orb-gradient); margin: 40px 0; position: relative;
-            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
-            animation: pulse 4s infinite ease-in-out; transition: all 0.4s ease;
-        }
-        .orb::before, .orb::after {
-            content: ''; position: absolute; width: 12px; height: 24px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 6px; top: 50%; transform: translateY(-50%); transition: all 0.4s ease;
-        }
-        .orb::before { left: 45px; } .orb::after { right: 45px; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .orb.thinking { animation: thinking 2s infinite linear; }
-        .orb.listening { animation: listening 1.5s infinite ease-in-out; box-shadow: 0 10px 40px rgba(231, 76, 60, 0.5); }
-        @keyframes thinking { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes listening { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.1) rotate(180deg); } }
-        
-        .chat-messages {
-            flex-grow: 1; overflow-y: auto; padding: 20px;
-            display: flex; flex-direction: column;
-            opacity: 0; transition: opacity 0.5s ease; scroll-behavior: smooth;
-        }
-        .chat-messages.active { opacity: 1; }
-        .message-group { display: flex; gap: 10px; margin-bottom: 15px; max-width: 90%; align-self: flex-start; align-items: flex-end; animation: fadeIn 0.4s ease-out; }
-        .message-group.user { align-self: flex-end; }
-        .bot-avatar { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; overflow: hidden; }
-        .bot-avatar img { width: 100%; height: 100%; }
-        .message-bubbles { display: flex; flex-direction: column; gap: 8px; }
-        .message { padding: 12px 16px; border-radius: 20px; line-height: 1.5; word-wrap: break-word; }
-        .bot-message { background-color: var(--bot-message-bg); color: var(--text-primary); border-bottom-left-radius: 5px; box-shadow: 0 4px 10px var(--shadow-color); }
-        .user-message { background-color: var(--user-message-bg); color: var(--text-light); border-bottom-right-radius: 5px; align-self: flex-end; }
-        .message-timestamp { font-size: 0.75rem; color: var(--text-secondary); opacity: 0.8; margin-top: 6px; text-align: right; }
-        .message strong { font-weight: 600; } .message em { font-style: italic; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .quick-reply-area { padding: 10px 20px 0; display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
-        .quick-reply { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--button-outline); color: var(--text-primary); background-color: var(--bot-message-bg); cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
-        .quick-reply:hover { background-color: var(--accent-color); color: var(--text-light); }
-        
-        .chat-input-area { display: flex; align-items: center; padding: 15px; border-top: 1px solid var(--border-color); background-color: var(--background-color); flex-shrink: 0; gap: 10px; }
-        .input-wrapper { display: flex; align-items: center; flex-grow: 1; border: 1px solid var(--border-color); background-color: var(--bot-message-bg); border-radius: 24px; padding-right: 10px; }
-        .chat-input { flex-grow: 1; border: none; background: transparent; padding: 14px 16px; font-size: 1rem; color: var(--text-primary); }
-        .icon-btn { background: none; border: none; width: 48px; height: 48px; border-radius: 50%; font-size: 1.2rem; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
-        .icon-btn:hover { background-color: var(--border-color); }
-        .icon-btn.active-mic { color: #E74C3C; animation: pulse-mic 1.5s infinite; }
-        @keyframes pulse-mic { 0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); } 100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); } }
-        
-        .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); display: none; justify-content: center; align-items: flex-end; z-index: 100; opacity: 0; transition: opacity 0.3s ease; }
-        .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content { background-color: var(--bot-message-bg); color: var(--text-primary); width: 100%; padding: 20px; border-radius: 20px 20px 0 0; transform: translateY(100%); transition: transform 0.3s ease-out; max-height: 80vh; overflow-y: auto; }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
-        .menu-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; border-radius: 12px; background-color: var(--background-color); border: 1px solid var(--border-color); text-decoration: none; color: var(--text-primary); transition: all 0.2s; cursor: pointer; }
-        .menu-card:hover { transform: translateY(-3px); box-shadow: 0 4px 15px var(--shadow-color); }
-        .menu-card i { font-size: 1.8rem; color: var(--accent-color); margin-bottom: 8px; }
-        .menu-card span { font-size: 0.8rem; text-align: center; }
-        .menu-list-item { display: flex; align-items: center; padding: 15px; border-radius: 12px; background-color: var(--background-color); border: 1px solid var(--border-color); font-size: 1rem; margin-bottom: 10px; }
-        .menu-list-item i { margin-right: 15px; color: var(--text-secondary); width: 20px; }
-        .switch { position: relative; display: inline-block; width: 44px; height: 24px; margin-left: auto; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--accent-color); }
-        input:checked + .slider:before { transform: translateX(20px); }
-
-        .toast-notification {
-            position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
-            background-color: var(--user-message-bg); color: var(--text-light);
-            padding: 12px 20px; border-radius: 10px; font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 200; transition: top 0.4s ease-in-out;
-        }
-        .toast-notification.show { top: 20px; }
-        .footer { padding: 10px; text-align: center; color: var(--text-secondary); font-size: 0.8rem; border-top: 1px solid var(--border-color); }
-
-        .typing-indicator { display: flex; align-items: center; gap: 4px; padding: 12px 16px; }
-        .typing-dot { width: 8px; height: 8px; border-radius: 50%; background-color: var(--text-secondary); animation: typing 1.4s infinite; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-10px); } }
-
-        .emoji-reactions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-        .emoji-btn { background: none; border: 1px solid var(--border-color); border-radius: 20px; padding: 4px 8px; cursor: pointer; font-size: 1.2rem; transition: all 0.2s; }
-        .emoji-btn:hover { background-color: var(--accent-color); color: white; }
-
-        .stats-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 15px 0; }
-        .stat-card { background-color: var(--background-color); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid var(--border-color); }
-        .stat-number { font-size: 2rem; font-weight: bold; color: var(--accent-color); }
-        .stat-label { font-size: 0.9rem; color: var(--text-secondary); }
-
-        .game-container { background-color: var(--background-color); border-radius: 12px; padding: 20px; margin: 10px 0; border: 1px solid var(--border-color); }
-        .quiz-option { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bot-message-bg); cursor: pointer; transition: all 0.2s; }
-        .quiz-option:hover { background-color: var(--accent-color); color: white; }
-
-        .mood-selector { display: flex; justify-content: space-around; margin: 15px 0; }
-        .mood-btn { background: none; border: none; font-size: 2rem; cursor: pointer; padding: 10px; border-radius: 50%; transition: all 0.2s; }
-        .mood-btn:hover { background-color: var(--border-color); }
-
-        .progress-bar { width: 100%; height: 4px; background-color: var(--border-color); border-radius: 2px; overflow: hidden; margin: 10px 0; }
-        .progress-fill { height: 100%; background-color: var(--accent-color); transition: width 0.3s ease; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        
-        <div class="screen welcome-screen" id="welcomeScreen">
-            <div class="welcome-avatar"><img src="https://i.imgur.com/orvGJOL.png" alt="Yuki Avatar"></div>
-            <h1 class="welcome-title">Bem vindo(a)! Eu sou a Lúmen.</h1>
-            <div class="welcome-actions"><button class="primary-btn" id="getStartedBtn">Começar</button></div>
+        <!-- Login/Cadastro Screen -->
+        <div class="screen auth-screen" id="authScreen">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <img src="https://i.imgur.com/orvGJOL.png" alt="Yume Logo" class="auth-logo">
+                    <h1 class="auth-title">Bem-vindo à Yume</h1>
+                    <p class="auth-subtitle">Sua assistente virtual resolutiva</p>
+                </div>
+
+                <!-- Login Form -->
+                <form class="auth-form" id="loginForm">
+                    <h2 class="form-title">Entrar</h2>
+                    <div class="form-group">
+                        <label for="loginEmail">E-mail</label>
+                        <input type="email" id="loginEmail" required placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Senha</label>
+                        <input type="password" id="loginPassword" required placeholder="********">
+                    </div>
+                    <button type="submit" class="auth-btn">Entrar</button>
+                    <p class="auth-switch">
+                        Não tem conta? <a href="#" id="showRegister">Cadastre-se</a>
+                    </p>
+                </form>
+
+                <!-- Register Form -->
+                <form class="auth-form hidden" id="registerForm">
+                    <h2 class="form-title">Criar Conta</h2>
+                    <div class="form-group">
+                        <label for="registerName">Nome</label>
+                        <input type="text" id="registerName" required placeholder="Seu nome">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">E-mail</label>
+                        <input type="email" id="registerEmail" required placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Senha</label>
+                        <input type="password" id="registerPassword" required placeholder="Mínimo 8 caracteres">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerAge">Faixa Etária</label>
+                        <select id="registerAge" required>
+                            <option value="">Selecione</option>
+                            <option value="18-30">18-30 anos</option>
+                            <option value="31-49">31-49 anos</option>
+                            <option value="50-59">50-59 anos</option>
+                            <option value="60+">60+ anos</option>
+                        </select>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="termsAccept" required>
+                        <label for="termsAccept">
+                            Eu li e aceito os 
+                            <a href="https://naotodev1.github.io/terms-e-policy" target="_blank">
+                                Termos de Uso e Política de Privacidade
+                            </a>
+                        </label>
+                    </div>
+                    <button type="submit" class="auth-btn">Criar Conta</button>
+                    <p class="auth-switch">
+                        Já tem conta? <a href="#" id="showLogin">Entrar</a>
+                    </p>
+                </form>
+            </div>
         </div>
 
+        <!-- Main Chat Screen -->
         <div class="screen chat-screen hidden" id="chatScreen">
             <header class="chat-header">
-                <div style="width: 48px;"></div>
-                <div class="header-title-group">
-                    <img src="https://i.imgur.com/orvGJOL.png" alt="Lúmen Logo" class="header-logo">
-                    <h1 class="header-name">Lúmen</h1>
+                <div class="header-user-info">
+                    <div class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </div>
                 </div>
-                <button type="button" class="icon-btn header-menu-btn" id="menuBtn" title="Menu"><i class="fas fa-ellipsis-h"></i></button>
+                <div class="header-title-group">
+                    <img src="https://i.imgur.com/orvGJOL.png" alt="Yume Logo" class="header-logo">
+                    <h1 class="header-name">Yume</h1>
+                </div>
+                <button type="button" class="icon-btn header-menu-btn" id="menuBtn" title="Menu">
+                    <i class="fas fa-ellipsis-h"></i>
+                </button>
             </header>
-            
+
             <div class="chat-body">
                 <div class="assistant-ui" id="assistantUI">
                     <p class="greeting-text">Olá, <b id="greetingName">visitante</b>!</p>
-                    <p class="help-text">É um prazer te ver aqui.</p>
+                    <p class="help-text">Como posso ajudar você hoje?</p>
                     <div class="orb" id="orb"></div>
                 </div>
                 <div class="chat-messages" id="chatMessages"></div>
             </div>
 
             <div class="quick-reply-area" id="quickReplyArea"></div>
-            
+
             <form class="chat-input-area" id="inputArea">
                 <div class="input-wrapper">
-                    <input type="text" class="chat-input" id="userInput" placeholder="Digite sua mensagem...">
-                    <button type="button" class="icon-btn" id="micBtn" title="Usar Microfone"><i class="fas fa-microphone"></i></button>
-                    <button type="button" class="icon-btn" id="emojiBtn" title="Emojis"><i class="fas fa-smile"></i></button>
+                    <input type="text" class="chat-input" id="userInput" 
+                           placeholder="Digite sua mensagem..." autocomplete="off">
+                    <button type="button" class="icon-btn" id="micBtn" title="Usar Microfone">
+                        <i class="fas fa-microphone"></i>
+                    </button>
                 </div>
-                <button type="submit" class="icon-btn" id="sendButton"><i class="fas fa-arrow-up"></i></button>
+                <button type="submit" class="icon-btn" id="sendButton">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
             </form>
             <div class="footer">Powered by ORPHEO Platforms</div>
         </div>
 
+        <!-- Menu Overlay -->
         <div class="modal-overlay" id="menuOverlay">
             <div class="modal-content">
+                <div class="menu-header">
+                    <h3>Menu</h3>
+                    <button class="close-btn" id="closeMenu">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
                 <div class="menu-grid">
-                    <button id="helpBtn" class="menu-card"><i class="fas fa-question-circle"></i><span>Ajuda</span></button>
-                    <button id="premiumBtn" class="menu-card"><i class="fas fa-star"></i><span>Premium</span></button>
-                    <button id="aboutYukiBtn" class="menu-card"><i class="fas fa-info-circle"></i><span>Sobre a Yuki</span></button>
-                    <button id="statsBtn" class="menu-card"><i class="fas fa-chart-bar"></i><span>Estatísticas</span></button>
-                    <button id="gamesBtn" class="menu-card"><i class="fas fa-gamepad"></i><span>Jogos</span></button>
-                    <button id="moodBtn" class="menu-card"><i class="fas fa-heart"></i><span>Humor</span></button>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform?usp=preview" target="_blank" class="menu-card"><i class="fas fa-comment-dots"></i><span>Feedback</span></button>
-                    <a href="mailto:sac.studiotsukiyo@outlook.com" class="menu-card"><i class="fas fa-bug"></i><span>Reportar</span></a>
-                    <button id="aboutDevBtn" class="menu-card"><i class="fas fa-code"></i><span>O Dev</span></button>
+                    <button id="helpBtn" class="menu-card">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Ajuda</span>
+                    </button>
+                    <button id="aboutYumeBtn" class="menu-card">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Sobre a Yume</span>
+                    </button>
+                    <button id="statsBtn" class="menu-card">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Estatísticas</span>
+                    </button>
+                    <button id="profileBtn" class="menu-card">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Perfil</span>
+                    </button>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform?usp=preview" 
+                       target="_blank" class="menu-card">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>Feedback</span>
+                    </a>
+                    <a href="mailto:sac.studiotsukiyo@outlook.com" class="menu-card">
+                        <i class="fas fa-bug"></i>
+                        <span>Reportar</span>
+                    </a>
                 </div>
                 <div class="menu-list-item">
                     <i class="fas fa-moon"></i> Modo Escuro
@@ -222,1191 +165,29 @@
                     </label>
                 </div>
                 <div class="menu-list-item">
-                    <i class="fas fa-volume-up"></i> Voz da Yuki
+                    <i class="fas fa-volume-up"></i> Voz da Yume
                     <label class="switch">
                         <input type="checkbox" id="voiceToggle" checked>
                         <span class="slider"></span>
                     </label>
                 </div>
-                <button id="clearChatBtn" class="menu-card" style="width: 100%; margin-top: 15px; background-color: #e74c3c20; border-color: #e74c3c80;">
-                    <i class="fas fa-trash" style="color: #e74c3c;"></i>
-                    <span style="color: #e74c3c;">Limpar Chat</span>
+                <button id="logoutBtn" class="menu-card logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
                 </button>
             </div>
         </div>
+
+        <!-- Toast Notification -->
         <div class="toast-notification" id="toast"></div>
+        
+        <!-- Loading Overlay -->
+        <div class="loading-overlay hidden" id="loadingOverlay">
+            <div class="loading-spinner"></div>
+            <p>Carregando...</p>
+        </div>
     </div>
 
-    <script>
-       class YukiAssistant {
-            constructor() {
-                this.elements = {
-                    welcomeScreen: document.getElementById('welcomeScreen'),
-                    chatScreen: document.getElementById('chatScreen'),
-                    getStartedBtn: document.getElementById('getStartedBtn'),
-                    chatMessages: document.getElementById('chatMessages'),
-                    quickReplyArea: document.getElementById('quickReplyArea'),
-                    inputArea: document.getElementById('inputArea'),
-                    userInput: document.getElementById('userInput'),
-                    micBtn: document.getElementById('micBtn'),
-                    emojiBtn: document.getElementById('emojiBtn'),
-                    menuBtn: document.getElementById('menuBtn'),
-                    menuOverlay: document.getElementById('menuOverlay'),
-                    clearChatBtn: document.getElementById('clearChatBtn'),
-                    helpBtn: document.getElementById('helpBtn'),
-                    premiumBtn: document.getElementById('premiumBtn'),
-                    aboutDevBtn: document.getElementById('aboutDevBtn'),
-                    aboutYukiBtn: document.getElementById('aboutYukiBtn'),
-                    statsBtn: document.getElementById('statsBtn'),
-                    gamesBtn: document.getElementById('gamesBtn'),
-                    moodBtn: document.getElementById('moodBtn'),
-                    darkModeToggle: document.getElementById('darkModeToggle'),
-                    voiceToggle: document.getElementById('voiceToggle'),
-                    assistantUI: document.getElementById('assistantUI'),
-                    greetingName: document.getElementById('greetingName'),
-                    orb: document.getElementById('orb'),
-                    toast: document.getElementById('toast'),
-                };
-
-                this.userName = this.getStoredData('yukiUserName') || '';
-                this.conversationState = 'IDLE';
-                this.isConversationActive = false;
-                this.currentMood = this.getStoredData('userMood') || 'neutral';
-                this.voiceEnabled = this.getStoredData('voiceEnabled', true);
-                this.userStats = this.getStoredData('userStats') || {
-                    messagesCount: 0,
-                    jokesRequested: 0,
-                    animesDiscussed: 0,
-                    songsRecommended: 0,
-                    daysActive: 1,
-                    favoriteCategory: 'geral'
-                };
-                
-                this.initializeKnowledgeBase();
-                this.init();
-            }
-
-            initializeKnowledgeBase() {
-                this.knowledgeBase = {
-                    identity: "Eu sou a Lúmen, uma assistente virtual criada pelo ORPHEO Platforms para te ajudar no dia a dia com entretenimento, conhecimento e companhia!",
-                    
-                    animes: [
-                        { title: "Demon Slayer", desc: "Tanjiro luta contra demônios para salvar sua irmã Nezuko.", genre: "ação", rating: 9.0 },
-                        { title: "Attack on Titan", desc: "Humanidade luta contra titãs que devoram pessoas.", genre: "ação", rating: 9.0 },
-                        { title: "Naruto", desc: "Jovem ninja busca reconhecimento e sonha ser Hokage.", genre: "ação", rating: 8.7 },
-                        { title: "One Piece", desc: "Luffy e sua tripulação buscam o tesouro One Piece.", genre: "aventura", rating: 9.1 },
-                        { title: "Death Note", desc: "Light encontra um caderno que mata pessoas.", genre: "psicológico", rating: 9.0 },
-                        { title: "Fullmetal Alchemist: Brotherhood", desc: "Dois irmãos alquimistas tentam restaurar seus corpos.", genre: "aventura", rating: 9.5 },
-                        { title: "Hunter x Hunter", desc: "Gon busca seu pai e se torna um Hunter.", genre: "aventura", rating: 9.0 },
-                        { title: "My Hero Academia", desc: "Midoriya treina para ser um herói em um mundo de superpoderes.", genre: "ação", rating: 8.5 },
-                        { title: "Jujutsu Kaisen", desc: "Yuji luta contra maldições para proteger pessoas.", genre: "ação", rating: 8.8 },
-                        { title: "Spirited Away", desc: "Chihiro deve trabalhar em um mundo espiritual para salvar seus pais.", genre: "fantasia", rating: 9.3 },
-                        { title: "Your Name", desc: "Dois adolescentes trocam de corpo misteriosamente.", genre: "romance", rating: 8.4 },
-                        { title: "Princess Mononoke", desc: "Ashitaka tenta mediar conflito entre humanos e espíritos da floresta.", genre: "fantasia", rating: 8.4 },
-                        { title: "Akira", desc: "Em Neo-Tóquio, poderes psíquicos ameaçam a cidade.", genre: "ficção científica", rating: 8.0 },
-                        { title: "One Punch Man", desc: "Saitama é um herói que derrota qualquer inimigo com um soco.", genre: "comédia", rating: 8.7 },
-                        { title: "Dragon Ball Z", desc: "Goku e amigos defendem a Terra de ameaças poderosas.", genre: "ação", rating: 8.8 },
-                        { title: "Cowboy Bebop", desc: "Caçadores de recompensas viajam pelo espaço.", genre: "space western", rating: 8.7 },
-                        { title: "Neon Genesis Evangelion", desc: "Shinji pilota um robô gigante para defender a humanidade.", genre: "mecha", rating: 8.5 },
-                        { title: "Studio Ghibli Collection", desc: "Filmes mágicos de Hayao Miyazaki.", genre: "fantasia", rating: 9.0 },
-                        { title: "Violet Evergarden", desc: "Ex-soldado aprende sobre emoções escrevendo cartas.", genre: "drama", rating: 8.6 },
-                        { title: "Mob Psycho 100", desc: "Jovem com poderes psíquicos tenta viver normalmente.", genre: "sobrenatural", rating: 8.9 }
-                    ],
-
-                    mangas: [
-                        { title: "Berserk", desc: "Guts luta em um mundo sombrio medieval.", genre: "dark fantasy", status: "hiato" },
-                        { title: "Chainsaw Man", desc: "Denji vira um demônio motoserra.", genre: "ação", status: "completo" },
-                        { title: "Tokyo Ghoul", desc: "Kaneki se torna meio ghoul em Tokyo.", genre: "horror", status: "completo" },
-                        { title: "Vinland Saga", desc: "Thorfinn busca vingança na era viking.", genre: "histórico", status: "em andamento" },
-                        { title: "Monster", desc: "Dr. Tenma persegue um serial killer que ele salvou.", genre: "thriller", status: "completo" },
-                        { title: "Slam Dunk", desc: "Sakuragi descobre seu talento no basquete.", genre: "esporte", status: "completo" },
-                        { title: "JoJo's Bizarre Adventure", desc: "Aventuras bizarras da família Joestar.", genre: "aventura", status: "em andamento" },
-                        { title: "Vagabond", desc: "Jornada de Musashi Miyamoto.", genre: "histórico", status: "hiato" },
-                        { title: "20th Century Boys", desc: "Amigos de infância enfrentam conspiração global.", genre: "mistério", status: "completo" },
-                        { title: "Pluto", desc: "Robôs investigam assassinatos misteriosos.", genre: "ficção científica", status: "completo" }
-                    ],
-
-                    musicas: [
-                        { title: "Blinding Lights", artist: "The Weeknd", genre: "pop", year: 2019 },
-                        { title: "Bohemian Rhapsody", artist: "Queen", genre: "rock", year: 1975 },
-                        { title: "Shape of You", artist: "Ed Sheeran", genre: "pop", year: 2017 },
-                        { title: "Imagine", artist: "John Lennon", genre: "rock", year: 1971 },
-                        { title: "Billie Jean", artist: "Michael Jackson", genre: "pop", year: 1982 },
-                        { title: "Hotel California", artist: "Eagles", genre: "rock", year: 1976 },
-                        { title: "Smells Like Teen Spirit", artist: "Nirvana", genre: "grunge", year: 1991 },
-                        { title: "Thunderstruck", artist: "AC/DC", genre: "rock", year: 1990 },
-                        { title: "Sweet Child O' Mine", artist: "Guns N' Roses", genre: "rock", year: 1987 },
-                        { title: "Stairway to Heaven", artist: "Led Zeppelin", genre: "rock", year: 1971 },
-                        { title: "Hey Jude", artist: "The Beatles", genre: "rock", year: 1968 },
-                        { title: "Like a Rolling Stone", artist: "Bob Dylan", genre: "folk rock", year: 1965 },
-                        { title: "Purple Rain", artist: "Prince", genre: "pop rock", year: 1984 },
-                        { title: "What's Going On", artist: "Marvin Gaye", genre: "soul", year: 1971 },
-                        { title: "Lose Yourself", artist: "Eminem", genre: "hip hop", year: 2002 },
-                        { title: "Bad Guy", artist: "Billie Eilish", genre: "pop", year: 2019 },
-                        { title: "Watermelon Sugar", artist: "Harry Styles", genre: "pop rock", year: 2020 },
-                        { title: "Levitating", artist: "Dua Lipa", genre: "pop", year: 2020 },
-                        { title: "Good 4 U", artist: "Olivia Rodrigo", genre: "pop rock", year: 2021 },
-                        { title: "As It Was", artist: "Harry Styles", genre: "pop", year: 2022 }
-                    ],
-
-                    piadas: [
-                        "Por que os pássaros voam para o sul no inverno? Porque é longe demais para ir andando!",
-                        "O que o pato falou para a pata? Vem Quá!",
-                        "Por que a velhinha não usa relógio? Porque ela é uma sem hora!",
-                        "O que a impressora falou para a outra impressora? Essa folha é sua ou é impressão minha?",
-                        "Por que o livro de matemática estava triste? Porque tinha muitos problemas!",
-                        "O que você chama um peixe que usa coroa? Rei-x!",
-                        "Por que os esqueletos não brigam entre si? Porque não têm estômago para isso!",
-                        "O que acontece quando você cruza um peixe com um elefante? Você consegue nadar no fundo!",
-                        "Por que as plantas não podem fazer matemática? Porque elas só sabem raiz quadrada!",
-                        "O que o café falou para o açúcar? Você adoça minha vida!",
-                        "Por que o computador foi ao médico? Porque estava com vírus!",
-                        "O que você chama uma vaca dormindo? Um bulldozer!",
-                        "Por que os peixes não pagam contas? Porque vivem abaixo da linha d'água!",
-                        "O que uma parede falou para a outra? Te encontro na esquina!",
-                        "Por que o açúcar foi preso? Por ser refinado demais!",
-                        "O que o big mac falou para o whopper? Você não é nada burger!",
-                        "Por que a galinha atravessou a rua? Para provar que não era frango!",
-                        "O que você chama um urso sem dentes? Um urso gengiva!",
-                        "Por que os matemáticos são péssimos jardineiros? Porque tentam encontrar a raiz de todos os problemas!",
-                        "O que o zero falou para o oito? Que cinto maneiro!"
-                    ],
-
-                    frasesMotivacionais: [
-                        "A persistência é o caminho do êxito. - Charles Chaplin",
-                        "O sucesso é a soma de pequenos esforços repetidos dia após dia. - Robert Collier",
-                        "Não espere por oportunidades. Crie-as. - George Bernard Shaw",
-                        "A única maneira impossível de realizar algo é não tentar. - Desconhecido",
-                        "Grandes realizações exigem grandes ambições. - Heráclito",
-                        "O fracasso é apenas a oportunidade de começar de novo com mais inteligência. - Henry Ford",
-                        "Acredite em si próprio e chegará um dia em que os outros não terão outra escolha senão acreditar com você. - Cynthia Kersey",
-                        "O otimismo é a fé em ação. Nada se pode levar a efeito sem otimismo. - Helen Keller",
-                        "A vida é 10% do que acontece com você e 90% como você reage a isso. - Charles R. Swindoll",
-                        "Seja você mesmo. Todas as outras personalidades já estão ocupadas. - Oscar Wilde",
-                        "A jornada de mil milhas começa com um único passo. - Lao Tzu",
-                        "Você é mais corajoso do que acredita, mais forte do que parece e mais inteligente do que pensa. - A.A. Milne",
-                        "O futuro pertence àqueles que acreditam na beleza de seus sonhos. - Eleanor Roosevelt",
-                        "Não deixe o que você não pode fazer interferir no que você pode fazer. - John Wooden",
-                        "A diferença entre o ordinário e o extraordinário é o pequeno extra. - Jimmy Johnson",
-                        "Seja a mudança que você quer ver no mundo. - Mahatma Gandhi",
-                        "A melhor vingança é o sucesso massivo. - Frank Sinatra",
-                        "Não tenha medo de desistir do bom para perseguir o ótimo. - John D. Rockefeller",
-                        "A única pessoa que você está destinado a se tornar é a pessoa que você decide ser. - Ralph Waldo Emerson",
-                        "O momento certo para plantar uma árvore foi há 20 anos. O segundo melhor momento é agora. - Provérbio Chinês"
-                    ],
-
-                    adivinhas: [
-                        { pergunta: "O que é, o que é? Cai em pé e corre deitado?", resposta: "chuva" },
-                        { pergunta: "Tenho cidades, mas não casas. Tenho montanhas, mas não árvores. O que sou eu?", resposta: "mapa" },
-                        { pergunta: "O que é que quanto mais se tira, maior fica?", resposta: "buraco" },
-                        { pergunta: "O que é que tem cabeça e não pensa?", resposta: "alho" },
-                        { pergunta: "O que é que nasce grande e morre pequeno?", resposta: "lápis" },
-                        { pergunta: "O que é que quanto mais rugas tem, mais novo é?", resposta: "pneu" },
-                        { pergunta: "O que é que tem boca, mas não fala?", resposta: "rio" },
-                        { pergunta: "O que é que sobe e desce mas não sai do lugar?", resposta: "escada" },
-                        { pergunta: "O que é que todo mundo tem, mas ninguém pode perder?", resposta: "sombra" },
-                        { pergunta: "O que é que fica mais molhado quanto mais seca?", resposta: "toalha" }
-                    ],
-
-                    curiosidades: [
-                        "Os polvos têm três corações e sangue azul!",
-                        "Uma lesma pode dormir por até 3 anos seguidos.",
-                        "Os golfinhos têm nomes uns para os outros.",
-                        "As abelhas podem reconhecer rostos humanos.",
-                        "Um grupo de flamingos é chamado de 'flamboyance'.",
-                        "As borboletas provam com os pés.",
-                        "Os elefantes são um dos poucos animais que se reconhecem no espelho.",
-                        "As formigas não podem se afogar porque não afundam na água.",
-                        "Os pinguins podem pular até 2 metros de altura.",
-                        "As girafas precisam de apenas 5-30 minutos de sono por dia."
-                    ],
-
-                    jogos: {
-                        quiz: {
-                            perguntas: [
-                                { pergunta: "Qual é a capital do Japão?", opcoes: ["Tokyo", "Kyoto", "Osaka", "Hiroshima"], correta: 0 },
-                                { pergunta: "Em que ano foi lançado o primeiro iPhone?", opcoes: ["2006", "2007", "2008", "2009"], correta: 1 },
-                                { pergunta: "Qual é o maior planeta do sistema solar?", opcoes: ["Terra", "Marte", "Júpiter", "Saturno"], correta: 2 },
-                                { pergunta: "Quem escreveu 'Dom Casmurro'?", opcoes: ["Machado de Assis", "José de Alencar", "Clarice Lispector", "Guimarães Rosa"], correta: 0 },
-                                { pergunta: "Qual é o elemento químico com símbolo 'Au'?", opcoes: ["Prata", "Ouro", "Alumínio", "Argônio"], correta: 1 }
-                            ]
-                        }
-                    }
-                };
-            }
-
-            getStoredData(key, defaultValue = null) {
-                try {
-                    const stored = localStorage.getItem(`yuki_${key}`);
-                    return stored ? JSON.parse(stored) : defaultValue;
-                } catch (e) {
-                    return defaultValue;
-                }
-            }
-
-            setStoredData(key, value) {
-                try {
-                    localStorage.setItem(`yuki_${key}`, JSON.stringify(value));
-                } catch (e) {
-                    console.warn('Não foi possível salvar os dados:', e);
-                }
-            }
-
-            init() {
-                Array.prototype.random = function() { return this[Math.floor(Math.random() * this.length)]; };
-                
-                this.elements.getStartedBtn.addEventListener('click', () => {
-                    this.elements.welcomeScreen.classList.add('hidden');
-                    this.elements.chatScreen.classList.remove('hidden');
-                    this.startApp();
-                });
-
-                this.elements.inputArea.addEventListener('submit', (e) => this.handleUserInput(e));
-                this.elements.micBtn.addEventListener('click', () => this.toggleVoiceRecognition());
-                this.elements.emojiBtn.addEventListener('click', () => this.showEmojiPicker());
-                this.elements.menuBtn.addEventListener('click', () => this.elements.menuOverlay.classList.add('active'));
-                this.elements.menuOverlay.addEventListener('click', (e) => { 
-                    if (e.target === e.currentTarget) this.elements.menuOverlay.classList.remove('active'); 
-                });
-                
-                // Menu buttons
-                this.elements.clearChatBtn.addEventListener('click', () => this.resetApp());
-                this.elements.helpBtn.addEventListener('click', () => this.showHelp());
-                this.elements.premiumBtn.addEventListener('click', () => this.showPremiumInfo());
-                this.elements.aboutYukiBtn.addEventListener('click', () => this.showAboutYuki());
-                this.elements.aboutDevBtn.addEventListener('click', () => this.showAboutDev());
-                this.elements.statsBtn.addEventListener('click', () => this.showStats());
-                this.elements.gamesBtn.addEventListener('click', () => this.showGames());
-                this.elements.moodBtn.addEventListener('click', () => this.showMoodSelector());
-                
-                // Settings
-                this.elements.darkModeToggle.addEventListener('change', () => this.toggleTheme());
-                this.elements.voiceToggle.addEventListener('change', () => this.toggleVoice());
-
-                // Initialize settings
-                if (this.getStoredData('yukiTheme') === 'dark') {
-                    document.body.classList.add('dark-mode');
-                    this.elements.darkModeToggle.checked = true;
-                }
-                
-                this.elements.voiceToggle.checked = this.voiceEnabled;
-                
-                this.initializeSpeech();
-                this.updateUserStats();
-            }
-
-            parseMarkdown(text) { 
-                return text
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/`(.*?)`/g, '<code>$1</code>')
-                    .replace(/\n/g, '<br>'); 
-            }
-
-            addMessage(content, isUser = false, showReactions = false) {
-                this.transitionToChatView();
-                
-                if (!isUser) {
-                    this.showTypingIndicator();
-                    setTimeout(() => {
-                        this.hideTypingIndicator();
-                        this.createMessageBubble(content, isUser, showReactions);
-                    }, 1000 + Math.random() * 500);
-                } else {
-                    this.createMessageBubble(content, isUser, showReactions);
-                    this.updateUserStats('message');
-                }
-            }
-
-            createMessageBubble(content, isUser, showReactions) {
-                const messageGroup = document.createElement('div');
-                messageGroup.className = `message-group ${isUser ? 'user' : ''}`;
-                
-                if (!isUser) {
-                    messageGroup.innerHTML += `<div class="bot-avatar"><img src="https://i.imgur.com/orvGJOL.png" alt="Avatar"></div>`;
-                }
-                
-                const bubblesContainer = document.createElement('div');
-                bubblesContainer.className = 'message-bubbles';
-                const messages = Array.isArray(content) ? content : [content];
-                
-                messages.forEach(msg => {
-                    const bubble = document.createElement('div');
-                    bubble.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-                    bubble.innerHTML = this.parseMarkdown(msg);
-                    
-                    const timestamp = document.createElement('div');
-                    timestamp.className = 'message-timestamp';
-                    timestamp.textContent = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                    bubble.appendChild(timestamp);
-
-                    bubblesContainer.appendChild(bubble);
-                });
-                
-                if (showReactions && !isUser) {
-                    const reactions = document.createElement('div');
-                    reactions.className = 'emoji-reactions';
-                    reactions.innerHTML = `
-                        <button class="emoji-btn" onclick="this.style.backgroundColor='var(--accent-color)'; this.style.color='white';">😊</button>
-                        <button class="emoji-btn" onclick="this.style.backgroundColor='var(--accent-color)'; this.style.color='white';">👍</button>
-                        <button class="emoji-btn" onclick="this.style.backgroundColor='var(--accent-color)'; this.style.color='white';">❤️</button>
-                        <button class="emoji-btn" onclick="this.style.backgroundColor='var(--accent-color)'; this.style.color='white';">😂</button>
-                    `;
-                    bubblesContainer.appendChild(reactions);
-                }
-                
-                messageGroup.appendChild(bubblesContainer);
-                this.elements.chatMessages.appendChild(messageGroup);
-                this.elements.chatMessages.scrollTop = this.elements.chatMessages.scrollHeight;
-                
-                if (!isUser && this.voiceEnabled) {
-                    this.speak(messages.join(' ').replace(/<[^>]*>/g, ''));
-                }
-            }
-
-            showTypingIndicator() {
-                const indicator = document.createElement('div');
-                indicator.className = 'message-group typing-indicator-group';
-                indicator.innerHTML = `
-                    <div class="bot-avatar"><img src="https://i.imgur.com/orvGJOL.png" alt="Avatar"></div>
-                    <div class="message bot-message typing-indicator">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                    </div>
-                `;
-                this.elements.chatMessages.appendChild(indicator);
-                this.elements.chatMessages.scrollTop = this.elements.chatMessages.scrollHeight;
-            }
-
-            hideTypingIndicator() {
-                const indicator = this.elements.chatMessages.querySelector('.typing-indicator-group');
-                if (indicator) indicator.remove();
-            }
-            
-            showQuickReplies(replies) {
-                this.elements.quickReplyArea.innerHTML = replies.map(reply => `<button class="quick-reply">${reply}</button>`).join('');
-                document.querySelectorAll('.quick-reply').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        this.elements.userInput.value = btn.textContent;
-                        this.handleUserInput();
-                    });
-                });
-            }
-            
-            handleUserInput(event) {
-                if(event) event.preventDefault();
-                const text = this.elements.userInput.value.trim();
-                if (!text) return;
-                
-                this.addMessage(text, true);
-                this.elements.userInput.value = '';
-                this.elements.quickReplyArea.innerHTML = '';
-                
-                this.setOrbState('thinking');
-                this.generateResponse(text);
-            }
-
-            generateResponse(input) {
-                setTimeout(() => {
-                    this.setOrbState('idle');
-                    const lowerInput = input.toLowerCase();
-
-                    // Handle conversation states
-                    if (this.conversationState === 'WAITING_FOR_NAME') {
-                        this.userName = input.split(' ')[0].replace(/[^a-zA-ZÀ-ÿ]/g, '');
-                        this.setStoredData('yukiUserName', this.userName);
-                        this.conversationState = 'IDLE';
-                        this.addMessage([
-                            `Prazer em te conhecer, **${this.userName}**! 😊`, 
-                            `O que você gostaria de fazer hoje?`
-                        ], false, true);
-                        this.showQuickReplies(["/anime", "/piada", "/música", "/ajuda"]);
-                        return;
-                    }
-
-                    if (this.conversationState === 'QUIZ_ACTIVE') {
-                        this.handleQuizAnswer(input);
-                        return;
-                    }
-
-                    if (this.conversationState === 'RIDDLE_ACTIVE') {
-                        this.handleRiddleAnswer(input);
-                        return;
-                    }
-                    
-                    // Handle commands
-                    if (lowerInput.startsWith('/')) { 
-                        this.handleCommand(lowerInput); 
-                        return; 
-                    }
-                    
-                    // Enhanced response system
-                    this.processNaturalInput(lowerInput, input);
-                }, 800 + Math.random() * 800);
-            }
-
-            processNaturalInput(lowerInput, originalInput) {
-                // Anime recommendations
-                if (this.containsWords(lowerInput, ['anime', 'animes', 'desenho', 'otaku'])) {
-                    this.recommendAnime();
-                    this.updateUserStats('anime');
-                    return;
-                }
-
-                // Manga recommendations
-                if (this.containsWords(lowerInput, ['manga', 'mangas', 'mangá', 'mangás'])) {
-                    this.recommendManga();
-                    return;
-                }
-
-                // Music recommendations
-                if (this.containsWords(lowerInput, ['música', 'musica', 'som', 'canção', 'playlist'])) {
-                    this.recommendMusic();
-                    this.updateUserStats('song');
-                    return;
-                }
-
-                // Jokes
-                if (this.containsWords(lowerInput, ['piada', 'piadas', 'engraçado', 'humor', 'rir'])) {
-                    this.tellJoke();
-                    this.updateUserStats('joke');
-                    return;
-                }
-
-                // Motivational quotes
-                if (this.containsWords(lowerInput, ['motivação', 'inspiração', 'frase', 'motivacional', 'inspirar'])) {
-                    this.shareMotivationalQuote();
-                    return;
-                }
-
-                // Riddles
-                if (this.containsWords(lowerInput, ['adivinha', 'charada', 'enigma', 'desafio'])) {
-                    this.askRiddle();
-                    return;
-                }
-
-                // Curiosities
-                if (this.containsWords(lowerInput, ['curiosidade', 'fato', 'interessante', 'sabia'])) {
-                    this.shareCuriosity();
-                    return;
-                }
-
-                // Games
-                if (this.containsWords(lowerInput, ['jogo', 'jogar', 'quiz', 'brincadeira'])) {
-                    this.startQuiz();
-                    return;
-                }
-
-                // Greetings
-                if (this.containsWords(lowerInput, ['oi', 'olá', 'ola', 'hey', 'eai'])) {
-                    this.respondToGreeting();
-                    return;
-                }
-
-                // Mood responses
-                if (this.containsWords(lowerInput, ['triste', 'feliz', 'cansado', 'animado', 'bem', 'mal'])) {
-                    this.respondToMood(lowerInput);
-                    return;
-                }
-
-                // Default fallback with suggestions
-                this.addMessage([
-                    "Hmm, não tenho certeza sobre isso... 🤔",
-                    "Que tal tentar uma dessas opções?"
-                ], false, true);
-                this.showQuickReplies(["/ajuda", "/anime", "/piada", "/música"]);
-            }
-
-            containsWords(text, words) {
-                return words.some(word => text.includes(word));
-            }
-
-            recommendAnime() {
-                const anime = this.knowledgeBase.animes.random();
-                this.addMessage([
-                    `🎌 **${anime.title}**`,
-                    `${anime.desc}`,
-                    `**Gênero:** ${anime.genre} | **Nota:** ${anime.rating}/10`,
-                    "Quer outra recomendação?"
-                ], false, true);
-                this.showQuickReplies(["/anime", "/manga", "/música"]);
-            }
-
-            recommendManga() {
-                const manga = this.knowledgeBase.mangas.random();
-                this.addMessage([
-                    `📚 **${manga.title}**`,
-                    `${manga.desc}`,
-                    `**Gênero:** ${manga.genre} | **Status:** ${manga.status}`,
-                    "Interessante, né? Quer outro mangá?"
-                ], false, true);
-                this.showQuickReplies(["/manga", "/anime", "/curiosidade"]);
-            }
-
-            recommendMusic() {
-                const music = this.knowledgeBase.musicas.random();
-                this.addMessage([
-                    `🎵 **${music.title}**`,
-                    `**Artista:** ${music.artist}`,
-                    `**Gênero:** ${music.genre} (${music.year})`,
-                    "Uma clássica! Que tal outra?"
-                ], false, true);
-                this.showQuickReplies(["/música", "/frase", "/piada"]);
-            }
-
-            tellJoke() {
-                const joke = this.knowledgeBase.piadas.random();
-                this.addMessage([
-                    "😂 Aqui vai uma piada:",
-                    `*${joke}*`,
-                    "Hahaha! Quer outra?"
-                ], false, true);
-                this.showQuickReplies(["/piada", "/música", "/curiosidade"]);
-            }
-
-            shareMotivationalQuote() {
-                const quote = this.knowledgeBase.frasesMotivacionais.random();
-                this.addMessage([
-                    "✨ **Frase Motivacional do Dia:**",
-                    `*"${quote}"*`,
-                    "Espero que isso te inspire! 💪"
-                ], false, true);
-                this.showQuickReplies(["/frase", "/curiosidade", "/anime"]);
-            }
-
-            askRiddle() {
-                const riddle = this.knowledgeBase.adivinhas.random();
-                this.currentRiddle = riddle;
-                this.conversationState = 'RIDDLE_ACTIVE';
-                this.addMessage([
-                    "🤔 **Adivinha essa:**",
-                    `*${riddle.pergunta}*`,
-                    "Digite sua resposta!"
-                ], false, true);
-            }
-
-            handleRiddleAnswer(answer) {
-                const userAnswer = answer.toLowerCase().trim();
-                const correctAnswer = this.currentRiddle.resposta.toLowerCase();
-                
-                if (userAnswer === correctAnswer || userAnswer.includes(correctAnswer)) {
-                    this.addMessage([
-                        "🎉 **Parabéns!** Você acertou!",
-                        `A resposta era: **${this.currentRiddle.resposta}**`,
-                        "Você é muito inteligente! Quer outra?"
-                    ], false, true);
-                    this.showQuickReplies(["/adivinha", "/quiz", "/piada"]);
-                } else {
-                    this.addMessage([
-                        "❌ Não foi dessa vez...",
-                        `A resposta correta era: **${this.currentRiddle.resposta}**`,
-                        "Não desista! Quer tentar outra?"
-                    ], false, true);
-                    this.showQuickReplies(["/adivinha", "/piada", "/frase"]);
-                }
-                
-                this.conversationState = 'IDLE';
-                this.currentRiddle = null;
-            }
-
-            shareCuriosity() {
-                const curiosity = this.knowledgeBase.curiosidades.random();
-                this.addMessage([
-                    "🔍 **Você sabia?**",
-                    curiosity,
-                    "Incrível, né? A natureza é fascinante!"
-                ], false, true);
-                this.showQuickReplies(["/curiosidade", "/anime", "/música"]);
-            }
-
-            startQuiz() {
-                const question = this.knowledgeBase.jogos.quiz.perguntas.random();
-                this.currentQuiz = question;
-                this.conversationState = 'QUIZ_ACTIVE';
-                
-                let optionsHtml = '';
-                question.opcoes.forEach((opcao, index) => {
-                    optionsHtml += `<button class="quiz-option" onclick="yukiInstance.selectQuizAnswer(${index})">${index + 1}. ${opcao}</button>`;
-                });
-                
-                this.addMessage([
-                    "🧠 **Quiz Time!**",
-                    `**${question.pergunta}**`,
-                    `<div class="game-container">${optionsHtml}</div>`
-                ], false, true);
-            }
-
-            selectQuizAnswer(selectedIndex) {
-                const correct = this.currentQuiz.correta;
-                if (selectedIndex === correct) {
-                    this.addMessage([
-                        "🎉 **Correto!** Você mandou bem!",
-                        `A resposta era: **${this.currentQuiz.opcoes[correct]}**`,
-                        "Quer outro desafio?"
-                    ], false, true);
-                } else {
-                    this.addMessage([
-                        "❌ **Ops!** Não foi dessa vez.",
-                        `A resposta correta era: **${this.currentQuiz.opcoes[correct]}**`,
-                        "Não desanime! Quer tentar outro?"
-                    ], false, true);
-                }
-                
-                this.showQuickReplies(["/quiz", "/adivinha", "/curiosidade"]);
-                this.conversationState = 'IDLE';
-                this.currentQuiz = null;
-            }
-
-            handleQuizAnswer(answer) {
-                // This is handled by selectQuizAnswer method
-                this.addMessage("Por favor, clique em uma das opções acima! 😊");
-            }
-
-            respondToGreeting() {
-                const greetings = [
-                    "Oi! Como você está hoje? 😊",
-                    "Olá! Que bom te ver por aqui! ✨",
-                    "Hey! Pronto para uma conversa legal? 🎉",
-                    "Oi, oi! Como posso alegrar seu dia? 🌟"
-                ];
-                
-                this.addMessage([
-                    greetings.random(),
-                    "O que vamos fazer hoje?"
-                ], false, true);
-                this.showQuickReplies(["/anime", "/piada", "/música", "/curiosidade"]);
-            }
-
-            respondToMood(input) {
-                if (input.includes('triste') || input.includes('mal')) {
-                    this.addMessage([
-                        "😔 Sinto muito que você esteja se sentindo assim.",
-                        "Que tal uma piada para animar o dia? Ou uma frase motivacional?",
-                        "Estou aqui para você! 💙"
-                    ], false, true);
-                    this.showQuickReplies(["/piada", "/frase", "/música", "/curiosidade"]);
-                } else if (input.includes('feliz') || input.includes('bem') || input.includes('animado')) {
-                    this.addMessage([
-                        "😊 Que ótimo saber que você está bem!",
-                        "Vamos manter essa energia positiva!",
-                        "O que te deixaria ainda mais feliz hoje?"
-                    ], false, true);
-                    this.showQuickReplies(["/anime", "/música", "/quiz", "/curiosidade"]);
-                }
-            }
-            
-            handleCommand(input) {
-                const [command, ...args] = input.substring(1).split(' ');
-                this.elements.menuOverlay.classList.remove('active');
-                
-                switch(command) {
-                    case 'ajuda':
-                    case 'help':
-                        this.showHelp();
-                        break;
-                    case 'anime':
-                    case 'animes':
-                        this.recommendAnime();
-                        break;
-                    case 'manga':
-                    case 'mangas':
-                        this.recommendManga();
-                        break;
-                    case 'musica':
-                    case 'música':
-                    case 'music':
-                        this.recommendMusic();
-                        break;
-                    case 'piada':
-                    case 'piadas':
-                    case 'joke':
-                        this.tellJoke();
-                        break;
-                    case 'frase':
-                    case 'motivacao':
-                    case 'inspiracao':
-                        this.shareMotivationalQuote();
-                        break;
-                    case 'adivinha':
-                    case 'charada':
-                    case 'riddle':
-                        this.askRiddle();
-                        break;
-                    case 'curiosidade':
-                    case 'fato':
-                        this.shareCuriosity();
-                        break;
-                    case 'quiz':
-                    case 'jogo':
-                        this.startQuiz();
-                        break;
-                    case 'stats':
-                    case 'estatisticas':
-                        this.showStats();
-                        break;
-                    case 'humor':
-                    case 'mood':
-                        this.showMoodSelector();
-                        break;
-                    default: 
-                        this.addMessage([
-                            "🤔 Comando não reconhecido.",
-                            "Digite `/ajuda` para ver todos os comandos disponíveis!"
-                        ]);
-                        this.showQuickReplies(["/ajuda"]);
-                }
-            }
-
-            showHelp() {
-                this.elements.menuOverlay.classList.remove('active');
-                this.addMessage([
-                    "🆘 **Central de Ajuda da Lúmen**",
-                    "",
-                    "**📱 Comandos Principais:**",
-                    "`/anime` - Recomendações de animes",
-                    "`/manga` - Sugestões de mangás", 
-                    "`/música` - Indicações musicais",
-                    "`/piada` - Piadas para rir",
-                    "`/frase` - Frases motivacionais",
-                    "",
-                    "**🎮 Entretenimento:**",
-                    "`/quiz` - Quiz interativo",
-                    "`/adivinha` - Charadas e enigmas",
-                    "`/curiosidade` - Fatos interessantes",
-                    "",
-                    "**📊 Outros:**",
-                    "`/stats` - Suas estatísticas",
-                    "`/humor` - Definir seu humor",
-                    "",
-                    "💡 **Dica:** Você também pode conversar naturalmente comigo!"
-                ], false, true);
-                this.showQuickReplies(["/anime", "/piada", "/música", "/quiz"]);
-            }
-
-            showPremiumInfo() {
-                this.elements.menuOverlay.classList.remove('active');
-                this.addMessage([
-                    "⭐ **Lúmen Premium** - Em Breve!",
-                    "",
-                    "🚀 **Recursos que estão chegando:**",
-                    "• Recomendações personalizadas com IA",
-                    "• Modo de conversação avançado",
-                    "• Criação de listas personalizadas",
-                    "• Notificações de novos animes/mangás",
-                    "• Jogos exclusivos e desafios",
-                    "• Sem limites de mensagens",
-                    "",
-                    "🔔 Fique ligado nas novidades!",
-                    "Em breve você terá acesso a tudo isso! 😉"
-                ], false, true);
-                this.showQuickReplies(["/anime", "/ajuda", "/stats"]);
-            }
-
-            showAboutYuki() {
-                this.elements.menuOverlay.classList.remove('active');
-                this.addMessage([
-                    "🤖 **Sobre a Lúmen v3.0**",
-                    "",
-                    "Olá! Eu sou a Lúmen, sua assistente virtual de entretenimento! 💙",
-                    "",
-                    "🎯 **Minha missão:**",
-                    "Trazer diversão, conhecimento e companhia para o seu dia!",
-                    "",
-                    "✨ **O que eu faço:**",
-                    "• Recomendo animes, mangás e músicas",
-                    "• Conto piadas e compartilho curiosidades", 
-                    "• Ofereço jogos e desafios interativos",
-                    "• Compartilho frases motivacionais",
-                    "• Converso sobre seus assuntos favoritos",
-                    "",
-                    "💻 **Criada com ❤️ por:** Naoto Dev",
-                    "🏢 **ORPHEO** Platforms",
-                    "",
-                    "Sempre evoluindo para te atender melhor! 🌟"
-                ], false, true);
-                this.showQuickReplies(["/ajuda", "/stats", "/anime"]);
-            }
-
-            showAboutDev() {
-                this.elements.menuOverlay.classList.remove('active');
-                this.addMessage([
-                    "👨‍💻 **Sobre o Desenvolvedor**",
-                    "",
-                    "**ORPHEO Platforms** é o criador por trás da Lúmen e outros projetos incríveis do Studio Tsukiyo Platforms.",
-                    "",
-                    "🎮 **Especialidades:**",
-                    "• Desenvolvimento de assistentes virtuais",
-                    "• Inteligência artificial conversacional",
-                    "• Experiências interativas",
-                    "• Tecnologias web modernas",
-                    "",
-                    "🌟 **Filosofia:**",
-                    "\"Tecnologia deve ser divertida, útil e acessível para todos!\"",
-                    "",
-                    "📬 **Contato:** sac.studiotsukiyo@outlook.com",
-                    "",
-                    "Obrigada por usar a Lúmen! 💙"
-                ], false, true);
-                this.showQuickReplies(["/ajuda", "/anime", "/música"]);
-            }
-
-            showStats() {
-                this.elements.menuOverlay.classList.remove('active');
-                const stats = this.userStats;
-                
-                this.addMessage([
-                    "📊 **Suas Estatísticas**",
-                    "",
-                    `<div class="stats-container">
-                        <div class="stat-card">
-                            <div class="stat-number">${stats.messagesCount}</div>
-                            <div class="stat-label">Mensagens</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">${stats.jokesRequested}</div>
-                            <div class="stat-label">Piadas</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">${stats.animesDiscussed}</div>
-                            <div class="stat-label">Animes</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">${stats.songsRecommended}</div>
-                            <div class="stat-label">Músicas</div>
-                        </div>
-                    </div>`,
-                    "",
-                    `🎯 **Categoria Favorita:** ${stats.favoriteCategory}`,
-                    `📅 **Dias Ativos:** ${stats.daysActive}`,
-                    `😊 **Humor Atual:** ${this.getMoodEmoji(this.currentMood)} ${this.currentMood}`,
-                    "",
-                    "Continue conversando para aumentar suas estatísticas! 🚀"
-                ], false, true);
-                this.showQuickReplies(["/anime", "/piada", "/música", "/quiz"]);
-            }
-
-            showGames() {
-                this.elements.menuOverlay.classList.remove('active');
-                this.addMessage([
-                    "🎮 **Central de Jogos**",
-                    "",
-                    "Escolha um jogo para começar:",
-                    "",
-                    "<div class='game-container'>",
-                    "<button class='quiz-option' onclick='yukiInstance.startQuiz()'>🧠 Quiz de Conhecimentos</button>",
-                    "<button class='quiz-option' onclick='yukiInstance.askRiddle()'>🤔 Adivinhas e Charadas</button>",
-                    "<button class='quiz-option' onclick='yukiInstance.startAnimeQuiz()'>🎌 Quiz de Animes</button>",
-                    "<button class='quiz-option' onclick='yukiInstance.startMusicGame()'>🎵 Adivinhe a Música</button>",
-                    "</div>",
-                    "",
-                    "Que a diversão comece! 🎉"
-                ], false, true);
-            }
-
-            startAnimeQuiz() {
-                const animeQuestions = [
-                    { pergunta: "Qual é o nome do protagonista de Naruto?", opcoes: ["Sasuke", "Naruto", "Kakashi", "Sakura"], correta: 1 },
-                    { pergunta: "Em que anime aparecem os Titãs?", opcoes: ["Death Note", "Attack on Titan", "One Piece", "Dragon Ball"], correta: 1 },
-                    { pergunta: "Qual poder Luffy possui em One Piece?", opcoes: ["Borracha", "Fogo", "Gelo", "Raio"], correta: 0 },
-                    { pergunta: "Qual é o nome da irmã de Tanjiro em Demon Slayer?", opcoes: ["Kanao", "Nezuko", "Shinobu", "Mitsuri"], correta: 1 },
-                    { pergunta: "Em qual academia estuda Midoriya?", opcoes: ["U.A.", "Shiketsu", "Ketsubutsu", "Seiai"], correta: 0 }
-                ];
-                
-                const question = animeQuestions.random();
-                this.currentQuiz = question;
-                this.conversationState = 'QUIZ_ACTIVE';
-                
-                let optionsHtml = '';
-                question.opcoes.forEach((opcao, index) => {
-                    optionsHtml += `<button class="quiz-option" onclick="yukiInstance.selectQuizAnswer(${index})">${index + 1}. ${opcao}</button>`;
-                });
-                
-                this.addMessage([
-                    "🎌 **Quiz de Animes!**",
-                    `**${question.pergunta}**`,
-                    `<div class="game-container">${optionsHtml}</div>`
-                ], false, true);
-            }
-
-            startMusicGame() {
-                const musicClues = [
-                    { artista: "Queen", dica: "Rhapsody + Bohemian = ?", resposta: "bohemian rhapsody" },
-                    { artista: "Michael Jackson", dica: "O rei do pop e a dança da lua", resposta: "billie jean" },
-                    { artista: "The Beatles", dica: "Hey + nome masculino comum", resposta: "hey jude" },
-                    { artista: "Led Zeppelin", dica: "Escada para o paraíso", resposta: "stairway to heaven" },
-                    { artista: "Nirvana", dica: "Cheira como espírito adolescente", resposta: "smells like teen spirit" }
-                ];
-                
-                const clue = musicClues.random();
-                this.currentMusicGame = clue;
-                this.conversationState = 'MUSIC_GAME_ACTIVE';
-                
-                this.addMessage([
-                    "🎵 **Adivinhe a Música!**",
-                    `**Artista:** ${clue.artista}`,
-                    `**Dica:** ${clue.dica}`,
-                    "",
-                    "Digite o nome da música!"
-                ], false, true);
-            }
-
-            showMoodSelector() {
-                this.elements.menuOverlay.classList.remove('active');
-                this.addMessage([
-                    "😊 **Como você está se sentindo hoje?**",
-                    "",
-                    "<div class='mood-selector'>",
-                    "<button class='mood-btn' onclick='yukiInstance.setMood(\"feliz\")' title='Feliz'>😊</button>",
-                    "<button class='mood-btn' onclick='yukiInstance.setMood(\"animado\")' title='Animado'>🤩</button>",
-                    "<button class='mood-btn' onclick='yukiInstance.setMood(\"relaxado\")' title='Relaxado'>😌</button>",
-                    "<button class='mood-btn' onclick='yukiInstance.setMood(\"pensativo\")' title='Pensativo'>🤔</button>",
-                    "<button class='mood-btn' onclick='yukiInstance.setMood(\"triste\")' title='Triste'>😔</button>",
-                    "</div>",
-                    "",
-                    "Seu humor me ajuda a personalizar nossas conversas! 💙"
-                ], false, true);
-            }
-
-            setMood(mood) {
-                this.currentMood = mood;
-                this.setStoredData('userMood', mood);
-                
-                const responses = {
-                    'feliz': ['😊 Que ótimo! Vamos manter essa energia positiva!', 'O que te deixa mais feliz?'],
-                    'animado': ['🤩 Adorei sua empolgação! Vamos aproveitar!', 'Que tal um quiz ou uma música animada?'],
-                    'relaxado': ['😌 Perfeito! Momentos de paz são importantes.', 'Que tal uma curiosidade ou frase inspiradora?'],
-                    'pensativo': ['🤔 Compreendo. Às vezes é bom refletir.', 'Posso compartilhar algo interessante para pensar?'],
-                    'triste': ['😔 Sinto muito. Estou aqui para alegrar seu dia!', 'Que tal uma piada ou música para animar?']
-                };
-                
-                const response = responses[mood] || ['😊 Obrigada por compartilhar!', 'Como posso ajudar?'];
-                this.addMessage(response, false, true);
-                
-                // Personalized quick replies based on mood
-                const moodReplies = {
-                    'feliz': ['/anime', '/música', '/quiz'],
-                    'animado': ['/quiz', '/jogo', '/curiosidade'],
-                    'relaxado': ['/frase', '/curiosidade', '/música'],
-                    'pensativo': ['/frase', '/curiosidade', '/anime'],
-                    'triste': ['/piada', '/música', '/frase']
-                };
-                
-                this.showQuickReplies(moodReplies[mood] || ['/ajuda', '/anime', '/piada']);
-            }
-
-            getMoodEmoji(mood) {
-                const emojis = {
-                    'feliz': '😊',
-                    'animado': '🤩', 
-                    'relaxado': '😌',
-                    'pensativo': '🤔',
-                    'triste': '😔',
-                    'neutral': '😐'
-                };
-                return emojis[mood] || '😊';
-            }
-
-            updateUserStats(action = 'message') {
-                switch(action) {
-                    case 'message':
-                        this.userStats.messagesCount++;
-                        break;
-                    case 'joke':
-                        this.userStats.jokesRequested++;
-                        this.userStats.favoriteCategory = 'humor';
-                        break;
-                    case 'anime':
-                        this.userStats.animesDiscussed++;
-                        this.userStats.favoriteCategory = 'anime';
-                        break;
-                    case 'song':
-                        this.userStats.songsRecommended++;
-                        this.userStats.favoriteCategory = 'música';
-                        break;
-                }
-                
-                this.setStoredData('userStats', this.userStats);
-            }
-            
-            initializeSpeech() {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (!SpeechRecognition) { 
-                    this.elements.micBtn.style.display = 'none'; 
-                    return; 
-                }
-                
-                this.speechRecognition = new SpeechRecognition();
-                this.speechRecognition.lang = 'pt-BR';
-                this.speechRecognition.continuous = false;
-                this.speechRecognition.interimResults = false;
-                
-                this.speechRecognition.onstart = () => { 
-                    this.setOrbState('listening'); 
-                    this.elements.micBtn.classList.add('active-mic');
-                    this.showToast('🎤 Escutando...');
-                };
-                
-                this.speechRecognition.onend = () => { 
-                    this.setOrbState('idle'); 
-                    this.elements.micBtn.classList.remove('active-mic'); 
-                };
-                
-                this.speechRecognition.onresult = (event) => { 
-                    const transcript = event.results[0][0].transcript;
-                    this.elements.userInput.value = transcript; 
-                    this.showToast(`Entendi: "${transcript}"`);
-                    setTimeout(() => this.handleUserInput(), 500);
-                };
-                
-                this.speechRecognition.onerror = (event) => {
-                    console.error('Erro de reconhecimento de voz:', event.error);
-                    this.setOrbState('idle');
-                    this.elements.micBtn.classList.remove('active-mic');
-                    this.showToast('❌ Erro no reconhecimento de voz');
-                };
-            }
-
-            toggleVoiceRecognition() {
-                if (this.speechRecognition) {
-                    this.speechRecognition.start();
-                } else {
-                    this.showToast('❌ Reconhecimento de voz não disponível');
-                }
-            }
-
-            showEmojiPicker() {
-                const emojis = ['😊', '😂', '❤️', '👍', '🎉', '✨', '🤔', '😍', '🔥', '💯', '🎵', '🎮', '📚', '🍕', '🌟'];
-                const emojiHtml = emojis.map(emoji => `<button class="emoji-btn" onclick="yukiInstance.insertEmoji('${emoji}')">${emoji}</button>`).join('');
-                
-                this.showQuickReplies([]);
-                this.elements.quickReplyArea.innerHTML = `<div style="display: flex; flex-wrap: wrap; gap: 8px;">${emojiHtml}</div>`;
-            }
-
-            insertEmoji(emoji) {
-                this.elements.userInput.value += emoji;
-                this.elements.userInput.focus();
-                this.elements.quickReplyArea.innerHTML = '';
-            }
-            
-            speak(text) {
-                if ('speechSynthesis' in window && this.voiceEnabled) {
-                    speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.lang = 'pt-BR';
-                    utterance.rate = 0.9;
-                    utterance.pitch = 1.1;
-                    speechSynthesis.speak(utterance);
-                }
-            }
-
-            transitionToChatView() {
-                if (!this.isConversationActive) {
-                    this.isConversationActive = true;
-                    this.elements.assistantUI.classList.add('hidden');
-                    this.elements.chatMessages.classList.add('active');
-                }
-            }
-            
-            showToast(message) {
-                this.elements.toast.textContent = message;
-                this.elements.toast.classList.add('show');
-                setTimeout(() => this.elements.toast.classList.remove('show'), 3000);
-            }
-
-            toggleTheme() {
-                document.body.classList.toggle('dark-mode');
-                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-                this.setStoredData('yukiTheme', theme);
-                this.showToast(`Tema ${theme === 'dark' ? 'escuro' : 'claro'} ativado`);
-            }
-
-            toggleVoice() {
-                this.voiceEnabled = this.elements.voiceToggle.checked;
-                this.setStoredData('voiceEnabled', this.voiceEnabled);
-                this.showToast(`Voz da Yuki ${this.voiceEnabled ? 'ativada' : 'desativada'}`);
-            }
-
-            setOrbState(state) {
-                this.elements.orb.classList.remove('thinking', 'listening');
-                if (state === 'thinking') {
-                    this.elements.orb.classList.add('thinking');
-                } else if (state === 'listening') {
-                    this.elements.orb.classList.add('listening');
-                }
-            }
-            
-            startApp() {
-                this.elements.greetingName.textContent = this.userName || 'visitante';
-                
-                if (!this.userName) {
-                    setTimeout(() => {
-                        this.addMessage([
-                            "Olá! Eu sou a Lúmen, sua assistente virtual! 🤖💙", 
-                            "Como posso te chamar?"
-                        ]);
-                        this.conversationState = 'WAITING_FOR_NAME';
-                        this.elements.userInput.focus();
-                    }, 500);
-                } else {
-                    const greetings = [
-                        `Olá, ${this.userName}! Que bom te ver de novo! ✨`,
-                        `Oi ${this.userName}! Pronto para mais diversão? 🎉`,
-                        `Hey ${this.userName}! Como você está hoje? 😊`,
-                        `${this.userName}! Senti sua falta! Vamos conversar? 💙`
-                    ];
-                    
-                    setTimeout(() => {
-                        this.addMessage([
-                            greetings.random(),
-                            "Para explorar todo meu potencial, que tal explorar as opções de comandos no menu?! para acessar basta clicar no icone de "hamburguer" e acessar comandos."
-                        ], false, true);
-                        this.showQuickReplies(["/anime", "/piada", "/música", "/ajuda"]);
-                    }, 500);
-                }
-            }
-
-            resetApp() {
-                this.elements.chatMessages.innerHTML = '';
-                this.elements.quickReplyArea.innerHTML = '';
-                this.elements.menuOverlay.classList.remove('active');
-                
-                // Reset user data
-                localStorage.removeItem('yuki_yukiUserName');
-                this.userName = '';
-                this.conversationState = 'IDLE';
-                this.currentMood = 'neutral';
-                
-                // Reset stats
-                this.userStats = {
-                    messagesCount: 0,
-                    jokesRequested: 0,
-                    animesDiscussed: 0,
-                    songsRecommended: 0,
-                    daysActive: 1,
-                    favoriteCategory: 'geral'
-                };
-                this.setStoredData('userStats', this.userStats);
-                
-                this.showToast("✨ Chat reiniciado! Bem-vindo de volta!");
-                
-                // Reset UI
-                this.isConversationActive = false;
-                this.elements.assistantUI.classList.remove('hidden');
-                this.elements.chatMessages.classList.remove('active');
-                this.elements.greetingName.textContent = 'visitante';
-                this.setOrbState('idle');
-                
-                this.startApp();
-            }
-        }
-
-        // Global instance for onclick handlers
-        let yukiInstance;
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            yukiInstance = new YukiAssistant();
-        });
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
