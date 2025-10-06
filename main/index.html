@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yume - Assistente Virtual</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/orvGJOL.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Login/Cadastro Screen -->
+        <div class="screen auth-screen" id="authScreen">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <img src="https://i.imgur.com/orvGJOL.png" alt="Yume Logo" class="auth-logo">
+                    <h1 class="auth-title">Bem-vindo à Yume</h1>
+                    <p class="auth-subtitle">Sua assistente virtual resolutiva</p>
+                </div>
+
+                <!-- Login Form -->
+                <form class="auth-form" id="loginForm">
+                    <h2 class="form-title">Entrar</h2>
+                    <div class="form-group">
+                        <label for="loginEmail">E-mail</label>
+                        <input type="email" id="loginEmail" required placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Senha</label>
+                        <input type="password" id="loginPassword" required placeholder="********">
+                    </div>
+                    <button type="submit" class="auth-btn">Entrar</button>
+                    <p class="auth-switch">
+                        Não tem conta? <a href="#" id="showRegister">Cadastre-se</a>
+                    </p>
+                </form>
+
+                <!-- Register Form -->
+                <form class="auth-form hidden" id="registerForm">
+                    <h2 class="form-title">Criar Conta</h2>
+                    <div class="form-group">
+                        <label for="registerName">Nome</label>
+                        <input type="text" id="registerName" required placeholder="Seu nome">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">E-mail</label>
+                        <input type="email" id="registerEmail" required placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Senha</label>
+                        <input type="password" id="registerPassword" required placeholder="Mínimo 8 caracteres">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerAge">Faixa Etária</label>
+                        <select id="registerAge" required>
+                            <option value="">Selecione</option>
+                            <option value="18-30">18-30 anos</option>
+                            <option value="31-49">31-49 anos</option>
+                            <option value="50-59">50-59 anos</option>
+                            <option value="60+">60+ anos</option>
+                        </select>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="termsAccept" required>
+                        <label for="termsAccept">
+                            Eu li e aceito os 
+                            <a href="https://naotodev1.github.io/terms-e-policy" target="_blank">
+                                Termos de Uso e Política de Privacidade
+                            </a>
+                        </label>
+                    </div>
+                    <button type="submit" class="auth-btn">Criar Conta</button>
+                    <p class="auth-switch">
+                        Já tem conta? <a href="#" id="showLogin">Entrar</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Main Chat Screen -->
+        <div class="screen chat-screen hidden" id="chatScreen">
+            <header class="chat-header">
+                <div class="header-user-info">
+                    <div class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="header-title-group">
+                    <img src="https://i.imgur.com/orvGJOL.png" alt="Yume Logo" class="header-logo">
+                    <h1 class="header-name">Yume</h1>
+                </div>
+                <button type="button" class="icon-btn header-menu-btn" id="menuBtn" title="Menu">
+                    <i class="fas fa-ellipsis-h"></i>
+                </button>
+            </header>
+
+            <div class="chat-body">
+                <div class="assistant-ui" id="assistantUI">
+                    <p class="greeting-text">Olá, <b id="greetingName">visitante</b>!</p>
+                    <p class="help-text">Como posso ajudar você hoje?</p>
+                    <div class="orb" id="orb"></div>
+                </div>
+                <div class="chat-messages" id="chatMessages"></div>
+            </div>
+
+            <div class="quick-reply-area" id="quickReplyArea"></div>
+
+            <form class="chat-input-area" id="inputArea">
+                <div class="input-wrapper">
+                    <input type="text" class="chat-input" id="userInput" 
+                           placeholder="Digite sua mensagem..." autocomplete="off">
+                    <button type="button" class="icon-btn" id="micBtn" title="Usar Microfone">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                </div>
+                <button type="submit" class="icon-btn" id="sendButton">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
+            </form>
+            <div class="footer">Powered by ORPHEO Platforms</div>
+        </div>
+
+        <!-- Menu Overlay -->
+        <div class="modal-overlay" id="menuOverlay">
+            <div class="modal-content">
+                <div class="menu-header">
+                    <h3>Menu</h3>
+                    <button class="close-btn" id="closeMenu">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="menu-grid">
+                    <button id="helpBtn" class="menu-card">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Ajuda</span>
+                    </button>
+                    <button id="aboutYumeBtn" class="menu-card">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Sobre a Yume</span>
+                    </button>
+                    <button id="statsBtn" class="menu-card">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Estatísticas</span>
+                    </button>
+                    <button id="profileBtn" class="menu-card">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Perfil</span>
+                    </button>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform?usp=preview" 
+                       target="_blank" class="menu-card">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>Feedback</span>
+                    </a>
+                    <a href="mailto:sac.studiotsukiyo@outlook.com" class="menu-card">
+                        <i class="fas fa-bug"></i>
+                        <span>Reportar</span>
+                    </a>
+                </div>
+                <div class="menu-list-item">
+                    <i class="fas fa-moon"></i> Modo Escuro
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="menu-list-item">
+                    <i class="fas fa-volume-up"></i> Voz da Yume
+                    <label class="switch">
+                        <input type="checkbox" id="voiceToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button id="logoutBtn" class="menu-card logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast-notification" id="toast"></div>
+        
+        <!-- Loading Overlay -->
+        <div class="loading-overlay hidden" id="loadingOverlay">
+            <div class="loading-spinner"></div>
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
