@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yume - Assistente Virtual</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/orvGJOL.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --background-color: #F3F6FA;
+            --bot-message-bg: #FFFFFF;
+            --user-message-bg: #2C3E50;
+            --text-primary: #2C3E50;
+            --text-light: #FFFFFF;
+            --text-secondary: #8A94A6;
+            --border-color: #E0E5EC;
+            --button-outline: #D1D9E6;
+            --shadow-color: rgba(44, 62, 80, 0.1);
+            --accent-color: #3498DB;
+            --orb-gradient: linear-gradient(135deg, #EC4899, #8B5CF6);
+            --success-color: #27AE60;
+            --warning-color: #F39C12;
+            --error-color: #E74C3C;
+        }
+        body.dark-mode {
+            --background-color: #1A1A1A;
+            --bot-message-bg: #2C2C2C;
+            --user-message-bg: #3498DB;
+            --text-primary: #EAEAEA;
+            --text-light: #FFFFFF;
+            --text-secondary: #888888;
+            --border-color: #3D3D3D;
+            --button-outline: #4A4A4A;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #C8D0E7;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            transition: background-color 0.3s;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            height: 90vh;
+            max-height: 850px;
+            background-color: var(--background-color);
+            border-radius: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 8px solid #fff;
+            transition: background-color 0.3s;
+        }
+        .screen {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s;
+            opacity: 1;
+            visibility: visible;
+        }
+        .screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .auth-screen {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+        }
+        .auth-avatar {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 2rem;
+        }
+        .auth-avatar img {
+            width: 100%;
+            height: 100%;
+        }
+        .auth-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+        .auth-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .auth-form input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            background-color: var(--bot-message-bg);
+            color: var(--text-primary);
+        }
+        .auth-form input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+        }
+        .auth-form label {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .auth-form label a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        .auth-form label a:hover {
+            text-decoration: underline;
+        }
+        .auth-switch {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .auth-switch a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+        .primary-btn {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid var(--button-outline);
+            border-radius: 14px;
+            background-color: var(--bot-message-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .primary-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--text-light);
+        }
+        .chat-screen {
+            background-color: var(--background-color);
+        }
+        .chat-header {
+            padding: 12px 16px;
+            display: grid;
+            grid-template-columns: 48px auto 48px;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+        .header-title-group {
+            grid-column: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .header-logo {
+            height: 40px;
+        }
+        .header-name {
+            font-size: 1.6rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, #EC4899, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-menu-btn {
+            grid-column: 3;
+            justify-self: end;
+        }
+        .chat-body {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .assistant-ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .assistant-ui.hidden {
+            opacity: 0;
+            transform: scale(0.9);
+            pointer-events: none;
+        }
+        .greeting-text {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+        }
+        .greeting-text b {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .help-text {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-top: 8px;
+        }
+        .orb {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--orb-gradient);
+            margin: 40px 0;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+            animation: pulse 4s infinite ease-in-out;
+            transition: all 0.4s ease;
+        }
+        .orb::before, .orb::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 24px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 0.4s ease;
+        }
+        .orb::before {
+            left: 45px;
+        }
+        .orb::after {
+            right: 45px;
+        }
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        .orb.thinking {
+            animation: thinking 2s infinite linear;
+        }
+        .orb.listening {
+            animation: listening 1.5s infinite ease-in-out;
+            box-shadow: 0 10px 40px rgba(231, 76, 60, 0.5);
+        }
+        @keyframes thinking {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes listening {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            50% {
+                transform: scale(1.1) rotate(180deg);
+            }
+        }
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            scroll-behavior: smooth;
+        }
+        .chat-messages.active {
+            opacity: 1;
+        }
+        .message-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            max-width: 90%;
+            align-self: flex-start;
+            align-items: flex-end;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .message-group.user {
+            align-self: flex-end;
+        }
+        .bot-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .bot-avatar img {
+            width: 100%;
+            height: 100%;
+        }
+        .message-bubbles {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .message {
+            padding: 12px 16px;
+            border-radius: 20px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+        .bot-message {
+            background-color: var(--bot-message-bg);
+            color: var(--text-primary);
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+        .user-message {
+            background-color: var(--user-message-bg);
+            color: var(--text-light);
+            border-bottom-right-radius: 5px;
+            align-self: flex-end;
+        }
+        .message-timestamp {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+            margin-top: 6px;
+            text-align: right;
+        }
+        .message strong {
+            font-weight: 600;
+        }
+        .message em {
+            font-style: italic;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .quick-reply-area {
+            padding: 10px 20px 0;
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .quick-reply {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--button-outline);
+            color: var(--text-primary);
+            background-color: var(--bot-message-bg);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .quick-reply:hover {
+            background-color: var(--accent-color);
+            color: var(--text-light);
+        }
+        .chat-input-area {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--background-color);
+            flex-shrink: 0;
+            gap: 10px;
+        }
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            border: 1px solid var(--border-color);
+            background-color: var(--bot-message-bg);
+            border-radius: 24px;
+            padding-right: 10px;
+        }
+        .chat-input {
+            flex-grow: 1;
+            border: none;
+            background: transparent;
+            padding: 14px 16px;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+        .icon-btn {
+            background: none;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .icon-btn:hover {
+            background-color: var(--border-color);
+        }
+        .icon-btn.active-mic {
+            color: #E74C3C;
+            animation: pulse-mic 1.5s infinite;
+        }
+        @keyframes pulse-mic {
+            0% {
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+            }
+        }
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: var(--bot-message-bg);
+            color: var(--text-primary);
+            width: 100%;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .menu-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border-radius: 12px;
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .menu-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+        .menu-card i {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+        .menu-card span {
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        .menu-list-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 12px;
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        .menu-list-item i {
+            margin-right: 15px;
+            color: var(--text-secondary);
+            width: 20px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            margin-left: auto;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: var(--accent-color);
+        }
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        .toast-notification {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--user-message-bg);
+            color: var(--text-light);
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 200;
+            transition: top 0.4s ease-in-out;
+        }
+        .toast-notification.show {
+            top: 20px;
+        }
+        .footer {
+            padding: 10px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 16px;
+        }
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--text-secondary);
+            animation: typing 1.4s infinite;
+        }
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+        .emoji-reactions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .emoji-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+        .emoji-btn:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .stat-card {
+            background-color: var(--background-color);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .game-container {
+            background-color: var(--background-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 10px 0;
+            border: 1px solid var(--border-color);
+        }
+        .quiz-option {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bot-message-bg);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quiz-option:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        .mood-selector {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+        }
+        .mood-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        .mood-btn:hover {
+            background-color: var(--border-color);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: var(--border-color);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Tela de Login/Cadastro -->
+        <div class="screen auth-screen" id="authScreen">
+            <div class="auth-form">
+                <div class="auth-avatar">
+                    <img src="https://i.imgur.com/orvGJOL.png" alt="Yume Avatar">
+                </div>
+                <h1 class="auth-title">Bem-vindo(a) à Yume</h1>
+                <form id="loginForm">
+                    <input type="email" placeholder="E-mail" required>
+                    <input type="password" placeholder="Senha" required>
+                    <button type="submit" class="primary-btn">Entrar</button>
+                </form>
+                <p class="auth-switch">Não tem conta? <a href="#" id="showRegister">Cadastre-se</a></p>
+                <form id="registerForm" class="hidden">
+                    <input type="text" placeholder="Nome" required>
+                    <input type="email" placeholder="E-mail" required>
+                    <input type="password" placeholder="Senha" required>
+                    <label>
+                        <input type="checkbox" required> Aceito os <a href="https://naotodev1.github.io/terms-e-policy" target="_blank">Termos de Uso</a>
+                    </label>
+                    <button type="submit" class="primary-btn">Cadastrar</button>
+                </form>
+                <p class="auth-switch hidden" id="showLogin">Já tem conta? <a href="#">Faça login</a></p>
+            </div>
+        </div>
+
+        <!-- Tela de Chat -->
+        <div class="screen chat-screen hidden" id="chatScreen">
+            <header class="chat-header">
+                <div style="width: 48px;"></div>
+                <div class="header-title-group">
+                    <img src="https://i.imgur.com/orvGJOL.png" alt="Yume Logo" class="header-logo">
+                    <h1 class="header-name">Yume</h1>
+                </div>
+                <button type="button" class="icon-btn header-menu-btn" id="menuBtn" title="Menu"><i class="fas fa-ellipsis-h"></i></button>
+            </header>
+            <div class="chat-body">
+                <div class="assistant-ui" id="assistantUI">
+                    <p class="greeting-text">Olá, <b id="greetingName">visitante</b>!</p>
+                    <p class="help-text">Como posso te ajudar hoje?</p>
+                    <div class="orb" id="orb"></div>
+                </div>
+                <div class="chat-messages" id="chatMessages"></div>
+            </div>
+            <div class="quick-reply-area" id="quickReplyArea"></div>
+            <form class="chat-input-area" id="inputArea">
+                <div class="input-wrapper">
+                    <input type="text" class="chat-input" id="userInput" placeholder="Digite sua mensagem...">
+                    <button type="button" class="icon-btn" id="micBtn" title="Usar Microfone"><i class="fas fa-microphone"></i></button>
+                    <button type="button" class="icon-btn" id="emojiBtn" title="Emojis"><i class="fas fa-smile"></i></button>
+                </div>
+                <button type="submit" class="icon-btn" id="sendButton"><i class="fas fa-arrow-up"></i></button>
+            </form>
+            <div class="footer">Powered by ORPHEO Platforms</div>
+        </div>
+
+        <!-- Modal de Menu -->
+        <div class="modal-overlay" id="menuOverlay">
+            <div class="modal-content">
+                <div class="menu-grid">
+                    <button id="helpBtn" class="menu-card"><i class="fas fa-question-circle"></i><span>Ajuda</span></button>
+                    <button id="premiumBtn" class="menu-card"><i class="fas fa-star"></i><span>Premium</span></button>
+                    <button id="aboutYumeBtn" class="menu-card"><i class="fas fa-info-circle"></i><span>Sobre a Yume</span></button>
+                    <button id="statsBtn" class="menu-card"><i class="fas fa-chart-bar"></i><span>Estatísticas</span></button>
+                    <button id="gamesBtn" class="menu-card"><i class="fas fa-gamepad"></i><span>Jogos</span></button>
+                    <button id="moodBtn" class="menu-card"><i class="fas fa-heart"></i><span>Humor</span></button>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform?usp=preview" target="_blank" class="menu-card"><i class="fas fa-comment-dots"></i><span>Feedback</span></a>
+                    <a href="mailto:sac.studiotsukiyo@outlook.com" class="menu-card"><i class="fas fa-bug"></i><span>Reportar</span></a>
+                    <button id="aboutDevBtn" class="menu-card"><i class="fas fa-code"></i><span>O Dev</span></button>
+                </div>
+                <div class="menu-list-item">
+                    <i class="fas fa-moon"></i> Modo Escuro
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="menu-list-item">
+                    <i class="fas fa-volume-up"></i> Voz da Yume
+                    <label class="switch">
+                        <input type="checkbox" id="voiceToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button id="logoutBtn" class="menu-card" style="width: 100%; margin-top: 15px; background-color: #e74c3c20; border-color: #e74c3c80;">
+                    <i class="fas fa-sign-out-alt" style="color: #e74c3c;"></i>
+                    <span style="color: #e74c3c;">Sair</span>
+                </button>
+            </div>
+        </div>
+        <div class="toast-notification" id="toast"></div>
+    </div>
+
+    <script>
+        class YumeAssistant {
+            constructor() {
+                this.elements = {
+                    authScreen: document.getElementById('authScreen'),
+                    chatScreen: document.getElementById('chatScreen'),
+                    loginForm: document.getElementById('loginForm'),
+                    registerForm: document.getElementById('registerForm'),
+                    showRegister: document.getElementById('showRegister'),
+                    showLogin: document.getElementById('showLogin'),
+                    logoutBtn: document.getElementById('logoutBtn'),
+                    chatMessages: document.getElementById('chatMessages'),
+                    quickReplyArea: document.getElementById('quickReplyArea'),
+                    inputArea: document.getElementById('inputArea'),
+                    userInput: document.getElementById('userInput'),
+                    micBtn: document.getElementById('micBtn'),
+                    emojiBtn: document.getElementById('emojiBtn'),
+                    menuBtn: document.getElementById('menuBtn'),
+                    menuOverlay: document.getElementById('menuOverlay'),
+                    clearChatBtn: document.getElementById('clearChatBtn'),
+                    helpBtn: document.getElementById('helpBtn'),
+                    premiumBtn: document.getElementById('premiumBtn'),
+                    aboutDevBtn: document.getElementById('aboutDevBtn'),
+                    aboutYumeBtn: document.getElementById('aboutYumeBtn'),
+                    statsBtn: document.getElementById('statsBtn'),
+                    gamesBtn: document.getElementById('gamesBtn'),
+                    moodBtn: document.getElementById('moodBtn'),
+                    darkModeToggle: document.getElementById('darkModeToggle'),
+                    voiceToggle: document.getElementById('voiceToggle'),
+                    assistantUI: document.getElementById('assistantUI'),
+                    greetingName: document.getElementById('greetingName'),
+                    orb: document.getElementById('orb'),
+                    toast: document.getElementById('toast'),
+                };
+                this.userName = '';
+                this.conversationState = 'IDLE';
+                this.isConversationActive = false;
+                this.currentMood = 'neutral';
+                this.voiceEnabled = true;
+                this.userStats = {
+                    messagesCount: 0,
+                    jokesRequested: 0,
+                    animesDiscussed: 0,
+                    songsRecommended: 0,
+                    daysActive: 1,
+                    favoriteCategory: 'geral'
+                };
+                this.init();
+            }
+
+            init() {
+                this.elements.showRegister.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.elements.loginForm.classList.add('hidden');
+                    this.elements.registerForm.classList.remove('hidden');
+                    this.elements.showLogin.classList.remove('hidden');
+                });
+
+                this.elements.showLogin.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.elements.registerForm.classList.add('hidden');
+                    this.elements.loginForm.classList.remove('hidden');
+                    this.elements.showLogin.classList.add('hidden');
+                });
+
+                this.elements.loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+                this.elements.registerForm.addEventListener('submit', (e) => this.handleRegister(e));
+                this.elements.logoutBtn.addEventListener('click', () => this.handleLogout());
+                this.elements.inputArea.addEventListener('submit', (e) => this.handleUserInput(e));
+                this.elements.micBtn.addEventListener('click', () => this.toggleVoiceRecognition());
+                this.elements.emojiBtn.addEventListener('click', () => this.showEmojiPicker());
+                this.elements.menuBtn.addEventListener('click', () => this.elements.menuOverlay.classList.add('active'));
+                this.elements.menuOverlay.addEventListener('click', (e) => {
+                    if (e.target === e.currentTarget) this.elements.menuOverlay.classList.remove('active');
+                });
+                this.elements.darkModeToggle.addEventListener('change', () => this.toggleTheme());
+                this.elements.voiceToggle.addEventListener('change', () => this.toggleVoice());
+            }
+
+            async handleLogin(e) {
+                e.preventDefault();
+                const email = e.target[0].value;
+                const password = e.target[1].value;
+                try {
+                    const response = await fetch('/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        this.userName = data.user.name;
+                        this.elements.authScreen.classList.add('hidden');
+                        this.elements.chatScreen.classList.remove('hidden');
+                        this.startApp();
+                    } else {
+                        this.showToast(data.message || 'Falha no login');
+                    }
+                } catch (error) {
+                    this.showToast('Erro de conexão');
+                }
+            }
+
+            async handleRegister(e) {
+                e.preventDefault();
+                const name = e.target[0].value;
+                const email = e.target[1].value;
+                const password = e.target[2].value;
+                const termsAccepted = e.target[3].checked;
+                if (!termsAccepted) {
+                    this.showToast('Aceite os termos para continuar');
+                    return;
+                }
+                try {
+                    const response = await fetch('/api/auth/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, email, password })
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        this.showToast('Cadastro realizado! Faça login.');
+                        this.elements.registerForm.reset();
+                        this.elements.registerForm.classList.add('hidden');
+                        this.elements.loginForm.classList.remove('hidden');
+                        this.elements.showLogin.classList.add('hidden');
+                    } else {
+                        this.showToast(data.message || 'Falha no cadastro');
+                    }
+                } catch (error) {
+                    this.showToast('Erro de conexão');
+                }
+            }
+
+            handleLogout() {
+                fetch('/api/auth/logout', { method: 'POST' })
+                    .then(() => {
+                        this.elements.chatScreen.classList.add('hidden');
+                        this.elements.authScreen.classList.remove('hidden');
+                        this.showToast('Até logo!');
+                    })
+                    .catch(() => this.showToast('Erro ao sair'));
+            }
+
+            startApp() {
+                this.elements.greetingName.textContent = this.userName || 'visitante';
+                this.addMessage([
+                    `Olá, ${this.userName}! Como posso te ajudar hoje? 😊`,
+                    "Para explorar todo meu potencial, que tal usar os comandos no menu? Clique no ícone de menu (⋮) para acessar."
+                ], false, true);
+                this.showQuickReplies(["/anime", "/piada", "/música", "/ajuda"]);
+            }
+
+            addMessage(content, isUser = false, showReactions = false) {
+                this.transitionToChatView();
+                if (!isUser) {
+                    this.showTypingIndicator();
+                    setTimeout(() => {
+                        this.hideTypingIndicator();
+                        this.createMessageBubble(content, isUser, showReactions);
+                    }, 1000 + Math.random() * 500);
+                } else {
+                    this.createMessageBubble(content, isUser, showReactions);
+                }
+            }
+
+            createMessageBubble(content, isUser, showReactions) {
+                const messageGroup = document.createElement('div');
+                messageGroup.className = `message-group ${isUser ? 'user' : ''}`;
+                if (!isUser) {
+                    messageGroup.innerHTML += `<div class="bot-avatar"><img src="https://i.imgur.com/orvGJOL.png" alt="Avatar"></div>`;
+                }
+                const bubblesContainer = document.createElement('div');
+                bubblesContainer.className = 'message-bubbles';
+                const messages = Array.isArray(content) ? content : [content];
+                messages.forEach(msg => {
+                    const bubble = document.createElement('div');
+                    bubble.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+                    bubble.innerHTML = this.parseMarkdown(msg);
+                    const timestamp = document.createElement('div');
+                    timestamp.className = 'message-timestamp';
+                    timestamp.textContent = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                    bubble.appendChild(timestamp);
+                    bubblesContainer.appendChild(bubble);
+                });
+                if (showReactions && !isUser) {
+                    const reactions = document.createElement('div');
+                    reactions.className = 'emoji-reactions';
+                    reactions.innerHTML = `
+                        <button class="emoji-btn" onclick="this.style.backgroundColor='var(--accent-color)'; this.style.color='white';">😊</button>
+                        <button class="emoji-btn" onclick="this.style.backgroundColor='var(--accent-color)'; this.style.color='white';">👍</button>
+                        <button class="emoji-btn" onclick="this.style.backgroundColor='var(--accent-color)'; this.style.color='white';">❤️</button>
+                        <button class="emoji-btn" onclick="this.style.backgroundColor='var(--accent-color)'; this.style.color='white';">😂</button>
+                    `;
+                    bubblesContainer.appendChild(reactions);
+                }
+                messageGroup.appendChild(bubblesContainer);
+                this.elements.chatMessages.appendChild(messageGroup);
+                this.elements.chatMessages.scrollTop = this.elements.chatMessages.scrollHeight;
+            }
+
+            parseMarkdown(text) {
+                return text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/`(.*?)`/g, '<code>$1</code>')
+                    .replace(/\n/g, '<br>');
+            }
+
+            showTypingIndicator() {
+                const indicator = document.createElement('div');
+                indicator.className = 'message-group typing-indicator-group';
+                indicator.innerHTML = `
+                    <div class="bot-avatar"><img src="https://i.imgur.com/orvGJOL.png" alt="Avatar"></div>
+                    <div class="message bot-message typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                `;
+                this.elements.chatMessages.appendChild(indicator);
+                this.elements.chatMessages.scrollTop = this.elements.chatMessages.scrollHeight;
+            }
+
+            hideTypingIndicator() {
+                const indicator = this.elements.chatMessages.querySelector('.typing-indicator-group');
+                if (indicator) indicator.remove();
+            }
+
+            showQuickReplies(replies) {
+                this.elements.quickReplyArea.innerHTML = replies.map(reply => `<button class="quick-reply">${reply}</button>`).join('');
+                document.querySelectorAll('.quick-reply').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.elements.userInput.value = btn.textContent;
+                        this.handleUserInput();
+                    });
+                });
+            }
+
+            handleUserInput(event) {
+                if (event) event.preventDefault();
+                const text = this.elements.userInput.value.trim();
+                if (!text) return;
+                this.addMessage(text, true);
+                this.elements.userInput.value = '';
+                this.elements.quickReplyArea.innerHTML = '';
+                this.setOrbState('thinking');
+                this.generateResponse(text);
+            }
+
+            generateResponse(input) {
+                setTimeout(() => {
+                    this.setOrbState('idle');
+                    const lowerInput = input.toLowerCase();
+                    if (lowerInput.startsWith('/')) {
+                        this.handleCommand(lowerInput);
+                        return;
+                    }
+                    this.processNaturalInput(lowerInput, input);
+                }, 800 + Math.random() * 800);
+            }
+
+            processNaturalInput(lowerInput, originalInput) {
+                if (this.containsWords(lowerInput, ['anime', 'animes', 'desenho', 'otaku'])) {
+                    this.recommendAnime();
+                    return;
+                }
+                if (this.containsWords(lowerInput, ['música', 'musica', 'som', 'canção', 'playlist'])) {
+                    this.recommendMusic();
+                    return;
+                }
+                if (this.containsWords(lowerInput, ['piada', 'piadas', 'engraçado', 'humor', 'rir'])) {
+                    this.tellJoke();
+                    return;
+                }
+                if (this.containsWords(lowerInput, ['motivação', 'inspiração', 'frase', 'motivacional', 'inspirar'])) {
+                    this.shareMotivationalQuote();
+                    return;
+                }
+                if (this.containsWords(lowerInput, ['adivinha', 'charada', 'enigma', 'desafio'])) {
+                    this.askRiddle();
+                    return;
+                }
+                if (this.containsWords(lowerInput, ['curiosidade', 'fato', 'interessante', 'sabia'])) {
+                    this.shareCuriosity();
+                    return;
+                }
+                if (this.containsWords(lowerInput, ['jogo', 'jogar', 'quiz', 'brincadeira'])) {
+                    this.startQuiz();
+                    return;
+                }
+                if (this.containsWords(lowerInput, ['oi', 'olá', 'ola', 'hey', 'eai'])) {
+                    this.respondToGreeting();
+                    return;
+                }
+                if (this.containsWords(lowerInput, ['triste', 'feliz', 'cansado', 'animado', 'bem', 'mal'])) {
+                    this.respondToMood(lowerInput);
+                    return;
+                }
+                this.addMessage([
+                    "Hmm, não tenho certeza sobre isso... 🤔",
+                    "Que tal tentar uma dessas opções?"
+                ], false, true);
+                this.showQuickReplies(["/ajuda", "/anime", "/piada", "/música"]);
+            }
+
+            containsWords(text, words) {
+                return words.some(word => text.includes(word));
+            }
+
+            recommendAnime() {
+                const animes = [
+                    { title: "Demon Slayer", desc: "Tanjiro luta contra demônios para salvar sua irmã Nezuko.", genre: "ação", rating: 9.0 },
+                    { title: "Attack on Titan", desc: "Humanidade luta contra titãs que devoram pessoas.", genre: "ação", rating: 9.0 },
+                    { title: "Naruto", desc: "Jovem ninja busca reconhecimento e sonha ser Hokage.", genre: "ação", rating: 8.7 },
+                    { title: "One Piece", desc: "Luffy e sua tripulação buscam o tesouro One Piece.", genre: "aventura", rating: 9.1 },
+                    { title: "Death Note", desc: "Light encontra um caderno que mata pessoas.", genre: "psicológico", rating: 9.0 },
+                ];
+                const anime = animes[Math.floor(Math.random() * animes.length)];
+                this.addMessage([
+                    `🎌 **${anime.title}**`,
+                    `${anime.desc}`,
+                    `**Gênero:** ${anime.genre} | **Nota:** ${anime.rating}/10`,
+                    "Quer outra recomendação?"
+                ], false, true);
+                this.showQuickReplies(["/anime", "/manga", "/música"]);
+            }
+
+            recommendMusic() {
+                const musicas = [
+                    { title: "Blinding Lights", artist: "The Weeknd", genre: "pop", year: 2019 },
+                    { title: "Bohemian Rhapsody", artist: "Queen", genre: "rock", year: 1975 },
+                    { title: "Shape of You", artist: "Ed Sheeran", genre: "pop", year: 2017 },
+                    { title: "Imagine", artist: "John Lennon", genre: "rock", year: 1971 },
+                    { title: "Billie Jean", artist: "Michael Jackson", genre: "pop", year: 1982 },
+                ];
+                const music = musicas[Math.floor(Math.random() * musicas.length)];
+                this.addMessage([
+                    `🎵 **${music.title}**`,
+                    `**Artista:** ${music.artist}`,
+                    `**Gênero:** ${music.genre} (${music.year})`,
+                    "Uma clássica! Que tal outra?"
+                ], false, true);
+                this.showQuickReplies(["/música", "/frase", "/piada"]);
+            }
+
+            tellJoke() {
+                const piadas = [
+                    "Por que os pássaros voam para o sul no inverno? Porque é longe demais para ir andando!",
+                    "O que o pato falou para a pata? Vem Quá!",
+                    "Por que a velhinha não usa relógio? Porque ela é uma sem hora!",
+                    "O que a impressora falou para a outra impressora? Essa folha é sua ou é impressão minha?",
+                    "Por que o livro de matemática estava triste? Porque tinha muitos problemas!",
+                ];
+                const joke = piadas[Math.floor(Math.random() * piadas.length)];
+                this.addMessage([
+                    "😂 Aqui vai uma piada:",
+                    `*${joke}*`,
+                    "Hahaha! Quer outra?"
+                ], false, true);
+                this.showQuickReplies(["/piada", "/música", "/curiosidade"]);
+            }
+
+            shareMotivationalQuote() {
+                const quotes = [
+                    "A persistência é o caminho do êxito. - Charles Chaplin",
+                    "O sucesso é a soma de pequenos esforços repetidos dia após dia. - Robert Collier",
+                    "Não espere por oportunidades. Crie-as. - George Bernard Shaw",
+                    "A única maneira impossível de realizar algo é não tentar. - Desconhecido",
+                    "Grandes realizações exigem grandes ambições. - Heráclito",
+                ];
+                const quote = quotes[Math.floor(Math.random() * quotes.length)];
+                this.addMessage([
+                    "✨ **Frase Motivacional do Dia:**",
+                    `*"${quote}"*`,
+                    "Espero que isso te inspire! 💪"
+                ], false, true);
+                this.showQuickReplies(["/frase", "/curiosidade", "/anime"]);
+            }
+
+            askRiddle() {
+                const riddles = [
+                    { pergunta: "O que é, o que é? Cai em pé e corre deitado?", resposta: "chuva" },
+                    { pergunta: "Tenho cidades, mas não casas. Tenho montanhas, mas não árvores. O que sou eu?", resposta: "mapa" },
+                    { pergunta: "O que é que quanto mais se tira, maior fica?", resposta: "buraco" },
+                ];
+                const riddle = riddles[Math.floor(Math.random() * riddles.length)];
+                this.currentRiddle = riddle;
+                this.conversationState = 'RIDDLE_ACTIVE';
+                this.addMessage([
+                    "🤔 **Adivinha essa:**",
+                    `*${riddle.pergunta}*`,
+                    "Digite sua resposta!"
+                ], false, true);
+            }
+
+            shareCuriosity() {
+                const curiosidades = [
+                    "Os polvos têm três corações e sangue azul!",
+                    "Uma lesma pode dormir por até 3 anos seguidos.",
+                    "Os golfinhos têm nomes uns para os outros.",
+                    "As abelhas podem reconhecer rostos humanos.",
+                    "Um grupo de flamingos é chamado de 'flamboyance'.",
+                ];
+                const curiosity = curiosidades[Math.floor(Math.random() * curiosidades.length)];
+                this.addMessage([
+                    "🔍 **Você sabia?**",
+                    curiosity,
+                    "Incrível, né? A natureza é fascinante!"
+                ], false, true);
+                this.showQuickReplies(["/curiosidade", "/anime", "/música"]);
+            }
+
+            startQuiz() {
+                const questions = [
+                    { pergunta: "Qual é a capital do Japão?", opcoes: ["Tokyo", "Kyoto", "Osaka", "Hiroshima"], correta: 0 },
+                    { pergunta: "Em que ano foi lançado o primeiro iPhone?", opcoes: ["2006", "2007", "2008", "2009"], correta: 1 },
+                ];
+                const question = questions[Math.floor(Math.random() * questions.length)];
+                this.currentQuiz = question;
+                this.conversationState = 'QUIZ_ACTIVE';
+                let optionsHtml = '';
+                question.opcoes.forEach((opcao, index) => {
+                    optionsHtml += `<button class="quiz-option" onclick="yumeInstance.selectQuizAnswer(${index})">${index + 1}. ${opcao}</button>`;
+                });
+                this.addMessage([
+                    "🧠 **Quiz Time!**",
+                    `**${question.pergunta}**`,
+                    `<div class="game-container">${optionsHtml}</div>`
+                ], false, true);
+            }
+
+            selectQuizAnswer(selectedIndex) {
+                const correct = this.currentQuiz.correta;
+                if (selectedIndex === correct) {
+                    this.addMessage([
+                        "🎉 **Correto!** Você mandou bem!",
+                        `A resposta era: **${this.currentQuiz.opcoes[correct]}**`,
+                        "Quer outro desafio?"
+                    ], false, true);
+                } else {
+                    this.addMessage([
+                        "❌ **Ops!** Não foi dessa vez.",
+                        `A resposta correta era: **${this.currentQuiz.opcoes[correct]}**`,
+                        "Não desanime! Quer tentar outro?"
+                    ], false, true);
+                }
+                this.showQuickReplies(["/quiz", "/adivinha", "/curiosidade"]);
+                this.conversationState = 'IDLE';
+                this.currentQuiz = null;
+            }
+
+            respondToGreeting() {
+                const greetings = [
+                    "Oi! Como você está hoje? 😊",
+                    "Olá! Que bom te ver por aqui! ✨",
+                    "Hey! Pronto para uma conversa legal? 🎉",
+                    "Oi, oi! Como posso alegrar seu dia? 🌟"
+                ];
+                this.addMessage([
+                    greetings[Math.floor(Math.random() * greetings.length)],
+                    "O que vamos fazer hoje?"
+                ], false, true);
+                this.showQuickReplies(["/anime", "/piada", "/música", "/curiosidade"]);
+            }
+
+            respondToMood(input) {
+                if (input.includes('triste') || input.includes('mal')) {
+                    this.addMessage([
+                        "😔 Sinto muito que você esteja se sentindo assim.",
+                        "Que tal uma piada para animar o dia? Ou uma frase motivacional?",
+                        "Estou aqui para você! 💙"
+                    ], false, true);
+                    this.showQuickReplies(["/piada", "/frase", "/música", "/curiosidade"]);
+                } else if (input.includes('feliz') || input.includes('bem') || input.includes('animado')) {
+                    this.addMessage([
+                        "😊 Que ótimo saber que você está bem!",
+                        "Vamos manter essa energia positiva!",
+                        "O que te deixaria ainda mais feliz hoje?"
+                    ], false, true);
+                    this.showQuickReplies(["/anime", "/música", "/quiz", "/curiosidade"]);
+                }
+            }
+
+            handleCommand(input) {
+                const [command] = input.substring(1).split(' ');
+                this.elements.menuOverlay.classList.remove('active');
+                switch(command) {
+                    case 'ajuda':
+                        this.showHelp();
+                        break;
+                    case 'anime':
+                        this.recommendAnime();
+                        break;
+                    case 'música':
+                        this.recommendMusic();
+                        break;
+                    case 'piada':
+                        this.tellJoke();
+                        break;
+                    case 'frase':
+                        this.shareMotivationalQuote();
+                        break;
+                    case 'adivinha':
+                        this.askRiddle();
+                        break;
+                    case 'curiosidade':
+                        this.shareCuriosity();
+                        break;
+                    case 'quiz':
+                        this.startQuiz();
+                        break;
+                    default:
+                        this.addMessage([
+                            "🤔 Comando não reconhecido.",
+                            "Digite `/ajuda` para ver todos os comandos disponíveis!"
+                        ]);
+                        this.showQuickReplies(["/ajuda"]);
+                }
+            }
+
+            showHelp() {
+                this.elements.menuOverlay.classList.remove('active');
+                this.addMessage([
+                    "🆘 **Central de Ajuda da Yume**",
+                    "",
+                    "**📱 Comandos Principais:**",
+                    "`/anime` - Recomendações de animes",
+                    "`/música` - Indicações musicais",
+                    "`/piada` - Piadas para rir",
+                    "`/frase` - Frases motivacionais",
+                    "",
+                    "**🎮 Entretenimento:**",
+                    "`/quiz` - Quiz interativo",
+                    "`/adivinha` - Charadas e enigmas",
+                    "`/curiosidade` - Fatos interessantes",
+                    "",
+                    "💡 **Dica:** Você também pode conversar naturalmente comigo!"
+                ], false, true);
+                this.showQuickReplies(["/anime", "/piada", "/música", "/quiz"]);
+            }
+
+            showToast(message) {
+                this.elements.toast.textContent = message;
+                this.elements.toast.classList.add('show');
+                setTimeout(() => this.elements.toast.classList.remove('show'), 3000);
+            }
+
+            toggleTheme() {
+                document.body.classList.toggle('dark-mode');
+                this.showToast(`Tema ${document.body.classList.contains('dark-mode') ? 'escuro' : 'claro'} ativado`);
+            }
+
+            toggleVoice() {
+                this.voiceEnabled = this.elements.voiceToggle.checked;
+                this.showToast(`Voz da Yume ${this.voiceEnabled ? 'ativada' : 'desativada'}`);
+            }
+
+            setOrbState(state) {
+                this.elements.orb.classList.remove('thinking', 'listening');
+                if (state === 'thinking') {
+                    this.elements.orb.classList.add('thinking');
+                } else if (state === 'listening') {
+                    this.elements.orb.classList.add('listening');
+                }
+            }
+
+            transitionToChatView() {
+                if (!this.isConversationActive) {
+                    this.isConversationActive = true;
+                    this.elements.assistantUI.classList.add('hidden');
+                    this.elements.chatMessages.classList.add('active');
+                }
+            }
+        }
+
+        // Instância global para handlers de clique
+        let yumeInstance;
+        document.addEventListener('DOMContentLoaded', () => {
+            yumeInstance = new YumeAssistant();
+            window.yumeInstance = yumeInstance; // Para acesso global em handlers de botão
+        });
+    </script>
+</body>
+</html>
