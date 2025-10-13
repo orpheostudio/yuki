@@ -3,2090 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yume - Assistente Virtual</title>
+    <title>Yume - Assistente Virtual IA</title>
     <link rel="icon" type="image/png" href="https://i.imgur.com/orvGJOL.png">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Reset e configurações básicas */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-color: #6C63FF;
-            --primary-light: #8A85FF;
-            --primary-dark: #5651D9;
-            --secondary-color: #FF6584;
-            --background-light: #F8F9FA;
-            --background-dark: #121212;
-            --surface-light: #FFFFFF;
-            --surface-dark: #1E1E1E;
-            --text-light: #333333;
-            --text-dark: #E0E0E0;
-            --text-muted: #666666;
-            --border-light: #E0E0E0;
-            --border-dark: #333333;
-            --success-color: #4CAF50;
-            --warning-color: #FF9800;
-            --error-color: #F44336;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --border-radius: 12px;
-            --transition: all 0.3s ease;
-        }
-
-        /* Tema claro (padrão) */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--background-light);
-            color: var(--text-light);
-            line-height: 1.6;
-            transition: var(--transition);
-        }
-
-        /* Tema escuro */
-        body.dark-mode {
-            background-color: var(--background-dark);
-            color: var(--text-dark);
-        }
-
-        /* Container principal */
-        .container {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Telas */
-        .screen {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* Tela de autenticação */
-        .auth-screen {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .auth-container {
-            background-color: var(--surface-light);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 30px;
-            width: 100%;
-            max-width: 400px;
-            transition: var(--transition);
-        }
-
-        .dark-mode .auth-container {
-            background-color: var(--surface-dark);
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .auth-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .auth-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--primary-color);
-        }
-
-        .dark-mode .auth-title {
-            color: var(--primary-light);
-        }
-
-        .auth-subtitle {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        /* Formulários de autenticação */
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-title {
-            font-size: 20px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            font-size: 14px;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group select {
-            padding: 12px 15px;
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            font-size: 16px;
-            transition: var(--transition);
-            background-color: var(--surface-light);
-            color: var(--text-light);
-        }
-
-        .dark-mode .form-group input,
-        .dark-mode .form-group select {
-            background-color: var(--surface-dark);
-            border-color: var(--border-dark);
-            color: var(--text-dark);
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
-        }
-
-        .checkbox-group {
-            flex-direction: row;
-            align-items: flex-start;
-        }
-
-        .checkbox-group input {
-            margin-right: 10px;
-            margin-top: 3px;
-        }
-
-        .checkbox-group label {
-            font-size: 14px;
-            line-height: 1.4;
-        }
-
-        .checkbox-group a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        .checkbox-group a:hover {
-            text-decoration: underline;
-        }
-
-        .auth-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 10px;
-        }
-
-        .auth-btn:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .auth-switch {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-
-        .auth-switch a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .auth-switch a:hover {
-            text-decoration: underline;
-        }
-
-        /* Tela de chat */
-        .chat-screen {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        /* Cabeçalho do chat */
-        .chat-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 20px;
-            background-color: var(--surface-light);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: relative;
-            z-index: 10;
-        }
-
-        .dark-mode .chat-header {
-            background-color: var(--surface-dark);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .header-user-info {
-            display: flex;
-            align-items: center;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--primary-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .header-title-group {
-            display: flex;
-            align-items: center;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .header-logo {
-            width: 30px;
-            height: 30px;
-            margin-right: 10px;
-            border-radius: 50%;
-        }
-
-        .header-name {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--text-light);
-            transition: var(--transition);
-        }
-
-        .dark-mode .icon-btn {
-            color: var(--text-dark);
-        }
-
-        .icon-btn:hover {
-            background-color: rgba(108, 99, 255, 0.1);
-        }
-
-        /* Corpo do chat */
-        .chat-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Interface da assistente */
-        .assistant-ui {
-            text-align: center;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .greeting-text {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .help-text {
-            font-size: 16px;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
-
-        .orb {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 40px;
-            box-shadow: 0 8px 25px rgba(108, 99, 255, 0.3);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 8px 25px rgba(108, 99, 255, 0.3);
-            }
-            50% {
-                transform: scale(1.05);
-                box-shadow: 0 12px 30px rgba(108, 99, 255, 0.4);
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 8px 25px rgba(108, 99, 255, 0.3);
-            }
-        }
-
-        /* Área de mensagens */
-        .chat-messages {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .message {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            position: relative;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .user-message {
-            align-self: flex-end;
-            background-color: var(--primary-color);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-
-        .assistant-message {
-            align-self: flex-start;
-            background-color: var(--surface-light);
-            color: var(--text-light);
-            border-bottom-left-radius: 4px;
-        }
-
-        .dark-mode .assistant-message {
-            background-color: var(--surface-dark);
-            color: var(--text-dark);
-        }
-
-        /* Sistema de Feedback */
-        .feedback-buttons {
-            margin-top: 10px;
-            padding: 10px;
-            background: rgba(108, 99, 255, 0.1);
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .dark-mode .feedback-buttons {
-            background: rgba(108, 99, 255, 0.2);
-        }
-
-        .feedback-label {
-            font-size: 14px;
-            margin-right: 10px;
-            color: var(--text-muted);
-        }
-
-        .feedback-btn {
-            background: none;
-            border: 1px solid var(--border-light);
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            margin: 0 5px;
-            transition: all 0.3s ease;
-        }
-
-        .dark-mode .feedback-btn {
-            border-color: var(--border-dark);
-        }
-
-        .feedback-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .feedback-btn.positive:hover {
-            background: var(--success-color);
-            color: white;
-            border-color: var(--success-color);
-        }
-
-        .feedback-btn.negative:hover {
-            background: var(--error-color);
-            color: white;
-            border-color: var(--error-color);
-        }
-
-        .feedback-prompt {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-light)) !important;
-            color: white !important;
-        }
-
-        .feedback-options {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .feedback-option {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 8px 16px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .feedback-option:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        /* Indicador de IA */
-        .ai-indicator {
-            font-size: 10px;
-            opacity: 0.7;
-            margin-top: 5px;
-            text-align: right;
-        }
-
-        .ai-indicator.mistral {
-            color: #FF6B35;
-        }
-
-        .ai-indicator.cache {
-            color: var(--success-color);
-        }
-
-        .ai-indicator.history {
-            color: var(--primary-color);
-        }
-
-        .ai-indicator.fallback {
-            color: var(--warning-color);
-        }
-
-        /* Área de respostas rápidas */
-        .quick-reply-area {
-            padding: 15px 20px;
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            border-top: 1px solid var(--border-light);
-        }
-
-        .dark-mode .quick-reply-area {
-            border-top-color: var(--border-dark);
-        }
-
-        .quick-reply {
-            padding: 10px 16px;
-            background-color: var(--surface-light);
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            font-size: 14px;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .dark-mode .quick-reply {
-            background-color: var(--surface-dark);
-            border-color: var(--border-dark);
-        }
-
-        .quick-reply:hover {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        /* Área de entrada de mensagens */
-        .chat-input-area {
-            display: flex;
-            padding: 15px 20px;
-            gap: 10px;
-            align-items: center;
-            background-color: var(--surface-light);
-            border-top: 1px solid var(--border-light);
-        }
-
-        .dark-mode .chat-input-area {
-            background-color: var(--surface-dark);
-            border-top-color: var(--border-dark);
-        }
-
-        .input-wrapper {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            background-color: var(--background-light);
-            border-radius: 24px;
-            padding: 0 15px;
-            border: 1px solid var(--border-light);
-        }
-
-        .dark-mode .input-wrapper {
-            background-color: var(--background-dark);
-            border-color: var(--border-dark);
-        }
-
-        .chat-input {
-            flex: 1;
-            border: none;
-            background: none;
-            padding: 12px 0;
-            font-size: 16px;
-            outline: none;
-            color: var(--text-light);
-        }
-
-        .dark-mode .chat-input {
-            color: var(--text-dark);
-        }
-
-        .chat-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        #sendButton {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        #sendButton:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .footer {
-            text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            color: var(--text-muted);
-            background-color: var(--surface-light);
-            border-top: 1px solid var(--border-light);
-        }
-
-        .dark-mode .footer {
-            background-color: var(--surface-dark);
-            border-top-color: var(--border-dark);
-        }
-
-        /* Modal e menu */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background-color: var(--surface-light);
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow);
-            transform: translateY(20px);
-            transition: var(--transition);
-        }
-
-        .dark-mode .modal-content {
-            background-color: var(--surface-dark);
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
-
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .dark-mode .menu-header {
-            border-bottom-color: var(--border-dark);
-        }
-
-        .menu-header h3 {
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            color: var(--text-light);
-        }
-
-        .dark-mode .close-btn {
-            color: var(--text-dark);
-        }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding: 20px;
-        }
-
-        .menu-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px 15px;
-            background-color: var(--background-light);
-            border-radius: var(--border-radius);
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .dark-mode .menu-card {
-            background-color: var(--background-dark);
-        }
-
-        .menu-card:hover {
-            background-color: var(--primary-color);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .menu-card i {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .menu-card span {
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .menu-list-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .dark-mode .menu-list-item {
-            border-bottom-color: var(--border-dark);
-        }
-
-        .menu-list-item:last-of-type {
-            border-bottom: none;
-        }
-
-        .menu-list-item i {
-            margin-right: 10px;
-            color: var(--primary-color);
-        }
-
-        /* Switch toggle */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: var(--transition);
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: var(--transition);
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: var(--primary-color);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        .logout-btn {
-            grid-column: 1 / -1;
-            background-color: rgba(244, 67, 54, 0.1);
-            color: var(--error-color);
-        }
-
-        .logout-btn:hover {
-            background-color: var(--error-color);
-            color: white;
-        }
-
-        /* Toast notification */
-        .toast-notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background-color: var(--surface-dark);
-            color: var(--text-dark);
-            padding: 12px 20px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            z-index: 1000;
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .toast-notification.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* Loading overlay */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            color: white;
-        }
-
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .auth-container {
-                padding: 20px;
-            }
-            
-            .chat-header {
-                padding: 12px 15px;
-            }
-            
-            .chat-body {
-                padding: 15px;
-            }
-            
-            .message {
-                max-width: 90%;
-            }
-            
-            .orb {
-                width: 100px;
-                height: 100px;
-                font-size: 32px;
-            }
-            
-            .menu-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .feedback-options {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .auth-title {
-                font-size: 20px;
-            }
-            
-            .auth-logo {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .greeting-text {
-                font-size: 20px;
-            }
-            
-            .orb {
-                width: 80px;
-                height: 80px;
-                font-size: 24px;
-            }
-            
-            .modal-content {
-                width: 95%;
-            }
-        }
-    </style>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5941203056187445" crossorigin="anonymous"></script>
+
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "nfv8y3n7t6");
+    </script>
+
+    <!-- Auth0 SDK -->
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <!-- Cookie Consent Banner -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                🌸 Usamos cookies para melhorar sua experiência. Ao usar nosso site, você concorda com nossa 
+                <a href="https://termos.orpheostudio.com.br" target="_blank">Política de Cookies</a> 
+                e nossos 
+                <a href="https://termos.orpheostudio.com.br" target="_blank">Termos de Uso</a>.
+            </div>
+            <div class="cookie-buttons">
+                <button class="cookie-btn reject" id="rejectCookies">Recusar</button>
+                <button class="cookie-btn accept" id="acceptCookies">Aceitar</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
-        <!-- Login/Cadastro Screen -->
+        <!-- Tela de Login/Cadastro -->
         <div class="screen auth-screen" id="authScreen">
             <div class="auth-container">
                 <div class="auth-header">
                     <img src="https://i.imgur.com/orvGJOL.png" alt="Yume Logo" class="auth-logo">
-                    <h1 class="auth-title">Bem-vindo à Yume</h1>
-                    <p class="auth-subtitle">Sua assistente virtual com IA Mistral</p>
+                    <h1 class="auth-title">Yume 🌸</h1>
+                    <p class="auth-subtitle">Sua assistente virtual inteligente</p>
                 </div>
 
-                <!-- Login Form -->
+                <!-- Botão de Login com Auth0 -->
+                <button class="auth-btn auth0-btn" id="auth0LoginBtn">
+                    <i class="fas fa-lock"></i> Login Seguro com Auth0
+                </button>
+
+                <div class="auth-divider">
+                    <span>ou</span>
+                </div>
+
                 <form class="auth-form" id="loginForm">
-                    <h2 class="form-title">Entrar</h2>
+                    <h2 class="form-title">Acessar Conta</h2>
                     <div class="form-group">
                         <label for="loginEmail">E-mail</label>
-                        <input type="email" id="loginEmail" required placeholder="seu@email.com">
+                        <input type="email" id="loginEmail" required placeholder="seuemail@exemplo.com">
                     </div>
                     <div class="form-group">
                         <label for="loginPassword">Senha</label>
                         <input type="password" id="loginPassword" required placeholder="********">
                     </div>
+                    <div class="terms-checkbox">
+                        <input type="checkbox" id="loginTerms" required>
+                        <label for="loginTerms">
+                            Concordo com os <a href="https://termos.orpheostudio.com.br" target="_blank">Termos de Uso</a>
+                        </label>
+                    </div>
                     <button type="submit" class="auth-btn">Entrar</button>
                     <p class="auth-switch">
-                        Não tem conta? <a href="#" id="showRegister">Cadastre-se</a>
+                        Novo por aqui? <a href="#" id="showRegister">Crie sua conta</a>
                     </p>
                 </form>
 
-                <!-- Register Form -->
                 <form class="auth-form hidden" id="registerForm">
-                    <h2 class="form-title">Criar Conta</h2>
+                    <h2 class="form-title">Junte-se à Yume 🌸</h2>
                     <div class="form-group">
-                        <label for="registerName">Nome</label>
-                        <input type="text" id="registerName" required placeholder="Seu nome">
+                        <label for="registerName">Nome Completo</label>
+                        <input type="text" id="registerName" required placeholder="Seu nome completo">
                     </div>
                     <div class="form-group">
                         <label for="registerEmail">E-mail</label>
-                        <input type="email" id="registerEmail" required placeholder="seu@email.com">
+                        <input type="email" id="registerEmail" required placeholder="seuemail@exemplo.com">
                     </div>
                     <div class="form-group">
                         <label for="registerPassword">Senha</label>
                         <input type="password" id="registerPassword" required placeholder="Mínimo 8 caracteres">
                     </div>
-                    <div class="form-group">
-                        <label for="registerAge">Faixa Etária</label>
-                        <select id="registerAge" required>
-                            <option value="">Selecione</option>
-                            <option value="18-30">18-30 anos</option>
-                            <option value="31-49">31-49 anos</option>
-                            <option value="50-59">50-59 anos</option>
-                            <option value="60+">60+ anos</option>
-                        </select>
-                    </div>
-                    <div class="form-group checkbox-group">
-                        <input type="checkbox" id="termsAccept" required>
-                        <label for="termsAccept">
-                            Eu li e aceito os 
-                            <a href="https://naotodev1.github.io/terms-e-policy" target="_blank">
-                                Termos de Uso e Política de Privacidade
-                            </a>
+                    <div class="terms-checkbox">
+                        <input type="checkbox" id="acceptTerms" required>
+                        <label for="acceptTerms">
+                            Concordo com os <a href="https://termos.orpheostudio.com.br" target="_blank">Termos de Uso</a>
                         </label>
                     </div>
-                    <button type="submit" class="auth-btn">Criar Conta</button>
+                    <button type="submit" class="auth-btn">Começar Agora</button>
                     <p class="auth-switch">
-                        Já tem conta? <a href="#" id="showLogin">Entrar</a>
+                        Já tem conta? <a href="#" id="showLogin">Fazer login</a>
                     </p>
                 </form>
             </div>
         </div>
 
-        <!-- Main Chat Screen -->
+        <!-- Tela Principal do Chat -->
         <div class="screen chat-screen hidden" id="chatScreen">
             <header class="chat-header">
                 <div class="header-user-info">
                     <div class="user-avatar" id="userAvatar">
                         <i class="fas fa-user"></i>
                     </div>
+                    <div class="upgrade-card" id="upgradeCard">Doar 🩷</div>
                 </div>
                 <div class="header-title-group">
                     <img src="https://i.imgur.com/orvGJOL.png" alt="Yume Logo" class="header-logo">
-                    <h1 class="header-name">Yume</h1>
+                    <h1 class="header-name">Yume 🌸</h1>
                 </div>
-                <button type="button" class="icon-btn header-menu-btn" id="menuBtn" title="Menu">
-                    <i class="fas fa-ellipsis-h"></i>
-                </button>
             </header>
 
-            <div class="chat-body">
+            <div class="chat-body" id="chatBody">
                 <div class="assistant-ui" id="assistantUI">
-                    <p class="greeting-text">Olá, <b id="greetingName">visitante</b>!</p>
-                    <p class="help-text">Como posso ajudar você hoje?</p>
-                    <div class="orb" id="orb"></div>
+                    <p class="greeting-text">Olá! Sou a Yume🌸 👋</p>
+                    <p class="help-text">Sua assistente virtual inteligente. Posso ajudar com respostas, recomendações, conversas e muito mais!</p>
                 </div>
                 <div class="chat-messages" id="chatMessages"></div>
+
+                <!-- Google AdSense Unit -->
+                <div class="adsense-container">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5941203056187445"
+                         data-ad-slot="1234567890"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                </div>
             </div>
 
-            <div class="quick-reply-area" id="quickReplyArea"></div>
+            <div class="quick-reply-area" id="quickReplyArea">
+                <button class="quick-reply" data-message="Como você funciona?">Como você funciona?</button>
+                <button class="quick-reply" data-message="Preciso de ajuda">Preciso de ajuda</button>
+                <button class="quick-reply" data-message="O que você pode fazer?">O que você pode fazer?</button>
+                <button class="quick-reply" data-message="Conte uma curiosidade">Conte uma curiosidade</button>
+            </div>
 
             <form class="chat-input-area" id="inputArea">
+                <button type="button" class="file-btn" id="fileButton" title="Enviar arquivo">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+                <input type="file" id="fileInput" style="display: none;" accept="image/*,audio/*,.pdf,.doc,.docx,.txt">
                 <div class="input-wrapper">
                     <input type="text" class="chat-input" id="userInput" 
-                           placeholder="Digite sua mensagem..." autocomplete="off">
-                    <button type="button" class="icon-btn" id="micBtn" title="Usar Microfone">
-                        <i class="fas fa-microphone"></i>
-                    </button>
+                           placeholder="Envie uma mensagem..." autocomplete="off">
                 </div>
+                <button type="button" class="voice-btn" id="voiceButton" title="Falar">
+                    <i class="fas fa-microphone"></i>
+                </button>
                 <button type="submit" class="icon-btn" id="sendButton">
-                    <i class="fas fa-arrow-up"></i>
+                    <i class="fas fa-paper-plane"></i>
                 </button>
             </form>
-            <div class="footer">Powered by ORPHEO Platforms • Mistral AI</div>
+            <div class="footer">
+                Yume 🌸 • Powered by ORPHEO Platforms • V2.0.0
+            </div>
         </div>
 
-        <!-- Menu Overlay -->
-        <div class="modal-overlay" id="menuOverlay">
+        <!-- Modal de Perfil -->
+        <div class="modal-overlay" id="profileModal">
             <div class="modal-content">
                 <div class="menu-header">
-                    <h3>Menu</h3>
-                    <button class="close-btn" id="closeMenu">
+                    <h3>Meu Perfil</h3>
+                    <button class="close-btn" id="closeProfile">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
+
+                <div class="profile-section">
+                    <h4>Personalizar Avatar</h4>
+                    <div class="profile-avatar-options">
+                        <div class="avatar-option selected" data-avatar="default" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="avatar-option" data-avatar="avatar1" style="background: linear-gradient(135deg, #F59E0B, #EAB308);">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <div class="avatar-option" data-avatar="avatar2" style="background: linear-gradient(135deg, #EC4899, #DB2777);">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="avatar-option" data-avatar="avatar3" style="background: linear-gradient(135deg, #10B981, #059669);">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preferences-section">
+                    <h4>Minhas Preferências</h4>
+                    <p style="font-size: 14px; margin-bottom: 16px; color: var(--text-muted);">
+                        Selecione seus interesses:
+                    </p>
+                    <div class="preference-tags">
+                        <div class="preference-tag" data-pref="anime">Anime</div>
+                        <div class="preference-tag" data-pref="manga">Mangá</div>
+                        <div class="preference-tag" data-pref="tecnologia">Tecnologia</div>
+                        <div class="preference-tag" data-pref="livros">Livros</div>
+                        <div class="preference-tag" data-pref="musica">Música</div>
+                        <div class="preference-tag" data-pref="filmes">Filmes</div>
+                        <div class="preference-tag" data-pref="jogos">Jogos</div>
+                        <div class="preference-tag" data-pref="culinaria">Culinária</div>
+                    </div>
+                </div>
+
                 <div class="menu-grid">
-                    <button id="helpBtn" class="menu-card">
+                    <button class="menu-card" id="helpBtn">
                         <i class="fas fa-question-circle"></i>
                         <span>Ajuda</span>
                     </button>
-                    <button id="aboutYumeBtn" class="menu-card">
+                    <button class="menu-card" id="aboutYumeBtn">
                         <i class="fas fa-info-circle"></i>
-                        <span>Sobre a Yume</span>
+                        <span>Sobre</span>
                     </button>
-                    <button id="statsBtn" class="menu-card">
+                    <button class="menu-card" id="statsBtn">
                         <i class="fas fa-chart-bar"></i>
                         <span>Estatísticas</span>
                     </button>
-                    <button id="profileBtn" class="menu-card">
-                        <i class="fas fa-user-circle"></i>
-                        <span>Perfil</span>
+                    <button class="menu-card" id="termsBtn">
+                        <i class="fas fa-file-contract"></i>
+                        <span>Termos</span>
                     </button>
-                    <button id="apiConfigBtn" class="menu-card">
-                        <i class="fas fa-key"></i>
-                        <span>API Mistral</span>
+                    <button class="menu-card" id="projectsBtn">
+                        <i class="fas fa-rocket"></i>
+                        <span>Mais Projetos</span>
                     </button>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform?usp=preview" 
+                    <a href="https://studio.orpheostudio.com.br" target="_blank" class="menu-card">
+                        <i class="fas fa-globe"></i>
+                        <span>Site Oficial</span>
+                    </a>
+                    <button class="menu-card premium" id="upgradeBtn">
+                        <i class="fas fa-crown"></i>
+                        <span>Doar 🩷</span>
+                    </button>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform" 
                        target="_blank" class="menu-card">
-                        <i class="fas fa-comment-dots"></i>
+                        <i class="fas fa-comment"></i>
                         <span>Feedback</span>
                     </a>
                     <a href="mailto:sac.studiotsukiyo@outlook.com" class="menu-card">
                         <i class="fas fa-bug"></i>
                         <span>Reportar</span>
                     </a>
-                    <button id="clearCacheBtn" class="menu-card">
-                        <i class="fas fa-trash"></i>
-                        <span>Limpar Cache</span>
+                    <button id="logoutBtn" class="menu-card logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sair</span>
                     </button>
                 </div>
-                <div class="menu-list-item">
-                    <i class="fas fa-moon"></i> Modo Escuro
-                    <label class="switch">
-                        <input type="checkbox" id="darkModeToggle">
-                        <span class="slider"></span>
-                    </label>
+            </div>
+        </div>
+
+        <!-- Modal de Mais Projetos -->
+        <div class="modal-overlay" id="projectsModal">
+            <div class="modal-content">
+                <div class="menu-header">
+                    <h3>Mais Projetos</h3>
+                    <button class="close-btn" id="closeProjects">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
-                <div class="menu-list-item">
-                    <i class="fas fa-volume-up"></i> Voz da Yume
-                    <label class="switch">
-                        <input type="checkbox" id="voiceToggle" checked>
-                        <span class="slider"></span>
-                    </label>
+                <div class="menu-grid">
+                    <a href="https://www.instagram.com/yumerolloficial" target="_blank" class="menu-card">
+                        <i class="fab fa-instagram"></i>
+                        <span>YumeRoll Animes</span>
+                    </a>
+                    <a href="https://www.tiktok.com/@yumerollanime" target="_blank" class="menu-card">
+                        <i class="fab fa-tiktok"></i>
+                        <span>YumeRoll TikTok</span>
+                    </a>
+                    <a href="https://www.instagram.com/kaoruescritor" target="_blank" class="menu-card">
+                        <i class="fab fa-instagram"></i>
+                        <span>Café e Páginas</span>
+                    </a>
                 </div>
-                <div class="menu-list-item">
-                    <i class="fas fa-brain"></i> IA Mistral
-                    <label class="switch">
-                        <input type="checkbox" id="aiToggle" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <button id="logoutBtn" class="menu-card logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Sair</span>
-                </button>
             </div>
         </div>
 
         <!-- Toast Notification -->
         <div class="toast-notification" id="toast"></div>
-        
+
         <!-- Loading Overlay -->
         <div class="loading-overlay hidden" id="loadingOverlay">
             <div class="loading-spinner"></div>
-            <p>Processando com Mistral AI...</p>
+            <p>Processando sua pergunta...</p>
         </div>
     </div>
 
-    <script>
-        // Elementos DOM
-        const authScreen = document.getElementById('authScreen');
-        const chatScreen = document.getElementById('chatScreen');
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const showRegister = document.getElementById('showRegister');
-        const showLogin = document.getElementById('showLogin');
-        const menuBtn = document.getElementById('menuBtn');
-        const closeMenu = document.getElementById('closeMenu');
-        const menuOverlay = document.getElementById('menuOverlay');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const voiceToggle = document.getElementById('voiceToggle');
-        const aiToggle = document.getElementById('aiToggle');
-        const userInput = document.getElementById('userInput');
-        const inputArea = document.getElementById('inputArea');
-        const chatMessages = document.getElementById('chatMessages');
-        const quickReplyArea = document.getElementById('quickReplyArea');
-        const assistantUI = document.getElementById('assistantUI');
-        const greetingName = document.getElementById('greetingName');
-        const userAvatar = document.getElementById('userAvatar');
-        const toast = document.getElementById('toast');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const micBtn = document.getElementById('micBtn');
-        const apiConfigBtn = document.getElementById('apiConfigBtn');
-        const clearCacheBtn = document.getElementById('clearCacheBtn');
-
-        // Estado da aplicação
-        let currentUser = null;
-        let isListening = false;
-        let recognition = null;
-        let feedbackSystem = null;
-        let aiMemorySystem = null;
-        let aiIntegration = null;
-        let fallbackSystem = null;
-
-        // ==================== SISTEMA DE MEMÓRIA E IA ====================
-
-        class AIMemorySystem {
-            constructor() {
-                this.conversationHistory = [];
-                this.responseCache = new Map();
-                this.maxHistoryLength = 15;
-                this.init();
-            }
-
-            init() {
-                // Carregar histórico do localStorage
-                const savedHistory = localStorage.getItem('yumeConversationHistory');
-                if (savedHistory) {
-                    this.conversationHistory = JSON.parse(savedHistory);
-                }
-                
-                // Carregar cache
-                const savedCache = localStorage.getItem('yumeResponseCache');
-                if (savedCache) {
-                    const cacheArray = JSON.parse(savedCache);
-                    cacheArray.forEach(([key, value]) => {
-                        this.responseCache.set(key, value);
-                    });
-                }
-            }
-
-            // Adicionar mensagem ao histórico
-            addToHistory(message, response, sender, source = 'fallback') {
-                this.conversationHistory.push({
-                    message,
-                    response,
-                    sender,
-                    source,
-                    timestamp: Date.now()
-                });
-
-                // Manter apenas as últimas mensagens
-                if (this.conversationHistory.length > this.maxHistoryLength) {
-                    this.conversationHistory = this.conversationHistory.slice(-this.maxHistoryLength);
-                }
-
-                localStorage.setItem('yumeConversationHistory', JSON.stringify(this.conversationHistory));
-            }
-
-            // Buscar resposta em cache
-            getCachedResponse(message) {
-                const normalizedMessage = this.normalizeMessage(message);
-                return this.responseCache.get(normalizedMessage);
-            }
-
-            // Cache de resposta
-            cacheResponse(message, response, source = 'mistral') {
-                const normalizedMessage = this.normalizeMessage(message);
-                this.responseCache.set(normalizedMessage, { response, source });
-                
-                // Salvar cache no localStorage
-                this.saveCacheToStorage();
-            }
-
-            saveCacheToStorage() {
-                const cacheArray = Array.from(this.responseCache.entries());
-                localStorage.setItem('yumeResponseCache', JSON.stringify(cacheArray));
-            }
-
-            // Normalizar mensagem para comparação
-            normalizeMessage(message) {
-                return message.toLowerCase()
-                    .trim()
-                    .replace(/[.,!?;]/g, '')
-                    .replace(/\s+/g, ' ');
-            }
-
-            // Buscar respostas similares no histórico
-            findSimilarResponses(message, threshold = 0.6) {
-                const normalizedMessage = this.normalizeMessage(message);
-                const similar = [];
-                
-                this.conversationHistory.forEach(entry => {
-                    if (entry.sender === 'user') {
-                        const similarity = this.calculateSimilarity(normalizedMessage, this.normalizeMessage(entry.message));
-                        if (similarity > threshold) {
-                            similar.push({
-                                originalMessage: entry.message,
-                                response: entry.response,
-                                similarity: similarity,
-                                source: entry.source
-                            });
-                        }
-                    }
-                });
-                
-                return similar.sort((a, b) => b.similarity - a.similarity);
-            }
-
-            calculateSimilarity(str1, str2) {
-                const words1 = str1.split(' ');
-                const words2 = str2.split(' ');
-                
-                const set1 = new Set(words1);
-                const set2 = new Set(words2);
-                
-                const intersection = new Set([...set1].filter(x => set2.has(x)));
-                const union = new Set([...set1, ...set2]);
-                
-                return union.size > 0 ? intersection.size / union.size : 0;
-            }
-
-            // Limpar cache
-            clearCache() {
-                this.responseCache.clear();
-                localStorage.removeItem('yumeResponseCache');
-                this.conversationHistory = [];
-                localStorage.removeItem('yumeConversationHistory');
-            }
-        }
-
-        // Sistema de Fallback Inteligente
-        class FallbackSystem {
-            constructor() {
-                this.responses = {
-                    greetings: [
-                        "Olá! Como posso ajudar você hoje? 😊",
-                        "Oi! Em que posso ser útil?",
-                        "Olá! Fico feliz em conversar com você."
-                    ],
-                    help: [
-                        "Posso ajudar com informações, responder perguntas ou apenas conversar!",
-                        "Estou aqui para ajudar no que precisar. Pode me fazer perguntas ou pedir assistência.",
-                        "Como assistente virtual, posso ajudar com diversas tarefas. O que você gostaria de fazer?"
-                    ],
-                    unknown: [
-                        "Hmm, não tenho certeza sobre isso. Pode reformular a pergunta?",
-                        "Interessante! Pode me dar mais detalhes?",
-                        "Vou pesquisar mais sobre isso. Tem alguma outra pergunta enquanto isso?",
-                        "Ainda estou aprendendo sobre esse assunto. Pode tentar outra pergunta?"
-                    ],
-                    thanks: [
-                        "De nada! Fico feliz em ajudar! 😊",
-                        "Por nada! Estou aqui para o que precisar.",
-                        "Disponha! Se tiver mais alguma dúvida, é só perguntar."
-                    ]
-                };
-            }
-
-            getResponse(message) {
-                const lowerMessage = message.toLowerCase();
-                
-                if (this.isGreeting(lowerMessage)) {
-                    return this.getRandomResponse(this.responses.greetings);
-                }
-                
-                if (this.isHelpRequest(lowerMessage)) {
-                    return this.getRandomResponse(this.responses.help);
-                }
-                
-                if (this.isThanks(lowerMessage)) {
-                    return this.getRandomResponse(this.responses.thanks);
-                }
-                
-                return this.getRandomResponse(this.responses.unknown);
-            }
-
-            isGreeting(message) {
-                const greetings = ['oi', 'olá', 'ola', 'hey', 'e aí', 'eai', 'bom dia', 'boa tarde', 'boa noite'];
-                return greetings.some(greet => message.includes(greet));
-            }
-
-            isHelpRequest(message) {
-                const helpWords = ['ajuda', 'ajude', 'help', 'como funciona', 'o que você faz', 'pode fazer'];
-                return helpWords.some(word => message.includes(word));
-            }
-
-            isThanks(message) {
-                const thanksWords = ['obrigado', 'obrigada', 'valeu', 'agradeço', 'thanks'];
-                return thanksWords.some(word => message.includes(word));
-            }
-
-            getRandomResponse(responses) {
-                return responses[Math.floor(Math.random() * responses.length)];
-            }
-        }
-
-        // Integração com Mistral AI
-        class MistralAIIntegration {
-            constructor() {
-                this.apiKey = null;
-                this.endpoint = 'https://api.mistral.ai/v1/chat/completions';
-                this.enabled = true;
-            }
-
-            // Configurar a API
-            setup(apiKey) {
-                this.apiKey = apiKey;
-                localStorage.setItem('yumeMistralApiKey', apiKey);
-            }
-
-            // Verificar se está configurado
-            isConfigured() {
-                return this.apiKey && this.enabled;
-            }
-
-            // Chamar a API da Mistral
-            async callMistralAI(message, conversationHistory = []) {
-                if (!this.isConfigured()) {
-                    throw new Error('Mistral AI não configurada');
-                }
-
-                const messages = [
-                    {
-                        role: "system",
-                        content: `Você é a Yume, uma assistente virtual brasileira amigável e prestativa. 
-                        Seja concisa mas útil. Responda em português brasileiro natural.
-                        Use emojis ocasionalmente para ser mais amigável.
-                        Mantenha as respostas entre 1-3 frases.
-                        Seja direta e evite rodeios.`
-                    },
-                    ...conversationHistory.slice(-6).map(entry => ({
-                        role: entry.sender === 'user' ? 'user' : 'assistant',
-                        content: entry.sender === 'user' ? entry.message : entry.response
-                    })),
-                    {
-                        role: "user",
-                        content: message
-                    }
-                ];
-
-                try {
-                    const response = await fetch(this.endpoint, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${this.apiKey}`
-                        },
-                        body: JSON.stringify({
-                            model: "mistral-tiny",
-                            messages: messages,
-                            max_tokens: 150,
-                            temperature: 0.7,
-                            stream: false
-                        })
-                    });
-
-                    if (!response.ok) {
-                        const errorText = await response.text();
-                        throw new Error(`Mistral API error: ${response.status} - ${errorText}`);
-                    }
-
-                    const data = await response.json();
-                    return data.choices[0].message.content.trim();
-                } catch (error) {
-                    console.error('Erro na Mistral AI:', error);
-                    throw error;
-                }
-            }
-
-            // Alternar estado da IA
-            toggleEnabled(enabled) {
-                this.enabled = enabled;
-                localStorage.setItem('yumeAIEnabled', enabled);
-            }
-        }
-
-        // Sistema de Feedback (atualizado para IA)
-        class FeedbackSystem {
-            constructor() {
-                this.init();
-            }
-
-            init() {
-                this.startSessionTime = Date.now();
-                this.messageCount = 0;
-                this.quickRepliesUsed = 0;
-                this.voiceInteractions = 0;
-                this.feedbackShownThisSession = false;
-                this.lastFeedbackTime = 0;
-                this.trackUserBehavior();
-            }
-
-            trackUserBehavior() {
-                setInterval(() => {
-                    this.sessionDuration = Date.now() - this.startSessionTime;
-                    this.checkForContextualFeedback();
-                }, 1000);
-            }
-
-            addFeedbackToMessage(messageId, source) {
-                const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
-                if (!messageElement) return;
-
-                // Adicionar indicador de fonte
-                const sourceIndicator = document.createElement('div');
-                sourceIndicator.className = `ai-indicator ${source}`;
-                
-                let sourceText = '';
-                switch(source) {
-                    case 'mistral': sourceText = '• Mistral AI'; break;
-                    case 'cache': sourceText = '• Cache'; break;
-                    case 'history': sourceText = '• Histórico'; break;
-                    case 'fallback': sourceText = '• Base de conhecimento'; break;
-                }
-                
-                sourceIndicator.textContent = sourceText;
-                messageElement.appendChild(sourceIndicator);
-
-                // Botões de feedback
-                const feedbackHtml = `
-                    <div class="feedback-buttons">
-                        <span class="feedback-label">Esta resposta foi útil?</span>
-                        <button class="feedback-btn positive" data-rating="positive">👍</button>
-                        <button class="feedback-btn negative" data-rating="negative">👎</button>
-                    </div>
-                `;
-
-                const feedbackContainer = document.createElement('div');
-                feedbackContainer.innerHTML = feedbackHtml;
-                messageElement.appendChild(feedbackContainer);
-
-                feedbackContainer.querySelectorAll('.feedback-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        this.handleFeedbackResponse(e.target.dataset.rating, messageId, source);
-                    });
-                });
-            }
-
-            checkForContextualFeedback() {
-                const now = Date.now();
-                const timeSinceLastFeedback = now - this.lastFeedbackTime;
-                
-                if (timeSinceLastFeedback > 120000 && !this.feedbackShownThisSession && this.messageCount >= 3) {
-                    this.showContextualFeedback("Como está sendo sua experiência com a Yume até agora?");
-                    this.feedbackShownThisSession = true;
-                    this.lastFeedbackTime = now;
-                }
-            }
-
-            showContextualFeedback(message) {
-                const feedbackDiv = document.createElement('div');
-                feedbackDiv.className = 'message assistant-message feedback-prompt';
-                feedbackDiv.innerHTML = `
-                    <p>${message}</p>
-                    <div class="feedback-options">
-                        <button class="feedback-option" data-value="excellent">Ótima! 👍</button>
-                        <button class="feedback-option" data-value="good">Boa 😊</button>
-                        <button class="feedback-option" data-value="average">Regular 😐</button>
-                        <button class="feedback-option" data-value="poor">Ruim 👎</button>
-                    </div>
-                `;
-                
-                chatMessages.appendChild(feedbackDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                feedbackDiv.querySelectorAll('.feedback-option').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const rating = e.target.dataset.value;
-                        this.handleContextualFeedback(rating);
-                        feedbackDiv.style.opacity = '0.7';
-                    });
-                });
-            }
-
-            handleFeedbackResponse(rating, messageId, source) {
-                const feedbackData = {
-                    type: 'message_feedback',
-                    rating: rating,
-                    messageId: messageId,
-                    source: source,
-                    sessionDuration: this.sessionDuration,
-                    messageCount: this.messageCount,
-                    timestamp: Date.now(),
-                    user: currentUser?.email || 'anonymous'
-                };
-
-                this.saveFeedback(feedbackData);
-                this.showToast('Obrigado pelo feedback!', 'success');
-            }
-
-            handleContextualFeedback(rating) {
-                const feedbackData = {
-                    type: 'contextual_feedback',
-                    rating: rating,
-                    sessionDuration: this.sessionDuration,
-                    messageCount: this.messageCount,
-                    timestamp: Date.now()
-                };
-
-                this.saveFeedback(feedbackData);
-                this.showToast('Obrigado pelo feedback!', 'success');
-
-                let response = '';
-                switch(rating) {
-                    case 'excellent':
-                    case 'good':
-                        response = 'Que bom! Fico feliz em ajudar. 😊';
-                        break;
-                    case 'average':
-                        response = 'Obrigada pelo feedback! Vou continuar melhorando.';
-                        break;
-                    case 'poor':
-                        response = 'Lamento ouvir isso. Vou trabalhar para melhorar.';
-                        break;
-                }
-
-                if (response) {
-                    setTimeout(() => {
-                        addMessage(response, 'assistant', 'feedback');
-                    }, 500);
-                }
-            }
-
-            saveFeedback(feedback) {
-                const allFeedback = JSON.parse(localStorage.getItem('yumeFeedback') || '[]');
-                allFeedback.push(feedback);
-                localStorage.setItem('yumeFeedback', JSON.stringify(allFeedback));
-            }
-
-            showToast(message, type = 'info') {
-                toast.textContent = message;
-                toast.className = 'toast-notification';
-                
-                if (type === 'error') {
-                    toast.style.backgroundColor = 'var(--error-color)';
-                } else if (type === 'success') {
-                    toast.style.backgroundColor = 'var(--success-color)';
-                }
-                
-                toast.classList.add('show');
-                
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 3000);
-            }
-
-            incrementMessageCount() {
-                this.messageCount++;
-            }
-
-            incrementQuickReplies() {
-                this.quickRepliesUsed++;
-            }
-
-            incrementVoiceInteractions() {
-                this.voiceInteractions++;
-            }
-
-            getMetricsReport() {
-                return {
-                    sessionDuration: this.sessionDuration,
-                    messageCount: this.messageCount,
-                    quickRepliesUsed: this.quickRepliesUsed,
-                    voiceInteractions: this.voiceInteractions
-                };
-            }
-        }
-
-        // ==================== FUNÇÕES PRINCIPAIS ====================
-
-        // Gerar resposta inteligente
-        async function generateYumeResponse(message) {
-            let response, source;
-            
-            // 1. Buscar em cache primeiro
-            const cached = aiMemorySystem.getCachedResponse(message);
-            if (cached) {
-                response = cached.response;
-                source = cached.source;
-                console.log('Resposta do cache:', source);
-            }
-            
-            // 2. Buscar respostas similares no histórico
-            if (!response) {
-                const similarResponses = aiMemorySystem.findSimilarResponses(message);
-                if (similarResponses.length > 0 && similarResponses[0].similarity > 0.75) {
-                    response = similarResponses[0].response;
-                    source = similarResponses[0].source;
-                    console.log('Resposta similar do histórico:', source);
-                }
-            }
-            
-            // 3. Tentar Mistral AI se configurada e ativada
-            if (!response && aiIntegration.isConfigured() && aiToggle.checked) {
-                try {
-                    showLoading(true);
-                    response = await aiIntegration.callMistralAI(message, aiMemorySystem.conversationHistory);
-                    source = 'mistral';
-                    console.log('Resposta da Mistral AI');
-                    
-                    // Cache da resposta da Mistral
-                    aiMemorySystem.cacheResponse(message, response, 'mistral');
-                } catch (error) {
-                    console.warn('Mistral AI falhou:', error);
-                    // Continua para o fallback
-                } finally {
-                    showLoading(false);
-                }
-            }
-            
-            // 4. Fallback para respostas pré-definidas
-            if (!response) {
-                response = fallbackSystem.getResponse(message);
-                source = 'fallback';
-                console.log('Usando fallback');
-            }
-            
-            return { response, source };
-        }
-
-        // Adicionar mensagem ao chat
-        function addMessage(text, sender, source = 'fallback') {
-            if (sender === 'user') {
-                assistantUI.classList.add('hidden');
-                feedbackSystem.incrementMessageCount();
-            }
-            
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}-message`;
-            
-            if (sender === 'assistant') {
-                const messageId = 'msg_' + Date.now();
-                messageDiv.setAttribute('data-message-id', messageId);
-                messageDiv.innerHTML = text.replace(/\n/g, '<br>');
-                
-                // Adicionar feedback após um delay
-                setTimeout(() => {
-                    feedbackSystem.addFeedbackToMessage(messageId, source);
-                }, 500);
-                
-                // Adicionar ao histórico
-                const lastUserMessage = Array.from(chatMessages.querySelectorAll('.user-message')).pop();
-                if (lastUserMessage) {
-                    aiMemorySystem.addToHistory(
-                        lastUserMessage.textContent, 
-                        text, 
-                        'assistant', 
-                        source
-                    );
-                }
-            } else {
-                messageDiv.textContent = text;
-                
-                // Adicionar mensagem do usuário ao histórico
-                aiMemorySystem.addToHistory(text, '', 'user');
-            }
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            if (sender === 'assistant' && voiceToggle.checked) {
-                speakText(text);
-            }
-        }
-
-        // ==================== INICIALIZAÇÃO ====================
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Verificar se há usuário logado
-            const savedUser = localStorage.getItem('yumeUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                showChatScreen();
-            }
-
-            // Inicializar sistemas
-            aiMemorySystem = new AIMemorySystem();
-            aiIntegration = new MistralAIIntegration();
-            fallbackSystem = new FallbackSystem();
-            feedbackSystem = new FeedbackSystem();
-
-            // Configurar Mistral API se existir
-            const savedApiKey = localStorage.getItem('yumeMistralApiKey');
-            if (savedApiKey) {
-                aiIntegration.setup(savedApiKey);
-            }
-
-            // Configurar modo escuro
-            const darkMode = localStorage.getItem('yumeDarkMode') === 'true';
-            document.body.classList.toggle('dark-mode', darkMode);
-            darkModeToggle.checked = darkMode;
-
-            // Configurar toggle de voz
-            const voiceEnabled = localStorage.getItem('yumeVoiceEnabled') !== 'false';
-            voiceToggle.checked = voiceEnabled;
-
-            // Configurar toggle de IA
-            const aiEnabled = localStorage.getItem('yumeAIEnabled') !== 'false';
-            aiToggle.checked = aiEnabled;
-            aiIntegration.toggleEnabled(aiEnabled);
-
-            // Configurar reconhecimento de voz
-            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.continuous = false;
-                recognition.interimResults = false;
-                recognition.lang = 'pt-BR';
-
-                recognition.onresult = function(event) {
-                    const transcript = event.results[0][0].transcript;
-                    userInput.value = transcript;
-                    toggleMic(false);
-                };
-
-                recognition.onerror = function(event) {
-                    console.error('Erro no reconhecimento de voz:', event.error);
-                    toggleMic(false);
-                    showToast('Erro no reconhecimento de voz', 'error');
-                };
-
-                recognition.onend = function() {
-                    toggleMic(false);
-                };
-            } else {
-                micBtn.style.display = 'none';
-            }
-
-            setupEventListeners();
-            setupQuickReplies();
-        });
-
-        // ==================== EVENT LISTENERS ====================
-
-        function setupEventListeners() {
-            // [MANTIDO TODOS OS EVENT LISTENERS ORIGINAIS...]
-            
-            // Alternância entre login e cadastro
-            showRegister.addEventListener('click', function(e) {
-                e.preventDefault();
-                loginForm.classList.add('hidden');
-                registerForm.classList.remove('hidden');
-            });
-
-            showLogin.addEventListener('click', function(e) {
-                e.preventDefault();
-                registerForm.classList.add('hidden');
-                loginForm.classList.remove('hidden');
-            });
-
-            // Formulário de login
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = document.getElementById('loginEmail').value;
-                const password = document.getElementById('loginPassword').value;
-                
-                if (email && password) {
-                    showLoading(true);
-                    setTimeout(() => {
-                        const user = {
-                            name: email.split('@')[0],
-                            email: email,
-                            age: '18-30'
-                        };
-                        currentUser = user;
-                        localStorage.setItem('yumeUser', JSON.stringify(user));
-                        showChatScreen();
-                        showLoading(false);
-                        showToast('Login realizado com sucesso!', 'success');
-                    }, 1500);
-                } else {
-                    showToast('Por favor, preencha todos os campos', 'error');
-                }
-            });
-
-            // Formulário de cadastro
-            registerForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const name = document.getElementById('registerName').value;
-                const email = document.getElementById('registerEmail').value;
-                const password = document.getElementById('registerPassword').value;
-                const age = document.getElementById('registerAge').value;
-                const terms = document.getElementById('termsAccept').checked;
-                
-                if (name && email && password && age && terms) {
-                    if (password.length < 8) {
-                        showToast('A senha deve ter pelo menos 8 caracteres', 'error');
-                        return;
-                    }
-                    
-                    showLoading(true);
-                    setTimeout(() => {
-                        const user = {
-                            name: name,
-                            email: email,
-                            age: age
-                        };
-                        currentUser = user;
-                        localStorage.setItem('yumeUser', JSON.stringify(user));
-                        showChatScreen();
-                        showLoading(false);
-                        showToast('Conta criada com sucesso!', 'success');
-                    }, 1500);
-                } else {
-                    showToast('Por favor, preencha todos os campos', 'error');
-                }
-            });
-
-            // Menu
-            menuBtn.addEventListener('click', function() {
-                menuOverlay.classList.add('active');
-            });
-
-            closeMenu.addEventListener('click', function() {
-                menuOverlay.classList.remove('active');
-            });
-
-            // Logout
-            logoutBtn.addEventListener('click', function() {
-                currentUser = null;
-                localStorage.removeItem('yumeUser');
-                showAuthScreen();
-                menuOverlay.classList.remove('active');
-                showToast('Logout realizado com sucesso', 'success');
-            });
-
-            // Modo escuro
-            darkModeToggle.addEventListener('change', function() {
-                const isDarkMode = this.checked;
-                document.body.classList.toggle('dark-mode', isDarkMode);
-                localStorage.setItem('yumeDarkMode', isDarkMode);
-            });
-
-            // Voz
-            voiceToggle.addEventListener('change', function() {
-                const voiceEnabled = this.checked;
-                localStorage.setItem('yumeVoiceEnabled', voiceEnabled);
-            });
-
-            // IA Mistral
-            aiToggle.addEventListener('change', function() {
-                const aiEnabled = this.checked;
-                aiIntegration.toggleEnabled(aiEnabled);
-                showToast(aiEnabled ? 'Mistral AI ativada' : 'Mistral AI desativada', 'success');
-            });
-
-            // Configurar API Mistral
-            apiConfigBtn.addEventListener('click', function() {
-                menuOverlay.classList.remove('active');
-                const apiKey = prompt('Digite sua Mistral API Key:');
-                if (apiKey) {
-                    aiIntegration.setup(apiKey);
-                    showToast('Mistral API configurada com sucesso!', 'success');
-                }
-            });
-
-            // Limpar cache
-            clearCacheBtn.addEventListener('click', function() {
-                menuOverlay.classList.remove('active');
-                if (confirm('Tem certeza que deseja limpar todo o cache e histórico?')) {
-                    aiMemorySystem.clearCache();
-                    showToast('Cache limpo com sucesso!', 'success');
-                }
-            });
-
-            // Envio de mensagem
-            inputArea.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const message = userInput.value.trim();
-                if (message) {
-                    addMessage(message, 'user');
-                    userInput.value = '';
-                    
-                    try {
-                        const { response, source } = await generateYumeResponse(message);
-                        addMessage(response, 'assistant', source);
-                        showQuickReplies();
-                    } catch (error) {
-                        console.error('Erro ao gerar resposta:', error);
-                        addMessage('Desculpe, tive um problema. Pode tentar novamente?', 'assistant', 'error');
-                    }
-                }
-            });
-
-            // Microfone
-            micBtn.addEventListener('click', function() {
-                if (!isListening) {
-                    startVoiceRecognition();
-                } else {
-                    stopVoiceRecognition();
-                }
-            });
-
-            // Botões do menu
-            document.getElementById('helpBtn').addEventListener('click', function() {
-                menuOverlay.classList.remove('active');
-                addMessage('Precisa de ajuda? Aqui estão algumas coisas que posso fazer:\n\n• Responder perguntas gerais\n• Fornecer informações úteis\n• Auxiliar com tarefas do dia a dia\n• Oferecer sugestões e conselhos\n\nEm que posso te ajudar especificamente?', 'assistant', 'fallback');
-            });
-
-            document.getElementById('aboutYumeBtn').addEventListener('click', function() {
-                menuOverlay.classList.remove('active');
-                addMessage('Olá! Eu sou a Yume, sua assistente virtual inteligente com tecnologia Mistral AI. Fui desenvolvida para ajudar você com diversas tarefas e fornecer informações úteis no seu dia a dia.\n\nMinhas funcionalidades incluem:\n• Resposta a perguntas usando IA\n• Auxílio em tarefas\n• Fornecimento de informações\n• Suporte e orientação\n\nEstou sempre aprendendo e melhorando para te servir melhor!', 'assistant', 'fallback');
-            });
-
-            document.getElementById('statsBtn').addEventListener('click', function() {
-                menuOverlay.classList.remove('active');
-                const metrics = feedbackSystem.getMetricsReport();
-                const aiStatus = aiIntegration.isConfigured() ? 'Configurada' : 'Não configurada';
-                addMessage(`📊 **Estatísticas de Uso:**\n\n• Mensagens enviadas: ${metrics.messageCount}\n• Tempo de sessão: ${Math.round(metrics.sessionDuration/1000)} segundos\n• Respostas rápidas usadas: ${metrics.quickRepliesUsed}\n• Mistral AI: ${aiStatus}\n• IA ${aiToggle.checked ? 'Ativada' : 'Desativada'}\n\nContinue usando a Yume para descobrir mais funcionalidades!`, 'assistant', 'fallback');
-            });
-
-            document.getElementById('profileBtn').addEventListener('click', function() {
-                menuOverlay.classList.remove('active');
-                if (currentUser) {
-                    addMessage(`👤 **Seu Perfil:**\n\n• Nome: ${currentUser.name}\n• E-mail: ${currentUser.email}\n• Faixa etária: ${currentUser.age}\n\nPara alterar suas informações, entre em contato com o suporte.`, 'assistant', 'fallback');
-                }
-            });
-        }
-
-        // ==================== FUNÇÕES AUXILIARES ====================
-
-        function setupQuickReplies() {
-            const quickReplies = [
-                "O que você pode fazer?",
-                "Preciso de ajuda",
-                "Conte uma piada",
-                "Qual é o seu nome?",
-                "Obrigado"
-            ];
-            
-            localStorage.setItem('yumeQuickReplies', JSON.stringify(quickReplies));
-        }
-
-        function showQuickReplies() {
-            const quickReplies = JSON.parse(localStorage.getItem('yumeQuickReplies') || '[]');
-            quickReplyArea.innerHTML = '';
-            
-            quickReplies.forEach(reply => {
-                const button = document.createElement('button');
-                button.className = 'quick-reply';
-                button.textContent = reply;
-                button.addEventListener('click', async function() {
-                    addMessage(reply, 'user');
-                    feedbackSystem.incrementQuickReplies();
-                    
-                    try {
-                        const { response, source } = await generateYumeResponse(reply);
-                        addMessage(response, 'assistant', source);
-                    } catch (error) {
-                        console.error('Erro ao gerar resposta:', error);
-                        addMessage('Desculpe, tive um problema. Pode tentar novamente?', 'assistant', 'error');
-                    }
-                });
-                quickReplyArea.appendChild(button);
-            });
-        }
-
-        function showAuthScreen() {
-            authScreen.classList.remove('hidden');
-            chatScreen.classList.add('hidden');
-            
-            loginForm.reset();
-            registerForm.reset();
-            registerForm.classList.add('hidden');
-            loginForm.classList.remove('hidden');
-            
-            feedbackSystem = new FeedbackSystem();
-        }
-
-        function showChatScreen() {
-            authScreen.classList.add('hidden');
-            chatScreen.classList.remove('hidden');
-            
-            if (currentUser) {
-                greetingName.textContent = currentUser.name;
-                userAvatar.innerHTML = `<i class="fas fa-user"></i>`;
-                
-                if (chatMessages.children.length === 0) {
-                    assistantUI.classList.remove('hidden');
-                    showQuickReplies();
-                }
-            }
-        }
-
-        function startVoiceRecognition() {
-            if (recognition) {
-                recognition.start();
-                toggleMic(true);
-                feedbackSystem.incrementVoiceInteractions();
-            }
-        }
-
-        function stopVoiceRecognition() {
-            if (recognition) {
-                recognition.stop();
-                toggleMic(false);
-            }
-        }
-
-        function toggleMic(listening) {
-            isListening = listening;
-            if (listening) {
-                micBtn.innerHTML = '<i class="fas fa-stop"></i>';
-                micBtn.style.backgroundColor = 'var(--error-color)';
-                micBtn.style.color = 'white';
-            } else {
-                micBtn.innerHTML = '<i class="fas fa-microphone"></i>';
-                micBtn.style.backgroundColor = '';
-                micBtn.style.color = '';
-            }
-        }
-
-        function speakText(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'pt-BR';
-                utterance.rate = 1.0;
-                utterance.pitch = 1.0;
-                speechSynthesis.speak(utterance);
-            }
-        }
-
-        function showToast(message, type = 'info') {
-            toast.textContent = message;
-            toast.className = 'toast-notification';
-            
-            if (type === 'error') {
-                toast.style.backgroundColor = 'var(--error-color)';
-            } else if (type === 'success') {
-                toast.style.backgroundColor = 'var(--success-color)';
-            }
-            
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        function showLoading(show) {
-            if (show) {
-                loadingOverlay.classList.remove('hidden');
-            } else {
-                loadingOverlay.classList.add('hidden');
-            }
-        }
-    </script>
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
