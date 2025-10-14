@@ -362,7 +362,7 @@
                         <li><i class="fas fa-check"></i> Modelos de IA avançados</li>
                         <li><i class="fas fa-check"></i> Prioridade no suporte</li>
                         <li><i class="fas fa-check"></i> Sem anúncios</li>
-                        <li><i class="fas fa-check"></i> Acesso antecipado a novos recursos</li>
+                        <li><i class="fas fa-check"><li><i class="fas fa-check"></i> Acesso antecipado a novos recursos</li>
                     </ul>
                 </div>
                 <div class="pix-section">
@@ -396,6 +396,35 @@
 
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
+
+    <!-- Painel Admin -->
+    <div class="modal-overlay hidden" id="adminPanel" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-shield" style="color: var(--primary-color);"></i> Painel Admin</h3>
+                <button class="close-btn" onclick="hideAdminPanel()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="admin-content">
+                <h4>Controle do Sistema</h4>
+                <div class="admin-actions">
+                    <button class="admin-btn" onclick="resetUserData()">
+                        <i class="fas fa-redo"></i> Resetar Dados do Usuário
+                    </button>
+                    <button class="admin-btn" onclick="broadcastMessage()">
+                        <i class="fas fa-bullhorn"></i> Enviar Mensagem Global
+                    </button>
+                    <button class="admin-btn" onclick="viewLogs()">
+                        <i class="fas fa-file-alt"></i> Visualizar Logs
+                    </button>
+                    <button class="admin-btn" onclick="managePremium()">
+                        <i class="fas fa-crown"></i> Gerenciar Usuários Premium
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
