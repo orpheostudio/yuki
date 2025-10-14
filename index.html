@@ -3,315 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yume - Assistente Virtual IA</title>
+    <meta name="google-adsense-account" content="ca-pub-5941203056187445">
+    <title>Yume AI - Assistente Virtual Inteligente</title>
     <link rel="icon" type="image/png" href="https://i.imgur.com/orvGJOL.png">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5941203056187445" crossorigin="anonymous"></script>
-
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "nfv8y3n7t6");
+        })(window, document, "clarity", "script", "tlya8thx8r");
     </script>
-
-    <!-- Auth0 SDK -->
-    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
-
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- Estilos -->
-    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5941203056187445" crossorigin="anonymous"></script>
 </head>
 <body>
-    <!-- Cookie Consent Banner -->
+    <!-- Animações de Fundo -->
+    <div class="background-animation">
+        <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 10%; animation-delay: 0s;"></div>
+        <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: -5s;"></div>
+        <div class="floating-element" style="width: 80px; height: 80px; top: 80%; left: 20%; animation-delay: -10s;"></div>
+        <div class="floating-element" style="width: 120px; height: 120px; top: 30%; left: 70%; animation-delay: -15s;"></div>
+    </div>
+
+    <!-- Mensagem Persistente -->
+    <div class="disclaimer">
+        A Yume pode cometer erros. Considere consultar as informações reais.
+    </div>
+
+    <!-- Banner de Cookies -->
     <div class="cookie-banner" id="cookieBanner">
         <div class="cookie-content">
-            <div class="cookie-text">
-                🌸 Usamos cookies para melhorar sua experiência. Ao usar nosso site, você concorda com nossa 
-                <a href="https://termos.orpheostudio.com.br" target="_blank">Política de Cookies</a> 
-                e nossos 
-                <a href="https://termos.orpheostudio.com.br" target="_blank">Termos de Uso</a>.
+            <div class="cookie-header">
+                <i class="fas fa-cookie-bite cookie-icon"></i>
+                <h3 class="cookie-title">Privacidade & Cookies</h3>
             </div>
+            <p class="cookie-text">
+                Usamos cookies essenciais para melhorar sua experiência. Ao continuar, você concorda com nossa
+                <a href="https://termos.orpheostudio.com.br" target="_blank">política de privacidade</a>.
+            </p>
             <div class="cookie-buttons">
-                <button class="cookie-btn reject" id="rejectCookies">Recusar</button>
-                <button class="cookie-btn accept" id="acceptCookies">Aceitar</button>
+                <button class="cookie-btn reject" onclick="rejectCookies()">Rejeitar</button>
+                <button class="cookie-btn accept" onclick="acceptCookies()">Aceitar</button>
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <!-- Tela de Login/Cadastro -->
-        <div class="screen auth-screen" id="authScreen">
-            <div class="auth-container">
-                <div class="auth-header">
-                    <img src="https://i.imgur.com/orvGJOL.png" alt="Yume Logo" class="auth-logo">
-                    <h1 class="auth-title">Yume 🌸</h1>
-                    <p class="auth-subtitle">Sua assistente virtual inteligente</p>
-                </div>
-
-                <!-- Botão de Login com Auth0 -->
-                <button class="auth-btn auth0-btn" id="auth0LoginBtn">
-                    <i class="fas fa-lock"></i> Login Seguro com Auth0
-                </button>
-
-                <div class="auth-divider">
-                    <span>ou</span>
-                </div>
-
-                <form class="auth-form" id="loginForm">
-                    <h2 class="form-title">Acessar Conta</h2>
-                    <div class="form-group">
-                        <label for="loginEmail">E-mail</label>
-                        <input type="email" id="loginEmail" required placeholder="seuemail@exemplo.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="loginPassword">Senha</label>
-                        <input type="password" id="loginPassword" required placeholder="********">
-                    </div>
-                    <div class="terms-checkbox">
-                        <input type="checkbox" id="loginTerms" required>
-                        <label for="loginTerms">
-                            Concordo com os <a href="https://termos.orpheostudio.com.br" target="_blank">Termos de Uso</a>
-                        </label>
-                    </div>
-                    <button type="submit" class="auth-btn">Entrar</button>
-                    <p class="auth-switch">
-                        Novo por aqui? <a href="#" id="showRegister">Crie sua conta</a>
-                    </p>
-                </form>
-
-                <form class="auth-form hidden" id="registerForm">
-                    <h2 class="form-title">Junte-se à Yume 🌸</h2>
-                    <div class="form-group">
-                        <label for="registerName">Nome Completo</label>
-                        <input type="text" id="registerName" required placeholder="Seu nome completo">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerEmail">E-mail</label>
-                        <input type="email" id="registerEmail" required placeholder="seuemail@exemplo.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerPassword">Senha</label>
-                        <input type="password" id="registerPassword" required placeholder="Mínimo 8 caracteres">
-                    </div>
-                    <div class="terms-checkbox">
-                        <input type="checkbox" id="acceptTerms" required>
-                        <label for="acceptTerms">
-                            Concordo com os <a href="https://termos.orpheostudio.com.br" target="_blank">Termos de Uso</a>
-                        </label>
-                    </div>
-                    <button type="submit" class="auth-btn">Começar Agora</button>
-                    <p class="auth-switch">
-                        Já tem conta? <a href="#" id="showLogin">Fazer login</a>
-                    </p>
-                </form>
+    <!-- Tela de Autenticação -->
+    <div class="screen auth-screen" id="authScreen">
+        <div class="auth-container">
+            <div class="auth-header">
+                <img src="https://i.imgur.com/orvGJOL.png" alt="Yume AI" class="auth-logo">
+                <h1 class="auth-title">Yume AI</h1>
+                <p class="auth-subtitle">Assistente Virtual Inteligente</p>
             </div>
-        </div>
 
-        <!-- Tela Principal do Chat -->
-        <div class="screen chat-screen hidden" id="chatScreen">
-            <header class="chat-header">
+            <!-- Formulário de Login -->
+            <form class="auth-form" id="loginForm">
+                <h2 class="form-title">Bem-vindo de volta!</h2>
+                <div class="form-group">
+                    <label for="loginEmail"><i class="fas fa-envelope"></i> E-mail</label>
+                    <input type="email" id="loginEmail" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword"><i class="fas fa-lock"></i> Senha</label>
+                    <input type="password" id="loginPassword" placeholder="Sua senha" required>
+                </div>
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+                <div class="auth-switch">
+                    Não tem uma conta? <a href="#" onclick="showSignupForm(); return false;">Cadastre-se</a>
+                </div>
+            </form>
+
+            <!-- Formulário de Cadastro -->
+            <form class="auth-form hidden" id="signupForm">
+                <h2 class="form-title">Criar Conta</h2>
+                <div class="form-group">
+                    <label for="signupName"><i class="fas fa-user"></i> Nome Completo</label>
+                    <input type="text" id="signupName" placeholder="Seu nome completo" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail"><i class="fas fa-envelope"></i> E-mail</label>
+                    <input type="email" id="signupEmail" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword"><i class="fas fa-lock"></i> Senha</label>
+                    <input type="password" id="signupPassword" placeholder="Crie uma senha forte" required minlength="8">
+                    <div class="password-strength-container">
+                        <div class="password-strength-bar" id="passwordStrength"></div>
+                    </div>
+                </div>
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="termsAgree" required>
+                    <label for="termsAgree">
+                        Concordo com os <a href="https://termos.orpheostudio.com.br" target="_blank">Termos de Serviço</a>
+                    </label>
+                </div>
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-user-plus"></i> Criar Conta
+                </button>
+                <div class="auth-switch">
+                    Já tem uma conta? <a href="#" onclick="showLoginForm(); return false;">Fazer login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tela do Chat -->
+    <div class="screen chat-screen hidden" id="chatScreen">
+        <div style="display: flex; flex-direction: column; height: 100vh;">
+            <!-- Cabeçalho -->
+            <div class="chat-header">
                 <div class="header-user-info">
-                    <div class="user-avatar" id="userAvatar">
+                    <div class="user-avatar" onclick="showMenuModal()">
                         <i class="fas fa-user"></i>
                     </div>
-                    <div class="upgrade-card" id="upgradeCard">Doar 🩷</div>
+                    <h3 class="header-title">Yume AI</h3>
                 </div>
-                <div class="header-title-group">
-                    <img src="https://i.imgur.com/orvGJOL.png" alt="Yume Logo" class="header-logo">
-                    <h1 class="header-name">Yume 🌸</h1>
+                <div class="header-controls">
+                    <button class="theme-toggle" onclick="toggleDarkMode()" title="Alternar tema">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="upgrade-badge" onclick="showPremiumModal()">
+                        <i class="fas fa-crown"></i>
+                        <span>Premium</span>
+                    </div>
                 </div>
-            </header>
+            </div>
 
+            <!-- Corpo do Chat -->
             <div class="chat-body" id="chatBody">
                 <div class="assistant-ui" id="assistantUI">
-                    <p class="greeting-text">Olá! Sou a Yume🌸 👋</p>
-                    <p class="help-text">Sua assistente virtual inteligente. Posso ajudar com respostas, recomendações, conversas e muito mais!</p>
+                    <h1 class="greeting-text" id="greetingText">Olá! Sou a Yume 👋</h1>
+                    <p class="help-text" id="helpText">Como posso ajudar você hoje?</p>
+                    <div class="feature-grid">
+                        <div class="feature-card" onclick="sendQuickReply('Quais são suas funcionalidades?')">
+                            <div class="feature-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3 class="feature-title">Conversas Naturais</h3>
+                            <p class="feature-desc">Converse sobre qualquer assunto de forma natural</p>
+                        </div>
+                        <div class="feature-card" onclick="sendQuickReply('Como você pode me ajudar com projetos?')">
+                            <div class="feature-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h3 class="feature-title">Soluções Criativas</h3>
+                            <p class="feature-desc">Encontre respostas e ideias inovadoras</p>
+                        </div>
+                        <div class="feature-card" onclick="sendQuickReply('Me explique sobre inteligência artificial')">
+                            <div class="feature-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3 class="feature-title">Conhecimento</h3>
+                            <p class="feature-desc">Aprenda sobre diversos tópicos</p>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="chat-messages" id="chatMessages"></div>
-
-                <!-- Google AdSense Unit -->
-                <div class="adsense-container">
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-5941203056187445"
-                         data-ad-slot="1234567890"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                </div>
             </div>
 
+            <!-- Respostas Rápidas -->
             <div class="quick-reply-area" id="quickReplyArea">
-                <button class="quick-reply" data-message="Como você funciona?">Como você funciona?</button>
-                <button class="quick-reply" data-message="Preciso de ajuda">Preciso de ajuda</button>
-                <button class="quick-reply" data-message="O que você pode fazer?">O que você pode fazer?</button>
-                <button class="quick-reply" data-message="Conte uma curiosidade">Conte uma curiosidade</button>
+                <div class="quick-reply" onclick="sendQuickReply('Quais são suas funcionalidades?')">
+                    <i class="fas fa-star"></i> Funcionalidades
+                </div>
+                <div class="quick-reply" onclick="sendQuickReply('Como você pode me ajudar?')">
+                    <i class="fas fa-hands-helping"></i> Ajuda
+                </div>
+                <div class="quick-reply" onclick="sendQuickReply('O que é inteligência artificial?')">
+                    <i class="fas fa-robot"></i> Sobre IA
+                </div>
             </div>
 
-            <form class="chat-input-area" id="inputArea">
-                <button type="button" class="file-btn" id="fileButton" title="Enviar arquivo">
-                    <i class="fas fa-paperclip"></i>
-                </button>
-                <input type="file" id="fileInput" style="display: none;" accept="image/*,audio/*,.pdf,.doc,.docx,.txt">
+            <!-- Área de Input -->
+            <div class="chat-input-area">
                 <div class="input-wrapper">
-                    <input type="text" class="chat-input" id="userInput" 
-                           placeholder="Envie uma mensagem..." autocomplete="off">
+                    <textarea class="chat-input" id="chatInput" placeholder="Digite sua mensagem..." rows="1"></textarea>
+                    <div class="input-controls">
+                        <button class="file-btn" onclick="triggerFileInput()" title="Anexar arquivo">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <input type="file" id="fileInput" style="display: none;" accept="image/*,.pdf,.txt,.doc,.docx" onchange="handleFileUpload(event)">
+                        <button class="voice-btn" id="voiceButton" onclick="toggleVoiceRecognition()" title="Comando de voz">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                    </div>
                 </div>
-                <button type="button" class="voice-btn" id="voiceButton" title="Falar">
-                    <i class="fas fa-microphone"></i>
-                </button>
-                <button type="submit" class="icon-btn" id="sendButton">
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Enviar mensagem">
                     <i class="fas fa-paper-plane"></i>
                 </button>
-            </form>
-            <div class="footer">
-                Yume 🌸 • Powered by ORPHEO Platforms • V2.0.0
             </div>
-        </div>
 
-        <!-- Modal de Perfil -->
-        <div class="modal-overlay" id="profileModal">
-            <div class="modal-content">
-                <div class="menu-header">
-                    <h3>Meu Perfil</h3>
-                    <button class="close-btn" id="closeProfile">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-                <div class="profile-section">
-                    <h4>Personalizar Avatar</h4>
-                    <div class="profile-avatar-options">
-                        <div class="avatar-option selected" data-avatar="default" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="avatar-option" data-avatar="avatar1" style="background: linear-gradient(135deg, #F59E0B, #EAB308);">
-                            <i class="fas fa-smile"></i>
-                        </div>
-                        <div class="avatar-option" data-avatar="avatar2" style="background: linear-gradient(135deg, #EC4899, #DB2777);">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="avatar-option" data-avatar="avatar3" style="background: linear-gradient(135deg, #10B981, #059669);">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="preferences-section">
-                    <h4>Minhas Preferências</h4>
-                    <p style="font-size: 14px; margin-bottom: 16px; color: var(--text-muted);">
-                        Selecione seus interesses:
-                    </p>
-                    <div class="preference-tags">
-                        <div class="preference-tag" data-pref="anime">Anime</div>
-                        <div class="preference-tag" data-pref="manga">Mangá</div>
-                        <div class="preference-tag" data-pref="tecnologia">Tecnologia</div>
-                        <div class="preference-tag" data-pref="livros">Livros</div>
-                        <div class="preference-tag" data-pref="musica">Música</div>
-                        <div class="preference-tag" data-pref="filmes">Filmes</div>
-                        <div class="preference-tag" data-pref="jogos">Jogos</div>
-                        <div class="preference-tag" data-pref="culinaria">Culinária</div>
-                    </div>
-                </div>
-
-                <div class="menu-grid">
-                    <button class="menu-card" id="helpBtn">
-                        <i class="fas fa-question-circle"></i>
-                        <span>Ajuda</span>
-                    </button>
-                    <button class="menu-card" id="aboutYumeBtn">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Sobre</span>
-                    </button>
-                    <button class="menu-card" id="statsBtn">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Estatísticas</span>
-                    </button>
-                    <button class="menu-card" id="termsBtn">
-                        <i class="fas fa-file-contract"></i>
-                        <span>Termos</span>
-                    </button>
-                    <button class="menu-card" id="projectsBtn">
-                        <i class="fas fa-rocket"></i>
-                        <span>Mais Projetos</span>
-                    </button>
-                    <a href="https://studio.orpheostudio.com.br" target="_blank" class="menu-card">
-                        <i class="fas fa-globe"></i>
-                        <span>Site Oficial</span>
-                    </a>
-                    <button class="menu-card premium" id="upgradeBtn">
-                        <i class="fas fa-crown"></i>
-                        <span>Doar 🩷</span>
-                    </button>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform" 
-                       target="_blank" class="menu-card">
-                        <i class="fas fa-comment"></i>
-                        <span>Feedback</span>
-                    </a>
-                    <a href="mailto:sac.studiotsukiyo@outlook.com" class="menu-card">
-                        <i class="fas fa-bug"></i>
-                        <span>Reportar</span>
-                    </a>
-                    <button id="logoutBtn" class="menu-card logout-btn">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Sair</span>
-                    </button>
-                </div>
+            <!-- Rodapé -->
+            <div class="disclaimer">
+                Yume AI • Powered by ORPHEO Platforms • v2.1.0
             </div>
-        </div>
-
-        <!-- Modal de Mais Projetos -->
-        <div class="modal-overlay" id="projectsModal">
-            <div class="modal-content">
-                <div class="menu-header">
-                    <h3>Mais Projetos</h3>
-                    <button class="close-btn" id="closeProjects">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="menu-grid">
-                    <a href="https://www.instagram.com/yumerolloficial" target="_blank" class="menu-card">
-                        <i class="fab fa-instagram"></i>
-                        <span>YumeRoll Animes</span>
-                    </a>
-                    <a href="https://www.tiktok.com/@yumerollanime" target="_blank" class="menu-card">
-                        <i class="fab fa-tiktok"></i>
-                        <span>YumeRoll TikTok</span>
-                    </a>
-                    <a href="https://www.instagram.com/kaoruescritor" target="_blank" class="menu-card">
-                        <i class="fab fa-instagram"></i>
-                        <span>Café e Páginas</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Toast Notification -->
-        <div class="toast-notification" id="toast"></div>
-
-        <!-- Loading Overlay -->
-        <div class="loading-overlay hidden" id="loadingOverlay">
-            <div class="loading-spinner"></div>
-            <p>Processando sua pergunta...</p>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="js/config.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/chat.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/app.js"></script>
+    <!-- Modal de Menu -->
+    <div class="modal-overlay" id="menuModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Configurações</h3>
+                <button class="close-btn" onclick="hideMenuModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item" onclick="toggleDarkMode()">
+                    <div class="menu-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div class="menu-item-text">
+                        <div class="menu-item-title">Tema Escuro</div>
+                        <div class="menu-item-desc">Alternar entre claro e escuro</div>
+                    </div>
+                </div>
+                <div class="menu-item" onclick="clearConversation()">
+                    <div class="menu-icon">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <div class="menu-item-text">
+                        <div class="menu-item-title">Limpar Conversa</div>
+                        <div class="menu-item-desc">Apagar histórico de mensagens</div>
+                    </div>
+                </div>
+                <div class="menu-item" onclick="showAboutModal()">
+                    <div class="menu-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="menu-item-text">
+                        <div class="menu-item-title">Sobre</div>
+                        <div class="menu-item-desc">Informações sobre a Yume AI</div>
+                    </div>
+                </div>
+                <div class="menu-item" onclick="showHelpModal()">
+                    <div class="menu-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="menu-item-text">
+                        <div class="menu-item-title">Ajuda</div>
+                        <div class="menu-item-desc">Central de suporte</div>
+                    </div>
+                </div>
+                <div class="menu-item" onclick="logout()">
+                    <div class="menu-icon" style="background: rgba(239, 68, 68, 0.1); color: var(--error-color);">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <div class="menu-item-text">
+                        <div class="menu-item-title" style="color: var(--error-color);">Sair</div>
+                        <div class="menu-item-desc">Encerrar sessão</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Ajuda -->
+    <div class="modal-overlay" id="helpModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Central de Ajuda</h3>
+                <button class="close-btn" onclick="hideHelpModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item" onclick="openFeedback()">
+                    <div class="menu-icon">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <div class="menu-item-text">
+                        <div class="menu-item-title">Feedback</div>
+                        <div class="menu-item-desc">Compartilhe sua opinião</div>
+                    </div>
+                </div>
+                <div class="menu-item" onclick="showBugReportModal()">
+                    <div class="menu-icon">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <div class="menu-item-text">
+                        <div class="menu-item-title">Reportar Bug</div>
+                        <div class="menu-item-desc">Informe problemas técnicos</div>
+                    </div>
+                </div>
+                <div class="menu-item" onclick="openSupport()">
+                    <div class="menu-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="menu-item-text">
+                        <div class="menu-item-title">Suporte</div>
+                        <div class="menu-item-desc">Entre em contato conosco</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Report de Bug -->
+    <div class="modal-overlay" id="bugReportModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Reportar Bug</h3>
+                <button class="close-btn" onclick="hideBugReportModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="bugReportForm" class="bug-report-form">
+                <div class="form-group">
+                    <label for="bugTitle">Título do Problema</label>
+                    <input type="text" id="bugTitle" placeholder="Descreva brevemente o problema" required>
+                </div>
+                <div class="form-group">
+                    <label for="bugDescription">Descrição Detalhada</label>
+                    <textarea id="bugDescription" rows="5" placeholder="Descreva o que aconteceu, quando aconteceu e como reproduzir o problema..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="bugCategory">Categoria</label>
+                    <select id="bugCategory" required>
+                        <option value="">Selecione uma categoria</option>
+                        <option value="Interface">Problema de Interface</option>
+                        <option value="Funcionalidade">Funcionalidade não funciona</option>
+                        <option value="Performance">Problema de Performance</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-paper-plane"></i> Enviar Report
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Premium -->
+    <div class="modal-overlay" id="premiumModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-crown" style="color: var(--secondary-color);"></i> Yume Premium</h3>
+                <button class="close-btn" onclick="hidePremiumModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="premium-content">
+                <div class="premium-features">
+                    <h4>Benefícios Premium:</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Respostas ilimitadas</li>
+                        <li><i class="fas fa-check"></i> Modelos de IA avançados</li>
+                        <li><i class="fas fa-check"></i> Prioridade no suporte</li>
+                        <li><i class="fas fa-check"></i> Sem anúncios</li>
+                        <li><i class="fas fa-check"></i> Acesso antecipado a novos recursos</li>
+                    </ul>
+                </div>
+                <div class="pix-section">
+                    <h4>Doe via PIX:</h4>
+                    <p class="pix-description">Ajude a manter a Yume AI ativa!</p>
+                    <div class="pix-key-container">
+                        <input type="text" id="pixKey" value="00020126580014BR.GOV.BCB.PIX013611a4cd6a-710d-4cd5-9f5b-2897c3fd0eed5204000053039865802BR5924Bruno Pereira dos Santos6009SAO PAULO62140510Q9OF75NgiM6304AF3F" readonly>
+                        <button class="copy-btn" onclick="copyPixKey()">
+                            <i class="fas fa-copy"></i> Copiar Chave
+                        </button>
+                    </div>
+                    <div class="donation-link">
+                        <p>Ou acesse o link de cobrança:</p>
+                        <a href="https://nubank.com.br/cobrar/ftet6/68edad3f-e968-4260-aa5e-1f6b4f294e3e" target="_blank" class="donation-btn">
+                            <i class="fas fa-external-link-alt"></i> Abrir Link de Doação
+                        </a>
+                        <p class="donation-note">Para doar e ajudar a ORPHEO Platforms a manter a Yume ativa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Processando...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>
