@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-adsense-account" content="ca-pub-5941203056187445">
-    <title>Yume AI - Assistente Virtual Inteligente</title>
+    <title>Yume - Assistente Virtual IA</title>
     <link rel="icon" type="image/png" href="https://i.imgur.com/x6ORNax.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5941203056187445"
+     crossorigin="anonymous"></script>
     
-    <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -18,385 +18,2182 @@
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "tlya8thx8r");
     </script>
-    
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5941203056187445" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --primary-color: #2563EB; 
+            --primary-dark: #1D4ED8;
+            --primary-light: #3B82F6;
+            --bkg-light: linear-gradient(160deg, #E0F2FE 0%, #EFF6FF 100%);
+            --bkg-dark: linear-gradient(135deg, #111827 0%, #1F2937 100%);
+            --surface-light: #FFFFFF;
+            --surface-dark: #374151;
+            --text-light: #1F2937;
+            --text-dark: #F3F4F6;
+            --text-muted-light: #6B7280;
+            --text-muted-dark: #9CA3AF;
+            --border-light: #E5E7EB;
+            --border-dark: #4B5563;
+            --error-color: #EF4444;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --border-radius: 20px;
+            --transition: all 0.2s ease-in-out;
+        }
+        
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        html { 
+            scroll-behavior: smooth; 
+        }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: var(--bkg-light); 
+            color: var(--text-light); 
+            transition: var(--transition); 
+            overflow: hidden; 
+        }
+        
+        body.dark-mode { 
+            background: var(--bkg-dark); 
+            color: var(--text-dark); 
+        }
+        
+        .container { 
+            width: 100%; 
+            height: 100vh; 
+            max-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        
+        .screen { 
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        
+        .hidden { 
+            display: none !important; 
+        }
+
+        /* Welcome Screen */
+        .welcome-screen { 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            padding: 20px; 
+        }
+        
+        .welcome-container { 
+            background: var(--surface-light); 
+            border-radius: 24px; 
+            box-shadow: var(--shadow); 
+            width: 100%; 
+            max-width: 480px; 
+            padding: clamp(24px, 5vw, 40px); 
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        body.dark-mode .welcome-container { 
+            background: var(--surface-dark); 
+        }
+        
+        .welcome-logo { 
+            width: 120px; 
+            height: 120px; 
+            margin: 0 auto 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .welcome-title { 
+            font-size: 1.75rem; 
+            font-weight: 700; 
+            margin-bottom: 8px; 
+            color: var(--text-light); 
+        }
+        
+        body.dark-mode .welcome-title { 
+            color: var(--text-dark); 
+        }
+        
+        .welcome-description { 
+            font-size: 1rem; 
+            color: var(--text-muted-light); 
+            margin-bottom: 32px; 
+        }
+        
+        body.dark-mode .welcome-description { 
+            color: var(--text-muted-dark); 
+        }
+        
+        .welcome-btn { 
+            background: transparent; 
+            color: var(--primary-color); 
+            border: 2px solid var(--primary-color); 
+            border-radius: var(--border-radius); 
+            padding: 14px 16px; 
+            font-size: 1rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            width: 100%; 
+            transition: var(--transition); 
+        }
+        
+        .welcome-btn:hover { 
+            background: var(--primary-color); 
+            color: white; 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
+        }
+        
+        .terms-checkbox { 
+            display: flex; 
+            text-align: left; 
+            align-items: center; 
+            gap: 10px; 
+            margin: 24px 0; 
+            font-size: 0.9rem; 
+            color: var(--text-muted-light); 
+        }
+        
+        body.dark-mode .terms-checkbox { 
+            color: var(--text-muted-dark); 
+        }
+        
+        .terms-checkbox input { 
+            min-width: 18px; 
+            height: 18px; 
+            cursor: pointer;
+        }
+        
+        .terms-checkbox a { 
+            color: var(--primary-color); 
+            text-decoration: none; 
+            font-weight: 500; 
+        }
+        
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        /* Chat Screen */
+        .chat-screen { 
+            max-height: 100vh; 
+        }
+        
+        .chat-header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 12px 24px; 
+            background: rgba(255,255,255,0.8); 
+            backdrop-filter: blur(10px); 
+            border-bottom: 1px solid var(--border-light); 
+            flex-shrink: 0; 
+            position: relative; 
+        }
+        
+        body.dark-mode .chat-header { 
+            background: rgba(25, 33, 46, 0.7); 
+            border-bottom-color: var(--border-dark); 
+        }
+        
+        .header-user-info { 
+            display: flex; 
+            align-items: center; 
+            gap: 16px; 
+        }
+        
+        .user-avatar { 
+            width: 36px; 
+            height: 36px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            cursor: pointer; 
+            background-size: cover; 
+            background-position: center; 
+            border: 2px solid var(--primary-color); 
+            transition: var(--transition);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+        }
+        
+        .header-title-group { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            position: absolute; 
+            left: 50%; 
+            transform: translateX(-50%); 
+        }
+        
+        .header-logo { 
+            width: 32px; 
+            height: 32px; 
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .header-name { 
+            font-size: 1.125rem; 
+            font-weight: 700; 
+            color: var(--text-light); 
+        }
+        
+        body.dark-mode .header-name { 
+            color: var(--text-dark); 
+        }
+
+        /* Chat Body */
+        .chat-body { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 24px; 
+            display: flex; 
+            flex-direction: column;
+            padding-bottom: 80px;
+        }
+
+        .chat-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-body::-webkit-scrollbar-thumb {
+            background: var(--border-light);
+            border-radius: 4px;
+        }
+
+        body.dark-mode .chat-body::-webkit-scrollbar-thumb {
+            background: var(--border-dark);
+        }
+        
+        .assistant-ui { 
+            text-align: center; 
+            padding: 24px; 
+            margin: auto; 
+        }
+        
+        .greeting-text { 
+            font-size: clamp(1.25rem, 4vw, 1.75rem); 
+            font-weight: 700;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .suggestion-chip {
+            background: var(--surface-light);
+            border: 1px solid var(--border-light);
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .suggestion-chip {
+            background: var(--surface-dark);
+            border-color: var(--border-dark);
+        }
+
+        .suggestion-chip:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid var(--warning-color);
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            color: var(--text-muted-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        body.dark-mode .disclaimer {
+            color: var(--text-muted-dark);
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        .disclaimer i {
+            color: var(--warning-color);
+            font-size: 1.2rem;
+        }
+        
+        .chat-messages { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+        }
+        
+        .message { 
+            max-width: 80%; 
+            padding: 12px 18px; 
+            border-radius: 20px; 
+            line-height: 1.6; 
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            box-shadow: var(--shadow); 
+            animation: messageSlide 0.4s; 
+            position: relative; 
+        }
+        
+        .message:hover .message-actions {
+            opacity: 1;
+        }
+
+        .message-actions {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: flex;
+            gap: 4px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .action-btn {
+            background: rgba(0,0,0,0.1);
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover {
+            background: rgba(0,0,0,0.2);
+            transform: scale(1.1);
+        }
+        
+        .user-message { 
+            align-self: flex-end; 
+            background: var(--primary-color); 
+            color: white; 
+            border-bottom-right-radius: 5px; 
+        }
+        
+        .assistant-message { 
+            align-self: flex-start; 
+            background: var(--surface-light); 
+            color: var(--text-light); 
+            border-bottom-left-radius: 5px; 
+        }
+        
+        body.dark-mode .assistant-message { 
+            background: var(--surface-dark); 
+            color: var(--text-dark); 
+            border-color: var(--border-dark); 
+        }
+
+        .message-timestamp {
+            font-size: 0.75rem;
+            color: var(--text-muted-light);
+            margin-top: 4px;
+            opacity: 0.7;
+        }
+
+        body.dark-mode .message-timestamp {
+            color: var(--text-muted-dark);
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 8px 0;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.7; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+        
+        /* Chat Input Area */
+        .chat-input-area-wrapper { 
+            background: rgba(255,255,255,0.8); 
+            backdrop-filter: blur(10px); 
+            flex-shrink: 0; 
+            border-top: 1px solid var(--border-light);
+            position: relative;
+        }
+        
+        body.dark-mode .chat-input-area-wrapper { 
+            background: rgba(25, 33, 46, 0.7); 
+            border-top-color: var(--border-dark); 
+        }
+
+        .input-suggestions {
+            padding: 8px 24px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+        }
+
+        .input-suggestions::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .quick-action {
+            background: var(--surface-light);
+            border: 1px solid var(--border-light);
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .quick-action {
+            background: var(--surface-dark);
+            border-color: var(--border-dark);
+        }
+
+        .quick-action:hover {
+            background: var(--primary-light);
+            color: white;
+            border-color: var(--primary-light);
+        }
+        
+        .chat-input-area { 
+            display: flex; 
+            padding: 16px 24px; 
+            gap: 16px; 
+            align-items: center; 
+        }
+        
+        .input-wrapper { 
+            flex: 1; 
+            display: flex; 
+            align-items: center; 
+            background: var(--surface-light); 
+            border-radius: 24px; 
+            padding: 0 20px; 
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        body.dark-mode .input-wrapper { 
+            background: var(--surface-dark); 
+            border-color: var(--border-dark); 
+        }
+        
+        .chat-input { 
+            flex: 1; 
+            border: none; 
+            background: none; 
+            padding: 14px 0; 
+            font-size: 1rem; 
+            outline: none; 
+            color: var(--text-light); 
+        }
+        
+        body.dark-mode .chat-input { 
+            color: var(--text-dark); 
+        }
+
+        .chat-input::placeholder {
+            color: var(--text-muted-light);
+        }
+
+        body.dark-mode .chat-input::placeholder {
+            color: var(--text-muted-dark);
+        }
+        
+        .icon-btn { 
+            background: none; 
+            border: none; 
+            color: var(--text-muted-light); 
+            font-size: 20px; 
+            cursor: pointer; 
+            padding: 10px; 
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            background: rgba(0,0,0,0.05);
+            transform: scale(1.1);
+        }
+        
+        body.dark-mode .icon-btn { 
+            color: var(--text-muted-dark); 
+        }
+
+        body.dark-mode .icon-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        #sendButton { 
+            background: var(--primary-dark); 
+            color: white; 
+            width: 44px; 
+            height: 44px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 50%;
+        }
+
+        #sendButton:hover {
+            background: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        #sendButton:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        .chat-footer {
+            text-align: center;
+            padding: 12px 24px;
+            font-size: 0.75rem;
+            color: var(--text-muted-light);
+            border-top: 1px solid var(--border-light);
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        body.dark-mode .chat-footer {
+            color: var(--text-muted-dark);
+            border-top-color: var(--border-dark);
+            background: rgba(25, 33, 46, 0.5);
+        }
+
+        .chat-footer .footer-separator {
+            margin: 0 8px;
+            opacity: 0.5;
+        }
+
+        .chat-footer .footer-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .chat-footer .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal */
+        .modal-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.5); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 1000; 
+            opacity: 0; 
+            visibility: hidden; 
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
+        }
+        
+        .modal-overlay.active { 
+            opacity: 1; 
+            visibility: visible; 
+        }
+        
+        .modal-content { 
+            background: var(--surface-light); 
+            border-radius: 24px; 
+            width: 90%; 
+            max-width: 520px; 
+            max-height: 90vh; 
+            overflow-y: auto;
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        @keyframes modalSlide {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        body.dark-mode .modal-content { 
+            background: var(--surface-dark); 
+        }
+        
+        .menu-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 20px 24px; 
+            border-bottom: 1px solid var(--border-light); 
+        }
+        
+        body.dark-mode .menu-header { 
+            border-bottom-color: var(--border-dark); 
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-muted-light);
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            color: var(--text-light);
+            transform: rotate(90deg);
+        }
+
+        body.dark-mode .close-btn {
+            color: var(--text-muted-dark);
+        }
+
+        body.dark-mode .close-btn:hover {
+            color: var(--text-dark);
+        }
+        
+        .menu-section { 
+            padding: 24px; 
+            border-bottom: 1px solid var(--border-light); 
+        }
+        
+        body.dark-mode .menu-section { 
+            border-bottom-color: var(--border-dark); 
+        }
+        
+        .menu-section h4 { 
+            font-size: 1rem; 
+            margin-bottom: 16px;
+            color: var(--text-light);
+        }
+
+        body.dark-mode .menu-section h4 {
+            color: var(--text-dark);
+        }
+        
+        .avatar-options { 
+            display: flex; 
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .avatar-option { 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            font-size: 20px; 
+            cursor: pointer; 
+            border: 3px solid transparent;
+            transition: var(--transition);
+        }
+
+        .avatar-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .avatar-option.selected { 
+            border-color: var(--primary-color); 
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+        }
+
+        .audio-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .audio-toggle label {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        body.dark-mode .audio-toggle label {
+            color: var(--text-dark);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-light);
+            transition: var(--transition);
+            border-radius: 34px;
+        }
+
+        body.dark-mode .slider {
+            background-color: var(--border-dark);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: var(--transition);
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        
+        .menu-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 16px; 
+            padding: 24px; 
+        }
+        
+        .menu-card { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px; 
+            border: 1px solid var(--border-light); 
+            cursor: pointer; 
+            text-decoration: none; 
+            color: inherit;
+            border-radius: 12px;
+            transition: var(--transition);
+            background: var(--surface-light);
+        }
+
+        body.dark-mode .menu-card {
+            background: var(--surface-dark);
+            border-color: var(--border-dark);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary-color);
+        }
+        
+        .menu-card i { 
+            font-size: 24px; 
+            margin-bottom: 12px; 
+        }
+
+        .menu-card span {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .reset-btn { 
+            grid-column: 1 / -1; 
+            background: rgba(239, 68, 68, 0.1); 
+            color: var(--error-color);
+            border-color: var(--error-color);
+        }
+
+        .reset-btn:hover {
+            background: var(--error-color);
+            color: white;
+        }
+        
+        /* Loading Overlay */
+        .loading-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.7); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 2000; 
+            color: white; 
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Toast Notification */
+        .toast-notification { 
+            position: fixed; 
+            bottom: 24px; 
+            left: 50%; 
+            transform: translateX(-50%) translateY(100px);
+            background: #374151; 
+            color: #F3F4F6; 
+            padding: 14px 20px; 
+            border-radius: var(--border-radius); 
+            z-index: 3000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .toast-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast-notification.success {
+            background: var(--success-color);
+        }
+
+        .toast-notification.error {
+            background: var(--error-color);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-title-group { 
+                position: static; 
+                transform: none; 
+            }
+            
+            .chat-header { 
+                justify-content: space-between; 
+            }
+
+            .message {
+                max-width: 90%;
+             }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .suggestion-chips {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .chat-body {
+                padding: 16px;
+            }
+
+            .chat-input-area {
+                padding: 12px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-container {
+                padding: 20px;
+            }
+
+            .welcome-logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+
+            .greeting-text {
+                font-size: 1.25rem;
+            }
+
+            .chat-header {
+                padding: 10px 16px;
+            }
+
+            .header-logo {
+                width: 28px;
+                height: 28px;
+            }
+
+            .header-name {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Animações de Fundo -->
-    <div class="background-animation">
-        <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 10%; animation-delay: 0s;"></div>
-        <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: -5s;"></div>
-        <div class="floating-element" style="width: 80px; height: 80px; top: 80%; left: 20%; animation-delay: -10s;"></div>
-        <div class="floating-element" style="width: 120px; height: 120px; top: 30%; left: 70%; animation-delay: -15s;"></div>
-    </div>
-
-    <!-- Mensagem Persistente -->
-    <div class="disclaimer">
-        A Yume pode cometer erros. Considere consultar as informações reais.
-    </div>
-
-    <!-- Banner de Cookies -->
-    <div class="cookie-banner" id="cookieBanner">
-        <div class="cookie-content">
-            <div class="cookie-header">
-                <i class="fas fa-cookie-bite cookie-icon"></i>
-                <h3 class="cookie-title">Privacidade & Cookies</h3>
-            </div>
-            <p class="cookie-text">
-                Usamos cookies essenciais para melhorar sua experiência. Ao continuar, você concorda com nossa
-                <a href="https://termos.orpheostudio.com.br" target="_blank">política de privacidade</a>.
-            </p>
-            <div class="cookie-buttons">
-                <button class="cookie-btn reject" onclick="rejectCookies()">Rejeitar</button>
-                <button class="cookie-btn accept" onclick="acceptCookies()">Aceitar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tela de Autenticação -->
-    <div class="screen auth-screen" id="authScreen">
-        <div class="auth-container">
-            <div class="auth-header">
-                <img src="https://i.imgur.com/x6ORNax.png" alt="Yume AI" class="auth-logo">
-                <h1 class="auth-title">Yume AI</h1>
-                <p class="auth-subtitle">Assistente Virtual Inteligente</p>
-            </div>
-
-            <!-- Formulário de Login -->
-            <form class="auth-form" id="loginForm">
-                <h2 class="form-title">Bem-vindo de volta!</h2>
-                <div class="form-group">
-                    <label for="loginEmail"><i class="fas fa-envelope"></i> E-mail</label>
-                    <input type="email" id="loginEmail" placeholder="seu@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword"><i class="fas fa-lock"></i> Senha</label>
-                    <input type="password" id="loginPassword" placeholder="Sua senha" required>
-                </div>
-                <button type="submit" class="auth-btn">
-                    <i class="fas fa-sign-in-alt"></i> Entrar
-                </button>
-                <div class="auth-switch">
-                    Não tem uma conta? <a href="#" onclick="showSignupForm(); return false;">Cadastre-se</a>
-                </div>
-            </form>
-
-            <!-- Formulário de Cadastro -->
-            <form class="auth-form hidden" id="signupForm">
-                <h2 class="form-title">Criar Conta</h2>
-                <div class="form-group">
-                    <label for="signupName"><i class="fas fa-user"></i> Nome Completo</label>
-                    <input type="text" id="signupName" placeholder="Seu nome completo" required>
-                </div>
-                <div class="form-group">
-                    <label for="signupEmail"><i class="fas fa-envelope"></i> E-mail</label>
-                    <input type="email" id="signupEmail" placeholder="seu@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="signupPassword"><i class="fas fa-lock"></i> Senha</label>
-                    <input type="password" id="signupPassword" placeholder="Crie uma senha forte" required minlength="8">
-                    <div class="password-strength-container">
-                        <div class="password-strength-bar" id="passwordStrength"></div>
-                    </div>
-                </div>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div class="screen welcome-screen" id="welcomeScreen">
+            <div class="welcome-container">
+                <img src="https://i.imgur.com/x6ORNax.png" alt="Yume Logo" class="welcome-logo">
+                <h1 class="welcome-title">Olá! Eu sou a Yume.</h1>
+                <p class="welcome-description">Sua assistente pessoal com IA avançada, pronta para ajudar com análise de sentimentos, processamento de linguagem natural e muito mais.</p>
                 <div class="terms-checkbox">
-                    <input type="checkbox" id="termsAgree" required>
-                    <label for="termsAgree">
-                        Concordo com os <a href="https://termos.orpheostudio.com.br" target="_blank">Termos de Serviço</a>
-                    </label>
+                    <input type="checkbox" id="acceptTermsCheckbox">
+                    <label for="acceptTermsCheckbox">Eu concordo com os <a href="https://termos.orpheostudio.com.br" target="_blank">Termos de Uso</a>.</label>
                 </div>
-                <button type="submit" class="auth-btn">
-                    <i class="fas fa-user-plus"></i> Criar Conta
-                </button>
-                <div class="auth-switch">
-                    Já tem uma conta? <a href="#" onclick="showLoginForm(); return false;">Fazer login</a>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Tela do Chat -->
-    <div class="screen chat-screen hidden" id="chatScreen">
-        <div style="display: flex; flex-direction: column; height: 100vh;">
-            <!-- Cabeçalho -->
-            <div class="chat-header">
-                <div class="header-user-info">
-                    <div class="user-avatar" onclick="showMenuModal()">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3 class="header-title">Yume AI</h3>
-                </div>
-                <div class="header-controls">
-                    <button class="theme-toggle" onclick="toggleDarkMode()" title="Alternar tema">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <div class="upgrade-badge" onclick="showPremiumModal()">
-                        <i class="fas fa-crown"></i>
-                        <span>Premium</span>
-                    </div>
-                </div>
+                <button id="enterChatBtn" class="welcome-btn">Get Started</button>
             </div>
+        </div>
 
-            <!-- Corpo do Chat -->
+        <!-- Chat Screen -->
+        <div class="screen chat-screen hidden" id="chatScreen">
+            <header class="chat-header">
+                <div class="header-user-info">
+                    <div class="user-avatar" id="userAvatar"></div>
+                </div>
+                <div class="header-title-group">
+                    <img src="https://i.imgur.com/x6ORNax.png" alt="Yume Logo" class="header-logo">
+                    <h1 class="header-name">Yume</h1>
+                </div>
+                <button id="focusModeBtn" class="icon-btn" title="Modo Foco"><i class="fas fa-expand"></i></button>
+            </header>
+
             <div class="chat-body" id="chatBody">
+                <div class="disclaimer">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>A Yume pode cometer erros. Considere conferir informações importantes.</span>
+                </div>
+                
                 <div class="assistant-ui" id="assistantUI">
-                    <h1 class="greeting-text" id="greetingText">Olá! Sou a Yume 👋</h1>
-                    <p class="help-text" id="helpText">Como posso ajudar você hoje?</p>
-                    <div class="feature-grid">
-                        <div class="feature-card" onclick="sendQuickReply('Quais são suas funcionalidades?')">
-                            <div class="feature-icon">
-                                <i class="fas fa-comments"></i>
-                            </div>
-                            <h3 class="feature-title">Conversas Naturais</h3>
-                            <p class="feature-desc">Converse sobre qualquer assunto de forma natural</p>
-                        </div>
-                        <div class="feature-card" onclick="sendQuickReply('Como você pode me ajudar com projetos?')">
-                            <div class="feature-icon">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <h3 class="feature-title">Soluções Criativas</h3>
-                            <p class="feature-desc">Encontre respostas e ideias inovadoras</p>
-                        </div>
-                        <div class="feature-card" onclick="sendQuickReply('Me explique sobre inteligência artificial')">
-                            <div class="feature-icon">
-                                <i class="fas fa-brain"></i>
-                            </div>
-                            <h3 class="feature-title">Conhecimento</h3>
-                            <p class="feature-desc">Aprenda sobre diversos tópicos</p>
-                        </div>
+                    <p class="greeting-text">Como posso te ajudar hoje?</p>
+                    <div class="suggestion-chips">
+                        <div class="suggestion-chip" data-suggestion="Analise o sentimento desta frase">Análise de Sentimento</div>
+                        <div class="suggestion-chip" data-suggestion="Me ajude a escrever um email profissional">Escrever Email</div>
+                        <div class="suggestion-chip" data-suggestion="Resuma este texto">Resumir Texto</div>
+                        <div class="suggestion-chip" data-suggestion="Traduza para o inglês">Traduzir</div>
                     </div>
                 </div>
-
+                
                 <div class="chat-messages" id="chatMessages"></div>
             </div>
 
-            <!-- Respostas Rápidas -->
-            <div class="quick-reply-area" id="quickReplyArea">
-                <div class="quick-reply" onclick="sendQuickReply('Quais são suas funcionalidades?')">
-                    <i class="fas fa-star"></i> Funcionalidades
+            <div class="chat-input-area-wrapper">
+                <div class="input-suggestions" id="inputSuggestions">
+                    <div class="quick-action" data-action="sentiment">😊 Sentimento</div>
+                    <div class="quick-action" data-action="summarize">📝 Resumir</div>
+                    <div class="quick-action" data-action="translate">🌐 Traduzir</div>
+                    <div class="quick-action" data-action="grammar">✍️ Corrigir</div>
                 </div>
-                <div class="quick-reply" onclick="sendQuickReply('Como você pode me ajudar?')">
-                    <i class="fas fa-hands-helping"></i> Ajuda
-                </div>
-                <div class="quick-reply" onclick="sendQuickReply('O que é inteligência artificial?')">
-                    <i class="fas fa-robot"></i> Sobre IA
-                </div>
-            </div>
-
-            <!-- Área de Input -->
-            <div class="chat-input-area">
-                <div class="input-wrapper">
-                    <textarea class="chat-input" id="chatInput" placeholder="Digite sua mensagem..." rows="1"></textarea>
-                    <div class="input-controls">
-                        <button class="file-btn" onclick="triggerFileInput()" title="Anexar arquivo">
-                            <i class="fas fa-paperclip"></i>
-                        </button>
-                        <input type="file" id="fileInput" style="display: none;" accept="image/*,.pdf,.txt,.doc,.docx" onchange="handleFileUpload(event)">
-                        <button class="voice-btn" id="voiceButton" onclick="toggleVoiceRecognition()" title="Comando de voz">
-                            <i class="fas fa-microphone"></i>
-                        </button>
+                
+                <form class="chat-input-area" id="inputArea">
+                    <button type="button" id="attachBtn" class="icon-btn" title="Anexar arquivo">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <div class="input-wrapper">
+                        <input type="text" class="chat-input" id="userInput" placeholder="Envie uma mensagem..." autocomplete="off">
                     </div>
-                </div>
-                <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Enviar mensagem">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+                    <button type="button" id="voiceButton" class="icon-btn" title="Gravação de voz">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button type="submit" id="sendButton" class="icon-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
             </div>
 
-            <!-- Rodapé -->
-            <div class="disclaimer">
-                Yume AI • Powered by ORPHEO Platforms • v2.1.0
+            <div class="chat-footer">
+                <span>Yume</span>
+                <span class="footer-separator">•</span>
+                <span>Powered by <a href="https://studio.orpheostudio.com.br" class="footer-link" target="_blank">ORPHEO Platforms</a></span>
+                <span class="footer-separator">•</span>
+                <span>V2.1.0</span>
             </div>
         </div>
     </div>
-
-    <!-- Modal de Menu -->
-    <div class="modal-overlay" id="menuModal" onclick="closeModalOnOverlay(event)">
+    
+    <!-- Profile Modal -->
+    <div class="modal-overlay" id="profileModal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3>Configurações</h3>
-                <button class="close-btn" onclick="hideMenuModal()">
+            <div class="menu-header">
+                <h3>Menu</h3>
+                <button class="close-btn" id="closeProfile">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="menu-grid">
-                <div class="menu-item" onclick="toggleDarkMode()">
-                    <div class="menu-icon">
+            
+            <div class="menu-section">
+                <h4>Personalizar Sessão</h4>
+                <div class="avatar-options">
+                    <div class="avatar-option selected" data-avatar="default" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="avatar-option" data-avatar="avatar1" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <div class="avatar-option" data-avatar="avatar2" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="avatar-option" data-avatar="avatar3" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="avatar-option" data-avatar="avatar4" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <h4>Configurações</h4>
+                <div class="audio-toggle">
+                    <label for="ttsToggle">Ativar áudio da Yume</label>
+                    <label class="switch">
+                        <input type="checkbox" id="ttsToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="audio-toggle">
+                    <label>Modo Escuro</label>
+                    <button id="themeToggleBtn" class="icon-btn">
                         <i class="fas fa-moon"></i>
-                    </div>
-                    <div class="menu-item-text">
-                        <div class="menu-item-title">Tema Escuro</div>
-                        <div class="menu-item-desc">Alternar entre claro e escuro</div>
-                    </div>
+                    </button>
                 </div>
-                <div class="menu-item" onclick="clearConversation()">
-                    <div class="menu-icon">
-                        <i class="fas fa-trash-alt"></i>
-                    </div>
-                    <div class="menu-item-text">
-                        <div class="menu-item-title">Limpar Conversa</div>
-                        <div class="menu-item-desc">Apagar histórico de mensagens</div>
-                    </div>
-                </div>
-                <div class="menu-item" onclick="showAboutModal()">
-                    <div class="menu-icon">
-                        <i class="fas fa-info-circle"></i>
-                    </div>
-                    <div class="menu-item-text">
-                        <div class="menu-item-title">Sobre</div>
-                        <div class="menu-item-desc">Informações sobre a Yume AI</div>
-                    </div>
-                </div>
-                <div class="menu-item" onclick="showHelpModal()">
-                    <div class="menu-icon">
-                        <i class="fas fa-question-circle"></i>
-                    </div>
-                    <div class="menu-item-text">
-                        <div class="menu-item-title">Ajuda</div>
-                        <div class="menu-item-desc">Central de suporte</div>
-                    </div>
-                </div>
-                <div class="menu-item" onclick="logout()">
-                    <div class="menu-icon" style="background: rgba(239, 68, 68, 0.1); color: var(--error-color);">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </div>
-                    <div class="menu-item-text">
-                        <div class="menu-item-title" style="color: var(--error-color);">Sair</div>
-                        <div class="menu-item-desc">Encerrar sessão</div>
-                    </div>
+                <div class="audio-toggle">
+                    <label for="nlpToggle">Processamento NLP Avançado</label>
+                    <label class="switch">
+                        <input type="checkbox" id="nlpToggle" checked>
+                        <span class="slider"></span>
+                    </label>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Modal de Ajuda -->
-    <div class="modal-overlay" id="helpModal" onclick="closeModalOnOverlay(event)">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Central de Ajuda</h3>
-                <button class="close-btn" onclick="hideHelpModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+            
             <div class="menu-grid">
-                <div class="menu-item" onclick="openFeedback()">
-                    <div class="menu-icon">
-                        <i class="fas fa-comment-dots"></i>
-                    </div>
-                    <div class="menu-item-text">
-                        <div class="menu-item-title">Feedback</div>
-                        <div class="menu-item-desc">Compartilhe sua opinião</div>
-                    </div>
-                </div>
-                <div class="menu-item" onclick="showBugReportModal()">
-                    <div class="menu-icon">
-                        <i class="fas fa-bug"></i>
-                    </div>
-                    <div class="menu-item-text">
-                        <div class="menu-item-title">Reportar Bug</div>
-                        <div class="menu-item-desc">Informe problemas técnicos</div>
-                    </div>
-                </div>
-                <div class="menu-item" onclick="openSupport()">
-                    <div class="menu-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <div class="menu-item-text">
-                        <div class="menu-item-title">Suporte</div>
-                        <div class="menu-item-desc">Entre em contato conosco</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Report de Bug -->
-    <div class="modal-overlay" id="bugReportModal" onclick="closeModalOnOverlay(event)">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Reportar Bug</h3>
-                <button class="close-btn" onclick="hideBugReportModal()">
-                    <i class="fas fa-times"></i>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPidDH_k-swGUNIta0jjyC06F1e3k96eclidEoQ6UTMPhqfw/viewform?usp=header" target="_blank" class="menu-card">
+                    <i class="fas fa-comment"></i>
+                    <span>Feedback</span>
+                </a>
+                <a href="mailto:sac.studiotsukiyo@outlook.com" class="menu-card">
+                    <i class="fas fa-bug"></i>
+                    <span>Reportar Bug</span>
+                </a>
+                <button id="donateMenuBtn" class="menu-card">
+                    <i class="fas fa-heart" style="color: #EC4899;"></i>
+                    <span>Doar</span>
                 </button>
-            </div>
-            <form id="bugReportForm" class="bug-report-form">
-                <div class="form-group">
-                    <label for="bugTitle">Título do Problema</label>
-                    <input type="text" id="bugTitle" placeholder="Descreva brevemente o problema" required>
-                </div>
-                <div class="form-group">
-                    <label for="bugDescription">Descrição Detalhada</label>
-                    <textarea id="bugDescription" rows="5" placeholder="Descreva o que aconteceu, quando aconteceu e como reproduzir o problema..." required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="bugCategory">Categoria</label>
-                    <select id="bugCategory" required>
-                        <option value="">Selecione uma categoria</option>
-                        <option value="Interface">Problema de Interface</option>
-                        <option value="Funcionalidade">Funcionalidade não funciona</option>
-                        <option value="Performance">Problema de Performance</option>
-                        <option value="Outro">Outro</option>
-                    </select>
-                </div>
-                <button type="submit" class="auth-btn">
-                    <i class="fas fa-paper-plane"></i> Enviar Report
+                <button id="exportChatBtn" class="menu-card">
+                    <i class="fas fa-download"></i>
+                    <span>Exportar Chat</span>
                 </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal Premium -->
-    <div class="modal-overlay" id="premiumModal" onclick="closeModalOnOverlay(event)">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-crown" style="color: var(--secondary-color);"></i> Yume Premium</h3>
-                <button class="close-btn" onclick="hidePremiumModal()">
-                    <i class="fas fa-times"></i>
+                <button id="statsBtn" class="menu-card">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Estatísticas</span>
                 </button>
-            </div>
-            <div class="premium-content">
-                <div class="premium-features">
-                    <h4>Benefícios Premium:</h4>
-                    <ul>
-                        <li><i class="fas fa-check"></i> Respostas ilimitadas</li>
-                        <li><i class="fas fa-check"></i> Modelos de IA avançados</li>
-                        <li><i class="fas fa-check"></i> Prioridade no suporte</li>
-                        <li><i class="fas fa-check"></i> Sem anúncios</li>
-                        <li><i class="fas fa-check"></i> Acesso antecipado a novos recursos</li>
-                    </ul>
-                </div>
-                <div class="pix-section">
-                    <h4>Doe via PIX:</h4>
-                    <p class="pix-description">Ajude a manter a Yume AI ativa!</p>
-                    <div class="pix-key-container">
-                        <input type="text" id="pixKey" value="00020126580014BR.GOV.BCB.PIX013611a4cd6a-710d-4cd5-9f5b-2897c3fd0eed5204000053039865802BR5924Bruno Pereira dos Santos6009SAO PAULO62140510Q9OF75NgiM6304AF3F" readonly>
-                        <button class="copy-btn" onclick="copyPixKey()">
-                            <i class="fas fa-copy"></i> Copiar Chave
-                        </button>
-                    </div>
-                    <div class="donation-link">
-                        <p>Ou acesse o link de cobrança:</p>
-                        <a href="https://nubank.com.br/cobrar/ftet6/68edad3f-e968-4260-aa5e-1f6b4f294e3e" target="_blank" class="donation-btn">
-                            <i class="fas fa-external-link-alt"></i> Abrir Link de Doação
-                        </a>
-                        <p class="donation-note">Para doar e ajudar a ORPHEO Platforms a manter a Yume ativa</p>
-                    </div>
-                </div>
+                <button id="shortcutsBtn" class="menu-card">
+                    <i class="fas fa-keyboard"></i>
+                    <span>Atalhos</span>
+                </button>
+                <button id="resetSessionBtn" class="menu-card reset-btn">
+                    <i class="fas fa-trash"></i>
+                    <span>Limpar Sessão</span>
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <p class="loading-text">Processando...</p>
-        </div>
+    <div class="loading-overlay hidden" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p>Processando...</p>
     </div>
 
     <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
+    <div class="toast-notification" id="toast"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ==================== CONFIGURATION ====================
+        const supabaseUrl = 'https://onyhbarnwvoqpwveyvhc.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ueWhiYXJud3ZvcXB3dmV5dmhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2MzUxNjQ4MDAsImV4cCI6MTk1MDc0MDgwMH0.example';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    <script src="script.js"></script>
+        const MISTRAL_API_KEY = 'NFuAj8PYUPcaf6tA1BjbyXuIeSjSA4sW';
+        const MISTRAL_API_URL = 'https://api.mistral.ai/v1/chat/completions';
+
+        // ==================== STATE MANAGEMENT ====================
+        let sessionId = null;
+        let recognition = null;
+        let isListening = false;
+        let isTtsEnabled = false;
+        let isNlpEnabled = true;
+        let commandHistory = [];
+        let historyIndex = -1;
+        let userSessionName = null;
+        let currentAvatar = 'default';
+        let messageCount = 0;
+        let sessionStartTime = null;
+        let conversationContext = [];
+
+        // ==================== UI ELEMENTS ====================
+        const ui = {
+            body: document.body,
+            welcomeScreen: document.getElementById('welcomeScreen'),
+            chatScreen: document.getElementById('chatScreen'),
+            loadingOverlay: document.getElementById('loadingOverlay'),
+            toast: document.getElementById('toast'),
+            userInput: document.getElementById('userInput'),
+            chatMessages: document.getElementById('chatMessages'),
+            chatBody: document.getElementById('chatBody'),
+            profileModal: document.getElementById('profileModal'),
+            voiceButton: document.getElementById('voiceButton'),
+            ttsToggle: document.getElementById('ttsToggle'),
+            nlpToggle: document.getElementById('nlpToggle'),
+            themeToggleBtn: document.getElementById('themeToggleBtn'),
+            sendButton: document.getElementById('sendButton'),
+            assistantUI: document.getElementById('assistantUI')
+        };
+
+        // ==================== NLP UTILITIES ====================
+        const NLP = {
+            // Análise de sentimento básica
+            analyzeSentiment: (text) => {
+                const positiveWords = ['feliz', 'alegre', 'ótimo', 'excelente', 'maravilhoso', 'incrível', 'amor', 'adorei', 'perfeito', 'fantástico', 'bom', 'legal'];
+                const negativeWords = ['triste', 'ruim', 'péssimo', 'horrível', 'ódio', 'detestei', 'terrível', 'mal', 'chato', 'irritante'];
+                
+                const words = text.toLowerCase().split(/\s+/);
+                let score = 0;
+                
+                words.forEach(word => {
+                    if (positiveWords.some(pw => word.includes(pw))) score++;
+                    if (negativeWords.some(nw => word.includes(nw))) score--;
+                });
+                
+                if (score > 0) return { sentiment: 'positivo', score, emoji: '😊' };
+                if (score < 0) return { sentiment: 'negativo', score, emoji: '😔' };
+                return { sentiment: 'neutro', score, emoji: '😐' };
+            },
+
+            // Extração de entidades
+            extractEntities: (text) => {
+                const entities = {
+                    emails: text.match(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g) || [],
+                    urls: text.match(/https?:\/\/[^\s]+/g) || [],
+                    numbers: text.match(/\b\d+\b/g) || [],
+                    dates: text.match(/\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/g) || []
+                };
+                return entities;
+            },
+
+            // Detecção de intenção
+            detectIntent: (text) => {
+                const lowerText = text.toLowerCase();
+                
+                if (lowerText.match(/\b(ajud[ae]|preciso|como|pode|consegue)\b/)) {
+                    return 'ajuda';
+                }
+                if (lowerText.match(/\b(traduz|translate|tradução)\b/)) {
+                    return 'traducao';
+                }
+                if (lowerText.match(/\b(sentimento|emoção|análise)\b/)) {
+                    return 'sentimento';
+                }
+                if (lowerText.match(/\b(resumo|resume|resumir)\b/)) {
+                    return 'resumo';
+                }
+                if (lowerText.match(/\b(corrig|gramática|ortografia)\b/)) {
+                    return 'correcao';
+                }
+                if (lowerText.match(/\?(.*)?$/)) {
+                    return 'pergunta';
+                }
+                return 'conversa';
+            },
+
+            // Análise de complexidade do texto
+            analyzeComplexity: (text) => {
+                const words = text.split(/\s+/).length;
+                const sentences = text.split(/[.!?]+/).length;
+                const avgWordsPerSentence = words / sentences;
+                
+                let complexity = 'simples';
+                if (avgWordsPerSentence > 20) complexity = 'complexo';
+                else if (avgWordsPerSentence > 12) complexity = 'médio';
+                
+                return { words, sentences, avgWordsPerSentence, complexity };
+            },
+
+            // Tokenização básica
+            tokenize: (text) => {
+                return text.toLowerCase()
+                    .replace(/[^\w\s]/g, '')
+                    .split(/\s+/)
+                    .filter(word => word.length > 2);
+            },
+
+            // Remoção de stopwords em português
+            removeStopwords: (tokens) => {
+                const stopwords = ['o', 'a', 'de', 'da', 'do', 'em', 'um', 'uma', 'para', 'com', 'por', 'que', 'como', 'mais', 'mas', 'já', 'se', 'na', 'no', 'os', 'as'];
+                return tokens.filter(token => !stopwords.includes(token));
+            },
+
+            // Extração de palavras-chave
+            extractKeywords: (text, limit = 5) => {
+                const tokens = NLP.tokenize(text);
+                const filtered = NLP.removeStopwords(tokens);
+                
+                const frequency = {};
+                filtered.forEach(word => {
+                    frequency[word] = (frequency[word] || 0) + 1;
+                });
+                
+                return Object.entries(frequency)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, limit)
+                    .map(entry => entry[0]);
+            }
+        };
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('yumeTermsAccepted') === 'true') {
+                initializeSession();
+                showChatScreen();
+            }
+            setupEventListeners();
+            initSpeechRecognition();
+            applyTheme();
+            loadUserPreferences();
+        });
+
+        function initializeSession() {
+            sessionId = sessionStorage.getItem('yumeSessionId');
+            if (!sessionId) {
+                sessionId = generateUUID();
+                sessionStorage.setItem('yumeSessionId', sessionId);
+            }
+            sessionStartTime = new Date();
+            isTtsEnabled = ui.ttsToggle.checked;
+            isNlpEnabled = ui.nlpToggle.checked;
+            updateAvatarDisplay();
+        }
+
+        function loadUserPreferences() {
+            const savedAvatar = sessionStorage.getItem('yumeAvatar');
+            if (savedAvatar) {
+                currentAvatar = savedAvatar;
+                updateAvatarDisplay();
+            }
+
+            const savedTheme = localStorage.getItem('yumeTheme');
+            if (savedTheme === 'dark') {
+                ui.body.classList.add('dark-mode');
+                updateThemeIcon();
+            }
+
+            const savedTts = localStorage.getItem('yumeTts');
+            if (savedTts === 'true') {
+                ui.ttsToggle.checked = true;
+                isTtsEnabled = true;
+            }
+
+            const savedNlp = localStorage.getItem('yumeNlp');
+            if (savedNlp !== null) {
+                ui.nlpToggle.checked = savedNlp === 'true';
+                isNlpEnabled = savedNlp === 'true';
+            }
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        function setupEventListeners() {
+            // Welcome screen
+            document.getElementById('enterChatBtn').addEventListener('click', handleEnterChat);
+            
+            // Chat input
+            document.getElementById('inputArea').addEventListener('submit', handleSendMessage);
+            ui.userInput.addEventListener('keydown', handleInputKeyDown);
+            ui.userInput.addEventListener('input', handleInputChange);
+            
+            // Buttons
+            document.getElementById('userAvatar').addEventListener('click', () => ui.profileModal.classList.add('active'));
+            document.getElementById('closeProfile').addEventListener('click', () => ui.profileModal.classList.remove('active'));
+            document.getElementById('resetSessionBtn').addEventListener('click', handleResetSession);
+            document.getElementById('donateMenuBtn').addEventListener('click', handleDonation);
+            document.getElementById('exportChatBtn').addEventListener('click', handleExportChat);
+            document.getElementById('focusModeBtn').addEventListener('click', toggleFocusMode);
+            document.getElementById('statsBtn').addEventListener('click', showStats);
+            document.getElementById('shortcutsBtn').addEventListener('click', showShortcuts);
+            ui.themeToggleBtn.addEventListener('click', toggleTheme);
+            ui.voiceButton.addEventListener('click', toggleSpeechRecognition);
+            document.getElementById('attachBtn').addEventListener('click', handleAttachment);
+            
+            // Avatar selection
+            document.querySelectorAll('.avatar-option').forEach(opt => {
+                opt.addEventListener('click', handleAvatarChange);
+            });
+
+            // Suggestion chips
+            document.querySelectorAll('.suggestion-chip').forEach(chip => {
+                chip.addEventListener('click', function() {
+                    ui.userInput.value = this.dataset.suggestion;
+                    ui.userInput.focus();
+                });
+            });
+
+            // Quick actions
+            document.querySelectorAll('.quick-action').forEach(action => {
+                action.addEventListener('click', function() {
+                    handleQuickAction(this.dataset.action);
+                });
+            });
+
+            // TTS toggle
+            ui.ttsToggle.addEventListener('change', function() {
+                isTtsEnabled = this.checked;
+                localStorage.setItem('yumeTts', this.checked);
+                showToast(this.checked ? 'Áudio ativado' : 'Áudio desativado', 'success');
+            });
+
+            // NLP toggle
+            ui.nlpToggle.addEventListener('change', function() {
+                isNlpEnabled = this.checked;
+                localStorage.setItem('yumeNlp', this.checked);
+                showToast(this.checked ? 'NLP Avançado ativado' : 'NLP Básico ativado', 'success');
+            });
+
+            // Click outside modal to close
+            ui.profileModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', handleKeyboardShortcuts);
+        }
+
+        function handleEnterChat() {
+            if (document.getElementById('acceptTermsCheckbox').checked) {
+                sessionStorage.setItem('yumeTermsAccepted', 'true');
+                initializeSession();
+                showChatScreen();
+            } else {
+                showToast('Você deve aceitar os Termos de Uso para continuar.', 'error');
+            }
+        }
+
+        function handleInputChange() {
+            const hasText = ui.userInput.value.trim().length > 0;
+            ui.sendButton.disabled = !hasText;
+        }
+
+        function handleKeyboardShortcuts(e) {
+            // Ctrl/Cmd + K: Focus input
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                ui.userInput.focus();
+            }
+            
+            // Ctrl/Cmd + /: Show shortcuts
+            if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+                e.preventDefault();
+                showShortcuts();
+            }
+            
+            // Esc: Close modal
+            if (e.key === 'Escape') {
+                ui.profileModal.classList.remove('active');
+            }
+        }
+
+        function showChatScreen() {
+            ui.welcomeScreen.classList.add('hidden');
+            ui.chatScreen.classList.remove('hidden');
+            ui.userInput.focus();
+        }
+
+        // ==================== MESSAGE HANDLING ====================
+        async function handleSendMessage(e) {
+            e.preventDefault();
+            const messageText = ui.userInput.value.trim();
+            if (!messageText) return;
+
+            // Disable send button
+            ui.sendButton.disabled = true;
+            
+            addMessageToHistory(messageText);
+            addMessage(messageText, 'user');
+            ui.userInput.value = '';
+            ui.assistantUI.classList.add('hidden');
+            
+            // Save to database
+            saveMessageToSupabase(messageText, 'user');
+            
+            // NLP Analysis
+            let nlpData = null;
+            if (isNlpEnabled) {
+                nlpData = performNLPAnalysis(messageText);
+            }
+
+            showTypingIndicator();
+            
+            try {
+                // Build context-aware prompt
+                const enhancedPrompt = buildEnhancedPrompt(messageText, nlpData);
+                
+                const response = await fetch(MISTRAL_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${NFuAj8PYUPcaf6tA1BjbyXuIeSjSA4sW}`
+                    },
+                    body: JSON.stringify({
+                        model: 'mistral-tiny',
+                        messages: [
+                            { role: 'system', content: 'Você é Yume, uma assistente virtual amigável e prestativa. Responda em português de forma clara e concisa.' },
+                            ...conversationContext.slice(-5), // Last 5 messages for context
+                            { role: 'user', content: enhancedPrompt }
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 500
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Falha na comunicação com a IA.');
+                }
+
+                const data = await response.json();
+                const aiResponse = data.choices[0].message.content;
+                
+                // Update conversation context
+                conversationContext.push(
+                    { role: 'user', content: messageText },
+                    { role: 'assistant', content: aiResponse }
+                );
+
+                // Add NLP insights if available
+                let fullResponse = aiResponse;
+                if (nlpData && nlpData.intent !== 'conversa') {
+                    fullResponse += `\n\n📊 Análise NLP: Sentimento ${nlpData.sentiment.emoji}, Intenção: ${nlpData.intent}`;
+                }
+
+                addMessage(fullResponse, 'assistant');
+                saveMessageToSupabase(aiResponse, 'assistant');
+                messageCount++;
+                
+            } catch (error) {
+                console.error("Erro ao chamar a API:", error);
+                addMessage(`Desculpe, ocorreu um erro ao processar sua mensagem. (${error.message})`, 'assistant', true);
+            } finally {
+                removeTypingIndicator();
+                ui.sendButton.disabled = false;
+            }
+        }
+
+        function performNLPAnalysis(text) {
+            const sentiment = NLP.analyzeSentiment(text);
+            const intent = NLP.detectIntent(text);
+            const entities = NLP.extractEntities(text);
+            const complexity = NLP.analyzeComplexity(text);
+            const keywords = NLP.extractKeywords(text);
+
+            return {
+                sentiment,
+                intent,
+                entities,
+                complexity,
+                keywords
+            };
+        }
+
+        function buildEnhancedPrompt(messageText, nlpData) {
+            if (!nlpData) return messageText;
+
+            let prompt = messageText;
+            
+            // Add context based on intent
+            if (nlpData.intent === 'sentimento') {
+                prompt = `Analise o sentimento do seguinte texto e forneça insights detalhados: "${messageText}"`;
+            } else if (nlpData.intent === 'traducao') {
+                prompt = `Por favor, traduza o seguinte texto: "${messageText}"`;
+            } else if (nlpData.intent === 'resumo') {
+                prompt = `Resuma o seguinte texto de forma concisa: "${messageText}"`;
+            } else if (nlpData.intent === 'correcao') {
+                prompt = `Corrija a gramática e ortografia do seguinte texto: "${messageText}"`;
+            }
+
+            return prompt;
+        }
+
+        function addMessage(text, sender, isError = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            if (isError) messageDiv.style.borderLeft = '3px solid var(--error-color)';
+
+            const textSpan = document.createElement('span');
+            textSpan.className = 'message-text';
+            textSpan.textContent = text;
+
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'message-actions';
+
+            if (sender === 'assistant') {
+                // Copy button
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'action-btn';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                copyBtn.title = 'Copiar';
+                copyBtn.addEventListener('click', () => copyToClipboard(text));
+                actionsDiv.appendChild(copyBtn);
+
+                // Read aloud button
+                if (isTtsEnabled) {
+                    const speakBtn = document.createElement('button');
+                    speakBtn.className = 'action-btn';
+                    speakBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                    speakBtn.title = 'Ler em voz alta';
+                    speakBtn.addEventListener('click', () => speak(text));
+                    actionsDiv.appendChild(speakBtn);
+                }
+            }
+
+            // Timestamp
+            const timestamp = document.createElement('div');
+            timestamp.className = 'message-timestamp';
+            timestamp.textContent = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+            messageDiv.appendChild(textSpan);
+            messageDiv.appendChild(actionsDiv);
+            messageDiv.appendChild(timestamp);
+            
+            ui.chatMessages.appendChild(messageDiv);
+            ui.chatBody.scrollTop = ui.chatBody.scrollHeight;
+
+            if (sender === 'assistant' && isTtsEnabled) {
+                speak(text);
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copiado para a área de transferência!', 'success');
+            }).catch(() => {
+                showToast('Erro ao copiar texto', 'error');
+            });
+        }
+
+        // ==================== QUICK ACTIONS ====================
+        function handleQuickAction(action) {
+            const prompts = {
+                sentiment: 'Analise o sentimento desta frase: ',
+                summarize: 'Resuma o seguinte texto: ',
+                translate: 'Traduza para o inglês: ',
+                grammar: 'Corrija a gramática deste texto: '
+            };
+
+            if (prompts[action]) {
+                ui.userInput.value = prompts[action];
+                ui.userInput.focus();
+                // Move cursor to the end
+                ui.userInput.setSelectionRange(ui.userInput.value.length, ui.userInput.value.length);
+            }
+        }
+
+        // ==================== SPEECH RECOGNITION ====================
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.lang = 'pt-BR';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+
+                recognition.onstart = () => {
+                    isListening = true;
+                    ui.voiceButton.innerHTML = '<i class="fas fa-stop"></i>';
+                    ui.voiceButton.style.color = 'var(--error-color)';
+                    showToast('Ouvindo...', 'success');
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    ui.userInput.value = transcript;
+                    ui.userInput.focus();
+                    showToast('Transcrição completa', 'success');
+                };
+
+                recognition.onerror = (event) => {
+                    console.error('Speech recognition error:', event.error);
+                    showToast('Erro ao reconhecer voz: ' + event.error, 'error');
+                };
+
+                recognition.onend = () => {
+                    isListening = false;
+                    ui.voiceButton.innerHTML = '<i class="fas fa-microphone"></i>';
+                    ui.voiceButton.style.color = '';
+                };
+            } else {
+                ui.voiceButton.style.display = 'none';
+                console.warn('Speech recognition not supported');
+            }
+        }
+
+        function toggleSpeechRecognition() {
+            if (!recognition) {
+                showToast('Reconhecimento de voz não suportado neste navegador', 'error');
+                return;
+            }
+
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        }
+
+        // ==================== TEXT-TO-SPEECH ====================
+        function speak(text) {
+            if (!isTtsEnabled || typeof speechSynthesis === 'undefined') return;
+
+            // Cancel any ongoing speech
+            speechSynthesis.cancel();
+
+            // Clean text for better speech
+            const cleanText = text.replace(/[\*\#\_\`]/g, '').replace(/📊.*$/, '');
+
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = 'pt-BR';
+            utterance.rate = 0.9;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+
+            // Try to use a Portuguese voice
+            const voices = speechSynthesis.getVoices();
+            const ptVoice = voices.find(voice => voice.lang.startsWith('pt'));
+            if (ptVoice) {
+                utterance.voice = ptVoice;
+            }
+
+            speechSynthesis.speak(utterance);
+        }
+
+        // ==================== AVATAR MANAGEMENT ====================
+        function handleAvatarChange(e) {
+            document.querySelectorAll('.avatar-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            e.currentTarget.classList.add('selected');
+            currentAvatar = e.currentTarget.dataset.avatar;
+            localStorage.setItem('yumeAvatar', currentAvatar);
+            updateAvatarDisplay();
+            showToast('Avatar atualizado!', 'success');
+        }
+
+        function updateAvatarDisplay() {
+            const userAvatarEl = document.getElementById('userAvatar');
+            const avatarOption = document.querySelector(`.avatar-option[data-avatar="${currentAvatar}"]`);
+            
+            if (avatarOption) {
+                const style = window.getComputedStyle(avatarOption);
+                userAvatarEl.style.background = style.background;
+                userAvatarEl.innerHTML = avatarOption.innerHTML;
+            }
+        }
+
+        // ==================== THEME MANAGEMENT ====================
+        function toggleTheme() {
+            ui.body.classList.toggle('dark-mode');
+            const isDarkMode = ui.body.classList.contains('dark-mode');
+            localStorage.setItem('yumeTheme', isDarkMode ? 'dark' : 'light');
+            updateThemeIcon();
+            showToast(`Tema ${isDarkMode ? 'escuro' : 'claro'} ativado`, 'success');
+        }
+
+        function updateThemeIcon() {
+            const icon = ui.themeToggleBtn.querySelector('i');
+            const isDarkMode = ui.body.classList.contains('dark-mode');
+            
+            if (isDarkMode) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        function applyTheme() {
+            const theme = localStorage.getItem('yumeTheme');
+            if (theme === 'dark') {
+                ui.body.classList.add('dark-mode');
+            }
+            updateThemeIcon();
+        }
+
+        // ==================== FOCUS MODE ====================
+        function toggleFocusMode() {
+            const chatScreen = document.getElementById('chatScreen');
+            
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+                ui.focusModeBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                showToast('Modo foco desativado', 'success');
+            } else {
+                chatScreen.requestFullscreen().then(() => {
+                    ui.focusModeBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                    showToast('Modo foco ativado', 'success');
+                }).catch(err => {
+                    console.error('Fullscreen error:', err);
+                    showToast('Não foi possível ativar modo foco', 'error');
+                });
+            }
+        }
+
+        // ==================== FILE ATTACHMENT ====================
+        function handleAttachment() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt,.pdf,.doc,.docx,.json';
+            
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                // Check file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('Arquivo muito grande. Máximo 5MB.', 'error');
+                    return;
+                }
+
+                showLoading(true, 'Processando arquivo...');
+
+                try {
+                    const content = await readFileContent(file);
+                    ui.userInput.value = `Arquivo anexado: ${file.name}\n\nConteúdo:\n${content.substring(0, 1000)}${content.length > 1000 ? '...' : ''}`;
+                    showToast('Arquivo processado com sucesso!', 'success');
+                } catch (error) {
+                    showToast('Erro ao processar arquivo', 'error');
+                    console.error('File error:', error);
+                } finally {
+                    showLoading(false);
+                }
+            };
+
+            input.click();
+        }
+
+        function readFileContent(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                
+                reader.onload = (e) => {
+                    resolve(e.target.result);
+                };
+                
+                reader.onerror = () => {
+                    reject(new Error('Erro ao ler arquivo'));
+                };
+
+                if (file.type === 'application/pdf') {
+                    showToast('PDFs requerem processamento adicional', 'error');
+                    reject(new Error('PDF não suportado nesta versão'));
+                } else {
+                    reader.readAsText(file);
+                }
+            });
+        }
+
+        // ==================== EXPORT CHAT ====================
+        function handleExportChat() {
+            const messages = Array.from(ui.chatMessages.children);
+            
+            if (messages.length === 0) {
+                showToast('Não há mensagens para exportar', 'error');
+                return;
+            }
+
+            let exportText = `=== CONVERSA COM YUME ===\n`;
+            exportText += `Data: ${new Date().toLocaleDateString('pt-BR')}\n`;
+            exportText += `Hora: ${new Date().toLocaleTimeString('pt-BR')}\n`;
+            exportText += `Total de mensagens: ${messages.length}\n\n`;
+            exportText += `${'='.repeat(50)}\n\n`;
+
+            messages.forEach((msg, index) => {
+                const sender = msg.classList.contains('user-message') ? 'VOCÊ' : 'YUME';
+                const text = msg.querySelector('.message-text').textContent;
+                const timestamp = msg.querySelector('.message-timestamp')?.textContent || '';
+                
+                exportText += `[${timestamp}] ${sender}:\n${text}\n\n`;
+            });
+
+            exportText += `${'='.repeat(50)}\n`;
+            exportText += `Exportado em: ${new Date().toLocaleString('pt-BR')}\n`;
+            exportText += `Yume V2.1.0 - Powered by ORPHEO Platforms\n`;
+
+            // Create download
+            const blob = new Blob([exportText], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `yume-chat-${Date.now()}.txt`;
+            link.click();
+            URL.revokeObjectURL(url);
+
+            ui.profileModal.classList.remove('active');
+            showToast('Chat exportado com sucesso!', 'success');
+        }
+
+        // ==================== STATISTICS ====================
+        function showStats() {
+            const sessionDuration = sessionStartTime ? Math.floor((new Date() - sessionStartTime) / 1000) : 0;
+            const minutes = Math.floor(sessionDuration / 60);
+            const seconds = sessionDuration % 60;
+
+            const statsMessage = `📊 Estatísticas da Sessão:\n\n` +
+                `• Mensagens enviadas: ${messageCount}\n` +
+                `• Tempo de sessão: ${minutes}m ${seconds}s\n` +
+                `• ID da sessão: ${sessionId.substring(0, 8)}...\n` +
+                `• NLP ativo: ${isNlpEnabled ? 'Sim' : 'Não'}\n` +
+                `• TTS ativo: ${isTtsEnabled ? 'Sim' : 'Não'}\n` +
+                `• Tema: ${ui.body.classList.contains('dark-mode') ? 'Escuro' : 'Claro'}`;
+
+            addMessage(statsMessage, 'assistant');
+            ui.profileModal.classList.remove('active');
+        }
+
+        // ==================== KEYBOARD SHORTCUTS INFO ====================
+        function showShortcuts() {
+            const shortcutsMessage = `⌨️ Atalhos de Teclado:\n\n` +
+                `• Ctrl/Cmd + K: Focar no campo de entrada\n` +
+                `• Ctrl/Cmd + /: Mostrar atalhos\n` +
+                `• Seta ↑/↓: Navegar histórico de comandos\n` +
+                `• Esc: Fechar modal\n` +
+                `• Enter: Enviar mensagem\n\n` +
+                `💡 Dica: Use as ações rápidas acima do campo de entrada para comandos comuns!`;
+
+            addMessage(shortcutsMessage, 'assistant');
+            ui.profileModal.classList.remove('active');
+        }
+
+        // ==================== SESSION MANAGEMENT ====================
+        function handleResetSession() {
+            if (confirm('Isso limpará todas as mensagens e reiniciará a sessão. Deseja continuar?')) {
+                // Clear UI
+                ui.chatMessages.innerHTML = '';
+                ui.assistantUI.classList.remove('hidden');
+                
+                // Reset state
+                conversationContext = [];
+                messageCount = 0;
+                sessionStartTime = new Date();
+                
+                // Clear session storage (but keep preferences)
+                sessionStorage.removeItem('yumeSessionId');
+                
+                // Generate new session
+                sessionId = generateUUID();
+                sessionStorage.setItem('yumeSessionId', sessionId);
+                
+                ui.profileModal.classList.remove('active');
+                showToast('Sessão reiniciada com sucesso!', 'success');
+            }
+        }
+
+        function handleDonation() {
+            const donationMessage = `❤️ Apoie o Projeto Yume!\n\n` +
+                `Sua doação ajuda a manter a Yume online e com novas funcionalidades.\n\n` +
+                `💳 Formas de apoio:\n` +
+                `• PIX: sac.studiotsukiyo@outlook.com\n` +
+                `• Contato: sac.studiotsukiyo@outlook.com\n\n` +
+                `Obrigado pelo seu apoio! 🙏`;
+
+            ui.profileModal.classList.remove('active');
+            addMessage(donationMessage, 'assistant');
+            showToast('Obrigado pelo seu interesse em apoiar! ❤️', 'success');
+        }
+
+        // ==================== DATABASE OPERATIONS ====================
+        async function saveMessageToSupabase(content, sender) {
+            if (!sessionId) return;
+
+            try {
+                const { data, error } = await supabase
+                    .from('anonymous_conversations')
+                    .insert([{
+                        session_id: sessionId,
+                        sender: sender,
+                        content: content,
+                        timestamp: new Date().toISOString()
+                    }]);
+
+                if (error) {
+                    console.error('Supabase error:', error);
+                }
+            } catch (error) {
+                console.error('Database save error:', error);
+            }
+        }
+
+        // ==================== TYPING INDICATOR ====================
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typing-indicator';
+            typingDiv.className = 'message assistant-message';
+            typingDiv.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+            ui.chatMessages.appendChild(typingDiv);
+            ui.chatBody.scrollTop = ui.chatBody.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        // ==================== COMMAND HISTORY ====================
+        function addMessageToHistory(message) {
+            commandHistory.push(message);
+            historyIndex = commandHistory.length;
+        }
+
+        function handleInputKeyDown(e) {
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    ui.userInput.value = commandHistory[historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    ui.userInput.value = commandHistory[historyIndex];
+                } else {
+                    historyIndex = commandHistory.length;
+                    ui.userInput.value = '';
+                }
+            }
+        }
+
+        // ==================== UI UTILITIES ====================
+        function showLoading(show, message = "Processando...") {
+            if (show) {
+                ui.loadingOverlay.querySelector('p').textContent = message;
+                ui.loadingOverlay.classList.remove('hidden');
+            } else {
+                ui.loadingOverlay.classList.add('hidden');
+            }
+        }
+
+        function showToast(message, type = 'default') {
+            ui.toast.textContent = message;
+            ui.toast.className = 'toast-notification';
+            
+            if (type === 'success') {
+                ui.toast.classList.add('success');
+            } else if (type === 'error') {
+                ui.toast.classList.add('error');
+            }
+            
+            ui.toast.classList.add('show');
+            
+            setTimeout(() => {
+                ui.toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ==================== UTILITIES ====================
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        // ==================== ERROR HANDLING ====================
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            showToast('Ocorreu um erro inesperado', 'error');
+        });
+
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Unhandled promise rejection:', e.reason);
+            showToast('Erro ao processar requisição', 'error');
+        });
+
+        // ==================== AUTO-SAVE PREFERENCES ====================
+        window.addEventListener('beforeunload', function() {
+            // Save any unsaved preferences
+            if (conversationContext.length > 0) {
+                sessionStorage.setItem('yumeContext', JSON.stringify(conversationContext.slice(-5)));
+            }
+        });
+
+        // Load saved context on startup
+        const savedContext = sessionStorage.getItem('yumeContext');
+        if (savedContext) {
+            try {
+                conversationContext = JSON.parse(savedContext);
+            } catch (e) {
+                console.error('Error loading context:', e);
+            }
+        }
+
+        // ==================== PERFORMANCE MONITORING ====================
+        if ('performance' in window) {
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    const perfData = window.performance.timing;
+                    const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+                    console.log('Page load time:', pageLoadTime + 'ms');
+                }, 0);
+            });
+        }
+
+        // ==================== ACCESSIBILITY ====================
+        // Add ARIA labels for better accessibility
+        ui.userInput.setAttribute('aria-label', 'Campo de mensagem');
+        ui.sendButton.setAttribute('aria-label', 'Enviar mensagem');
+        ui.voiceButton.setAttribute('aria-label', 'Reconhecimento de voz');
+
+        // ==================== CONSOLE BRANDING ====================
+        console.log('%c🌙 Yume V2.1.0', 'font-size: 20px; font-weight: bold; color: #2563EB;');
+        console.log('%cPowered by ORPHEO Platforms', 'font-size: 12px; color: #6B7280;');
+        console.log('%cNLP Engine: Active ✓', 'font-size: 12px; color: #10B981;');
+    </script>
 </body>
 </html>
