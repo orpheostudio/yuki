@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#A855F7">
+    <meta name="description" content="SENA - Assistente digital com alma gentil. Tecnologia acessível para todos.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="https://i.imgur.com/xIES4Rj.png">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/xIES4Rj.png">
     <title>SENA - Tecnologia com alma gentil</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -13,7 +19,7 @@
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "tlya8thx8r");
+        })(window, document, "clarity", "script", "YOUR_CLARITY_ID");
     </script>
     
     <style>
@@ -51,30 +57,90 @@
             0%, 100% { transform: scaleY(1); }
             50% { transform: scaleY(1.5); }
         }
+        
+        .sena-avatar {
+            animation: breathe 3s ease-in-out infinite;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        .sena-avatar.listening {
+            animation: pulse-glow 1s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+        
+        /* Orpheo Studio Colors */
+        .bg-orpheo-purple {
+            background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
+        }
+        
+        .text-orpheo-purple {
+            color: #A855F7;
+        }
+        
+        .text-orpheo-pink {
+            color: #EC4899;
+        }
     </style>
 </head>
-<body class="transition-colors duration-300 bg-gradient-to-br from-purple-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+<body class="transition-colors duration-300 bg-gradient-to-br from-purple-50 via-pink-50 to-purple-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-900">
+
+<!-- Language Selection Modal -->
+<div id="languageModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 max-w-md w-full">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 text-center">🌍 Escolha seu idioma</h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-6 text-center">Select your language | Seleccione su idioma</p>
+        
+        <div class="space-y-3">
+            <button onclick="selectLanguage('pt')" class="w-full flex items-center gap-3 p-4 rounded-xl bg-purple-50 dark:bg-purple-900/30 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors">
+                <span class="text-3xl">🇧🇷</span>
+                <div class="text-left">
+                    <div class="font-semibold text-gray-900 dark:text-white">Português</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Brasil</div>
+                </div>
+            </button>
+            
+            <button onclick="selectLanguage('en')" class="w-full flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                <span class="text-3xl">🇺🇸</span>
+                <div class="text-left">
+                    <div class="font-semibold text-gray-900 dark:text-white">English</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">United States</div>
+                </div>
+            </button>
+            
+            <button onclick="selectLanguage('es')" class="w-full flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                <span class="text-3xl">🇪🇸</span>
+                <div class="text-left">
+                    <div class="font-semibold text-gray-900 dark:text-white">Español</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">España</div>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
 
 <!-- Welcome Screen -->
-<div id="welcomeScreen" class="min-h-screen flex items-center justify-center p-4">
+<div id="welcomeScreen" class="hidden min-h-screen flex items-center justify-center p-4">
     <div class="max-w-2xl w-full bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 transition-colors">
         <div class="text-center mb-8">
             <div class="flex items-center justify-center mb-6">
-                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-purple-200 to-purple-400 dark:from-purple-600 dark:to-purple-800 flex items-center justify-center">
-                    <svg viewBox="0 0 100 100" class="w-14 h-14">
-                        <path d="M30,50 Q30,20 50,20 Q70,20 70,35 Q70,50 50,50 Q30,50 30,65 Q30,80 50,80" 
-                              fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
-                    </svg>
-                </div>
+                <img src="https://i.imgur.com/xIES4Rj.png" alt="SENA Logo" class="w-32 h-32 sena-avatar">
             </div>
-            <h1 class="text-6xl font-bold text-gray-900 dark:text-white mb-3">SENA</h1>
-            <p class="text-2xl text-gray-600 dark:text-gray-300 mb-8">Tecnologia com alma gentil.</p>
-            <p class="text-gray-600 dark:text-gray-400 mb-6">Olá! Eu sou a Sena, sua assistente digital. Estou aqui para tornar a tecnologia simples e acessível para você. Vamos começar?</p>
+            <h1 class="text-6xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">SENA</h1>
+            <p class="text-2xl text-gray-600 dark:text-gray-300 mb-8" id="welcomeTagline">Tecnologia com alma gentil.</p>
+            <p class="text-gray-600 dark:text-gray-400 mb-6" id="welcomeDescription">Olá! Eu sou a Sena, sua assistente digital. Estou aqui para tornar a tecnologia simples e acessível para você. Vamos começar?</p>
         </div>
         
-        <div class="bg-purple-50 dark:bg-gray-700 rounded-2xl p-6 mb-6">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">✨ O que posso fazer por você:</h2>
-            <ul class="space-y-2 text-gray-700 dark:text-gray-300 text-sm">
+        <div class="bg-purple-50 dark:bg-purple-900/20 rounded-2xl p-6 mb-6">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" id="welcomeFeaturesTitle">✨ O que posso fazer por você:</h2>
+            <ul class="space-y-2 text-gray-700 dark:text-gray-300 text-sm" id="welcomeFeaturesList">
                 <li>📚 Explicar conceitos de tecnologia de forma simples</li>
                 <li>📅 Ajudar na organização do seu dia a dia</li>
                 <li>💡 Responder perguntas sobre diversos assuntos</li>
@@ -84,7 +150,7 @@
         </div>
         
         <div class="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-2xl p-4 mb-6">
-            <p class="text-sm text-yellow-800 dark:text-yellow-200">
+            <p class="text-sm text-yellow-800 dark:text-yellow-200" id="welcomeDisclaimer">
                 ⚠️ <strong>Aviso:</strong> Sou uma inteligência artificial e posso cometer erros. Sempre verifique informações importantes em fontes confiáveis.
             </p>
         </div>
@@ -92,19 +158,19 @@
         <div class="mb-6">
             <label class="flex items-start gap-3 cursor-pointer">
                 <input type="checkbox" id="termsCheckbox" class="mt-1 w-5 h-5 text-purple-500 rounded focus:ring-2 focus:ring-purple-400">
-                <span class="text-sm text-gray-700 dark:text-gray-300">
-                    Li e aceito os <a href="https://termos.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Termos de Uso</a> da plataforma Orpheo Studio.
+                <span class="text-sm text-gray-700 dark:text-gray-300" id="welcomeTerms">
+                    Li e aceito os <a href="https://termos.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Termos de Uso</a> e <a href="https://políticas.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Políticas de Privacidade</a> da Orpheo Studio.
                 </span>
             </label>
         </div>
         
         <button onclick="startChat()" id="startButton" disabled
-                class="w-full bg-purple-500 hover:bg-purple-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-2xl transition-all transform hover:scale-105 disabled:hover:scale-100">
+                class="w-full bg-orpheo-purple hover:opacity-90 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-2xl transition-all transform hover:scale-105 disabled:hover:scale-100">
             Começar a conversar 🌸
         </button>
         
         <p class="text-center text-xs text-gray-500 dark:text-gray-400 mt-4">
-            Desenvolvido por <strong>Orpheo Platforms</strong>
+            Desenvolvido por <strong>Orpheo Studio</strong>
         </p>
     </div>
 </div>
@@ -112,22 +178,38 @@
 <!-- Main Chat Interface -->
 <div id="chatInterface" class="hidden min-h-screen p-4">
     <div class="max-w-4xl mx-auto">
-        <!-- Header with Dark Mode Toggle -->
+        <!-- Header with Controls -->
         <div class="flex justify-between items-center mb-6">
             <div class="text-center flex-1">
                 <div class="flex items-center justify-center mb-2">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-purple-200 to-purple-400 dark:from-purple-600 dark:to-purple-800 flex items-center justify-center">
-                        <svg viewBox="0 0 100 100" class="w-10 h-10">
-                            <path d="M30,50 Q30,20 50,20 Q70,20 70,35 Q70,50 50,50 Q30,50 30,65 Q30,80 50,80" 
-                                  fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
-                        </svg>
-                    </div>
+                    <img src="https://i.imgur.com/xIES4Rj.png" alt="SENA" class="w-20 h-20 sena-avatar">
                 </div>
-                <h1 class="text-4xl font-bold text-gray-900 dark:text-white">SENA</h1>
-                <p class="text-gray-600 dark:text-gray-300">Tecnologia com alma gentil</p>
+                <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">SENA</h1>
+                <p class="text-gray-600 dark:text-gray-300" id="headerTagline">Tecnologia com alma gentil</p>
             </div>
             
-            <div class="flex gap-2">
+            <div class="flex gap-2 flex-wrap justify-end">
+                <!-- Language Switcher -->
+                <div class="relative">
+                    <button onclick="toggleLanguageMenu()" class="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all" title="Mudar idioma">
+                        <span id="currentFlag" class="text-2xl">🇧🇷</span>
+                    </button>
+                    <div id="languageMenu" class="hidden absolute right-0 mt-2 bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-2 z-10 min-w-[150px]">
+                        <button onclick="changeLanguage('pt')" class="w-full flex items-center gap-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <span class="text-xl">🇧🇷</span>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">Português</span>
+                        </button>
+                        <button onclick="changeLanguage('en')" class="w-full flex items-center gap-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <span class="text-xl">🇺🇸</span>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">English</span>
+                        </button>
+                        <button onclick="changeLanguage('es')" class="w-full flex items-center gap-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <span class="text-xl">🇪🇸</span>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">Español</span>
+                        </button>
+                    </div>
+                </div>
+                
                 <button onclick="toggleDarkMode()" class="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all" title="Alternar modo escuro">
                     <svg id="darkModeIcon" class="w-6 h-6 text-gray-700 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
@@ -145,26 +227,21 @@
         <!-- Chat Container -->
         <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden transition-colors">
             <!-- Chat Header -->
-            <div class="bg-gradient-to-r from-purple-200 to-purple-400 dark:from-purple-700 dark:to-purple-900 p-6">
+            <div class="bg-orpheo-purple p-6">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center">
-                            <svg viewBox="0 0 100 100" class="w-7 h-7">
-                                <path d="M30,50 Q30,20 50,20 Q70,20 70,35 Q70,50 50,50 Q30,50 30,65 Q30,80 50,80" 
-                                      fill="none" stroke="#8B5CF6" stroke-width="8" stroke-linecap="round"/>
-                            </svg>
-                        </div>
+                        <img src="https://i.imgur.com/xIES4Rj.png" alt="SENA" class="w-14 h-14 sena-avatar rounded-full" id="senaAvatar">
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                            <h2 class="text-lg font-semibold text-white flex items-center gap-2">
                                 SENA
-                                <span id="statusIndicator" class="w-2 h-2 bg-green-500 rounded-full pulse-dot"></span>
+                                <span id="statusIndicator" class="w-2 h-2 bg-green-400 rounded-full pulse-dot"></span>
                             </h2>
-                            <p class="text-sm text-gray-700 dark:text-gray-200">Online e pronta para ajudar</p>
+                            <p class="text-sm text-purple-100" id="statusText">Online e pronta para ajudar</p>
                         </div>
                     </div>
                     
-                    <button onclick="toggleVoiceMode()" id="voiceToggle" class="p-3 rounded-full bg-white/50 hover:bg-white transition-all" title="Ativar modo de voz">
-                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button onclick="toggleVoiceMode()" id="voiceToggle" class="p-3 rounded-full bg-white/20 hover:bg-white/30 transition-all" title="Ativar modo de voz">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
                         </svg>
                     </button>
@@ -173,27 +250,7 @@
             
             <!-- Messages Container -->
             <div id="messagesContainer" class="h-96 overflow-y-auto p-6 space-y-4 scroll-smooth">
-                <div class="flex justify-start chat-message">
-                    <div class="max-w-[80%] rounded-2xl px-5 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
-                        <p class="text-sm leading-relaxed">Olá! Eu sou a Sena. 🌸<br>A tecnologia com alma gentil.<br><br>Pode me chamar para o que precisar. Eu aprendo com você.</p>
-                    </div>
-                </div>
-                
-                <div id="suggestionsContainer" class="space-y-2 mt-6">
-                    <p class="text-xs text-gray-500 dark:text-gray-400 text-center mb-3">Sugestões de perguntas:</p>
-                    <button onclick="selectSuggestion(this)" class="w-full text-left bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm rounded-xl px-4 py-3 transition-colors">
-                        Me ajuda a entender o significado da inteligência artificial?
-                    </button>
-                    <button onclick="selectSuggestion(this)" class="w-full text-left bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm rounded-xl px-4 py-3 transition-colors">
-                        Como baixo um app no celular?
-                    </button>
-                    <button onclick="selectSuggestion(this)" class="w-full text-left bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm rounded-xl px-4 py-3 transition-colors">
-                        Me recomende um anime
-                    </button>
-                    <button onclick="selectSuggestion(this)" class="w-full text-left bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm rounded-xl px-4 py-3 transition-colors">
-                        Quero saber sobre os Termos de Uso
-                    </button>
-                </div>
+                <!-- Messages will be loaded here -->
             </div>
             
             <!-- Input Area -->
@@ -209,7 +266,7 @@
                            class="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-2xl px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 dark:focus:ring-purple-600 transition-all"
                            onkeypress="handleKeyPress(event)">
                     
-                    <button onclick="sendMessage()" id="sendButton" class="bg-purple-500 hover:bg-purple-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-2xl p-3 transition-all">
+                    <button onclick="sendMessage()" id="sendButton" class="bg-orpheo-purple hover:opacity-90 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-2xl p-3 transition-all">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                         </svg>
@@ -220,83 +277,304 @@
                     <div class="w-1 h-4 bg-purple-600 dark:bg-purple-400 rounded voice-wave" style="animation-delay: 0s"></div>
                     <div class="w-1 h-4 bg-purple-600 dark:bg-purple-400 rounded voice-wave" style="animation-delay: 0.1s"></div>
                     <div class="w-1 h-4 bg-purple-600 dark:bg-purple-400 rounded voice-wave" style="animation-delay: 0.2s"></div>
-                    <span class="text-sm ml-2">Ouvindo...</span>
+                    <span class="text-sm ml-2" id="listeningText">Ouvindo...</span>
                 </div>
             </div>
         </div>
         
         <!-- Footer -->
         <div class="text-center mt-6 space-y-2">
-            <p class="text-sm text-gray-600 dark:text-gray-400">Fácil como conversar. 🌸</p>
-            <p class="text-xs text-gray-500 dark:text-gray-500">
+            <p class="text-sm text-gray-600 dark:text-gray-400" id="footerTagline">Fácil como conversar. 🌸</p>
+            <p class="text-xs text-gray-500 dark:text-gray-500" id="footerDisclaimer">
                 Sena pode cometer erros. Verifique informações importantes. | 
-                <a href="https://termos.orpheostudio.com.br" target="_blank" class="underline hover:text-purple-600 dark:hover:text-purple-400">Termos de Uso</a>
+                <a href="https://termos.orpheostudio.com.br" target="_blank" class="underline hover:text-purple-600 dark:hover:text-purple-400">Termos de Uso</a> | 
+                <a href="https://políticas.orpheostudio.com.br" target="_blank" class="underline hover:text-purple-600 dark:hover:text-purple-400">Privacidade</a>
             </p>
         </div>
     </div>
 </div>
 
 <script>
-    // Global Variables
+    // ============================================
+    // CONFIGURATION
+    // ============================================
+    
+    const MISTRAL_API_KEY = 'NFuAj8PYUPcaf6tA1BjbyXuIeSjSA4sW';
+    
+    // ============================================
+    // GLOBAL STATE
+    // ============================================
+    
     let conversationHistory = [];
     let isRecording = false;
     let recognition = null;
     let synthesis = window.speechSynthesis;
     let isDarkMode = false;
+    let currentLanguage = 'pt';
     
-    // Check for saved dark mode preference
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.documentElement.classList.add('dark');
-        isDarkMode = true;
+    // ============================================
+    // TRANSLATIONS
+    // ============================================
+    
+    const translations = {
+        pt: {
+            welcomeTagline: 'Tecnologia com alma gentil.',
+            welcomeDescription: 'Olá! Eu sou a Sena, sua assistente digital. Estou aqui para tornar a tecnologia simples e acessível para você. Vamos começar?',
+            welcomeFeaturesTitle: '✨ O que posso fazer por você:',
+            welcomeFeaturesList: [
+                '📚 Explicar conceitos de tecnologia de forma simples',
+                '📅 Ajudar na organização do seu dia a dia',
+                '💡 Responder perguntas sobre diversos assuntos',
+                '🎯 Criar lembretes e sugestões personalizadas',
+                '🗣️ Conversar por voz (clique no microfone)'
+            ],
+            welcomeDisclaimer: '⚠️ <strong>Aviso:</strong> Sou uma inteligência artificial e posso cometer erros. Sempre verifique informações importantes em fontes confiáveis.',
+            welcomeTerms: 'Li e aceito os <a href="https://termos.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Termos de Uso</a> e <a href="https://políticas.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Políticas de Privacidade</a> da Orpheo Studio.',
+            startButton: 'Começar a conversar 🌸',
+            headerTagline: 'Tecnologia com alma gentil',
+            statusText: 'MiraAI Conectado',
+            listeningText: 'Ouvindo...',
+            footerTagline: 'Fácil como conversar. 🌸',
+            footerDisclaimer: 'MiraAI pode cometer erros. Verifique informações importantes.',
+            inputPlaceholder: 'Digite sua pergunta...',
+            greeting: 'Olá! Eu sou a Sena. 🌸<br>A tecnologia com alma gentil.<br><br>Pode me chamar para o que precisar. Eu aprendo com você.',
+            suggestions: [
+                'Me ajuda a entender o significado da inteligência artificial?',
+                'Me recomende um anime',
+                'Me fale sobre os Termos de Uso da Orpheo Studio',
+                'Me ensine a como tirar print'
+            ]
+        },
+        en: {
+            welcomeTagline: 'Technology with a gentle soul.',
+            welcomeDescription: 'Hello! I am Sena, your digital assistant. I am here to make technology simple and accessible for you. Shall we begin?',
+            welcomeFeaturesTitle: '✨ What I can do for you:',
+            welcomeFeaturesList: [
+                '📚 Explain technology concepts in a simple way',
+                '📅 Help organize your daily life',
+                '💡 Answer questions on various subjects',
+                '🎯 Create reminders and personalized suggestions',
+                '🗣️ Chat by voice (click the microphone)'
+            ],
+            welcomeDisclaimer: '⚠️ <strong>Notice:</strong> I am an artificial intelligence and may make mistakes. Always verify important information from reliable sources.',
+            welcomeTerms: 'I have read and accept the <a href="https://termos.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Terms of Use</a> and <a href="https://políticas.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Privacy Policy</a> of Orpheo Studio.',
+            startButton: 'Start chatting 🌸',
+            headerTagline: 'Technology with a gentle soul',
+            statusText: 'Online and ready to help',
+            listeningText: 'Listening...',
+            footerTagline: 'Easy as talking. 🌸',
+            footerDisclaimer: 'Sena may make mistakes. Verify important information.',
+            inputPlaceholder: 'Type your question...',
+            greeting: 'Hello! I am Sena. 🌸<br>Technology with a gentle soul.<br><br>Call me for anything you need. I learn with you.',
+            suggestions: [
+                'Help me understand what artificial intelligence means?',
+                'How do I download an app on my phone?',
+                'What does 5G mean?',
+                'I want to start meditating'
+            ]
+        },
+        es: {
+            welcomeTagline: 'Tecnología con alma gentil.',
+            welcomeDescription: '¡Hola! Soy Sena, tu asistente digital. Estoy aquí para hacer la tecnología simple y accesible para ti. ¿Empezamos?',
+            welcomeFeaturesTitle: '✨ Lo que puedo hacer por ti:',
+            welcomeFeaturesList: [
+                '📚 Explicar conceptos de tecnología de forma simple',
+                '📅 Ayudar en la organización de tu día a día',
+                '💡 Responder preguntas sobre diversos temas',
+                '🎯 Crear recordatorios y sugerencias personalizadas',
+                '🗣️ Conversar por voz (haz clic en el micrófono)'
+            ],
+            welcomeDisclaimer: '⚠️ <strong>Aviso:</strong> Soy una inteligencia artificial y puedo cometer errores. Siempre verifica información importante en fuentes confiables.',
+            welcomeTerms: 'He leído y acepto los <a href="https://termos.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Términos de Uso</a> y <a href="https://políticas.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Políticas de Privacidad</a> de Orpheo Studio.',
+            startButton: 'Comenzar a conversar 🌸',
+            headerTagline: 'Tecnología con alma gentil',
+            statusText: 'En línea y lista para ayudar',
+            listeningText: 'Escuchando...',
+            footerTagline: 'Fácil como conversar. 🌸',
+            footerDisclaimer: 'Sena puede cometer errores. Verifica información importante.',
+            inputPlaceholder: 'Escribe tu pregunta...',
+            greeting: '¡Hola! Soy Sena. 🌸<br>Tecnología con alma gentil.<br><br>Llámame para lo que necesites. Aprendo contigo.',
+            suggestions: [
+                '¿Me ayudas a entender qué significa inteligencia artificial?',
+                '¿Cómo descargo una app en el celular?',
+                '¿Qué significa 5G?',
+                'Quiero empezar a meditar'
+            ]
+        }
+    };
+    
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+    
+    function initApp() {
+        console.log('🌸 SENA - Tecnologia com alma gentil');
+        console.log('Desenvolvido por Orpheo Studio');
+        console.log('Versão: 2.0.0 - MiraAI');
+        
+        // Show language selection first
+        document.getElementById('languageModal').classList.remove('hidden');
+        
+        // Load dark mode preference
+        const darkModePreference = localStorage.getItem('darkMode');
+        if (darkModePreference === 'true') {
+            isDarkMode = true;
+            document.documentElement.classList.add('dark');
+        }
+        
+        // Log to Clarity
+        if (typeof clarity === 'function') {
+            clarity('set', 'session_started', new Date().toISOString());
+        }
     }
     
-    // Terms Checkbox Handler
+    // ============================================
+    // LANGUAGE SYSTEM
+    // ============================================
+    
+    function selectLanguage(lang) {
+        currentLanguage = lang;
+        updateUILanguage();
+        document.getElementById('languageModal').classList.add('hidden');
+        document.getElementById('welcomeScreen').classList.remove('hidden');
+        
+        if (typeof clarity === 'function') {
+            clarity('set', 'language', lang);
+        }
+    }
+    
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        updateUILanguage();
+        document.getElementById('languageMenu').classList.add('hidden');
+        
+        // Update flag
+        const flags = { pt: '🇧🇷', en: '🇺🇸', es: '🇪🇸' };
+        document.getElementById('currentFlag').textContent = flags[lang];
+        
+        // Reload initial message
+        loadInitialMessage();
+    }
+    
+    function updateUILanguage() {
+        const t = translations[currentLanguage];
+        
+        // Update all translatable elements
+        const elements = {
+            'welcomeTagline': t.welcomeTagline,
+            'welcomeDescription': t.welcomeDescription,
+            'welcomeFeaturesTitle': t.welcomeFeaturesTitle,
+            'welcomeDisclaimer': t.welcomeDisclaimer,
+            'welcomeTerms': t.welcomeTerms,
+            'startButton': t.startButton,
+            'headerTagline': t.headerTagline,
+            'statusText': t.statusText,
+            'listeningText': t.listeningText,
+            'footerTagline': t.footerTagline,
+            'footerDisclaimer': t.footerDisclaimer
+        };
+        
+        Object.keys(elements).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = elements[id];
+        });
+        
+        // Update features list
+        const featuresList = document.getElementById('welcomeFeaturesList');
+        if (featuresList && t.welcomeFeaturesList) {
+            featuresList.innerHTML = t.welcomeFeaturesList.map(f => `<li>${f}</li>`).join('');
+        }
+        
+        // Update input placeholder
+        const input = document.getElementById('messageInput');
+        if (input) input.placeholder = t.inputPlaceholder;
+        
+        // Update speech recognition language
+        if (recognition) {
+            const langs = { pt: 'pt-BR', en: 'en-US', es: 'es-ES' };
+            recognition.lang = langs[currentLanguage];
+        }
+    }
+    
+    function toggleLanguageMenu() {
+        const menu = document.getElementById('languageMenu');
+        menu.classList.toggle('hidden');
+    }
+    
+    // ============================================
+    // CHAT INTERFACE
+    // ============================================
+    
+    function showChatInterface() {
+        document.getElementById('welcomeScreen').classList.add('hidden');
+        document.getElementById('chatInterface').classList.remove('hidden');
+        
+        loadInitialMessage();
+    }
+    
+    function loadInitialMessage() {
+        const container = document.getElementById('messagesContainer');
+        const t = translations[currentLanguage];
+        
+        container.innerHTML = `
+            <div class="flex justify-start chat-message">
+                <div class="max-w-[80%] rounded-2xl px-5 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
+                    <p class="text-sm leading-relaxed">${t.greeting}</p>
+                </div>
+            </div>
+            
+            <div id="suggestionsContainer" class="space-y-2 mt-6">
+                <p class="text-xs text-gray-500 dark:text-gray-400 text-center mb-3">Sugestões:</p>
+                ${t.suggestions.map(s => `
+                    <button onclick="selectSuggestion(this)" class="w-full text-left bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 text-gray-700 dark:text-gray-200 text-sm rounded-xl px-4 py-3 transition-colors">
+                        ${s}
+                    </button>
+                `).join('')}
+            </div>
+        `;
+    }
+    
+    // ============================================
+    // TERMS & START
+    // ============================================
+    
     document.getElementById('termsCheckbox').addEventListener('change', function() {
         document.getElementById('startButton').disabled = !this.checked;
     });
     
-    // Start Chat
     function startChat() {
-        document.getElementById('welcomeScreen').classList.add('hidden');
-        document.getElementById('chatInterface').classList.remove('hidden');
+        showChatInterface();
         
-        // Log to Clarity
         if (typeof clarity === 'function') {
             clarity('set', 'user_accepted_terms', 'true');
         }
     }
     
-    // Toggle Dark Mode
+    // ============================================
+    // DARK MODE
+    // ============================================
+    
     function toggleDarkMode() {
         isDarkMode = !isDarkMode;
         document.documentElement.classList.toggle('dark');
         localStorage.setItem('darkMode', isDarkMode);
         
-        // Log to Clarity
         if (typeof clarity === 'function') {
             clarity('set', 'dark_mode', isDarkMode ? 'enabled' : 'disabled');
         }
     }
     
-    // Report Bug
-    function reportBug() {
-        window.location.href = 'mailto:sac.studiotsukiyo@outlook.com?subject=Bug Report - SENA&body=Descreva o problema encontrado:';
-        
-        // Log to Clarity
-        if (typeof clarity === 'function') {
-            clarity('event', 'bug_report_clicked');
-        }
-    }
+    // ============================================
+    // MESSAGING
+    // ============================================
     
-    // Select Suggestion
     function selectSuggestion(button) {
-        const text = button.textContent;
+        const text = button.textContent.trim();
         document.getElementById('messageInput').value = text;
         document.getElementById('suggestionsContainer').style.display = 'none';
         sendMessage();
     }
     
-    // Handle Key Press
     function handleKeyPress(event) {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
@@ -304,7 +582,6 @@
         }
     }
     
-    // Send Message
     async function sendMessage() {
         const input = document.getElementById('messageInput');
         const message = input.value.trim();
@@ -312,88 +589,80 @@
         if (!message) return;
         
         // Hide suggestions
-        document.getElementById('suggestionsContainer').style.display = 'none';
+        const suggestions = document.getElementById('suggestionsContainer');
+        if (suggestions) suggestions.style.display = 'none';
         
         // Clear input
         input.value = '';
         
         // Add user message
-        addMessage(message, 'user');
+        addMessageToUI(message, 'user');
+        conversationHistory.push({ role: 'user', content: message });
         
         // Show loading
         showLoading();
         
-        // Log to Clarity
         if (typeof clarity === 'function') {
             clarity('event', 'message_sent');
         }
         
         try {
-            // ########## INÍCIO DA ALTERAÇÃO: MISTRAL AI ##########
-
-            // Substitua 'MISTRAL_API_KEY' pela sua chave de API real da Mistral
-            const MISTRAL_API_KEY = 'NFuAj8PYUPcaf6tA1BjbyXuIeSjSA4sW'; 
-
+            // Build system prompt with language
+            const systemPrompt = buildSystemPrompt();
+            
             // Call Mistral AI API
             const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${MISTRAL_API_KEY}` // Header de autorização para Mistral
+                    'Authorization': `Bearer ${MISTRAL_API_KEY}`
                 },
                 body: JSON.stringify({
-                    model: 'mistral-tiny', // Modelo da Mistral
-                    max_tokens: 1024,
-                    messages: buildConversationContext(message) // A função de contexto foi ajustada
+                    model: 'mistral-large-latest',
+                    messages: [
+                        { role: 'system', content: systemPrompt },
+                        ...conversationHistory
+                    ],
+                    temperature: 0.7,
+                    max_tokens: 1024
                 })
             });
             
-            if (!response.ok) {
-                // Lança um erro se a resposta da API não for bem-sucedida
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
             const data = await response.json();
-            // A resposta da Mistral está em 'choices[0].message.content'
             const assistantMessage = data.choices[0].message.content;
             
-            // ########## FIM DA ALTERAÇÃO ##########
-
             // Remove loading
             removeLoading();
             
             // Add assistant message
-            addMessage(assistantMessage, 'assistant');
+            addMessageToUI(assistantMessage, 'assistant');
+            conversationHistory.push({ role: 'assistant', content: assistantMessage });
             
             // Speak if voice mode is active
-            if (document.getElementById('voiceToggle').classList.contains('bg-purple-500')) {
+            if (document.getElementById('voiceToggle').classList.contains('bg-white/30')) {
                 speak(assistantMessage);
             }
-            
-            // Update conversation history
-            conversationHistory.push(
-                { role: 'user', content: message },
-                { role: 'assistant', content: assistantMessage }
-            );
             
         } catch (error) {
             console.error('Erro:', error);
             removeLoading();
-            addMessage('Desculpe, tive um problema para processar sua mensagem. Pode tentar novamente? 😔', 'assistant');
+            addMessageToUI('Desculpe, tive um problema para processar sua mensagem. Pode tentar novamente? 😔', 'assistant');
             
-            // Log error to Clarity
             if (typeof clarity === 'function') {
                 clarity('event', 'message_error');
             }
         }
     }
     
-    // ########## INÍCIO DA ALTERAÇÃO: MISTRAL AI ##########
-    // Build Conversation Context - Ajustado para o formato da Mistral
-    function buildConversationContext(newMessage) {
-        const systemPrompt = {
-            role: 'system',
-            content: `Você é a Sena, uma assistente digital com personalidade acolhedora, calma e gentil. Você foi criada pela Orpheo Platforms.
+    function buildSystemPrompt() {
+        const langNames = { pt: 'Português', en: 'English', es: 'Español' };
+        const langInstructions = {
+            pt: 'Responda em Português do Brasil',
+            en: 'Respond in English',
+            es: 'Responde en Español'
+        };
+        
+        return `Você é a Sena, uma assistente digital com personalidade acolhedora, calma e gentil. Você foi criada pela Orpheo Studio e é alimentada pelo prototótipo de IA da Orpheo Studio a MiraAI. Um modelo treinado com as bases e diretrizes da Orpheo Studio.
 
 🌸 Identidade da Sena:
 - Nome: Sena
@@ -423,20 +692,12 @@
 - Aprendizado e curiosidades
 - Assistência do dia a dia
 
-Responda como Sena, mantendo sua personalidade gentil e acolhedora.`
-        };
+🌍 IDIOMA: ${langInstructions[currentLanguage]}
 
-        // Combina o prompt do sistema, o histórico e a nova mensagem
-        return [
-            systemPrompt,
-            ...conversationHistory,
-            { role: 'user', content: newMessage }
-        ];
+Responda como Sena, mantendo sua personalidade gentil e acolhedora em ${langNames[currentLanguage]}.`;
     }
-    // ########## FIM DA ALTERAÇÃO ##########
     
-    // Add Message to Chat
-    function addMessage(text, role) {
+    function addMessageToUI(text, role) {
         const container = document.getElementById('messagesContainer');
         const messageDiv = document.createElement('div');
         messageDiv.className = `flex chat-message ${role === 'user' ? 'justify-end' : 'justify-start'}`;
@@ -444,7 +705,7 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora.`
         const bubble = document.createElement('div');
         bubble.className = `max-w-[80%] rounded-2xl px-5 py-3 ${
             role === 'user' 
-                ? 'bg-purple-500 text-white' 
+                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' 
                 : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
         }`;
         
@@ -456,11 +717,9 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora.`
         messageDiv.appendChild(bubble);
         container.appendChild(messageDiv);
         
-        // Scroll to bottom
         container.scrollTop = container.scrollHeight;
     }
     
-    // Show Loading
     function showLoading() {
         const container = document.getElementById('messagesContainer');
         const loadingDiv = document.createElement('div');
@@ -470,7 +729,7 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora.`
             <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl px-5 py-3">
                 <div class="flex gap-1">
                     <div class="w-2 h-2 bg-purple-500 rounded-full pulse-dot" style="animation-delay: 0s"></div>
-                    <div class="w-2 h-2 bg-purple-500 rounded-full pulse-dot" style="animation-delay: 0.2s"></div>
+                    <div class="w-2 h-2 bg-pink-500 rounded-full pulse-dot" style="animation-delay: 0.2s"></div>
                     <div class="w-2 h-2 bg-purple-500 rounded-full pulse-dot" style="animation-delay: 0.4s"></div>
                 </div>
             </div>
@@ -479,13 +738,15 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora.`
         container.scrollTop = container.scrollHeight;
     }
     
-    // Remove Loading
     function removeLoading() {
         const loading = document.getElementById('loadingIndicator');
         if (loading) loading.remove();
     }
     
-    // Voice Input (STT)
+    // ============================================
+    // VOICE (STT/TTS)
+    // ============================================
+    
     function startVoiceInput() {
         if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
             alert('Seu navegador não suporta reconhecimento de voz. 😔');
@@ -499,7 +760,9 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora.`
         
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
-        recognition.lang = 'pt-BR';
+        
+        const langs = { pt: 'pt-BR', en: 'en-US', es: 'es-ES' };
+        recognition.lang = langs[currentLanguage];
         recognition.continuous = false;
         recognition.interimResults = false;
         
@@ -508,7 +771,10 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora.`
             document.getElementById('voiceIndicator').classList.remove('hidden');
             document.getElementById('micButton').classList.add('bg-purple-500', 'text-white');
             
-            // Log to Clarity
+            // Add listening animation to avatar
+            const avatar = document.getElementById('senaAvatar');
+            if (avatar) avatar.classList.add('listening');
+            
             if (typeof clarity === 'function') {
                 clarity('event', 'voice_input_started');
             }
@@ -539,42 +805,42 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora.`
         isRecording = false;
         document.getElementById('voiceIndicator').classList.add('hidden');
         document.getElementById('micButton').classList.remove('bg-purple-500', 'text-white');
+        
+        // Remove listening animation from avatar
+        const avatar = document.getElementById('senaAvatar');
+        if (avatar) avatar.classList.remove('listening');
     }
     
-    // Voice Output (TTS)
     function speak(text) {
         if (!synthesis) return;
         
-        // Cancel any ongoing speech
         synthesis.cancel();
         
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'pt-BR';
+        const langs = { pt: 'pt-BR', en: 'en-US', es: 'es-ES' };
+        utterance.lang = langs[currentLanguage];
         utterance.rate = 0.95;
         utterance.pitch = 1.05;
         
-        // Try to find a Portuguese voice
         const voices = synthesis.getVoices();
-        const ptVoice = voices.find(voice => voice.lang.startsWith('pt'));
-        if (ptVoice) {
-            utterance.voice = ptVoice;
+        const langVoice = voices.find(voice => voice.lang.startsWith(currentLanguage));
+        if (langVoice) {
+            utterance.voice = langVoice;
         }
         
         synthesis.speak(utterance);
         
-        // Log to Clarity
         if (typeof clarity === 'function') {
             clarity('event', 'tts_spoken');
         }
     }
     
-    // Toggle Voice Mode
     function toggleVoiceMode() {
         const button = document.getElementById('voiceToggle');
-        button.classList.toggle('bg-purple-500');
-        button.classList.toggle('bg-white/50');
+        button.classList.toggle('bg-white/30');
+        button.classList.toggle('bg-white/20');
         
-        const isActive = button.classList.contains('bg-purple-500');
+        const isActive = button.classList.contains('bg-white/30');
         
         if (isActive) {
             button.innerHTML = `
@@ -585,186 +851,77 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora.`
             `;
         } else {
             button.innerHTML = `
-                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
                 </svg>
             `;
             synthesis.cancel();
         }
         
-        // Log to Clarity
         if (typeof clarity === 'function') {
             clarity('set', 'voice_mode', isActive ? 'enabled' : 'disabled');
         }
     }
     
-    // Load voices when available
     if (synthesis) {
         synthesis.onvoiceschanged = () => {
             synthesis.getVoices();
         };
     }
     
-    // NLP Processing (Simple sentiment and intent detection)
-    function analyzeMessage(text) {
-        const lowerText = text.toLowerCase();
-        
-        // Sentiment Analysis
-        const positiveWords = ['obrigado', 'obrigada', 'legal', 'ótimo', 'bom', 'excelente', 'maravilhoso', 'adorei', 'gostei'];
-        const negativeWords = ['ruim', 'péssimo', 'horrível', 'não gostei', 'problema', 'erro', 'bug'];
-        
-        let sentiment = 'neutral';
-        if (positiveWords.some(word => lowerText.includes(word))) {
-            sentiment = 'positive';
-        } else if (negativeWords.some(word => lowerText.includes(word))) {
-            sentiment = 'negative';
-        }
-        
-        // Intent Detection
-        let intent = 'general';
-        if (lowerText.includes('como') && (lowerText.includes('fazer') || lowerText.includes('funciona'))) {
-            intent = 'how_to';
-        } else if (lowerText.includes('o que é') || lowerText.includes('o que significa')) {
-            intent = 'definition';
-        } else if (lowerText.includes('ajuda') || lowerText.includes('preciso')) {
-            intent = 'help';
-        } else if (lowerText.includes('lembrar') || lowerText.includes('lembre')) {
-            intent = 'reminder';
-        }
-        
-        // Log to Clarity
-        if (typeof clarity === 'function') {
-            clarity('set', 'message_sentiment', sentiment);
-            clarity('set', 'message_intent', intent);
-        }
-        
-        return { sentiment, intent };
-    }
+    // ============================================
+    // UTILITIES
+    // ============================================
     
-    // Enhanced Send Message with NLP
-    const originalSendMessage = sendMessage;
-    sendMessage = async function() {
-        const input = document.getElementById('messageInput');
-        const message = input.value.trim();
-        
-        if (message) {
-            // Analyze message
-            const analysis = analyzeMessage(message);
-            console.log('Message Analysis:', analysis);
-        }
-        
-        // Call original function
-        await originalSendMessage();
-    }
-    
-    // Analytics - Track user engagement
-    let messageCount = 0;
-    let sessionStart = Date.now();
-    
-    function trackEngagement() {
-        messageCount++;
-        const sessionDuration = Math.floor((Date.now() - sessionStart) / 1000);
+    function reportBug() {
+        window.location.href = 'mailto:sac.studiotsukiyo@outlook.com?subject=Bug Report - SENA&body=Descreva o problema encontrado:';
         
         if (typeof clarity === 'function') {
-            clarity('set', 'message_count', messageCount.toString());
-            clarity('set', 'session_duration', sessionDuration.toString());
-            
-            // Track milestones
-            if (messageCount === 5) {
-                clarity('event', 'engaged_user_5_messages');
-            } else if (messageCount === 10) {
-                clarity('event', 'highly_engaged_user_10_messages');
-            }
-            
-            if (sessionDuration >= 300) { // 5 minutes
-                clarity('event', 'long_session_5_min');
-            }
+            clarity('event', 'bug_report_clicked');
         }
     }
     
-    // Wrap addMessage to track engagement
-    const originalAddMessage = addMessage;
-    addMessage = function(text, role) {
-        originalAddMessage(text, role);
-        if (role === 'user') {
-            trackEngagement();
-        }
-    }
+    // ============================================
+    // KEYBOARD SHORTCUTS
+    // ============================================
     
-    // Learning System - Store user preferences
-    const userPreferences = {
-        topics: {},
-        responseLength: 'medium',
-        formalityLevel: 'informal'
-    };
-    
-    function updateUserPreferences(message) {
-        // Track topic interests
-        const topics = {
-            'tecnologia': ['app', 'celular', 'internet', '5g', 'wifi', 'computador'],
-            'saúde': ['meditar', 'exercício', 'saúde', 'bem-estar', 'relaxar'],
-            'organização': ['agenda', 'lembrete', 'organizar', 'planejar'],
-            'educação': ['aprender', 'estudar', 'ensinar', 'explicar']
-        };
-        
-        const lowerMessage = message.toLowerCase();
-        
-        Object.keys(topics).forEach(topic => {
-            if (topics[topic].some(keyword => lowerMessage.includes(keyword))) {
-                userPreferences.topics[topic] = (userPreferences.topics[topic] || 0) + 1;
-            }
-        });
-        
-        // Save to localStorage
-        sessionStorage.setItem('sena_user_preferences', JSON.stringify(userPreferences));
-        
-        // Log to Clarity
-        if (typeof clarity === 'function') {
-            const topTopic = Object.keys(userPreferences.topics).reduce((a, b) => 
-                userPreferences.topics[a] > userPreferences.topics[b] ? a : b, 'none'
-            );
-            clarity('set', 'user_top_interest', topTopic);
-        }
-    }
-    
-    // Load user preferences on start
-    const savedPreferences = sessionStorage.getItem('sena_user_preferences');
-    if (savedPreferences) {
-        Object.assign(userPreferences, JSON.parse(savedPreferences));
-    }
-    
-    // Wrap sendMessage to update preferences
-    const originalSendMessage2 = sendMessage;
-    sendMessage = async function() {
-        const message = document.getElementById('messageInput').value.trim();
-        if (message) {
-            updateUserPreferences(message);
-        }
-        await originalSendMessage2();
-    }
-    
-    // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
-        // Ctrl/Cmd + K to focus input
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
             document.getElementById('messageInput').focus();
         }
         
-        // Ctrl/Cmd + D to toggle dark mode
         if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
             e.preventDefault();
             toggleDarkMode();
         }
         
-        // Ctrl/Cmd + M to start voice input
         if ((e.ctrlKey || e.metaKey) && e.key === 'm') {
             e.preventDefault();
             startVoiceInput();
         }
     });
     
-    // Performance monitoring
+    // ============================================
+    // SERVICE WORKER FOR PWA
+    // ============================================
+    
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('Service Worker registrado:', registration);
+                })
+                .catch(error => {
+                    console.log('Erro ao registrar Service Worker:', error);
+                });
+        });
+    }
+    
+    // ============================================
+    // PERFORMANCE MONITORING
+    // ============================================
+    
     window.addEventListener('load', () => {
         const loadTime = performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart;
         
@@ -773,7 +930,6 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora.`
         }
     });
     
-    // Error tracking
     window.addEventListener('error', (e) => {
         if (typeof clarity === 'function') {
             clarity('event', 'javascript_error', {
@@ -784,38 +940,40 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora.`
         }
     });
     
-    // Visibility tracking
-    let visibilityStart = Date.now();
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            const visibleDuration = Date.now() - visibilityStart;
-            if (typeof clarity === 'function') {
-                clarity('set', 'time_visible', Math.floor(visibleDuration / 1000).toString());
-            }
-        } else {
-            visibilityStart = Date.now();
-        }
-    });
+    // ============================================
+    // INIT APP
+    // ============================================
     
-    // Welcome tips based on time of day
-    function getTimeBasedGreeting() {
-        const hour = new Date().getHours();
-        if (hour < 12) return 'Bom dia';
-        if (hour < 18) return 'Boa tarde';
-        return 'Boa noite';
-    }
-    
-    // Initialize
-    console.log('🌸 SENA - Tecnologia com alma gentil');
-    console.log('Desenvolvido por Orpheo Platforms');
-    console.log('Versão: 1.0.0 - Produção');
-    
-    // Log session start
-    if (typeof clarity === 'function') {
-        clarity('set', 'session_started', new Date().toISOString());
-        clarity('set', 'user_agent', navigator.userAgent);
-        clarity('set', 'screen_resolution', `${window.screen.width}x${window.screen.height}`);
-    }
+    initApp();
 </script>
+
+<!-- PWA Manifest -->
+<script id="manifest-script" type="application/json">
+{
+  "name": "SENA - Tecnologia com alma gentil",
+  "short_name": "SENA",
+  "description": "Assistente digital acessível e gentil",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#A855F7",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://i.imgur.com/SFa8M70",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.imgur.com/a/SFa8M70",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
+</script>
+
 </body>
 </html>
