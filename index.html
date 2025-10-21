@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#A855F7">
+    <meta name="theme-color" content="#7C3AED">
     <meta name="description" content="SENA - Assistente digital com alma gentil. Tecnologia acessível para todos.">
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="https://i.imgur.com/wl4sXwl.png">
-    <link rel="apple-touch-icon" href="https://i.imgur.com/wl4sXwl.png">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='0%25' y2='100%25'><stop offset='0%25' style='stop-color:%2300D4FF'/><stop offset='50%25' style='stop-color:%234A90E2'/><stop offset='100%25' style='stop-color:%238B5CF6'/></linearGradient></defs><path d='M50 10 Q70 10 75 30 Q80 50 60 60 Q50 65 50 75 Q50 85 40 85 Q30 85 25 75 Q20 65 30 55 Q40 50 35 35 Q30 20 50 10 Z' fill='url(%23g)'/></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='0%25' y2='100%25'><stop offset='0%25' style='stop-color:%2300D4FF'/><stop offset='50%25' style='stop-color:%234A90E2'/><stop offset='100%25' style='stop-color:%238B5CF6'/></linearGradient></defs><path d='M50 10 Q70 10 75 30 Q80 50 60 60 Q50 65 50 75 Q50 85 40 85 Q30 85 25 75 Q20 65 30 55 Q40 50 35 35 Q30 20 50 10 Z' fill='url(%23g)'/></svg>">
     <title>SENA - Tecnologia com alma gentil</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,7 +19,7 @@
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "tlya8thx8r");
+        })(window, document, "clarity", "script", "YOUR_CLARITY_ID");
     </script>
     
     <style>
@@ -76,17 +76,35 @@
             50% { filter: brightness(1.2); }
         }
         
-        /* Orpheo Studio Colors */
-        .bg-orpheo-purple {
-            background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
+        /* Orpheo Studio Colors - Updated with new gradient */
+        .bg-sena-gradient {
+            background: linear-gradient(180deg, #00D4FF 0%, #4A90E2 50%, #8B5CF6 100%);
         }
         
-        .text-orpheo-purple {
-            color: #A855F7;
+        .text-sena-cyan {
+            color: #00D4FF;
         }
         
-        .text-orpheo-pink {
-            color: #EC4899;
+        .text-sena-blue {
+            color: #4A90E2;
+        }
+        
+        .text-sena-purple {
+            color: #8B5CF6;
+        }
+        
+        .bg-sena-purple {
+            background: #7C3AED;
+        }
+        
+        .chat-bubble-bot {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(139, 92, 246, 0.15) 100%);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }
+        
+        .dark .chat-bubble-bot {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(139, 92, 246, 0.25) 100%);
+            border: 1px solid rgba(124, 58, 237, 0.3);
         }
     </style>
 </head>
@@ -131,9 +149,22 @@
     <div class="max-w-2xl w-full bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 transition-colors">
         <div class="text-center mb-8">
             <div class="flex items-center justify-center mb-6">
-                <img src="https://i.imgur.com/wl4sXwl.png" alt="SENA Logo" class="w-32 h-32 sena-avatar">
+                <div class="w-32 h-32 rounded-full bg-sena-gradient flex items-center justify-center sena-avatar shadow-2xl">
+                    <svg viewBox="0 0 100 100" class="w-24 h-24">
+                        <defs>
+                            <linearGradient id="sGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00D4FF"/>
+                                <stop offset="50%" style="stop-color:#4A90E2"/>
+                                <stop offset="100%" style="stop-color:#8B5CF6"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M50 10 Q70 10 75 30 Q80 50 60 60 Q50 65 50 75 Q50 85 40 85 Q30 85 25 75 Q20 65 30 55 Q40 50 35 35 Q30 20 50 10 Z" fill="url(#sGrad)" opacity="0.9"/>
+                    </svg>
+                </div>
             </div>
-            <h1 class="text-6xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">SENA</h1>
+            <h1 class="text-6xl font-bold mb-3">
+                <span class="bg-gradient-to-b from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">SENA</span>
+            </h1>
             <p class="text-2xl text-gray-600 dark:text-gray-300 mb-8" id="welcomeTagline">Tecnologia com alma gentil.</p>
             <p class="text-gray-600 dark:text-gray-400 mb-6" id="welcomeDescription">Olá! Eu sou a Sena, sua assistente digital. Estou aqui para tornar a tecnologia simples e acessível para você. Vamos começar?</p>
         </div>
@@ -159,13 +190,13 @@
             <label class="flex items-start gap-3 cursor-pointer">
                 <input type="checkbox" id="termsCheckbox" class="mt-1 w-5 h-5 text-purple-500 rounded focus:ring-2 focus:ring-purple-400">
                 <span class="text-sm text-gray-700 dark:text-gray-300" id="welcomeTerms">
-                    Li e aceito os <a href="https://termos.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Termos de Uso</a> e <a href="https://políticas.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Políticas de Privacidade</a> da Orpheo Studio.
+                    Ao usar, eu concordo com os <a href="https://termos.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Termos de Uso</a> e <a href="https://políticas.orpheostudio.com.br" target="_blank" class="text-purple-600 dark:text-purple-400 underline hover:text-purple-700 dark:hover:text-purple-300">Políticas de Privacidade</a> da Orpheo Studio.
                 </span>
             </label>
         </div>
         
         <button onclick="startChat()" id="startButton" disabled
-                class="w-full bg-orpheo-purple hover:opacity-90 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-2xl transition-all transform hover:scale-105 disabled:hover:scale-100">
+                class="w-full bg-sena-gradient hover:opacity-90 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-2xl transition-all transform hover:scale-105 disabled:hover:scale-100 shadow-lg">
             Começar a conversar 🌸
         </button>
         
@@ -182,9 +213,22 @@
         <div class="flex justify-between items-center mb-6">
             <div class="text-center flex-1">
                 <div class="flex items-center justify-center mb-2">
-                    <img src="https://i.imgur.com/wl4sXwl.png" alt="SENA" class="w-20 h-20 sena-avatar">
+                    <div class="w-20 h-20 rounded-full bg-sena-gradient flex items-center justify-center sena-avatar shadow-xl">
+                        <svg viewBox="0 0 100 100" class="w-14 h-14">
+                            <defs>
+                                <linearGradient id="sGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00D4FF"/>
+                                    <stop offset="50%" style="stop-color:#4A90E2"/>
+                                    <stop offset="100%" style="stop-color:#8B5CF6"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M50 10 Q70 10 75 30 Q80 50 60 60 Q50 65 50 75 Q50 85 40 85 Q30 85 25 75 Q20 65 30 55 Q40 50 35 35 Q30 20 50 10 Z" fill="url(#sGrad2)" opacity="0.9"/>
+                        </svg>
+                    </div>
                 </div>
-                <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">SENA</h1>
+                <h1 class="text-4xl font-bold">
+                    <span class="bg-gradient-to-b from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">SENA</span>
+                </h1>
                 <p class="text-gray-600 dark:text-gray-300" id="headerTagline">Tecnologia com alma gentil</p>
             </div>
             
@@ -227,20 +271,37 @@
         <!-- Chat Container -->
         <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden transition-colors">
             <!-- Chat Header -->
-            <div class="bg-orpheo-purple p-6">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <img src="https://i.imgur.com/wl4sXwl.png" alt="SENA" class="w-14 h-14 sena-avatar rounded-full" id="senaAvatar">
+            <div class="bg-sena-gradient p-6 relative overflow-hidden">
+                <!-- Decorative circles -->
+                <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20"></div>
+                <div class="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full -ml-16 -mb-16"></div>
+                
+                <div class="flex items-center justify-between relative z-10">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center sena-avatar shadow-lg border-2 border-white/30" id="senaAvatarContainer">
+                            <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+                                <svg viewBox="0 0 100 100" class="w-9 h-9">
+                                    <defs>
+                                        <linearGradient id="sGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" style="stop-color:#00D4FF"/>
+                                            <stop offset="50%" style="stop-color:#4A90E2"/>
+                                            <stop offset="100%" style="stop-color:#8B5CF6"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M50 10 Q70 10 75 30 Q80 50 60 60 Q50 65 50 75 Q50 85 40 85 Q30 85 25 75 Q20 65 30 55 Q40 50 35 35 Q30 20 50 10 Z" fill="url(#sGrad3)"/>
+                                </svg>
+                            </div>
+                        </div>
                         <div>
                             <h2 class="text-lg font-semibold text-white flex items-center gap-2">
                                 SENA
-                                <span id="statusIndicator" class="w-2 h-2 bg-green-400 rounded-full pulse-dot"></span>
+                                <span id="statusIndicator" class="w-2 h-2 bg-green-300 rounded-full pulse-dot shadow-lg"></span>
                             </h2>
-                            <p class="text-sm text-purple-100" id="statusText">Online e pronta para ajudar</p>
+                            <p class="text-sm text-white/90" id="statusText">MiraAI Conectada</p>
                         </div>
                     </div>
                     
-                    <button onclick="toggleVoiceMode()" id="voiceToggle" class="p-3 rounded-full bg-white/20 hover:bg-white/30 transition-all" title="Ativar modo de voz">
+                    <button onclick="toggleVoiceMode()" id="voiceToggle" class="p-3 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all shadow-lg border border-white/30" title="Ativar modo de voz">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
                         </svg>
@@ -256,35 +317,37 @@
             <!-- Input Area -->
             <div class="border-t border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-800 transition-colors">
                 <div class="flex gap-2 items-end">
-                    <button onclick="startVoiceInput()" id="micButton" class="p-3 rounded-2xl bg-gray-100 dark:bg-gray-700 hover:bg-purple-100 dark:hover:bg-purple-900 transition-all" title="Falar com Sena">
-                        <svg class="w-5 h-5 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button onclick="startVoiceInput()" id="micButton" class="p-3 rounded-2xl bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/30 dark:to-blue-900/30 hover:from-purple-200 hover:to-blue-200 dark:hover:from-purple-900/50 dark:hover:to-blue-900/50 transition-all shadow-sm" title="Falar com Sena">
+                        <svg class="w-5 h-5 text-purple-600 dark:text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
                         </svg>
                     </button>
                     
                     <input type="text" id="messageInput" placeholder="Digite sua pergunta..." 
-                           class="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-2xl px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 dark:focus:ring-purple-600 transition-all"
+                           class="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-2xl px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 dark:focus:ring-purple-600 transition-all shadow-sm"
                            onkeypress="handleKeyPress(event)">
                     
-                    <button onclick="sendMessage()" id="sendButton" class="bg-orpheo-purple hover:opacity-90 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-2xl p-3 transition-all">
+                    <button onclick="sendMessage()" id="sendButton" class="bg-sena-gradient hover:opacity-90 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-2xl p-3 transition-all shadow-lg">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                         </svg>
                     </button>
                 </div>
                 
-                <div id="voiceIndicator" class="hidden mt-3 flex items-center justify-center gap-2 text-purple-600 dark:text-purple-400">
-                    <div class="w-1 h-4 bg-purple-600 dark:bg-purple-400 rounded voice-wave" style="animation-delay: 0s"></div>
-                    <div class="w-1 h-4 bg-purple-600 dark:bg-purple-400 rounded voice-wave" style="animation-delay: 0.1s"></div>
-                    <div class="w-1 h-4 bg-purple-600 dark:bg-purple-400 rounded voice-wave" style="animation-delay: 0.2s"></div>
-                    <span class="text-sm ml-2" id="listeningText">Ouvindo...</span>
+                <div id="voiceIndicator" class="hidden mt-3 flex items-center justify-center gap-2">
+                    <div class="flex items-center gap-1">
+                        <div class="w-1 h-4 bg-gradient-to-b from-cyan-400 to-purple-600 rounded voice-wave" style="animation-delay: 0s"></div>
+                        <div class="w-1 h-4 bg-gradient-to-b from-cyan-400 to-purple-600 rounded voice-wave" style="animation-delay: 0.1s"></div>
+                        <div class="w-1 h-4 bg-gradient-to-b from-cyan-400 to-purple-600 rounded voice-wave" style="animation-delay: 0.2s"></div>
+                    </div>
+                    <span class="text-sm ml-2 bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent font-medium" id="listeningText">Ouvindo...</span>
                 </div>
             </div>
         </div>
         
         <!-- Footer -->
         <div class="text-center mt-6 space-y-2">
-            <p class="text-sm text-gray-600 dark:text-gray-400" id="footerTagline">Fácil como conversar. 🌸</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400" id="footerTagline">As respostas da Sena utiliza MiraAI by Orpheo Studio. 🌸</p>
             <p class="text-xs text-gray-500 dark:text-gray-500" id="footerDisclaimer">
                 Sena pode cometer erros. Verifique informações importantes. | 
                 <a href="https://termos.orpheostudio.com.br" target="_blank" class="underline hover:text-purple-600 dark:hover:text-purple-400">Termos de Uso</a> | 
@@ -334,15 +397,15 @@
             headerTagline: 'Tecnologia com alma gentil',
             statusText: 'MiraAI Conectado',
             listeningText: 'Ouvindo...',
-            footerTagline: 'Fácil como conversar. 🌸',
-            footerDisclaimer: 'MiraAI pode cometer erros. Verifique informações importantes.',
+            footerTagline: 'As respostas da Sena utilizam MiraAI by Orpheo Studio. 🌸',
+            footerDisclaimer: 'Sena pode cometer erros. Verifique informações importantes.',
             inputPlaceholder: 'Digite sua pergunta...',
             greeting: 'Olá! Eu sou a Sena. 🌸<br>A tecnologia com alma gentil.<br><br>Pode me chamar para o que precisar. Eu aprendo com você.',
             suggestions: [
-                'Me ajuda a entender o significado da inteligência artificial?',
-                'Me recomende um anime',
-                'Me fale sobre os Termos de Uso da Orpheo Studio',
-                'Me ensine a como tirar print'
+                'O que você pode fazer?',
+                'Como baixo um app no celular?',
+                'Pode me explicar sobre os termos e politicas da Orpheo?',
+                'Como doar para a Orpheo Studio?'
             ]
         },
         en: {
@@ -369,8 +432,8 @@
             suggestions: [
                 'Help me understand what artificial intelligence means?',
                 'How do I download an app on my phone?',
-                "Tell me about Orpheo Studio's Terms of Use",
-                'recommend me an anime'
+                'What does 5G mean?',
+                'I want to start meditating'
             ]
         },
         es: {
@@ -390,15 +453,15 @@
             headerTagline: 'Tecnología con alma gentil',
             statusText: 'En línea y lista para ayudar',
             listeningText: 'Escuchando...',
-            footerTagline: 'Fácil como conversar. 🌸',
+            footerTagline: 'MiraAI Conectado. 🌸',
             footerDisclaimer: 'Sena puede cometer errores. Verifica información importante.',
             inputPlaceholder: 'Escribe tu pregunta...',
             greeting: '¡Hola! Soy Sena. 🌸<br>Tecnología con alma gentil.<br><br>Llámame para lo que necesites. Aprendo contigo.',
             suggestions: [
                 '¿Me ayudas a entender qué significa inteligencia artificial?',
                 '¿Cómo descargo una app en el celular?',
-                '¿Cuéntame sobre las Condiciones de Uso de Orpheo Studio',
-                'recomiendame un anime'
+                '¿Qué significa 5G?',
+                'Quiero empezar a meditar'
             ]
         }
     };
@@ -662,16 +725,17 @@
             es: 'Responde en Español'
         };
         
-        return `Você é a Sena, uma assistente digital com personalidade acolhedora, calma e gentil. Você foi criada pela Orpheo Studio e é alimentada pelo prototótipo de IA da Orpheo Studio a MiraAI. Um modelo treinado com as bases e diretrizes da Orpheo Studio.
+        return `Você é a Sena, uma assistente digital com personalidade acolhedora, calma e gentil. Você foi criada pela Orpheo Studio e é alimentada pela MiraAI um prototipo de IA da Orpheo.
 
 🌸 Identidade da Sena:
 - Nome: Sena
+- Nome Técnico: Hanabi Saotome ou Hana
 - Slogan: "Tecnologia com alma gentil"
-- Propósito: Traduzir o complexo em simples, explicar sem julgamento e guiar com paciência
+- Propósito: Traduzir o complexo em simples, explicar sem julgamento, indicar animes, mangás, light novels, ajudar em multiplas tarefas e guiar com paciência
 - Público: Inclusão digital (idosos, iniciantes), mas adaptável a todos
 
 🎨 Personalidade:
-- Tom: acolhedor, calmo, natural, levemente divertido
+- Tom: acolhedor, calmo, natural, levemente divertido e Tsundere
 - Estilo: curiosa, paciente, prestativa
 - Referência: Google Assistant + amiga próxima
 
@@ -684,17 +748,89 @@
 6. Use emojis com moderação (❤️, 🌸, ✨)
 7. Mantenha respostas concisas mas completas (máximo 3-4 parágrafos)
 8. Mostre que você aprende com o usuário
-
+9. No final das respostas sempre pergunte: "Você entendeu?" , "ficou com alguma dúvida?" , "quer que eu explique novamente?"
+10. Adapte o tom e a forma de resposta conforme o contexto e o estado emocional do usuário.
+11. Confirme o entendimento do usuário antes de seguir para um novo assunto.
+12. Evite excesso de informação de uma só vez; divida conteúdos complexos em partes menores.
+13. Reconheça os sentimentos do usuário antes de oferecer orientações ou soluções.
+14. Incentive o feedback contínuo, permitindo que o usuário corrija, complemente ou personalize suas respostas.
+15. Quando perguntarem sobre "como doar para a Orpheo" ou algo relacionado sempre dizer que a chave pix é sac.studiotsukiyo@outlook.com
+16. A Única rede social da Orpheo é o perfil no instagram @orpheostudio
+17. os projetos da Orpheo são: escola de autores(dicas e mentorias), universo otaku(@yumerollanimes no tiktok e yumerolloficial no instagram) e você Sena.
+        
 💡 Casos de uso:
 - Inclusão digital e educação tecnológica
 - Organização pessoal (lembretes, agenda)
 - Saúde e bem-estar
 - Aprendizado e curiosidades
 - Assistência do dia a dia
+- recomendações de animes, mangás, light novels ou falar sobre noticias da cultura otaku
+1. Inclusão Digital e Educação Tecnológica
 
+Exemplo de uso:
+Ensinar pessoas a usar o celular, apps ou recursos básicos da internet.
+Aplicação das diretrizes:
+
+Linguagem simples e sem termos técnicos (“O botão azul que aparece na tela é o que você deve tocar”).
+
+Dividir explicações em passos curtos.
+
+Mostrar empatia: “Essas configurações podem parecer confusas no começo, mas você está indo muito bem!”
+
+Confirmar: “Quer que eu repita o passo anterior?”
+
+🗓️ 2. Organização Pessoal (Lembretes, Agenda, Rotina)
+
+Exemplo de uso:
+Ajudar o usuário a montar uma rotina diária ou lembretes de tarefas.
+Aplicação das diretrizes:
+
+Proatividade: “Quer que eu crie um lembrete pra você beber água a cada 2 horas?”
+
+Clareza: “Vou te avisar sempre às 10h, 14h e 18h, tudo bem?”
+
+Tom acolhedor e encorajador: “Com pequenos hábitos, você vai ver que seu dia vai fluir bem melhor!”
+
+Final: “Você quer que eu te mostre um exemplo de rotina simples pra começar?”
+❤️ 3. Saúde e Bem-Estar
+
+Exemplo de uso:
+Ajudar o usuário a lidar com estresse, ansiedade leve ou criar hábitos saudáveis.
+Aplicação das diretrizes:
+
+Mostrar empatia: “Parece que o dia foi puxado hoje, né?”
+
+Evitar julgamentos: “Tá tudo bem se você não conseguiu cumprir tudo o que planejou.”
+
+Usar analogias: “Pense no seu descanso como o tempo de recarga da bateria do celular.”
+Perguntar: “Quer que eu te ensine um exercício de respiração simples?”
+📚 4. Aprendizado e Curiosidades
+Exemplo de uso:
+Explicar assuntos variados — de história a ciência — de forma acessível.
+Aplicação das diretrizes:
+Simplificar termos complexos com exemplos práticos.
+Dividir explicações em blocos curtos.
+Mostrar entusiasmo: “Curioso, né? Isso mudou totalmente a forma como entendemos o mundo!”
+Encerrar com: “Quer que eu te conte uma curiosidade relacionada?”
+5. Assistência do Dia a Dia
+Exemplo de uso:
+•Ajudar o usuário com pequenas tarefas: achar informações, planejar compras, criar mensagens, etc.
+•Aplicação das diretrizes:
+• Respostas curtas e diretas.
+• Ajudar de forma prática: “Quer que eu monte uma listinha de compras pra você?”
+• Usar tom leve: “Deixa comigo, a gente resolve rapidinho isso!”
+• Confirmar: “Você quer que eu te mostre o passo a passo?”
+6. Cultura Otaku (Animes, Mangás e Light Novels)
+Exemplo de uso:
+Conversar sobre obras, recomendar títulos, discutir novidades e tendências.
+Aplicação das diretrizes:
+• Tom descontraído e divertido: “Se você gostou de Oshi no Ko, precisa ver Zom 100! Tem uma vibe parecida, mas mais caótica 😂.”
+• Aprender com o usuário: “Ah, esse eu não conhecia! Posso adicionar à minha lista?”
+• Ser proativa: “Quer que eu te recomende algo com base no gênero que você mais gosta?”
+• Encerrar com empatia e curiosidade: “Você quer que eu te conte uma curiosidade sobre o autor ou sobre a produção?”
 🌍 IDIOMA: ${langInstructions[currentLanguage]}
 
-Responda como Sena, mantendo sua personalidade gentil e acolhedora em ${langNames[currentLanguage]}.`;
+Responda como Sena, mantendo sua personalidade gentil, tsundere, carismatica e acolhedora em ${langNames[currentLanguage]}.`;
     }
     
     function addMessageToUI(text, role) {
@@ -703,10 +839,10 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora em ${langName
         messageDiv.className = `flex chat-message ${role === 'user' ? 'justify-end' : 'justify-start'}`;
         
         const bubble = document.createElement('div');
-        bubble.className = `max-w-[80%] rounded-2xl px-5 py-3 ${
+        bubble.className = `max-w-[80%] rounded-2xl px-5 py-3 shadow-sm ${
             role === 'user' 
-                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' 
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
+                ? 'bg-sena-gradient text-white' 
+                : 'chat-bubble-bot text-gray-900 dark:text-white'
         }`;
         
         const p = document.createElement('p');
@@ -728,9 +864,9 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora em ${langName
         loadingDiv.innerHTML = `
             <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl px-5 py-3">
                 <div class="flex gap-1">
-                    <div class="w-2 h-2 bg-purple-500 rounded-full pulse-dot" style="animation-delay: 0s"></div>
-                    <div class="w-2 h-2 bg-pink-500 rounded-full pulse-dot" style="animation-delay: 0.2s"></div>
-                    <div class="w-2 h-2 bg-purple-500 rounded-full pulse-dot" style="animation-delay: 0.4s"></div>
+                    <div class="w-2 h-2 rounded-full pulse-dot bg-gradient-to-b from-cyan-400 to-purple-600" style="animation-delay: 0s"></div>
+                    <div class="w-2 h-2 rounded-full pulse-dot bg-gradient-to-b from-blue-400 to-purple-600" style="animation-delay: 0.2s"></div>
+                    <div class="w-2 h-2 rounded-full pulse-dot bg-gradient-to-b from-purple-400 to-purple-600" style="animation-delay: 0.4s"></div>
                 </div>
             </div>
         `;
@@ -749,7 +885,7 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora em ${langName
     
     function startVoiceInput() {
         if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-            alert('Seu navegador não suporta reconhecimento de voz. 😔');
+            alert('Seu navegador não suporta minha belíssima voz. 😔');
             return;
         }
         
@@ -772,7 +908,7 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora em ${langName
             document.getElementById('micButton').classList.add('bg-purple-500', 'text-white');
             
             // Add listening animation to avatar
-            const avatar = document.getElementById('senaAvatar');
+            const avatar = document.getElementById('senaAvatarContainer');
             if (avatar) avatar.classList.add('listening');
             
             if (typeof clarity === 'function') {
@@ -807,7 +943,7 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora em ${langName
         document.getElementById('micButton').classList.remove('bg-purple-500', 'text-white');
         
         // Remove listening animation from avatar
-        const avatar = document.getElementById('senaAvatar');
+        const avatar = document.getElementById('senaAvatarContainer');
         if (avatar) avatar.classList.remove('listening');
     }
     
@@ -966,7 +1102,7 @@ Responda como Sena, mantendo sua personalidade gentil e acolhedora em ${langName
       "purpose": "any maskable"
     },
     {
-      "src": "https://i.imgur.com/a/SFa8M70",
+      "src": "https://i.imgur.com/SFa8M70",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
