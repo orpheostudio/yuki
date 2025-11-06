@@ -1061,7 +1061,7 @@
     <h2>📘 Sobre o Projeto</h2>
     <p>
       <strong>Sion</strong> é a evolução premium do assistente virtual experimental desenvolvido pela <strong>AmplaAI</strong>, 
-      criado por Naoto. Esta versão incorpora design moderno, animações fluidas e inteligência artificial avançada da Mistral AI para 
+      criado por Naoto. Esta versão incorpora design moderno, animações fluidas e inteligência artificial avançada da SenaAI para 
       proporcionar conversas naturais e assistência personalizada de alto nível.
     </p>
     <p>
@@ -1070,14 +1070,14 @@
       • Animações e transições suaves em 60 FPS<br>
       • Reconhecimento e síntese de voz avançados<br>
       • PWA completo - funciona offline após instalação<br>
-      • Integração com Sena AI de última geração<br>
-      • Analytics inteligente com Microsoft Clarity<br>
+      • Integração com SenaAI de última geração<br>
+      • Analytics inteligente com Orpheo Studio<br>
       • Sistema de notificações e feedback sonoro<br>
       • Modo escuro otimizado para conforto visual
     </p>
     <p>
       <strong>⚡ Tecnologia:</strong> HTML5, CSS3 avançado, JavaScript ES6+, Web Speech API, 
-      Service Workers, Mistral AI API, Microsoft Clarity Analytics, Progressive Web App.
+      Service Workers, SenaAI API, Orpheo Studio Analytics, Progressive Web App.
     </p>
     <p>
       <strong>🎨 Design:</strong> Interface inspirada nos melhores apps de mensagens modernos,
@@ -1085,7 +1085,7 @@
     </p>
     <p style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.9rem; opacity: 0.8;">
       © 2025 AmplaAI / Orpheo Studio - Todos os direitos reservados<br>
-      Versão 5.0.0 - Orpheo Studio
+      Versão 5.0.0 - Studio Tsukiyo Platforms
     </p>
   </div>
   <div style="display: flex; gap: 12px; justify-content: center;">
@@ -1103,13 +1103,13 @@
     </p>
     <p>
       Ao usar o Sion, você concorda com o processamento de suas mensagens pela 
-      Sena AI e com a coleta de dados de uso pelo Orpheo Studio para melhorias contínuas do serviço.
+      SenaAI e com a coleta de dados de uso pelo Orpheo Studio para melhorias contínuas do serviço.
     </p>
     <p>
       <strong>📄 Documentos importantes:</strong><br>
       • <a href="https://termos.orpheostudio.com.br" target="_blank" rel="noopener">Termos de Uso</a><br>
       • <a href="https://politicas.orpheostudio.com.br" target="_blank" rel="noopener">Política de Privacidade</a><br>
-      • <a href="https://orpheostudio.github.io/termos" target="_blank" rel="noopener">Termos de uso da SenaAI</a>
+      • <a href="https://orpheostudio.github.io/termos" target="_blank" rel="noopener">Termos da Orpheo Studio</a>
     </p>
     <p style="font-size: 0.9rem; color: var(--text-tertiary); margin-top: 16px;">
       <strong>🔒 Privacidade:</strong> Suas conversas são processadas de forma segura e não são armazenadas permanentemente. 
@@ -1139,7 +1139,7 @@
         />
       </div>
       <div class="headerInfo">
-        <h3>Sion</h3>
+        <h3>Sion v5</h3>
         <p><span class="statusDot"></span><span id="statusText">Online</span></p>
       </div>
     </div>
@@ -1257,36 +1257,26 @@ if ('serviceWorker' in navigator) {
 }
 
 // ========== PWA Install Prompt ==========
-  let deferredPrompt;
-  const installPrompt = document.getElementById('installPrompt');
-  const installBtn = document.getElementById('installBtn');
+let deferredPrompt;
+const installPrompt = document.getElementById('installPrompt');
+const installBtn = document.getElementById('installBtn');
 
-  // Quando o navegador detecta que pode instalar o PWA
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault(); // Impede o pop-up automático
-    deferredPrompt = e;
-    installPrompt.classList.add('show'); // mostra o banner
-  });
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installPrompt.classList.remove('hidden');
+  installPrompt.classList.add('show');
+});
 
-  // Quando o usuário clica em "Instalar"
-  installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log(`User response: ${outcome}`);
-
-    // Esconde o banner depois da escolha
-    installPrompt.classList.remove('show');
-    deferredPrompt = null;
-  });
-
-  // Quando o app já está instalado
-  window.addEventListener('appinstalled', () => {
-    console.log('PWA instalado com sucesso!');
-    installPrompt.classList.remove('show');
-  });
-</script>
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  console.log(`📱 Install prompt: ${outcome}`);
+  deferredPrompt = null;
+  installPrompt.classList.remove('show');
+  setTimeout(() => installPrompt.classList.add('hidden'), 400);
+});
 
 // ========== DOM Elements ==========
 const loadingScreen = document.getElementById('loadingScreen');
@@ -1413,7 +1403,7 @@ acceptBtn.addEventListener('click', () => {
 
 // ========== Initialize Chat ==========
 function initChat() {
-  addMessage('system', '🚀 Sion inicializado com sucesso');
+  addMessage('system', '🚀 Sion acabou de acordar.');
   setTimeout(() => {
     addMessage('sion', 'Olá! Sou o Sion, seu assistente inteligente de próxima geração. Como posso ajudar você hoje?');
     audioCtx.resume();
@@ -1511,7 +1501,7 @@ function handleLocalCommand(text) {
     'piada': 'Por que o JavaScript foi ao psicólogo? Porque tinha muitos "undefined" feelings e promessas não cumpridas! 😄',
     'hora': `🕐 Agora são ${now.toLocaleTimeString('pt-BR')} de ${now.toLocaleDateString('pt-BR')}`,
     'data': `📅 Hoje é ${now.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`,
-    'status': '📊 Status: ✅ Sistema operacional | 🌐 Conexão: Estável | 🤖 Modelo: Sena AI | ⚡ Versão: 5.0.0',
+    'status': '📊 Status: ✅ Sistema operacional | 🌐 Conexão: Estável | 🤖 Modelo: SenaAI | ⚡ Versão: 5.0.0',
     'ajuda': '💡 Comandos disponíveis: piada, hora, data, status, limpar, sobre. Ou converse naturalmente comigo!',
     'limpar': null,
     'sobre': 'Sou o Sion v5, um assistente de IA experimental de próxima geração criado por Naoto da AmplaAI. Utilizo Sena AI para conversas inteligentes com interface premium.',
@@ -1528,14 +1518,14 @@ function handleLocalCommand(text) {
 function clearChat() {
   chatMessages.innerHTML = '';
   conversationHistory = [];
-  addMessage('system', '🧹 Oba! Mais espaço para conversarmos.');
+  addMessage('system', '🧹 Conversa limpa com sucesso');
   beep(330, 0.08);
 }
 
 // ========== Mistral AI Integration ==========
 async function callMistralAI(userMessage) {
   if (!MISTRAL_API_KEY || MISTRAL_API_KEY.length < 20) {
-    addMessage('sion', '⚠️ Chave da API Sena não configurada corretamente. Por favor, verifique a configuração.');
+    addMessage('sion', '⚠️ Chave da API Sena AI não configurada corretamente. Por favor, verifique a configuração.');
     return;
   }
   
@@ -1546,7 +1536,7 @@ async function callMistralAI(userMessage) {
     const messages = [
       {
         role: 'system',
-        content: 'Você é Sion, um assistente virtual inteligente, amigável e prestativo da AmplaAI. Responda de forma concisa, natural e em português brasileiro. Seja útil, empático e tenha personalidade carismática. Use emojis ocasionalmente para tornar as respostas mais envolventes.'
+        content: 'Você é Sion v5, um assistente virtual inteligente, amigável e prestativo da AmplaAI. Responda de forma concisa, natural e em português brasileiro. Seja útil, empático e tenha personalidade carismática. Use emojis ocasionalmente para tornar as respostas mais envolventes.'
       },
       ...conversationHistory.slice(-12),
       {
@@ -1591,7 +1581,7 @@ async function callMistralAI(userMessage) {
     console.error('❌ Mistral AI Error:', error);
     hideTyping();
     statusText.textContent = 'Online';
-    addMessage('sion', '⚠️ Desculpe, ainda não falo esse idioma, quer tentar novamente?');
+    addMessage('sion', '⚠️ Desculpe, ocorreu um erro ao processar sua mensagem. Verifique sua conexão e tente novamente.');
     beep(220, 0.1);
   }
 }
@@ -1689,7 +1679,7 @@ if (recognition) {
     if (event.error === 'no-speech') {
       addMessage('system', '🎤 Nenhuma fala detectada. Tente novamente.');
     } else if (event.error === 'not-allowed') {
-      addMessage('system', '⚠️ Permissão de microfone negada. Para que eu possa conversar com você, verifique suas configurações.');
+      addMessage('system', '⚠️ Permissão de microfone negada. Verifique as configurações do navegador.');
     }
   });
 }
@@ -1790,7 +1780,7 @@ messageInput.addEventListener('input', function() {
 // ========== Connection Status Monitor ==========
 window.addEventListener('online', () => {
   statusText.textContent = 'Online';
-  addMessage('system', '🌐 Oba, voltei de novo.');
+  addMessage('system', '🌐 Conexão restaurada');
   beep(660, 0.1);
 });
 
@@ -1823,7 +1813,7 @@ if (window.performance && window.performance.timing) {
 console.log('%c🚀 Sion v5 - Premium Edition', 'font-size: 20px; font-weight: bold; color: #00eaff; text-shadow: 0 0 10px #00eaff;');
 console.log('%c📱 PWA: Service Worker registrado', 'color: #00ff88;');
 console.log('%c🔊 Audio: Web Speech API disponível', 'color: #a855f7;');
-console.log('%c🤖 IA: Mistral AI integrada', 'color: #00eaff;');
+console.log('%c🤖 IA: Sena AI integrada', 'color: #00eaff;');
 console.log('%c📊 Analytics: Microsoft Clarity ativo', 'color: #ff8800;');
 console.log('%c⌨️ Atalhos:', 'font-weight: bold; color: #00eaff;');
 console.log('  • Ctrl/Cmd + K: Focar no input');
