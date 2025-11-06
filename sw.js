@@ -1,10 +1,10 @@
 // ============================================================================
-// SENA - Service Worker v3.0
-// Gerencia cache e funcionalidade offline
+// SION - Service Worker v3.0
+// Gerencia cache, funcionalidade offline e atualizações inteligentes
 // ============================================================================
 
-const CACHE_NAME = 'sena-v3.0';
-const RUNTIME_CACHE = 'sena-runtime-v3.0';
+const CACHE_NAME = 'sion-v3.0';
+const RUNTIME_CACHE = 'sion-runtime-v3.0';
 
 // Recursos essenciais para cache
 const ESSENTIAL_RESOURCES = [
@@ -13,33 +13,34 @@ const ESSENTIAL_RESOURCES = [
   '/manifest.json',
   'https://cdn.tailwindcss.com',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
-  'https://i.imgur.com/5watJQF.png'
+  'https://i.imgur.com/bZwflfF.png'
 ];
 
 // Recursos da API que NÃO devem ser cacheados
 const NO_CACHE_URLS = [
-  'api.mistral.ai',
-  'clarity.ms'
+  'api.openai.com',
+  'clarity.ms',
+  'api.mistral.ai'
 ];
 
 // ============================================================================
 // INSTALAÇÃO
 // ============================================================================
 self.addEventListener('install', (event) => {
-  console.log('✓ Service Worker: Instalando...');
+  console.log('⚙️ Sion: Instalando Service Worker...');
 
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('✓ Service Worker: Cache aberto');
+        console.log('📦 Sion: Cache aberto');
         return cache.addAll(ESSENTIAL_RESOURCES);
       })
       .then(() => {
-        console.log('✓ Service Worker: Recursos essenciais cacheados');
+        console.log('✅ Sion: Recursos essenciais cacheados');
         return self.skipWaiting();
       })
       .catch((error) => {
-        console.error('✗ Service Worker: Erro ao instalar', error);
+        console.error('❌ Sion: Erro ao instalar', error);
       })
   );
 });
@@ -48,22 +49,20 @@ self.addEventListener('install', (event) => {
 // ATIVAÇÃO
 // ============================================================================
 self.addEventListener('activate', (event) => {
-  console.log('✓ Service Worker: Ativando...');
+  console.log('⚙️ Sion: Ativando...');
 
   event.waitUntil(
     caches.keys()
-      .then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cacheName) => {
-            if (cacheName !== CACHE_NAME && cacheName !== RUNTIME_CACHE) {
-              console.log('✓ Service Worker: Removendo cache antigo:', cacheName);
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      })
+      .then((cacheNames) => Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME && cacheName !== RUNTIME_CACHE) {
+            console.log('🧹 Sion: Removendo cache antigo:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      ))
       .then(() => {
-        console.log('✓ Service Worker: Ativado');
+        console.log('🚀 Sion: Ativado com sucesso');
         return self.clients.claim();
       })
   );
@@ -81,7 +80,7 @@ self.addEventListener('fetch', (event) => {
     return event.respondWith(fetch(request));
   }
 
-  // Estratégia: Network First, com fallback para Cache
+  // Estratégia: Network First (rede primeiro, cache como fallback)
   if (request.method === 'GET') {
     event.respondWith(networkFirstStrategy(request));
   }
@@ -90,16 +89,10 @@ self.addEventListener('fetch', (event) => {
 // ============================================================================
 // ESTRATÉGIAS DE CACHE
 // ============================================================================
-
-/**
- * Network First: Tenta buscar da rede primeiro, depois do cache
- */
 async function networkFirstStrategy(request) {
   try {
-    // Tentar buscar da rede
     const networkResponse = await fetch(request);
 
-    // Se sucesso, atualizar cache
     if (networkResponse && networkResponse.status === 200) {
       const cache = await caches.open(RUNTIME_CACHE);
       cache.put(request, networkResponse.clone());
@@ -107,15 +100,13 @@ async function networkFirstStrategy(request) {
 
     return networkResponse;
   } catch (error) {
-    // Se falhar, tentar buscar do cache
     const cachedResponse = await caches.match(request);
 
     if (cachedResponse) {
-      console.log('✓ Service Worker: Servindo do cache:', request.url);
+      console.log('📡 Sion: Servindo do cache:', request.url);
       return cachedResponse;
     }
 
-    // Se não houver cache, retornar página offline
     if (request.destination === 'document') {
       return caches.match('/');
     }
@@ -124,15 +115,9 @@ async function networkFirstStrategy(request) {
   }
 }
 
-/**
- * Cache First: Busca do cache primeiro, depois da rede
- */
 async function cacheFirstStrategy(request) {
   const cachedResponse = await caches.match(request);
-
-  if (cachedResponse) {
-    return cachedResponse;
-  }
+  if (cachedResponse) return cachedResponse;
 
   try {
     const networkResponse = await fetch(request);
@@ -144,14 +129,11 @@ async function cacheFirstStrategy(request) {
 
     return networkResponse;
   } catch (error) {
-    console.error('✗ Service Worker: Erro ao buscar:', error);
+    console.error('❌ Sion: Erro ao buscar recurso:', error);
     throw error;
   }
 }
 
-/**
- * Verifica se URL não deve ser cacheada
- */
 function shouldNotCache(url) {
   return NO_CACHE_URLS.some(domain => url.hostname.includes(domain));
 }
@@ -160,21 +142,14 @@ function shouldNotCache(url) {
 // MENSAGENS
 // ============================================================================
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
+  if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
+
+  if (event.data?.type === 'CLEAR_CACHE') {
+    caches.keys().then((names) => Promise.all(names.map(c => caches.delete(c))))
+      .then(() => event.ports[0].postMessage({ success: true }));
   }
 
-  if (event.data && event.data.type === 'CLEAR_CACHE') {
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => caches.delete(cacheName))
-      );
-    }).then(() => {
-      event.ports[0].postMessage({ success: true });
-    });
-  }
-
-  if (event.data && event.data.type === 'GET_VERSION') {
+  if (event.data?.type === 'GET_VERSION') {
     event.ports[0].postMessage({ version: CACHE_NAME });
   }
 });
@@ -183,19 +158,15 @@ self.addEventListener('message', (event) => {
 // SYNC - SINCRONIZAÇÃO EM BACKGROUND
 // ============================================================================
 self.addEventListener('sync', (event) => {
-  console.log('✓ Service Worker: Sincronizando...');
-
-  if (event.tag === 'sync-messages') {
-    event.waitUntil(syncMessages());
-  }
+  console.log('🔄 Sion: Sincronizando...');
+  if (event.tag === 'sync-data') event.waitUntil(syncData());
 });
 
-async function syncMessages() {
+async function syncData() {
   try {
-    // Implementar lógica de sincronização se necessário
-    console.log('✓ Service Worker: Mensagens sincronizadas');
+    console.log('✅ Sion: Dados sincronizados');
   } catch (error) {
-    console.error('✗ Service Worker: Erro ao sincronizar', error);
+    console.error('❌ Sion: Erro ao sincronizar dados', error);
   }
 }
 
@@ -203,44 +174,34 @@ async function syncMessages() {
 // NOTIFICAÇÕES PUSH
 // ============================================================================
 self.addEventListener('push', (event) => {
-  console.log('✓ Service Worker: Push recebido');
+  console.log('📬 Sion: Push recebido');
 
   const data = event.data ? event.data.json() : {};
-  const title = data.title || 'SENA';
+  const title = data.title || 'Sion';
   const options = {
-    body: data.body || 'Nova mensagem da SENA',
-    icon: 'https://i.imgur.com/5watJQF.png',
-    badge: 'https://i.imgur.com/5watJQF.png',
-    vibrate: [200, 100, 200],
-    tag: 'sena-notification',
+    body: data.body || 'Nova atualização de Sion disponível.',
+    icon: 'https://i.imgur.com/EMs0V3G.png',
+    badge: 'https://i.imgur.com/EMs0V3G.png',
+    vibrate: [150, 100, 150],
+    tag: 'sion-notification',
     requireInteraction: false,
-    data: data
+    data
   };
 
-  event.waitUntil(
-    self.registration.showNotification(title, options)
-  );
+  event.waitUntil(self.registration.showNotification(title, options));
 });
 
 self.addEventListener('notificationclick', (event) => {
-  console.log('✓ Service Worker: Notificação clicada');
-
+  console.log('🖱️ Sion: Notificação clicada');
   event.notification.close();
 
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true })
       .then((clientList) => {
-        // Se já houver uma janela aberta, focar nela
-        for (let i = 0; i < clientList.length; i++) {
-          const client = clientList[i];
-          if (client.url === '/' && 'focus' in client) {
-            return client.focus();
-          }
+        for (let client of clientList) {
+          if (client.url === '/' && 'focus' in client) return client.focus();
         }
-        // Se não, abrir nova janela
-        if (clients.openWindow) {
-          return clients.openWindow('/');
-        }
+        if (clients.openWindow) return clients.openWindow('/');
       })
   );
 });
@@ -256,10 +217,9 @@ self.addEventListener('periodicsync', (event) => {
 
 async function checkForUpdates() {
   try {
-    console.log('✓ Service Worker: Verificando atualizações...');
-    // Implementar lógica de verificação de updates
+    console.log('🔍 Sion: Verificando atualizações...');
   } catch (error) {
-    console.error('✗ Service Worker: Erro ao verificar atualizações', error);
+    console.error('❌ Sion: Erro ao verificar atualizações', error);
   }
 }
 
@@ -267,11 +227,11 @@ async function checkForUpdates() {
 // ERROR HANDLING
 // ============================================================================
 self.addEventListener('error', (event) => {
-  console.error('✗ Service Worker: Erro global', event.error);
+  console.error('❌ Sion: Erro global', event.error);
 });
 
 self.addEventListener('unhandledrejection', (event) => {
-  console.error('✗ Service Worker: Promise rejeitada', event.reason);
+  console.error('⚠️ Sion: Promise rejeitada', event.reason);
 });
 
-console.log('✓ Service Worker: Script carregado');
+console.log('🧠 Sion Service Worker carregado com sucesso!');
