@@ -1277,6 +1277,11 @@ installBtn.addEventListener('click', async () => {
   installPrompt.classList.remove('show');
   setTimeout(() => installPrompt.classList.add('hidden'), 400);
 });
+navigator.serviceWorker.getRegistration().then((reg) => {
+  if (reg && reg.waiting) {
+    reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+  }
+});
 
 // ========== DOM Elements ==========
 const loadingScreen = document.getElementById('loadingScreen');
@@ -1405,7 +1410,7 @@ acceptBtn.addEventListener('click', () => {
 function initChat() {
   addMessage('system', '🚀 Sion v5 inicializado com sucesso');
   setTimeout(() => {
-    addMessage('sion', 'Olá! Sou o Sion v5, seu assistente inteligente de próxima geração. Como posso ajudar você hoje?');
+    addMessage('sion', 'Olá! Sou o Sion, seu assistente inteligente de próxima geração. Como posso ajudar você hoje?');
     audioCtx.resume();
     beep(660, 0.1);
   }, 800);
