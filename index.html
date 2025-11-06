@@ -1,1038 +1,1828 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sena - Seu Amigo Digital Inteligente</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👵</text></svg>">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+<meta name="theme-color" content="#00eaff" />
+<meta name="description" content="Sion v5 - Assistente inteligente de próxima geração" />
+<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNpb24gdjUiLAogICJzaG9ydF9uYW1lIjogIlNpb24iLAogICJzdGFydF91cmwiOiAiLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzA4MTAxYSIsCiAgInRoZW1lX2NvbG9yIjogIiMwMGVhZmYiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnJTIwd2lkdGg9JzE5MicgaGVpZ2h0PScxOTInJTIwdmlld0JveD0nMCUyMDAlMjAxOTIlMjAxOTInJTIweG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyUzRSUzQ3JlY3QlMjB3aWR0aD0nMTkyJyUyMGhlaWdodD0nMTkyJyUyMGZpbGw9JyUyMzA4MTAxYScvJTNFJTNDdGV4dCUyMHg9JzUwJTI1JyUyMHk9JzUwJTI1JyUyMGRvbWluYW50LWJhc2VsaW5lPSdtaWRkbGUnJTIwdGV4dC1hbmNob3I9J21pZGRsZSclMjBmb250LWZhbWlseT0nc2Fucy1zZXJpZiclMjBmb250LXNpemU9JzgwJyUyMGZpbGw9JyUyMzAwZWFmZiclM0VTJTNDL3RleHQlM0UlM0Mvc3ZnJTNFIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0KfQ==" />
+<title>Sion — AmplaAI</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  
+  * { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+  }
+  
+  :root {
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #0f1623;
+    --bg-chat: #141b2d;
+    --bg-elevated: #1a2332;
+    --accent: #00eaff;
+    --accent-glow: rgba(0, 234, 255, 0.4);
+    --accent-dark: #00b8cc;
+    --accent-light: #5ffbff;
+    --purple: #a855f7;
+    --purple-glow: rgba(168, 85, 247, 0.3);
+    --text-primary: #f0f4f8;
+    --text-secondary: #94a3b8;
+    --text-tertiary: #64748b;
+    --border: rgba(148, 163, 184, 0.1);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 20px var(--accent-glow);
+  }
+  
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* ========== ENHANCED PWA INSTALL PROMPT ========== */
+  #installPrompt {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #00d4ff 0%, #a855f7 100%);
+    color: #0b0e13;
+    padding: 14px 24px;
+    border-radius: 50px;
+    box-shadow: 0 8px 32px rgba(0, 194, 255, 0.4), 0 0 0 1px rgba(255,255,255,0.1);
+    display: none;
+    align-items: center;
+    gap: 16px;
+    z-index: 10000;
+    font-weight: 700;
+    backdrop-filter: blur(12px);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  #installPrompt.show {
+    display: flex;
+    animation: slideUpBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), pulseGlow 3s infinite ease-in-out;
+  }
+
+  #installPrompt:hover {
+    transform: translateX(-50%) translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 48px rgba(0, 255, 200, 0.5), 0 0 0 1px rgba(255,255,255,0.2);
+  }
+
+  .promptIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2.5px solid rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 16px rgba(255,255,255,0.4);
+    animation: rotateIcon 8s linear infinite;
+  }
+
+  .promptIcon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: drop-shadow(0 0 6px #00c2ff);
+  }
+
+  #installPrompt button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 22px;
+    border-radius: 24px;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+  }
+
+  #installPrompt button:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(1.08);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  @keyframes slideUpBounce {
+    0% {
+      transform: translateX(-50%) translateY(120px);
+      opacity: 0;
+    }
+    60% {
+      transform: translateX(-50%) translateY(-8px);
+      opacity: 1;
+    }
+    80% {
+      transform: translateX(-50%) translateY(4px);
+    }
+    100% {
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 8px 32px rgba(0,194,255,0.4), 0 0 0 1px rgba(255,255,255,0.1);
+    }
+    50% {
+      box-shadow: 0 12px 48px rgba(0,255,200,0.6), 0 0 0 1px rgba(255,255,255,0.2);
+    }
+  }
+
+  @keyframes rotateIcon {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+  
+  /* ========== PREMIUM LOADING SCREEN ========== */
+  #loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #0f1623 0%, #0a0e1a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    z-index: 9999;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  
+  .loaderContainer {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+  
+  .loader {
+    position: absolute;
+    inset: 0;
+    border: 4px solid transparent;
+    border-top-color: var(--accent);
+    border-right-color: var(--purple);
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  }
+  
+  .loader:nth-child(2) {
+    border-top-color: var(--purple);
+    border-right-color: var(--accent);
+    animation-duration: 1.5s;
+    animation-direction: reverse;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .loadingText {
+    font-size: 1.3rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--accent), var(--purple), var(--accent));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 1px;
+    animation: shimmer 3s linear infinite;
+  }
+  
+  @keyframes shimmer {
+    to { background-position: 200% center; }
+  }
+  
+  @keyframes glowPulse {
+    0%, 100% { 
+      box-shadow: 0 0 30px var(--accent-glow); 
+      transform: scale(1); 
+    }
+    50% { 
+      box-shadow: 0 0 60px var(--accent-glow), 0 0 100px rgba(168, 85, 247, 0.3); 
+      transform: scale(1.1); 
+    }
+  }
+
+  #sionLogo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    animation: glowPulse 2.5s ease-in-out infinite;
+    transition: all 0.6s ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  #sionLogo.stopped {
+    animation: none;
+    transform: scale(1);
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+  
+  /* ========== ENHANCED WELCOME SCREEN ========== */
+  .screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: radial-gradient(ellipse at top, rgba(0, 234, 255, 0.05), transparent 60%),
+                radial-gradient(ellipse at bottom, rgba(168, 85, 247, 0.05), transparent 60%),
+                var(--bg-primary);
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+    animation: fadeIn 1s ease-in;
+  }
+
+  .welcomeContent {
+    max-width: 560px;
+    padding: 32px;
+    animation: floatIn 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .welcomeLogo {
+    margin-bottom: 28px;
+    position: relative;
+  }
+  
+  .welcomeLogo::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+    animation: pulse 3s ease-in-out infinite;
+    z-index: 0;
+  }
+
+  .sionAvatarLarge {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--accent);
+    box-shadow: 0 0 40px var(--accent-glow), 0 8px 32px rgba(0,0,0,0.3);
+    animation: glow 3s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+  }
+
+  .welcomeTitle {
+    font-size: 2.2rem;
+    margin: 16px 0;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+  }
+
+  .welcomeText {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .welcomeButtons {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 14px 28px;
+    border-radius: 14px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: none;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent) 0%, #00ffb3 100%);
+    color: #0b0e13;
+    box-shadow: 0 4px 20px rgba(0, 194, 255, 0.4);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 32px rgba(0, 255, 179, 0.6);
+  }
+
+  .btn-secondary {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-3px) scale(1.05);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 30px var(--accent-glow), 0 8px 32px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 0 50px rgba(0,255,200,0.8), 0 12px 48px rgba(0,0,0,0.4); }
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+  }
+  
+  /* ========== ENHANCED ABOUT & TERMS SCREENS ========== */
+  .contentBox {
+    background: var(--bg-elevated);
+    border-radius: 24px;
+    padding: 32px;
+    max-width: 640px;
+    max-height: 70vh;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(16px);
+  }
+  
+  .contentBox h2 {
+    color: var(--accent);
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .contentBox p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 16px;
+    font-size: 1rem;
+  }
+  
+  .contentBox strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  
+  .contentBox a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+  
+  .contentBox a:hover {
+    color: var(--accent-light);
+    text-decoration: underline;
+  }
+  
+  .checkboxGroup {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 24px 0;
+    padding: 20px;
+    background: rgba(0, 234, 255, 0.06);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 234, 255, 0.15);
+  }
+  
+  .checkboxGroup input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    accent-color: var(--accent);
+  }
+  
+  .checkboxGroup label {
+    color: var(--text-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  /* ========== PREMIUM CHAT APP ========== */
+  #app {
+    display: none;
+    height: 100vh;
+    flex-direction: column;
+    background: var(--bg-primary);
+  }
+  
+  #app.active {
+    display: flex;
+    animation: fadeIn 0.6s ease;
+  }
+  
+  /* Enhanced Header */
+  .chatHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-elevated) 100%);
+    color: #fff;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(16px);
+  }
+
+  .headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo {
+    width: 52px;
+    height: 52px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 2.5px solid var(--accent);
+    box-shadow: 0 0 20px var(--accent-glow);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .logo:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 32px var(--accent-glow);
+  }
+
+  .sionAvatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .headerInfo h3 {
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  .headerInfo p {
+    font-size: 0.88rem;
+    color: var(--accent-light);
+    margin: 2px 0 0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00ff88;
+    box-shadow: 0 0 8px #00ff88;
+    animation: blink 2s ease-in-out infinite;
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .headerActions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .headerActions .iconBtn {
+    background: rgba(0, 234, 255, 0.1);
+    border: 1px solid rgba(0, 234, 255, 0.2);
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 1.4rem;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .headerActions .iconBtn:hover {
+    background: rgba(0, 234, 255, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+  
+  /* Enhanced Chat Messages */
+  .chatMessages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .message {
+    display: flex;
+    gap: 12px;
+    max-width: 75%;
+    animation: messageSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  @keyframes messageSlide {
+    from { 
+      opacity: 0; 
+      transform: translateY(20px) scale(0.95); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+    }
+  }
+  
+  .message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
+  
+  .message.system {
+    align-self: center;
+    max-width: 90%;
+  }
+  
+  .messageAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 18px;
+    color: #000;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .message.user .messageAvatar {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+  }
+  
+  .messageBubble {
+    background: var(--bg-elevated);
+    padding: 14px 18px;
+    border-radius: 20px;
+    color: var(--text-primary);
+    line-height: 1.6;
+    word-wrap: break-word;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    font-size: 0.98rem;
+  }
+  
+  .message.user .messageBubble {
+    background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+    color: #000;
+    font-weight: 500;
+    border: none;
+    box-shadow: 0 4px 16px rgba(0, 234, 255, 0.25);
+  }
+  
+  .message.system .messageBubble {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    text-align: center;
+    font-style: italic;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  
+  .messageTime {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    margin-top: 6px;
+    opacity: 0.7;
+  }
+  
+  /* Enhanced Typing Indicator */
+  .typingIndicator {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    background: var(--bg-elevated);
+    border-radius: 16px;
+    width: fit-content;
+    margin: 0 24px 12px;
+    box-shadow: 0 0 20px var(--accent-glow);
+    border: 1px solid rgba(0, 234, 255, 0.2);
+    animation: fadeIn 0.4s ease-in;
+  }
+  
+  .typingIndicator.active {
+    display: flex;
+  }
+
+  .typingIndicator .logo {
+    width: 40px;
+    height: 40px;
+    border: 2.5px solid var(--accent);
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+
+  .typingDots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .typingDots span {
+    display: block;
+    width: 9px;
+    height: 9px;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: typing 1.4s infinite ease-in-out;
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+
+  .typingDots span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .typingDots span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes typing {
+    0%, 80%, 100% { 
+      transform: translateY(0) scale(1); 
+      opacity: 0.5; 
+    }
+    40% { 
+      transform: translateY(-8px) scale(1.2); 
+      opacity: 1; 
+    }
+  }
+  
+  /* Enhanced Input Area */
+  .chatInput {
+    background: var(--bg-elevated);
+    padding: 18px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+  }
+  
+  .inputWrapper {
+    flex: 1;
+    position: relative;
+  }
+  
+  #messageInput {
+    width: 100%;
+    padding: 14px 56px 14px 18px;
+    border-radius: 28px;
+    border: 2px solid var(--border);
+    background: var(--bg-chat);
+    color: var(--text-primary);
+    font-size: 0.98rem;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  #messageInput:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(0, 234, 255, 0.1);
+    background: var(--bg-secondary);
+  }
+  
+  #messageInput::placeholder {
+    color: var(--text-tertiary);
+  }
+  
+  .voiceBtn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 234, 255, 0.1);
+    color: var(--accent);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+  }
+  
+  .voiceBtn:hover {
+    background: rgba(0, 234, 255, 0.2);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+  
+  .voiceBtn.recording {
+    background: rgba(255, 68, 68, 0.2);
+    color: #ff4444;
+    animation: pulse 1.2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1; 
+      box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4); 
+    }
+    50% { 
+      opacity: 0.8; 
+      box-shadow: 0 0 0 10px rgba(255, 68, 68, 0); 
+    }
+  }
+  
+  #sendBtn {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%);
+    color: #000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 6px 24px rgba(0, 234, 255, 0.4);
+    font-weight: 800;
+  }
+  
+  #sendBtn:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: 0 8px 36px rgba(0, 234, 255, 0.6);
+  }
+  
+  #sendBtn:active {
+    transform: scale(0.92);
+  }
+  
+  /* Enhanced Menu Drawer */
+  .menuDrawer {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 320px;
+    height: 100vh;
+    background: var(--bg-elevated);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.4);
+    z-index: 2000;
+    transition: right 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border);
+  }
+  
+  .menuDrawer.open {
+    right: 0;
+  }
+  
+  .menuHeader {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-elevated));
+  }
+  
+  .menuHeader h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .menuHeader .iconBtn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .menuHeader .iconBtn:hover {
+    background: rgba(255, 68, 68, 0.15);
+    color: #ff4444;
+    transform: rotate(90deg);
+  }
+  
+  .menuList {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 0;
+  }
+  
+  .menuItem {
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    position: relative;
+  }
+  
+  .menuItem:hover {
+    background: rgba(0, 234, 255, 0.08);
+    border-left-color: var(--accent);
+  }
+  
+  .menuItem:hover::after {
+    content: '→';
+    position: absolute;
+    right: 24px;
+    color: var(--accent);
+    font-weight: 800;
+    animation: slideRight 0.6s ease infinite;
+  }
+  
+  @keyframes slideRight {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+  }
+  
+  .menuItem span:first-child {
+    font-size: 1.4rem;
+    width: 32px;
+    text-align: center;
+  }
+  
+  .menuItem span:last-child {
+    font-weight: 600;
+    font-size: 0.98rem;
+    color: var(--text-primary);
+  }
+  
+  .menuOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1999;
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .menuOverlay.active {
+    display: block;
+  }
+  
+  /* Scrollbar Enhancement */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--accent-dark), var(--purple));
+    border-radius: 5px;
+    border: 2px solid var(--bg-primary);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--accent), var(--purple));
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .message {
+      max-width: 88%;
+    }
     
-    <!-- Microsoft Clarity -->
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "SEU_PROJETO_ID_CLARITY");
-    </script>
+    .welcomeTitle {
+      font-size: 1.8rem;
+    }
     
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-SEU_ID_ADSENSE"
-     crossorigin="anonymous"></script>
+    .contentBox {
+      padding: 24px;
+      max-height: 75vh;
+    }
     
-    <style>
-        /* ==================== VARIÁVEIS GLOBAIS ==================== */
-        :root {
-            --font-size-base: 18px;
-            --font-size-large: 24px;
-            --color-primary: #007BFF;
-            --color-secondary-action: #FFA500;
-            --color-voice: #FF3B30;
-            --color-background: #F0F0F0;
-            --color-text: #1A1A1A;
-            --color-user-bubble: #DCF8C6;
-            --color-ai-bubble: #FFFFFF;
-            --color-success: #28a745;
-            --transition-speed: 0.3s;
-        }
-
-        /* ==================== RESET E TIPOGRAFIA ==================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', 'Helvetica', sans-serif;
-            background-color: var(--color-background);
-            color: var(--color-text);
-            font-size: var(--font-size-base);
-            line-height: 1.5;
-            height: 100vh;
-            overflow: hidden;
-            transition: all var(--transition-speed);
-        }
-
-        /* ==================== TELAS DE ONBOARDING ==================== */
-        .screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 1;
-            transition: opacity 0.5s ease-out;
-            padding: 20px;
-        }
-
-        .screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .screen-content {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 600px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: slideUp 0.6s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .screen-logo {
-            font-size: 80px;
-            margin-bottom: 20px;
-            animation: bounce 1s ease infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .screen h1 {
-            font-size: 32px;
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-
-        .screen h2 {
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .screen p {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        .screen-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 15px 40px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .screen-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-
-        .feature-list {
-            text-align: left;
-            margin: 20px 0;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .feature-icon {
-            font-size: 24px;
-            margin-right: 10px;
-        }
-
-        .terms-links {
-            margin-top: 20px;
-            font-size: 14px;
-        }
-
-        .terms-links a {
-            color: #667eea;
-            text-decoration: none;
-            margin: 0 10px;
-            font-weight: bold;
-        }
-
-        .terms-links a:hover {
-            text-decoration: underline;
-        }
-
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        .checkbox-container input {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-            cursor: pointer;
-        }
-
-        .checkbox-container label {
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        /* ==================== APP PRINCIPAL ==================== */
-        .app-container {
-            display: flex;
-            flex-direction: column;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
-            height: 100vh;
-            opacity: 0;
-            transition: opacity 0.5s ease-in;
-        }
-
-        .app-container.visible {
-            opacity: 1;
-        }
-
-        /* ==================== HEADER ==================== */
-        .header-title-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .header-title {
-            font-size: 28px;
-            font-weight: 700;
-            padding: 0;
-            margin: 0;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 5px;
-            width: 130px;
-            justify-content: flex-end;
-        }
-
-        /* ==================== BOTÕES ==================== */
-        .action-button {
-            background-color: var(--color-secondary-action);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 15px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            width: 130px;
-        }
-
-        .action-button:hover {
-            background-color: #CC8400;
-            transform: translateY(-1px);
-        }
-
-        .action-button:active {
-            transform: translateY(0);
-        }
-
-        .small-button {
-            padding: 8px 10px;
-            font-size: 14px;
-            width: auto;
-            box-shadow: none;
-        }
-
-        /* ==================== ÁREA DE CHAT ==================== */
-        #chat-area {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 20px 10px;
-            scroll-behavior: smooth;
-        }
-
-        .message-container {
-            display: flex;
-            margin-bottom: 15px;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message-bubble {
-            max-width: 70%;
-            padding: 15px;
-            border-radius: 12px;
-            font-size: var(--font-size-base);
-            line-height: 1.4;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        .user {
-            margin-left: auto;
-        }
-
-        .user .message-bubble {
-            background-color: var(--color-user-bubble);
-        }
-
-        .ai {
-            margin-right: auto;
-        }
-
-        .ai .message-bubble {
-            background-color: var(--color-ai-bubble);
-            border: 1px solid #DDD;
-        }
-
-        /* ==================== INPUT ÁREA ==================== */
-        .input-container {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background-color: white;
-            border-top: 1px solid #DDD;
-            gap: 10px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .input-text {
-            flex-grow: 1;
-            min-height: 60px;
-            max-height: 150px;
-            padding: 15px;
-            border: 2px solid #CCC;
-            border-radius: 15px;
-            font-size: var(--font-size-large);
-            resize: none;
-            outline: none;
-            font-family: inherit;
-        }
-
-        .input-text:focus {
-            border-color: var(--color-primary);
-        }
-
-        .send-button {
-            background-color: var(--color-primary);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            padding: 0 25px;
-            font-size: var(--font-size-large);
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            height: 60px;
-        }
-
-        .send-button:hover:not(:disabled) {
-            background-color: #0056b3;
-            transform: translateY(-1px);
-        }
-
-        .send-button:disabled {
-            background-color: #A0A0A0;
-            cursor: not-allowed;
-        }
-
-        .voice-button {
-            background-color: var(--color-voice);
-            font-size: 36px;
-            width: 70px;
-            padding: 0;
-        }
-
-        .voice-button:hover:not(:disabled) {
-            background-color: #CC0000;
-        }
-
-        .voice-button.recording {
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); }
-            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
-        }
-
-        /* ==================== LOADING ==================== */
-        .loading-indicator {
-            display: none;
-            padding: 15px;
-            margin-top: 5px;
-            background-color: #EEE;
-            border-radius: 12px;
-            align-items: center;
-            gap: 10px;
-            font-size: var(--font-size-base);
-            margin-right: auto;
-        }
-
-        .loading-indicator.visible {
-            display: flex;
-        }
-
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left-color: var(--color-primary);
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* ==================== WELCOME MESSAGE ==================== */
-        #welcome-message {
-            text-align: center;
-            margin-top: 10%;
-            padding: 20px;
-        }
-
-        #welcome-message h2 {
-            color: var(--color-primary);
-            margin-bottom: 15px;
-        }
-
-        /* ==================== TEMAS DE ACESSIBILIDADE ==================== */
-        .high-contrast {
-            --color-primary: #FFFF00;
-            --color-background: #000000;
-            --color-text: #FFFFFF;
-            --color-user-bubble: #1A1A1A;
-            --color-ai-bubble: #444444;
-            --color-secondary-action: #FF00FF;
-            --color-voice: #FF00FF;
-        }
-
-        .high-contrast .header-title-container,
-        .high-contrast .input-container {
-            background-color: #111;
-            border-bottom-color: #555;
-            border-top-color: #555;
-            color: var(--color-text);
-        }
-
-        .high-contrast .message-bubble {
-            border-color: #AAA;
-        }
-
-        .high-contrast .input-text {
-            background-color: #000;
-            color: #FFF;
-            border-color: #888;
-        }
-
-        .high-contrast .screen-content {
-            background-color: #222;
-            color: #FFF;
-        }
-
-        .high-contrast .screen h1,
-        .high-contrast .screen h2 {
-            color: #FFFF00;
-        }
-
-        .large-font {
-            --font-size-base: 22px;
-            --font-size-large: 28px;
-        }
-
-        /* ==================== RESPONSIVIDADE ==================== */
-        @media (max-width: 600px) {
-            .screen-content {
-                padding: 30px 20px;
-            }
-
-            .screen h1 {
-                font-size: 26px;
-            }
-
-            .screen h2 {
-                font-size: 22px;
-            }
-
-            .header-title {
-                font-size: 22px;
-            }
-
-            .action-button {
-                width: 110px;
-                font-size: 14px;
-            }
-        }
-
-        /* ==================== ADSENSE PLACEHOLDER ==================== */
-        .ad-container {
-            min-height: 90px;
-            background-color: #f5f5f5;
-            border: 1px dashed #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0;
-            font-size: 12px;
-            color: #999;
-        }
-    </style>
+    .menuDrawer {
+      width: 280px;
+    }
+    
+    .chatMessages {
+      padding: 16px;
+    }
+    
+    .chatInput {
+      padding: 14px 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .welcomeContent {
+      padding: 24px;
+    }
+    
+    .sionAvatarLarge {
+      width: 110px;
+      height: 110px;
+    }
+    
+    .welcomeTitle {
+      font-size: 1.6rem;
+    }
+    
+    .btn {
+      padding: 12px 22px;
+      font-size: 0.95rem;
+    }
+  }
+  
+  /* Utility Classes */
+  .hidden {
+    display: none !important;
+  }
+  
+  .fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
 </head>
 <body>
 
-    <!-- ==================== TELA 1: BOAS-VINDAS ==================== -->
-    <div id="welcome-screen" class="screen">
-        <div class="screen-content">
-            <div class="screen-logo">👵</div>
-            <h1>Bem-vindo ao Sena!</h1>
-            <p>Seu assistente digital amigável e inteligente, criado especialmente para facilitar sua vida com tecnologia.</p>
-            <button class="screen-button" onclick="showAboutScreen()">Começar</button>
-        </div>
+<!-- PWA Install Prompt -->
+<div id="installPrompt" class="hidden">
+  <div class="promptIcon">
+    <img src="https://i.imgur.com/ME0t8KG.png" alt="Sion Icon" />
+  </div>
+  <span>Instale o Sion v5 no seu dispositivo</span>
+  <button id="installBtn">Instalar</button>
+</div>
+
+<!-- Loading Screen -->
+<div id="loadingScreen">
+  <div class="loaderContainer">
+    <img 
+      id="sionLogo"
+      src="https://i.imgur.com/ME0t8KG.png" 
+      alt="Sion Logo"
+    />
+    <div class="loader"></div>
+    <div class="loader"></div>
+  </div>
+  <div class="loadingText">Inicializando Sion v5...</div>
+  <audio id="bootSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0c07a8e6a3.mp3?filename=digital-startup-114463.mp3"></audio>
+</div>
+
+<!-- Welcome Screen -->
+<div id="welcomeScreen" class="screen">
+  <div class="welcomeContent">
+    <div class="welcomeLogo">
+      <img 
+        src="https://i.imgur.com/ME0t8KG.png" 
+        alt="Sion Logo" 
+        class="sionAvatarLarge"
+      />
     </div>
-
-    <!-- ==================== TELA 2: SOBRE O PROJETO ==================== -->
-    <div id="about-screen" class="screen hidden">
-        <div class="screen-content">
-            <div class="screen-logo">💬</div>
-            <h2>O que é a Sena?</h2>
-            <p>Sena é um chatbot inteligente desenvolvido pela <strong>Orpheo Studio</strong> para ajudar pessoas de todas as idades a interagir com tecnologia de forma simples e natural.</p>
-            
-            <div class="feature-list">
-                <div class="feature-item">
-                    <span class="feature-icon">🎙️</span>
-                    <span><strong>Comandos de Voz:</strong> Converse naturalmente usando sua voz</span>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">🎨</span>
-                    <span><strong>Acessibilidade Total:</strong> Alto contraste e fontes ajustáveis</span>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">🤖</span>
-                    <span><strong>IA Avançada:</strong> Respostas inteligentes e contextuais</span>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">🔒</span>
-                    <span><strong>Privacidade:</strong> Suas conversas são seguras</span>
-                </div>
-            </div>
-            
-            <button class="screen-button" onclick="showTermsScreen()">Continuar</button>
-        </div>
+    <h1 class="welcomeTitle">Bem-vindo ao Sion v5</h1>
+    <p class="welcomeText">
+      Seu assistente inteligente de próxima geração. Converse naturalmente, use comandos de voz e explore funcionalidades avançadas de IA com interface premium.
+    </p>
+    <div class="welcomeButtons">
+      <button class="btn btn-primary" id="startBtn">🚀 Começar Agora</button>
+      <button class="btn btn-secondary" id="aboutBtn">📘 Sobre o Projeto</button>
     </div>
+  </div>
+</div>
 
-    <!-- ==================== TELA 3: TERMOS E POLÍTICAS ==================== -->
-    <div id="terms-screen" class="screen hidden">
-        <div class="screen-content">
-            <div class="screen-logo">📋</div>
-            <h2>Antes de Prosseguir</h2>
-            <p>Para usar a Sena, você precisa concordar com nossos Termos de Uso e Política de Privacidade.</p>
-            
-            <div class="terms-links">
-                <a href="https://termos.orpheostudio.com.br" target="_blank">📄 Termos de Uso</a>
-                <a href="https://politicas.orpheostudio.com.br" target="_blank">🔐 Política de Privacidade</a>
-            </div>
-            
-            <div class="checkbox-container">
-                <input type="checkbox" id="terms-checkbox">
-                <label for="terms-checkbox">Li e concordo com os termos e políticas</label>
-            </div>
-            
-            <button class="screen-button" id="accept-button" onclick="startApp()" disabled>Aceitar e Começar</button>
-        </div>
+<!-- About Screen -->
+<div id="aboutScreen" class="screen hidden">
+  <div class="contentBox">
+    <h2>📘 Sobre o Projeto</h2>
+    <p>
+      <strong>Sion v5</strong> é a evolução premium do assistente virtual experimental desenvolvido pela <strong>AmplaAI</strong>, 
+      criado por Naoto. Esta versão incorpora design moderno, animações fluidas e inteligência artificial avançada da Mistral AI para 
+      proporcionar conversas naturais e assistência personalizada de alto nível.
+    </p>
+    <p>
+      <strong>🎯 Recursos principais:</strong><br>
+      • Interface premium com design fluido e moderno<br>
+      • Animações e transições suaves em 60 FPS<br>
+      • Reconhecimento e síntese de voz avançados<br>
+      • PWA completo - funciona offline após instalação<br>
+      • Integração com Mistral AI de última geração<br>
+      • Analytics inteligente com Microsoft Clarity<br>
+      • Sistema de notificações e feedback sonoro<br>
+      • Modo escuro otimizado para conforto visual
+    </p>
+    <p>
+      <strong>⚡ Tecnologia:</strong> HTML5, CSS3 avançado, JavaScript ES6+, Web Speech API, 
+      Service Workers, Mistral AI API, Microsoft Clarity Analytics, Progressive Web App.
+    </p>
+    <p>
+      <strong>🎨 Design:</strong> Interface inspirada nos melhores apps de mensagens modernos,
+      com gradientes vibrantes, glassmorphism e micro-interações que tornam cada ação prazerosa.
+    </p>
+    <p style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.9rem; opacity: 0.8;">
+      © 2025 AmplaAI / Orpheo Studio - Todos os direitos reservados<br>
+      Versão 5.0.0 - Build Premium
+    </p>
+  </div>
+  <div style="display: flex; gap: 12px; justify-content: center;">
+    <button class="btn btn-primary" id="continueFromAbout">Continuar →</button>
+    <button class="btn btn-secondary" id="backFromAbout">← Voltar</button>
+  </div>
+</div>
+
+<!-- Terms Screen -->
+<div id="termsScreen" class="screen hidden">
+  <div class="contentBox">
+    <h2>📋 Termos e Políticas</h2>
+    <p>
+      Antes de prosseguir, por favor leia e aceite nossos termos de uso e política de privacidade.
+    </p>
+    <p>
+      Ao usar o Sion v5, você concorda com o processamento de suas mensagens pela 
+      Mistral AI e com a coleta de dados de uso pelo Microsoft Clarity para melhorias contínuas do serviço.
+    </p>
+    <p>
+      <strong>📄 Documentos importantes:</strong><br>
+      • <a href="https://termos.orpheostudio.com.br" target="_blank" rel="noopener">Termos de Uso</a><br>
+      • <a href="https://politicas.orpheostudio.com.br" target="_blank" rel="noopener">Política de Privacidade</a><br>
+      • <a href="https://mistral.ai/terms/" target="_blank" rel="noopener">Termos Mistral AI</a>
+    </p>
+    <p style="font-size: 0.9rem; color: var(--text-tertiary); margin-top: 16px;">
+      <strong>🔒 Privacidade:</strong> Suas conversas são processadas de forma segura e não são armazenadas permanentemente. 
+      Utilizamos analytics apenas para melhorar a experiência do usuário.
+    </p>
+    <div class="checkboxGroup">
+      <input type="checkbox" id="acceptTerms" />
+      <label for="acceptTerms">Li e aceito os Termos de Uso e Política de Privacidade</label>
     </div>
+  </div>
+  <div style="display: flex; gap: 12px; justify-content: center;">
+    <button class="btn btn-primary" id="acceptBtn" disabled>✓ Aceitar e Continuar</button>
+    <button class="btn btn-secondary" id="backFromTerms">← Voltar</button>
+  </div>
+</div>
 
-    <!-- ==================== APP PRINCIPAL ==================== -->
-    <div class="app-container" id="main-app">
-        <div class="header-title-container">
-            <button id="clear-button" class="action-button">🔄 Novo Chat</button>
-            <div class="header-title">💬 Sena Amigável</div>
-            <div class="header-actions">
-                <button id="contrast-button" class="action-button small-button">Ajuste Cor</button>
-                <button id="font-button" class="action-button small-button">A+</button>
-            </div>
-        </div>
-
-        <!-- AdSense Banner (Substitua pelo seu código real) -->
-        <div class="ad-container">
-            <!-- <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-SEU_ID_ADSENSE"
-                 data-ad-slot="SEU_SLOT_ID"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins> -->
-            Espaço para Anúncio Google AdSense
-        </div>
-
-        <div id="chat-area">
-            <div id="welcome-message">
-                <h2>Olá! Eu sou o Sena! 👋</h2>
-                <p style="font-size: 20px;">Comece digitando uma pergunta simples ou use o microfone (🎙️) para falar comigo.</p>
-                <p style="font-size: 16px; color: #666;">Exemplos: "Como faço para ligar para alguém?" ou "Me explique o que é WhatsApp"</p>
-            </div>
-            
-            <div id="loading-indicator" class="loading-indicator">
-                <div class="spinner"></div>
-                <span id="loading-text">Sena está pensando...</span>
-            </div>
-        </div>
-
-        <div class="input-container">
-            <textarea
-                id="input-text"
-                class="input-text"
-                placeholder="Digite sua pergunta aqui ou toque no microfone..."
-                rows="1"
-            ></textarea>
-            
-            <button id="voice-button" class="send-button voice-button">🎙️</button>
-            <button id="send-button" class="send-button">ENVIAR</button>
-        </div>
+<!-- Main Chat App -->
+<div id="app">
+  <!-- Header -->
+  <header class="chatHeader">
+    <div class="headerLeft">
+      <div class="logo">
+        <img 
+          src="https://i.imgur.com/ME0t8KG.png" 
+          alt="Retrato de Sion" 
+          class="sionAvatar" 
+        />
+      </div>
+      <div class="headerInfo">
+        <h3>Sion v5</h3>
+        <p><span class="statusDot"></span><span id="statusText">Online</span></p>
+      </div>
     </div>
+    <div class="headerActions">
+      <button class="iconBtn" id="menuToggle" title="Menu">☰</button>
+    </div>
+  </header>
+  
+  <!-- Messages -->
+  <div class="chatMessages" id="chatMessages"></div>
+  
+  <!-- Typing Indicator -->
+  <div class="typingIndicator" id="typingIndicator">
+    <div class="logo">
+      <img 
+        src="https://i.imgur.com/ME0t8KG.png" 
+        alt="Sion" 
+        class="sionAvatar"
+      />
+    </div>
+    <div class="typingDots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+  
+  <!-- Input -->
+  <div class="chatInput">
+    <div class="inputWrapper">
+      <input 
+        type="text" 
+        id="messageInput" 
+        placeholder="Digite uma mensagem..."
+        autocomplete="off"
+      />
+      <button class="voiceBtn" id="voiceBtn" title="Usar voz">🎤</button>
+    </div>
+    <button id="sendBtn" title="Enviar">➤</button>
+  </div>
+</div>
 
-    <script>
-        // ==================== CONFIGURAÇÃO DA API ====================
-        const MISTRAL_API_KEY = "SUA_CHAVE_API_DA_MISTRAL_AQUI"; // ⚠️ SUBSTITUA
-        const MISTRAL_API_ENDPOINT = "https://api.mistral.ai/v1/chat/completions";
-        const MISTRAL_MODEL = "mistral-small-latest"; // Modelo mais avançado
+<!-- Menu Drawer -->
+<div class="menuOverlay" id="menuOverlay"></div>
+<div class="menuDrawer" id="menuDrawer">
+  <div class="menuHeader">
+    <h3>Menu</h3>
+    <button class="iconBtn" id="closeMenu">✕</button>
+  </div>
+  <div class="menuList">
+    <div class="menuItem" data-action="about"><span>📘</span><span>Sobre o Sion</span></div>
+    <div class="menuItem" data-action="joke"><span>😂</span><span>Contar uma piada</span></div>
+    <div class="menuItem" data-action="time"><span>🕐</span><span>Hora e Data</span></div>
+    <div class="menuItem" data-action="status"><span>📊</span><span>Status do Sistema</span></div>
+    <div class="menuItem" data-action="clear"><span>🧹</span><span>Limpar Conversa</span></div>
+    <div class="menuItem" data-action="terms"><span>📋</span><span>Termos e Políticas</span></div>
+    <div class="menuItem" data-action="help"><span>❓</span><span>Ajuda</span></div>
+  </div>
+</div>
 
-        // ==================== REFERÊNCIAS DOM ====================
-        const welcomeScreen = document.getElementById('welcome-screen');
-        const aboutScreen = document.getElementById('about-screen');
-        const termsScreen = document.getElementById('terms-screen');
-        const mainApp = document.getElementById('main-app');
-        const termsCheckbox = document.getElementById('terms-checkbox');
-        const acceptButton = document.getElementById('accept-button');
-        
-        const chatArea = document.getElementById('chat-area');
-        const inputTextarea = document.getElementById('input-text');
-        const sendButton = document.getElementById('send-button');
-        const loadingIndicator = document.getElementById('loading-indicator');
-        const welcomeMessage = document.getElementById('welcome-message');
-        const voiceButton = document.getElementById('voice-button');
-        const clearButton = document.getElementById('clear-button');
-        const contrastButton = document.getElementById('contrast-button');
-        const fontButton = document.getElementById('font-button');
-        const bodyElement = document.body;
+<script>
+// ========== CONFIG ==========
+const MISTRAL_API_KEY = "NFuAj8PYUPcaf6tA1BjbyXuIeSjSA4sW";
+const MISTRAL_MODEL = "mistral-small-latest";
+const CLARITY_ID = "tlya8thx8r";
 
-        let isProcessing = false;
+// ========== Microsoft Clarity ==========
+if (CLARITY_ID && CLARITY_ID !== "COLOQUE_SEU_ID_CLARITY_AQUI") {
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", CLARITY_ID);
+}
 
-        // ==================== SUPORTE A VOZ ====================
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const isSpeechSupported = !!SpeechRecognition;
-        
-        if (!isSpeechSupported) {
-            voiceButton.style.display = 'none';
-        }
+// ========== Service Worker (PWA) ==========
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    const swCode = `
+      const CACHE_NAME = 'sion-v5-cache';
+      const urlsToCache = ['/'];
+      
+      self.addEventListener('install', (e) => {
+        e.waitUntil(
+          caches.open(CACHE_NAME)
+            .then(cache => cache.addAll(urlsToCache))
+        );
+        self.skipWaiting();
+      });
+      
+      self.addEventListener('fetch', (e) => {
+        e.respondWith(
+          caches.match(e.request)
+            .then(response => response || fetch(e.request))
+        );
+      });
+      
+      self.addEventListener('activate', (e) => {
+        e.waitUntil(
+          caches.keys().then(names => {
+            return Promise.all(
+              names.filter(name => name !== CACHE_NAME)
+                .map(name => caches.delete(name))
+            );
+          })
+        );
+      });
+    `;
+    const blob = new Blob([swCode], { type: 'application/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl)
+      .then(() => console.log('✅ Service Worker registrado com sucesso'))
+      .catch(err => console.warn('⚠️ Erro ao registrar Service Worker:', err));
+  });
+}
 
-        // ==================== FUNÇÕES DE NAVEGAÇÃO ENTRE TELAS ====================
-        function showAboutScreen() {
-            welcomeScreen.classList.add('hidden');
-            setTimeout(() => aboutScreen.classList.remove('hidden'), 300);
-        }
+// ========== PWA Install Prompt ==========
+let deferredPrompt;
+const installPrompt = document.getElementById('installPrompt');
+const installBtn = document.getElementById('installBtn');
 
-        function showTermsScreen() {
-            aboutScreen.classList.add('hidden');
-            setTimeout(() => termsScreen.classList.remove('hidden'), 300);
-        }
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installPrompt.classList.remove('hidden');
+  installPrompt.classList.add('show');
+});
 
-        function startApp() {
-            if (!termsCheckbox.checked) return;
-            
-            localStorage.setItem('sena-terms-accepted', 'true');
-            termsScreen.classList.add('hidden');
-            
-            setTimeout(() => {
-                mainApp.classList.add('visible');
-                loadPreferences();
-                initializeAdSense();
-            }, 300);
-        }
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  console.log(`📱 Install prompt: ${outcome}`);
+  deferredPrompt = null;
+  installPrompt.classList.remove('show');
+  setTimeout(() => installPrompt.classList.add('hidden'), 400);
+});
 
-        // ==================== VERIFICAÇÃO DE TERMOS ACEITOS ====================
-        window.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('sena-terms-accepted') === 'true') {
-                welcomeScreen.classList.add('hidden');
-                aboutScreen.classList.add('hidden');
-                termsScreen.classList.add('hidden');
-                mainApp.classList.add('visible');
-                loadPreferences();
-                initializeAdSense();
-            }
-        });
+// ========== DOM Elements ==========
+const loadingScreen = document.getElementById('loadingScreen');
+const welcomeScreen = document.getElementById('welcomeScreen');
+const aboutScreen = document.getElementById('aboutScreen');
+const termsScreen = document.getElementById('termsScreen');
+const app = document.getElementById('app');
+const chatMessages = document.getElementById('chatMessages');
+const messageInput = document.getElementById('messageInput');
+const sendBtn = document.getElementById('sendBtn');
+const voiceBtn = document.getElementById('voiceBtn');
+const typingIndicator = document.getElementById('typingIndicator');
+const menuToggle = document.getElementById('menuToggle');
+const menuDrawer = document.getElementById('menuDrawer');
+const menuOverlay = document.getElementById('menuOverlay');
+const closeMenu = document.getElementById('closeMenu');
+const statusText = document.getElementById('statusText');
 
-        termsCheckbox.addEventListener('change', () => {
-            acceptButton.disabled = !termsCheckbox.checked;
-        });
+// ========== Audio Context ==========
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        // ==================== INICIALIZAR ADSENSE ====================
-        function initializeAdSense() {
-            // (adsbygoogle = window.adsbygoogle || []).push({});
-            console.log('AdSense inicializado (substitua pelo código real)');
-        }
+function beep(freq = 440, duration = 0.1, type = 'sine') {
+  try {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    gain.gain.value = 0.08;
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  } catch (err) {
+    console.warn('Audio error:', err);
+  }
+}
 
-        // ==================== CLASSE DE GERENCIAMENTO DO CHAT ====================
-        class ChatManager {
-            constructor() {
-                this.history = [];
-                this.systemInstruction = {
-                    role: "system",
-                    content: `Você é a Sena, uma assistente virtual extremamente amigável e paciente, especialmente desenvolvida para pessoas idosas ou com pouca familiaridade com tecnologia.
+// ========== Flow Control ==========
+let conversationHistory = [];
+let silentMode = false;
 
-DIRETRIZES FUNDAMENTAIS:
-1. Use linguagem MUITO simples e clara. Evite jargões técnicos completamente.
-2. Respostas devem ser CURTAS e DIRETAS (máximo 3-4 frases).
-3. Use analogias do dia a dia para explicar conceitos tecnológicos.
-4. Seja EXTREMAMENTE paciente e encorajadora.
-5. Confirme compreensão perguntando se a explicação ficou clara (mas não sempre).
-6. Nunca assuma conhecimento prévio de tecnologia.
-7. Use emojis apropriados para deixar a conversa mais amigável 😊
-8. Divida instruções complexas em passos numerados muito simples.
-9. Se a pergunta for ambígua, faça perguntas esclarecedoras gentis.
-10. Mantenha um tom caloroso, como se fosse um neto/neta ajudando.
+// Loading screen
+window.addEventListener("load", () => {
+  const bootSound = document.getElementById("bootSound");
+  const sionLogo = document.getElementById("sionLogo");
+  
+  bootSound.volume = 0.4;
+  bootSound.play().catch(() => {
+    console.warn("🔇 Som bloqueado pelo navegador");
+  });
 
-PROCESSAMENTO DE LINGUAGEM NATURAL (NLP):
-- Identifique intenções mesmo com erros de digitação ou gramática.
-- Reconheça variações regionais e gírias comuns no português brasileiro.
-- Interprete contexto emocional e responda com empatia adequada.
-- Se detectar frustração, seja extra paciente e ofereça alternativas mais simples.
+  setTimeout(() => {
+    sionLogo.classList.add("stopped");
+    loadingScreen.style.opacity = "0";
+    loadingScreen.style.transform = "scale(1.05)";
+    setTimeout(() => {
+      loadingScreen.remove();
+    }, 600);
+  }, 2500);
+});
 
-EXEMPLOS DE BOM ATENDIMENTO:
-❌ "Para realizar a autenticação do seu dispositivo..."
-✅ "Para confirmar que é você mesmo, vamos fazer um passo bem simples..."
+// Screen transitions
+function hideScreen(screen) {
+  screen.classList.add('fade-out');
+  setTimeout(() => screen.classList.add('hidden'), 300);
+}
 
-❌ "Acesse as configurações através do menu hambúrguer..."
-✅ "Toque no ícone das três barrinhas no canto da tela 📱"
+function showScreen(screen) {
+  screen.classList.remove('hidden', 'fade-out');
+}
 
-Lembre-se: Você não é apenas uma IA, você é uma amiga digital que está aqui para ajudar com carinho e paciência infinita! 💙`
-                };
-            }
+// Welcome -> About
+document.getElementById('aboutBtn').addEventListener('click', () => {
+  hideScreen(welcomeScreen);
+  setTimeout(() => showScreen(aboutScreen), 300);
+});
 
-            addMessage(text, sender) {
-                const message = {
-                    role: sender === 'user' ? 'user' : 'assistant',
-                    content: text
-                };
-                this.history.push(message);
-                
-                // Limitar histórico a 20 mensagens para não exceder limites da API
-                if (this.history.length > 20) {
-                    this.history = this.history.slice(-20);
-                }
-                
-                return message;
-            }
+// About -> Back to Welcome
+document.getElementById('backFromAbout').addEventListener('click', () => {
+  hideScreen(aboutScreen);
+  setTimeout(() => showScreen(welcomeScreen), 300);
+});
 
-            clearHistory() {
-                this.history = [];
-            }
+// About -> Terms
+document.getElementById('continueFromAbout').addEventListener('click', () => {
+  hideScreen(aboutScreen);
+  setTimeout(() => showScreen(termsScreen), 300);
+});
 
-            async getAiResponse() {
-                if (MISTRAL_API_KEY === "SUA_CHAVE_API_DA_MISTRAL_AQUI") {
-                    return "⚠️ A chave da API da Mistral não foi configurada. Por favor, adicione sua chave no código para eu poder funcionar corretamente!";
-                }
+// Welcome -> Terms (direct start)
+document.getElementById('startBtn').addEventListener('click', () => {
+  hideScreen(welcomeScreen);
+  setTimeout(() => showScreen(termsScreen), 300);
+});
 
-                try {
-                    const payloadMessages = [this.systemInstruction, ...this.history];
+// Terms -> Back
+document.getElementById('backFromTerms').addEventListener('click', () => {
+  hideScreen(termsScreen);
+  setTimeout(() => showScreen(welcomeScreen), 300);
+});
 
-                    const response = await fetch(MISTRAL_API_ENDPOINT, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${MISTRAL_API_KEY}`,
-                        },
-                        body: JSON.stringify({
-                            model: MISTRAL_MODEL,
-                            messages: payloadMessages,
-                            temperature: 0.7,
-                            max_tokens: 500, // Respostas concisas
-                            top_p: 0.9,
-                            safe_prompt: true
-                        }),
-                    });
+// Terms checkbox
+const acceptTerms = document.getElementById('acceptTerms');
+const acceptBtn = document.getElementById('acceptBtn');
 
-                    if (!response.ok) {
-                        const errorData = await response.json().catch(() => ({ message: response.statusText }));
-                        throw new Error(`Erro da API (${response.status}): ${errorData.message || response.statusText}`);
-                    }
+acceptTerms.addEventListener('change', (e) => {
+  acceptBtn.disabled = !e.target.checked;
+  if (e.target.checked) {
+    acceptBtn.style.opacity = '1';
+    acceptBtn.style.transform = 'scale(1)';
+  } else {
+    acceptBtn.style.opacity = '0.5';
+  }
+});
 
-                    const data = await response.json();
-                    
-                    if (data.choices && data.choices[0] && data.choices[0].message) {
-                        return data.choices[0].message.content;
-                    }
-                    
-                    return "Desculpe, tive um problema para entender isso. Pode tentar de novo? 😊";
-                    
-                } catch (error) {
-                    console.error("Erro ao chamar API:", error);
-                    throw error;
-                }
-            }
-        }
+// Terms -> App
+acceptBtn.addEventListener('click', () => {
+  hideScreen(termsScreen);
+  setTimeout(() => {
+    app.classList.add('active');
+    initChat();
+  }, 300);
+});
 
-        const chatManager = new ChatManager();
+// ========== Initialize Chat ==========
+function initChat() {
+  addMessage('system', '🚀 Sion v5 inicializado com sucesso');
+  setTimeout(() => {
+    addMessage('sion', 'Olá! Sou o Sion v5, seu assistente inteligente de próxima geração. Como posso ajudar você hoje?');
+    audioCtx.resume();
+    beep(660, 0.1);
+  }, 800);
+  messageInput.focus();
+}
 
-        // ==================== FUNÇÕES DE INTERFACE ====================
-        function scrollToBottom() {
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
+// ========== Message Functions ==========
+function addMessage(type, text, skipHistory = false) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message ${type}`;
+  
+  if (type !== 'system') {
+    const avatarDiv = document.createElement('div');
+    avatarDiv.className = 'messageAvatar';
+    avatarDiv.textContent = type === 'user' ? 'U' : 'S';
+    messageDiv.appendChild(avatarDiv);
+  }
+  
+  const bubbleDiv = document.createElement('div');
+  bubbleDiv.className = 'messageBubble';
+  bubbleDiv.innerHTML = text;
+  messageDiv.appendChild(bubbleDiv);
+  
+  chatMessages.appendChild(messageDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+  if (!skipHistory && type !== 'system') {
+    conversationHistory.push({ role: type === 'user' ? 'user' : 'assistant', content: text });
+  }
+  
+  return bubbleDiv;
+}
 
-        function toggleLoading(loading) {
-            isProcessing = loading;
-            inputTextarea.disabled = loading;
-            sendButton.disabled = loading || inputTextarea.value.trim() === '';
-            voiceButton.disabled = loading;
-            
-            if (loading) {
-                loadingIndicator.classList.add('visible');
-                scrollToBottom();
-            } else {
-                loadingIndicator.classList.remove('visible');
-            }
-        }
+function showTyping() {
+  typingIndicator.classList.add('active');
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
-        function displayMessage(text, sender) {
-            if (sender === 'user') {
-                chatManager.addMessage(text, sender);
-            }
+function hideTyping() {
+  typingIndicator.classList.remove('active');
+}
 
-            if (welcomeMessage && welcomeMessage.style.display !== 'none') {
-                welcomeMessage.style.display = 'none';
-            }
+async function typeText(element, text, speed = 15) {
+  element.textContent = '';
+  for (let i = 0; i < text.length; i++) {
+    element.textContent += text.charAt(i);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    await new Promise(resolve => setTimeout(resolve, speed));
+  }
+}
 
-            const messageContainer = document.createElement('div');
-            messageContainer.appendChild(messageBubble);
-            chatArea.appendChild(messageContainer);
-            
-            scrollToBottom();
-        }
+// ========== Send Message ==========
+async function sendMessage() {
+  const text = messageInput.value.trim();
+  if (!text) return;
+  
+  await audioCtx.resume();
+  beep(880, 0.06);
+  
+  addMessage('user', text);
+  messageInput.value = '';
+  
+  const response = handleLocalCommand(text.toLowerCase());
+  if (response) {
+    showTyping();
+    setTimeout(async () => {
+      hideTyping();
+      const bubble = addMessage('sion', '', true);
+      await typeText(bubble, response);
+      conversationHistory.push({ role: 'assistant', content: response });
+      if (!silentMode) speak(response);
+      beep(440, 0.06);
+    }, 800);
+    return;
+  }
+  
+  await callMistralAI(text);
+}
 
-        // ==================== FUNÇÃO PRINCIPAL DE ENVIO ====================
-        async function handleSend() {
-            const text = inputTextarea.value.trim();
-            if (!text || isProcessing) return;
+sendBtn.addEventListener('click', sendMessage);
+messageInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
 
-            try {
-                toggleLoading(true);
-                
-                displayMessage(text, 'user');
-                inputTextarea.value = '';
-                
-                const aiResponse = await chatManager.getAiResponse();
-                
-                chatManager.addMessage(aiResponse, 'ai');
-                displayMessage(aiResponse, 'ai');
+// ========== Local Commands ==========
+function handleLocalCommand(text) {
+  const now = new Date();
+  const commands = {
+    'menu': 'Digite um número ou use o menu lateral (☰) para acessar as opções disponíveis.',
+    'piada': 'Por que o JavaScript foi ao psicólogo? Porque tinha muitos "undefined" feelings e promessas não cumpridas! 😄',
+    'hora': `🕐 Agora são ${now.toLocaleTimeString('pt-BR')} de ${now.toLocaleDateString('pt-BR')}`,
+    'data': `📅 Hoje é ${now.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`,
+    'status': '📊 Status: ✅ Sistema operacional | 🌐 Conexão: Estável | 🤖 Modelo: Mistral AI | ⚡ Versão: 5.0.0',
+    'ajuda': '💡 Comandos disponíveis: piada, hora, data, status, limpar, sobre. Ou converse naturalmente comigo!',
+    'limpar': null,
+    'sobre': 'Sou o Sion v5, um assistente de IA experimental de próxima geração criado por Naoto da AmplaAI. Utilizo Mistral AI para conversas inteligentes com interface premium.',
+  };
+  
+  if (text === 'limpar') {
+    clearChat();
+    return null;
+  }
+  
+  return commands[text] || null;
+}
 
-            } catch (error) {
-                console.error("Erro no chat:", error);
-                const errorMessage = `Ops! Tive um problema para responder 😔\n\nErro: ${error.message}\n\nDicas:\n• Verifique se sua chave da API está configurada\n• Confirme sua conexão com a internet\n• Tente novamente em alguns segundos`;
-                displayMessage(errorMessage, 'ai');
-            } finally {
-                toggleLoading(false);
-            }
-        }
+function clearChat() {
+  chatMessages.innerHTML = '';
+  conversationHistory = [];
+  addMessage('system', '🧹 Conversa limpa com sucesso');
+  beep(330, 0.08);
+}
 
-        // ==================== LIMPAR CHAT ====================
-        function handleClearChat() {
-            if (confirm("Tem certeza que deseja começar um Novo Chat? Todo o histórico será apagado.")) {
-                chatManager.clearHistory();
-                
-                const messages = chatArea.querySelectorAll('.message-container');
-                messages.forEach(msg => msg.remove());
-                
-                welcomeMessage.style.display = 'block';
-                toggleLoading(false);
-                inputTextarea.value = '';
-                sendButton.disabled = true;
-            }
-        }
+// ========== Mistral AI Integration ==========
+async function callMistralAI(userMessage) {
+  if (!MISTRAL_API_KEY || MISTRAL_API_KEY.length < 20) {
+    addMessage('sion', '⚠️ Chave da API Mistral não configurada corretamente. Por favor, verifique a configuração.');
+    return;
+  }
+  
+  showTyping();
+  statusText.textContent = 'Pensando...';
+  
+  try {
+    const messages = [
+      {
+        role: 'system',
+        content: 'Você é Sion v5, um assistente virtual inteligente, amigável e prestativo da AmplaAI. Responda de forma concisa, natural e em português brasileiro. Seja útil, empático e tenha personalidade carismática. Use emojis ocasionalmente para tornar as respostas mais envolventes.'
+      },
+      ...conversationHistory.slice(-12),
+      {
+        role: 'user',
+        content: userMessage
+      }
+    ];
+    
+    const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${MISTRAL_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: MISTRAL_MODEL,
+        messages: messages,
+        temperature: 0.7,
+        max_tokens: 800
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+    }
+    
+    const data = await response.json();
+    const aiResponse = data.choices[0].message.content;
+    
+    hideTyping();
+    statusText.textContent = 'Online';
+    
+    const bubble = addMessage('sion', '', true);
+    await typeText(bubble, aiResponse);
+    
+    conversationHistory.push({ role: 'assistant', content: aiResponse });
+    
+    if (!silentMode) speak(aiResponse);
+    beep(440, 0.06);
+    
+  } catch (error) {
+    console.error('❌ Mistral AI Error:', error);
+    hideTyping();
+    statusText.textContent = 'Online';
+    addMessage('sion', '⚠️ Desculpe, ocorreu um erro ao processar sua mensagem. Verifique sua conexão e tente novamente.');
+    beep(220, 0.1);
+  }
+}
 
-        // ==================== RECONHECIMENTO DE VOZ ====================
-        function startVoiceRecognition() {
-            if (!isSpeechSupported || isProcessing) return;
+// ========== Speech Synthesis ==========
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  
+  speechSynthesis.cancel();
+  
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'pt-BR';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 0.8;
+  
+  const setVoice = () => {
+    const voices = speechSynthesis.getVoices();
+    const ptVoice = voices.find(v => v.lang.startsWith('pt-BR')) || 
+                    voices.find(v => v.lang.startsWith('pt'));
+    if (ptVoice) utterance.voice = ptVoice;
+    speechSynthesis.speak(utterance);
+  };
+  
+  if (speechSynthesis.getVoices().length > 0) {
+    setVoice();
+  } else {
+    speechSynthesis.addEventListener('voiceschanged', setVoice, { once: true });
+  }
+}
 
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'pt-BR';
-            recognition.interimResults = false;
-            recognition.maxAlternatives = 1;
+// ========== Speech Recognition ==========
+let recognition = null;
+let isRecording = false;
 
-            voiceButton.classList.add('recording');
-            inputTextarea.placeholder = "🎙️ Escutando... Fale agora!";
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.lang = 'pt-BR';
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+}
 
-            recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                inputTextarea.value = transcript;
-                handleSend();
-            };
+voiceBtn.addEventListener('click', async () => {
+  if (!recognition) {
+    alert('⚠️ Reconhecimento de voz não suportado neste navegador. Tente usar Chrome, Edge ou Safari.');
+    return;
+  }
+  
+  await audioCtx.resume();
+  
+  if (!isRecording) {
+    try {
+      recognition.start();
+      isRecording = true;
+      voiceBtn.classList.add('recording');
+      voiceBtn.textContent = '⏹️';
+      statusText.textContent = 'Ouvindo...';
+      beep(660, 0.08);
+    } catch (error) {
+      console.error('Speech recognition error:', error);
+      isRecording = false;
+      voiceBtn.classList.remove('recording');
+      voiceBtn.textContent = '🎤';
+      statusText.textContent = 'Online';
+    }
+  } else {
+    recognition.stop();
+  }
+});
 
-            recognition.onend = () => {
-                voiceButton.classList.remove('recording');
-                inputTextarea.placeholder = isProcessing 
-                    ? "Aguardando resposta..." 
-                    : "Digite sua pergunta aqui ou toque no microfone...";
-            };
+if (recognition) {
+  recognition.addEventListener('result', (event) => {
+    const transcript = event.results[0][0].transcript;
+    messageInput.value = transcript;
+    beep(440, 0.08);
+    setTimeout(() => sendMessage(), 300);
+  });
+  
+  recognition.addEventListener('end', () => {
+    isRecording = false;
+    voiceBtn.classList.remove('recording');
+    voiceBtn.textContent = '🎤';
+    statusText.textContent = 'Online';
+  });
+  
+  recognition.addEventListener('error', (event) => {
+    console.error('Speech recognition error:', event.error);
+    isRecording = false;
+    voiceBtn.classList.remove('recording');
+    voiceBtn.textContent = '🎤';
+    statusText.textContent = 'Online';
+    
+    if (event.error === 'no-speech') {
+      addMessage('system', '🎤 Nenhuma fala detectada. Tente novamente.');
+    } else if (event.error === 'not-allowed') {
+      addMessage('system', '⚠️ Permissão de microfone negada. Verifique as configurações do navegador.');
+    }
+  });
+}
 
-            recognition.onerror = (event) => {
-                console.error('Erro de Reconhecimento de Voz:', event.error);
-                voiceButton.classList.remove('recording');
-                inputTextarea.placeholder = "Digite sua pergunta aqui ou toque no microfone...";
-                
-                let errorMsg = "Erro ao usar o microfone.";
-                if (event.error === 'no-speech') {
-                    errorMsg = "Não consegui ouvir nada. Tente novamente! 🎙️";
-                } else if (event.error === 'not-allowed') {
-                    errorMsg = "Permissão do microfone negada. Ative nas configurações do navegador! 🔒";
-                }
-                
-                alert(errorMsg);
-            };
+// ========== Menu Drawer ==========
+menuToggle.addEventListener('click', () => {
+  menuDrawer.classList.add('open');
+  menuOverlay.classList.add('active');
+  beep(550, 0.05);
+});
 
-            recognition.start();
-        }
+closeMenu.addEventListener('click', closeMenuDrawer);
+menuOverlay.addEventListener('click', closeMenuDrawer);
 
-        // ==================== ACESSIBILIDADE - CONTRASTE ====================
-        function toggleContrast() {
-            bodyElement.classList.toggle('high-contrast');
-            const isHighContrast = bodyElement.classList.contains('high-contrast');
-            localStorage.setItem('sena-contrast', isHighContrast ? 'on' : 'off');
-            contrastButton.textContent = isHighContrast ? 'Contraste ON' : 'Ajuste Cor';
-        }
+function closeMenuDrawer() {
+  menuDrawer.classList.remove('open');
+  menuOverlay.classList.remove('active');
+  beep(440, 0.05);
+}
 
-        // ==================== ACESSIBILIDADE - FONTE ====================
-        function toggleFontSize() {
-            bodyElement.classList.toggle('large-font');
-            const isLargeFont = bodyElement.classList.contains('large-font');
-            localStorage.setItem('sena-font', isLargeFont ? 'large' : 'default');
-            fontButton.textContent = isLargeFont ? 'A++' : 'A+';
-        }
+// Menu actions
+document.querySelectorAll('.menuItem').forEach(item => {
+  item.addEventListener('click', () => {
+    const action = item.dataset.action;
+    closeMenuDrawer();
+    
+    setTimeout(() => {
+      switch(action) {
+        case 'about':
+          messageInput.value = 'sobre';
+          sendMessage();
+          break;
+        case 'joke':
+          messageInput.value = 'piada';
+          sendMessage();
+          break;
+        case 'time':
+          messageInput.value = 'hora';
+          sendMessage();
+          break;
+        case 'status':
+          messageInput.value = 'status';
+          sendMessage();
+          break;
+        case 'clear':
+          clearChat();
+          break;
+        case 'terms':
+          window.open('https://termos.orpheostudio.com.br', '_blank', 'noopener,noreferrer');
+          break;
+        case 'help':
+          messageInput.value = 'ajuda';
+          sendMessage();
+          break;
+      }
+    }, 300);
+  });
+});
 
-        // ==================== CARREGAR PREFERÊNCIAS ====================
-        function loadPreferences() {
-            if (localStorage.getItem('sena-contrast') === 'on') {
-                bodyElement.classList.add('high-contrast');
-                contrastButton.textContent = 'Contraste ON';
-            }
-            
-            if (localStorage.getItem('sena-font') === 'large') {
-                bodyElement.classList.add('large-font');
-                fontButton.textContent = 'A++';
-            }
-        }
+// ========== Keyboard Shortcuts ==========
+document.addEventListener('keydown', (e) => {
+  // Ctrl/Cmd + K to focus input
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    messageInput.focus();
+  }
+  
+  // Ctrl/Cmd + L to clear chat
+  if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
+    e.preventDefault();
+    clearChat();
+  }
+  
+  // Escape to close menu
+  if (e.key === 'Escape' && menuDrawer.classList.contains('open')) {
+    closeMenuDrawer();
+  }
+  
+  // Ctrl/Cmd + M to toggle menu
+  if ((e.ctrlKey || e.metaKey) && e.key === 'm') {
+    e.preventDefault();
+    if (menuDrawer.classList.contains('open')) {
+      closeMenuDrawer();
+    } else {
+      menuToggle.click();
+    }
+  }
+});
 
-        // ==================== EVENT LISTENERS ====================
-        clearButton.addEventListener('click', handleClearChat);
-        sendButton.addEventListener('click', handleSend);
-        contrastButton.addEventListener('click', toggleContrast);
-        fontButton.addEventListener('click', toggleFontSize);
+// ========== Auto-resize input ==========
+messageInput.addEventListener('input', function() {
+  this.style.height = 'auto';
+  const maxHeight = 120;
+  const newHeight = Math.min(this.scrollHeight, maxHeight);
+  this.style.height = newHeight + 'px';
+});
 
-        if (isSpeechSupported) {
-            voiceButton.addEventListener('click', startVoiceRecognition);
-        }
+// ========== Connection Status Monitor ==========
+window.addEventListener('online', () => {
+  statusText.textContent = 'Online';
+  addMessage('system', '🌐 Conexão restaurada');
+  beep(660, 0.1);
+});
 
-        inputTextarea.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSend();
-            }
-        });
+window.addEventListener('offline', () => {
+  statusText.textContent = 'Offline';
+  addMessage('system', '⚠️ Sem conexão. Trabalhando offline...');
+  beep(220, 0.1);
+});
 
-        inputTextarea.addEventListener('input', () => {
-            sendButton.disabled = inputTextarea.value.trim() === '' || isProcessing;
-            
-            // Auto-resize do textarea
-            inputTextarea.style.height = 'auto';
-            inputTextarea.style.height = Math.min(inputTextarea.scrollHeight, 150) + 'px';
-        });
+// ========== Prevent accidental page refresh ==========
+window.addEventListener('beforeunload', (e) => {
+  if (conversationHistory.length > 0) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
 
-        // ==================== INICIALIZAÇÃO ====================
-        window.addEventListener('load', () => {
-            sendButton.disabled = true;
-        });
+// ========== Performance Monitoring ==========
+if (window.performance && window.performance.timing) {
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const perfData = window.performance.timing;
+      const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+      console.log(`⚡ Tempo de carregamento: ${loadTime}ms`);
+    }, 0);
+  });
+}
 
-        // ==================== TRACK DE EVENTOS MICROSOFT CLARITY ====================
-        function trackClarityEvent(eventName, eventData = {}) {
-            if (window.clarity) {
-                window.clarity("event", eventName, eventData);
-            }
-        }
+// ========== Enhanced Console Log ==========
+console.log('%c🚀 Sion v5 - Premium Edition', 'font-size: 20px; font-weight: bold; color: #00eaff; text-shadow: 0 0 10px #00eaff;');
+console.log('%c📱 PWA: Service Worker registrado', 'color: #00ff88;');
+console.log('%c🔊 Audio: Web Speech API disponível', 'color: #a855f7;');
+console.log('%c🤖 IA: Mistral AI integrada', 'color: #00eaff;');
+console.log('%c📊 Analytics: Microsoft Clarity ativo', 'color: #ff8800;');
+console.log('%c⌨️ Atalhos:', 'font-weight: bold; color: #00eaff;');
+console.log('  • Ctrl/Cmd + K: Focar no input');
+console.log('  • Ctrl/Cmd + L: Limpar conversa');
+console.log('  • Ctrl/Cmd + M: Toggle menu');
+console.log('  • Escape: Fechar menu');
 
-        // Tracking de eventos importantes
-        sendButton.addEventListener('click', () => {
-            trackClarityEvent("message_sent", { method: "button" });
-        });
-
-        voiceButton.addEventListener('click', () => {
-            trackClarityEvent("voice_activated");
-        });
-
-        clearButton.addEventListener('click', () => {
-            trackClarityEvent("chat_cleared");
-        });
-
-        contrastButton.addEventListener('click', () => {
-            trackClarityEvent("contrast_toggled", { 
-                state: bodyElement.classList.contains('high-contrast') ? 'on' : 'off' 
-            });
-        });
-
-        fontButton.addEventListener('click', () => {
-            trackClarityEvent("font_toggled", { 
-                state: bodyElement.classList.contains('large-font') ? 'large' : 'default' 
-            });
-        });
-
-        // Track quando termos são aceitos
-        function trackTermsAccepted() {
-            trackClarityEvent("terms_accepted");
-        }
-
-        acceptButton.addEventListener('click', trackTermsAccepted);
-    </script>
+// ========== Initialize ==========
+console.log('%c✨ Sistema pronto para uso!', 'font-size: 16px; font-weight: bold; color: #00ff88;');
+</script>
 </body>
-</html>className = `message-container ${sender}`;
-
-            const messageBubble = document.createElement('div');
-            messageBubble.className = 'message-bubble';
-            messageBubble.textContent = text;
-            
-            messageContainer.
+</html>
