@@ -1,25 +1,25 @@
 {
-  "name": "SENA - Tecnologia com alma gentil",
-  "short_name": "SENA",
-  "description": "Assistente digital da AmplaAI. Tecnologia acessível para todos.",
+  "name": "SION by AmplaAI",
+  "short_name": "SION by AmplaAI",
+  "description": "Assistente inteligente da AmplaAI. Um novo nível de interação entre humano e IA.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
-  "theme_color": "#7C3AED",
+  "theme_color": "#3B82F6",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "pt-BR",
   "dir": "ltr",
-  "categories": ["productivity", "education", "utilities"],
+  "categories": ["productivity", "education", "technology", "utilities"],
   "icons": [
     {
-      "src": "https://i.imgur.com/ZvPvBtR.png",
+      "src": "https://i.imgur.com/EMs0V3G.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://i.imgur.com/ZvPvBtR.png",
+      "src": "https://i.imgur.com/EMs0V3G.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -27,33 +27,34 @@
   ],
   "screenshots": [
     {
-      "src": "https://i.imgur.com/5watJQF.png",
+      "src": "https://i.imgur.com/bZwflfF.png",
       "sizes": "540x720",
       "type": "image/png",
-      "form_factor": "narrow"
+      "form_factor": "narrow",
+      "label": "Interface do Sion com visual limpo e interativo"
     }
   ],
   "shortcuts": [
     {
-      "name": "Nova Conversa",
+      "name": "Nova Sessão",
       "short_name": "Nova",
-      "description": "Iniciar nova conversa com SENA",
+      "description": "Iniciar uma nova conversa com o Sion",
       "url": "/?action=new",
       "icons": [
         {
-          "src": "https://i.imgur.com/ZvPvBtR.png",
+          "src": "https://i.imgur.com/EMs0V3G.png",
           "sizes": "192x192"
         }
       ]
     },
     {
-      "name": "Modo Voz",
+      "name": "Modo Interativo",
       "short_name": "Voz",
-      "description": "Conversar por voz",
+      "description": "Conversar com o Sion usando comandos de voz",
       "url": "/?action=voice",
       "icons": [
         {
-          "src": "https://i.imgur.com/ZvPvBtR.png",
+          "src": "https://i.imgur.com/EMs0V3G.png",
           "sizes": "192x192"
         }
       ]
