@@ -1257,31 +1257,36 @@ if ('serviceWorker' in navigator) {
 }
 
 // ========== PWA Install Prompt ==========
-let deferredPrompt;
-const installPrompt = document.getElementById('installPrompt');
-const installBtn = document.getElementById('installBtn');
+  let deferredPrompt;
+  const installPrompt = document.getElementById('installPrompt');
+  const installBtn = document.getElementById('installBtn');
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installPrompt.classList.remove('hidden');
-  installPrompt.classList.add('show');
-});
+  // Quando o navegador detecta que pode instalar o PWA
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); // Impede o pop-up automático
+    deferredPrompt = e;
+    installPrompt.classList.add('show'); // mostra o banner
+  });
 
-installBtn.addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  console.log(`📱 Install prompt: ${outcome}`);
-  deferredPrompt = null;
-  installPrompt.classList.remove('show');
-  setTimeout(() => installPrompt.classList.add('hidden'), 400);
-});
-navigator.serviceWorker.getRegistration().then((reg) => {
-  if (reg && reg.waiting) {
-    reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-  }
-});
+  // Quando o usuário clica em "Instalar"
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response: ${outcome}`);
+
+    // Esconde o banner depois da escolha
+    installPrompt.classList.remove('show');
+    deferredPrompt = null;
+  });
+
+  // Quando o app já está instalado
+  window.addEventListener('appinstalled', () => {
+    console.log('PWA instalado com sucesso!');
+    installPrompt.classList.remove('show');
+  });
+</script>
 
 // ========== DOM Elements ==========
 const loadingScreen = document.getElementById('loadingScreen');
