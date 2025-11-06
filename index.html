@@ -1015,7 +1015,7 @@
   <div class="promptIcon">
     <img src="https://i.imgur.com/ME0t8KG.png" alt="Sion Icon" />
   </div>
-  <span>Instale o Sion v5 no seu dispositivo</span>
+  <span>Instale o Sion no seu dispositivo</span>
   <button id="installBtn">Instalar</button>
 </div>
 
@@ -1044,7 +1044,7 @@
         class="sionAvatarLarge"
       />
     </div>
-    <h1 class="welcomeTitle">Bem-vindo ao Sion v5</h1>
+    <h1 class="welcomeTitle">Bem-vindo ao Sion</h1>
     <p class="welcomeText">
       Seu assistente inteligente de próxima geração. Converse naturalmente, use comandos de voz e explore funcionalidades avançadas de IA com interface premium.
     </p>
@@ -1060,7 +1060,7 @@
   <div class="contentBox">
     <h2>📘 Sobre o Projeto</h2>
     <p>
-      <strong>Sion v5</strong> é a evolução premium do assistente virtual experimental desenvolvido pela <strong>AmplaAI</strong>, 
+      <strong>Sion</strong> é a evolução premium do assistente virtual experimental desenvolvido pela <strong>AmplaAI</strong>, 
       criado por Naoto. Esta versão incorpora design moderno, animações fluidas e inteligência artificial avançada da Mistral AI para 
       proporcionar conversas naturais e assistência personalizada de alto nível.
     </p>
@@ -1070,7 +1070,7 @@
       • Animações e transições suaves em 60 FPS<br>
       • Reconhecimento e síntese de voz avançados<br>
       • PWA completo - funciona offline após instalação<br>
-      • Integração com Mistral AI de última geração<br>
+      • Integração com Sena AI de última geração<br>
       • Analytics inteligente com Microsoft Clarity<br>
       • Sistema de notificações e feedback sonoro<br>
       • Modo escuro otimizado para conforto visual
@@ -1085,7 +1085,7 @@
     </p>
     <p style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.9rem; opacity: 0.8;">
       © 2025 AmplaAI / Orpheo Studio - Todos os direitos reservados<br>
-      Versão 5.0.0 - Build Premium
+      Versão 5.0.0 - Orpheo Studio
     </p>
   </div>
   <div style="display: flex; gap: 12px; justify-content: center;">
@@ -1102,14 +1102,14 @@
       Antes de prosseguir, por favor leia e aceite nossos termos de uso e política de privacidade.
     </p>
     <p>
-      Ao usar o Sion v5, você concorda com o processamento de suas mensagens pela 
-      Mistral AI e com a coleta de dados de uso pelo Microsoft Clarity para melhorias contínuas do serviço.
+      Ao usar o Sion, você concorda com o processamento de suas mensagens pela 
+      Sena AI e com a coleta de dados de uso pelo Orpheo Studio para melhorias contínuas do serviço.
     </p>
     <p>
       <strong>📄 Documentos importantes:</strong><br>
       • <a href="https://termos.orpheostudio.com.br" target="_blank" rel="noopener">Termos de Uso</a><br>
       • <a href="https://politicas.orpheostudio.com.br" target="_blank" rel="noopener">Política de Privacidade</a><br>
-      • <a href="https://mistral.ai/terms/" target="_blank" rel="noopener">Termos Mistral AI</a>
+      • <a href="https://orpheostudio.github.io/termos" target="_blank" rel="noopener">Termos de uso da SenaAI</a>
     </p>
     <p style="font-size: 0.9rem; color: var(--text-tertiary); margin-top: 16px;">
       <strong>🔒 Privacidade:</strong> Suas conversas são processadas de forma segura e não são armazenadas permanentemente. 
@@ -1139,7 +1139,7 @@
         />
       </div>
       <div class="headerInfo">
-        <h3>Sion v5</h3>
+        <h3>Sion</h3>
         <p><span class="statusDot"></span><span id="statusText">Online</span></p>
       </div>
     </div>
@@ -1408,7 +1408,7 @@ acceptBtn.addEventListener('click', () => {
 
 // ========== Initialize Chat ==========
 function initChat() {
-  addMessage('system', '🚀 Sion v5 inicializado com sucesso');
+  addMessage('system', '🚀 Sion inicializado com sucesso');
   setTimeout(() => {
     addMessage('sion', 'Olá! Sou o Sion, seu assistente inteligente de próxima geração. Como posso ajudar você hoje?');
     audioCtx.resume();
@@ -1523,14 +1523,14 @@ function handleLocalCommand(text) {
 function clearChat() {
   chatMessages.innerHTML = '';
   conversationHistory = [];
-  addMessage('system', '🧹 Conversa limpa com sucesso');
+  addMessage('system', '🧹 Oba! Mais espaço para conversarmos.');
   beep(330, 0.08);
 }
 
 // ========== Mistral AI Integration ==========
 async function callMistralAI(userMessage) {
   if (!MISTRAL_API_KEY || MISTRAL_API_KEY.length < 20) {
-    addMessage('sion', '⚠️ Chave da API Mistral não configurada corretamente. Por favor, verifique a configuração.');
+    addMessage('sion', '⚠️ Chave da API Sena não configurada corretamente. Por favor, verifique a configuração.');
     return;
   }
   
@@ -1541,7 +1541,7 @@ async function callMistralAI(userMessage) {
     const messages = [
       {
         role: 'system',
-        content: 'Você é Sion v5, um assistente virtual inteligente, amigável e prestativo da AmplaAI. Responda de forma concisa, natural e em português brasileiro. Seja útil, empático e tenha personalidade carismática. Use emojis ocasionalmente para tornar as respostas mais envolventes.'
+        content: 'Você é Sion, um assistente virtual inteligente, amigável e prestativo da AmplaAI. Responda de forma concisa, natural e em português brasileiro. Seja útil, empático e tenha personalidade carismática. Use emojis ocasionalmente para tornar as respostas mais envolventes.'
       },
       ...conversationHistory.slice(-12),
       {
@@ -1586,7 +1586,7 @@ async function callMistralAI(userMessage) {
     console.error('❌ Mistral AI Error:', error);
     hideTyping();
     statusText.textContent = 'Online';
-    addMessage('sion', '⚠️ Desculpe, ocorreu um erro ao processar sua mensagem. Verifique sua conexão e tente novamente.');
+    addMessage('sion', '⚠️ Desculpe, ainda não falo esse idioma, quer tentar novamente?');
     beep(220, 0.1);
   }
 }
@@ -1684,7 +1684,7 @@ if (recognition) {
     if (event.error === 'no-speech') {
       addMessage('system', '🎤 Nenhuma fala detectada. Tente novamente.');
     } else if (event.error === 'not-allowed') {
-      addMessage('system', '⚠️ Permissão de microfone negada. Verifique as configurações do navegador.');
+      addMessage('system', '⚠️ Permissão de microfone negada. Para que eu possa conversar com você, verifique suas configurações.');
     }
   });
 }
@@ -1785,7 +1785,7 @@ messageInput.addEventListener('input', function() {
 // ========== Connection Status Monitor ==========
 window.addEventListener('online', () => {
   statusText.textContent = 'Online';
-  addMessage('system', '🌐 Conexão restaurada');
+  addMessage('system', '🌐 Oba, voltei de novo.');
   beep(660, 0.1);
 });
 
