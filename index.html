@@ -234,6 +234,100 @@
       </div>
     </div>
   </div>
+<!-- Donate Reminder -->
+<div id="sion-donation-banner" style="display:none;">
+  <div class="sion-banner-content">
+    <p>🤖 <strong>Sion:</strong> Manter uma IA ativa é caro... considere fazer uma doação para me manter online 💙</p>
+    <div class="sion-banner-actions">
+      <a href="https://nubank.com.br/cobrar/ftet6/690dfa92-b7c5-4679-83ff-6d64e4b35c83" target="_blank" class="sion-donate-btn">Doar</a>
+      <button id="sion-banner-close" aria-label="Fechar">✕</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* 🔹 Estilo geral do banner */
+  #sion-donation-banner {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 350px;
+    background: rgba(10, 15, 30, 0.9);
+    border: 1px solid rgba(0, 200, 255, 0.3);
+    border-radius: 16px;
+    padding: 16px 18px;
+    color: #E6F6FF;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    animation: sionFadeIn 0.6s ease forwards;
+  }
+
+  .sion-banner-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sion-banner-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sion-donate-btn {
+    background: #00C8FF;
+    color: #0A0F1E;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .sion-donate-btn:hover {
+    background: #00A8DD;
+  }
+
+  #sion-banner-close {
+    background: transparent;
+    border: none;
+    color: #9BC9FF;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  #sion-banner-close:hover {
+    color: #fff;
+  }
+
+  @keyframes sionFadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<script>
+  // 🕒 Mostra o lembrete 15 segundos depois
+  setTimeout(() => {
+    const banner = document.getElementById("sion-donation-banner");
+    banner.style.display = "block";
+  }, 15000);
+
+  // ❌ Botão de fechar
+  document.addEventListener("click", (e) => {
+    if (e.target && e.target.id === "sion-banner-close") {
+      const banner = document.getElementById("sion-donation-banner");
+      banner.style.opacity = "0";
+      banner.style.transform = "translateY(10px)";
+      setTimeout(() => banner.remove(), 400);
+    }
+  });
+</script>
 
   <!-- Install Button -->
   <button id="install-button" class="install-btn">
