@@ -1,76 +1,61 @@
 {
-  "name": "SION by AmplaAI",
-  "short_name": "SION by AmplaAI",
-  "description": "Assistente inteligente da AmplaAI. Um novo nível de interação entre humano e IA.",
+  "name": "Sion - AmplaAI Chatbot",
+  "short_name": "Sion",
+  "description": "Seu companheiro de exploração e soluções desenvolvido pela AmplaAI",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#3B82F6",
-  "orientation": "portrait-primary",
-  "scope": "/",
-  "lang": "pt-BR",
-  "dir": "ltr",
-  "categories": ["productivity", "education", "technology", "utilities"],
+  "background_color": "#6366f1",
+  "theme_color": "#6366f1",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "https://i.imgur.com/EMs0V3G.png",
+      "src": "https://i.imgur.com/ME0t8KG.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://i.imgur.com/EMs0V3G.png",
+      "src": "https://i.imgur.com/ME0t8KG.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
+  "categories": ["productivity", "utilities", "lifestyle"],
+  "lang": "pt-BR",
+  "dir": "ltr",
   "screenshots": [
     {
-      "src": "https://i.imgur.com/bZwflfF.png",
+      "src": "https://i.imgur.com/ME0t8KG.png",
       "sizes": "540x720",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Interface do Sion com visual limpo e interativo"
+      "type": "image/png"
     }
   ],
   "shortcuts": [
     {
-      "name": "Nova Sessão",
-      "short_name": "Nova",
+      "name": "Nova Conversa",
+      "short_name": "Conversar",
       "description": "Iniciar uma nova conversa com o Sion",
-      "url": "/?action=new",
+      "url": "/?action=new-chat",
       "icons": [
         {
-          "src": "https://i.imgur.com/EMs0V3G.png",
+          "src": "https://i.imgur.com/ME0t8KG.png",
           "sizes": "192x192"
         }
       ]
     },
     {
-      "name": "Modo Interativo",
-      "short_name": "Voz",
-      "description": "Conversar com o Sion usando comandos de voz",
-      "url": "/?action=voice",
+      "name": "Sobre",
+      "short_name": "Sobre",
+      "description": "Saiba mais sobre o Sion",
+      "url": "/?action=about",
       "icons": [
         {
-          "src": "https://i.imgur.com/EMs0V3G.png",
+          "src": "https://i.imgur.com/ME0t8KG.png",
           "sizes": "192x192"
         }
       ]
     }
   ],
-  "related_applications": [],
-  "prefer_related_applications": false,
-  "iarc_rating_id": "",
-  "share_target": {
-    "action": "/share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  }
+  "prefer_related_applications": false
 }
