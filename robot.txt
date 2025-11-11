@@ -1,0 +1,179 @@
+# robots.txt para orpheostudio.com.br
+# Empresa de Inteligência Artificial - Configuração Otimizada
+# Última atualização: 2024
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /administrator/
+Disallow: /private/
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /backoffice/
+Disallow: /wp-admin/
+Disallow: /includes/
+Disallow: /config/
+Disallow: /logs/
+Disallow: /tmp/
+Disallow: /cache/
+Disallow: /search/
+Disallow: /?mode=edit
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*.pdf$
+Disallow: /test/
+Disallow: /staging/
+Disallow: /development/
+
+# URLs com parâmetros específicos
+Disallow: /*?utm_source=
+Disallow: /*?session_id=
+Disallow: /*?redirect=
+Disallow: /*?preview=
+
+# Permitir Google Adsense e bots de publicidade
+User-agent: Mediapartners-Google
+Allow: /
+Crawl-delay: 0
+
+User-agent: AdsBot-Google
+Allow: /
+Crawl-delay: 0
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-News
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Video
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /
+Crawl-delay: 0
+
+# Bots de busca principais
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Applebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Bots de IA e pesquisa especializados
+User-agent: ChatGPT-User
+Allow: /
+Crawl-delay: 2
+
+User-agent: Claude-Web
+Allow: /
+Crawl-delay: 2
+
+User-agent: anthropic-ai
+Allow: /
+Crawl-delay: 2
+
+# Bloquear bots maliciosos e scrapers agressivos
+User-agent: MJ12bot
+Disallow: /
+Crawl-delay: 10
+
+User-agent: AhrefsBot
+Disallow: /
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Disallow: /
+Crawl-delay: 10
+
+User-agent: DotBot
+Disallow: /
+Crawl-delay: 5
+
+User-agent: MauiBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+Crawl-delay: 5
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: GPTBot
+Allow: /
+Crawl-delay: 1
+
+# Bots de redes sociais (importante para compartilhamento)
+User-agent: FacebookExternalHit
+Allow: /
+Crawl-delay: 1
+
+User-agent: Twitterbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: LinkedInBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Pinterest
+Allow: /
+Crawl-delay: 1
+
+# Otimização para conteúdo de IA
+Allow: /ai-models/
+Allow: /machine-learning/
+Allow: /artificial-intelligence/
+Allow: /solutions/
+Allow: /case-studies/
+Allow: /research/
+Allow: /whitepapers/
+Allow: /blog/
+Allow: /insights/
+
+# Permitir recursos importantes
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /fonts/
+Allow: /assets/
+Allow: /static/
+
+# Sitemaps
+Sitemap: https://sion.orpheostudio.com.br/sitemap.xml
+Sitemap: https://sion.orpheostudio.com.br/sitemap-images.xml
+Sitemap: https://sion.orpheostudio.com.br/sitemap-videos.xml
+Sitemap: https://sion.orpheostudio.com.br/sitemap-news.xml
+Sitemap: https://sion.orpheostudio.com.br/sitemap-mobile.xml
+
+# Configurações específicas para mobile
+User-agent: Googlebot-Mobile
+Allow: /
+Crawl-delay: 0
+
+# Política de crawl para melhor performance
+Crawl-delay: 1
+
+# Host preference
+Host: https://sion.orpheostudio.com.br
