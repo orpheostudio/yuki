@@ -13,7 +13,7 @@ const PRECACHE_URLS = [
   '/style.css',
   '/script.js',
   '/manifest.json',
-  'https://i.imgur.com/ME0t8KG.png',
+  'https://i.imgur.com/z2hCety.jpeg',
   'https://unpkg.com/lucide@latest'
 ];
 
