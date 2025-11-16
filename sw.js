@@ -3,8 +3,8 @@
 // Desenvolvido por AmplaAI
 // ============================================
 
-const CACHE_NAME = 'sion-v1.0.0';
-const RUNTIME_CACHE = 'sion-runtime';
+const CACHE_NAME = 'cici-v1.0.0';
+const RUNTIME_CACHE = 'cici-runtime';
 
 // Recursos para cache inicial
 const PRECACHE_URLS = [
@@ -145,8 +145,29 @@ self.addEventListener('sync', (event) => {
 
 async function syncMessages() {
   console.log('[Service Worker] Sincronizando mensagens...');
-  // Implementar lógica de sincronização de mensagens offline
-  // Por exemplo, enviar mensagens pendentes quando voltar online
+
+  try {
+    const pendingMessages = await getPendingMessages(); // busca no IndexedDB
+
+    if (!pendingMessages.length) {
+      console.log('[Service Worker] Nenhuma mensagem pendente.');
+      return;
+    }
+
+    for (const msg of pendingMessages) {
+      const sent = await sendMessageToAPI(msg);
+
+      if (sent) {
+        await deletePendingMessage(msg.id); 
+        console.log('[Service Worker] Mensagem sincronizada e removida:', msg.id);
+      } else {
+        console.log('[Service Worker] Falha ao enviar mensagem:', msg.id);
+      }
+    }
+
+  } catch (err) {
+    console.error('[Service Worker] Erro ao sincronizar mensagens:', err);
+  }
 }
 
 // ============================================
@@ -156,9 +177,9 @@ self.addEventListener('push', (event) => {
   console.log('[Service Worker] Notificação push recebida');
   
   const options = {
-    body: event.data ? event.data.text() : 'Nova mensagem do Sion!',
-    icon: 'https://i.imgur.com/ME0t8KG.png',
-    badge: 'https://i.imgur.com/ME0t8KG.png',
+    body: event.data ? event.data.text() : 'Nova mensagem da Cici!',
+    icon: 'https://i.imgur.com/z2hCety.png',
+    badge: 'https://i.imgur.com/z2hCety.png',
     vibrate: [200, 100, 200],
     data: {
       dateOfArrival: Date.now(),
@@ -168,12 +189,12 @@ self.addEventListener('push', (event) => {
       {
         action: 'open',
         title: 'Abrir',
-        icon: 'https://i.imgur.com/ME0t8KG.png'
+        icon: 'https://i.imgur.com/z2hCety.png'
       },
       {
         action: 'close',
         title: 'Fechar',
-        icon: 'https://i.imgur.com/ME0t8KG.png'
+        icon: 'https://i.imgur.com/z2hCety.png'
       }
     ],
     tag: 'sion-notification',
@@ -181,7 +202,7 @@ self.addEventListener('push', (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification('Sion - AmplaAI', options)
+    self.registration.showNotification('Cici - AmplaAI', options)
   );
 });
 
@@ -243,7 +264,57 @@ self.addEventListener('periodicsync', (event) => {
 
 async function updateContent() {
   console.log('[Service Worker] Atualizando conteúdo...');
-  // Implementar lógica de atualização periódica
+  // ============================================
+// PERIODIC SYNC (sincronização periódica)
+// ============================================
+
+self.addEventListener('periodicsync', event => {
+  if (event.tag === 'update-content') {
+    event.waitUntil(updateContent());
+  }
+});
+
+async function updateContent() {
+  console.log('[Service Worker] Atualizando conteúdo...');
+
+  try {
+ const apiKey = 'GuhXW35v32u4idYAyhxV9yhdIdRMigJb'; // pleaase não deixe isso aqui na versão final
+    const endpoint = 'https://api.mistral.ai/v1/chat/completions';
+
+    const body = {
+      model: 'mistral-large-latest', // ou o modelo que você quiser
+      messages: [
+        { role: 'system', content: 'Você é a Cici, uma IA fofinha.' },
+        { role: 'user', content: 'Atualize o conteúdo para sincronização.' }
+      ]
+    };
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify(body)
+    }):
+    const response = await fetch('/api/cici/atualizar');
+
+    if (!response.ok) {
+      throw new Error(`Erro ao buscar dados (${response.status})`);
+    }
+
+    const data = await response.json();
+
+    // Salvando no cache (opcional mas recomendável)
+    const cache = await caches.open('cici-cache-v1');
+    await cache.put('/cici-data.json', new Response(JSON.stringify(data)));
+
+    console.log('[Service Worker] Conteúdo atualizado com sucesso.');
+
+  } catch (error) {
+    console.error('[Service Worker] Erro ao atualizar conteúdo:', error);
+  }
+}
 }
 
 // ============================================
@@ -251,7 +322,7 @@ async function updateContent() {
 // ============================================
 console.log(`
 ╔═══════════════════════════════════════╗
-║   Service Worker Sion v1.0.0         ║
+║   Service Worker Cici v1.0.0         ║
 ║   Desenvolvido por AmplaAI 💜        ║
 ╚═══════════════════════════════════════╝
 `);
