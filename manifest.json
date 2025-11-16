@@ -1,7 +1,7 @@
 {
-  "name": "Sion - AmplaAI Chatbot",
-  "short_name": "Sion",
-  "description": "Seu companheiro de exploração e soluções desenvolvido pela AmplaAI",
+  "name": "Cici - Sua amiga curiosa",
+  "short_name": "Cici",
+  "description": "Sua companheira de exploração e soluções desenvolvida pela AmplaAI",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#6366f1",
@@ -9,13 +9,13 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://i.imgur.com/JFA0KLp.jpeg",
+      "src": "https://i.imgur.com/z2hCety.jpeg",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://i.imgur.com/JFA0KLp.jpeg",
+      "src": "https://i.imgur.com/z2hCety.jpeg",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -26,7 +26,7 @@
   "dir": "ltr",
   "screenshots": [
     {
-      "src": "https://i.imgur.com/JFA0KLp.jpeg",
+      "src": "https://i.imgur.com/z2hCety.jpeg",
       "sizes": "540x720",
       "type": "image/png"
     }
@@ -35,11 +35,11 @@
     {
       "name": "Nova Conversa",
       "short_name": "Conversar",
-      "description": "Iniciar uma nova conversa com o Sion",
+      "description": "Iniciar uma nova conversa com a Cici",
       "url": "/?action=new-chat",
       "icons": [
         {
-          "src": "https://i.imgur.com/JFA0KLp.jpeg",
+          "src": "https://i.imgur.com/z2hCety.jpeg",
           "sizes": "192x192"
         }
       ]
@@ -47,11 +47,11 @@
     {
       "name": "Sobre",
       "short_name": "Sobre",
-      "description": "Saiba mais sobre o Sion",
+      "description": "Saiba mais sobre a Cici",
       "url": "/?action=about",
       "icons": [
         {
-          "src": "https://i.imgur.com/JFA0KLp.jpeg",
+          "src": "https://i.imgur.com/z2hCety.jpeg",
           "sizes": "192x192"
         }
       ]
