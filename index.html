@@ -1,347 +1,417 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  
-  <!-- Título e Descrição -->
-  <title>Cici - Sua assistente curiosa</title>
-  <meta name="description" content="Cici é seu companheiro de exploração e soluções, desenvolvido pela AmplaAI. Converse naturalmente sobre tecnologia, criatividade e inovação.">
-  <meta name="keywords" content="Cici, AmplaAI, chatbot, assistente, YumeRoll, tecnologia">
-  <meta name="author" content="AmplaAI">
-  
-  <!-- PWA Meta Tags -->
-  <meta name="theme-color" content="#6366f1">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Cici">
-  
-  <!-- Manifest -->
-  <link rel="manifest" href="/manifest.json">
-  
-  <!-- Ícones -->
-  <link rel="icon" type="image/png" href="https://i.imgur.com/uoWlYN7.jpeg">
-  <link rel="apple-touch-icon" href="https://i.imgur.com/z2hCety.jpeg">
-  <link rel="apple-touch-icon" sizes="152x152" href="https://i.imgur.com/z2hCety.jpeg">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/z2hCety.jpeg">
-  <link rel="apple-touch-icon" sizes="167x167" href="https://i.imgur.com/z2hCety.jpeg">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://orpheostudio.com.br">
-  <meta property="og:title" content="Cici - Seu Companheiro AmplaAI">
-  <meta property="og:description" content="Converse naturalmente sobre tecnologia, criatividade e inovação com a Cici.">
-  <meta property="og:image" content="https://i.imgur.com/uoWlYN7.jpeg">
-  
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://orpheostudio.com.br">
-  <meta property="twitter:title" content="Cici - Seu Companheiro AmplaAI">
-  <meta property="twitter:description" content="Converse naturalmente sobre tecnologia, criatividade e inovação com a Cici.">
-  <meta property="twitter:image" content="https://i.imgur.com/uoWlYN7.jpeg">
-  
-  <!-- Microsoft Clarity -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "tlya8thx8r");
-  </script>
-  
-  <!-- Google AdMob/AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5941203056187445"
-     crossorigin="anonymous"></script>
-  
-  <!-- Preconnect para performance -->
-  <link rel="preconnect" href="https://api.deepseek.com">
-  <link rel="preconnect" href="https://api.mistral.ai">
-  <link rel="preconnect" href="https://www.clarity.ms">
-  <link rel="preconnect" href="https://pagead2.googlesyndication.com">
-  
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Metatags Essenciais -->
+    <title>Cici - Sua assistente curiosa</title>
+    <meta name="description" content="Cici é seu companheiro de exploração e soluções, desenvolvido pela AmplaAI. Converse naturalmente sobre tecnologia, criatividade e inovação.">
+    <meta name="keywords" content="Cici, AmplaAI, chatbot, assistente, YumeRoll, tecnologia">
+    <meta name="author" content="AmplaAI">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#6366f1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Cici">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Ícones -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/uoWlYN7.jpeg">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/z2hCety.jpeg">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://i.imgur.com/z2hCety.jpeg">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/z2hCety.jpeg">
+    <link rel="apple-touch-icon" sizes="167x167" href="https://i.imgur.com/z2hCety.jpeg">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://orpheostudio.com.br">
+    <meta property="og:title" content="Cici - Seu Companheiro AmplaAI">
+    <meta property="og:description" content="Converse naturalmente sobre tecnologia, criatividade e inovação com a Cici.">
+    <meta property="og:image" content="https://i.imgur.com/uoWlYN7.jpeg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://orpheostudio.com.br">
+    <meta property="twitter:title" content="Cici - Seu Companheiro AmplaAI">
+    <meta property="twitter:description" content="Converse naturalmente sobre tecnologia, criatividade e inovação com a Cici.">
+    <meta property="twitter:image" content="https://i.imgur.com/uoWlYN7.jpeg">
+    
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "tlya8thx8r");
+    </script>
+    
+    <!-- Google AdMob/AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5941203056187445"
+        crossorigin="anonymous"></script>
+    
+    <!-- Preconnect para performance -->
+    <link rel="preconnect" href="https://api.deepseek.com">
+    <link rel="preconnect" href="https://api.mistral.ai">
+    <link rel="preconnect" href="https://www.clarity.ms">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Loading Screen -->
-  <div class="loading-screen" id="loading-screen">
-    <img src="https://i.imgur.com/uoWlYN7.jpeg" alt="Cici Logo" class="loading-logo">
-    <div class="loading-text">Cici</div>
-    <div class="loading-spinner"></div>
-  </div>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <img src="https://i.imgur.com/uoWlYN7.jpeg" alt="Cici Logo" class="loading-logo">
+        <div class="loading-text">Cici</div>
+        <div class="loading-spinner"></div>
+    </div>
 
-  <!-- Welcome Screen -->
-  <div id="welcome-screen" class="screen active">
-    <div class="welcome-container">
-      <img src="https://i.imgur.com/uoWlYN7.jpeg" alt="Cici Logo" class="welcome-logo">
-      <h1 class="welcome-title">Cici</h1>
-      <p class="welcome-subtitle">Sua companheira de exploração e soluções</p>
-      <p class="welcome-author">Desenvolvido por AmplaAI</p>
-      
-      <div class="welcome-buttons">
-        <button onclick="showScreen('chat')" class="btn btn-primary">
-          <i data-lucide="message-circle"></i>
-          <span>Começar Conversa</span>
-        </button>
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen active">
+        <div class="welcome-container">
+            <img src="https://i.imgur.com/uoWlYN7.jpeg" alt="Cici Logo" class="welcome-logo">
+            <h1 class="welcome-title">Cici</h1>
+            <p class="welcome-subtitle">Sua companheira de exploração e soluções</p>
+            <p class="welcome-author">Desenvolvido por AmplaAI</p>
+            
+            <div class="welcome-buttons">
+                <button onclick="showScreen('chat')" class="btn btn-primary">
+                    <i data-lucide="message-circle"></i>
+                    <span>Começar Conversa</span>
+                </button>
+                
+                <button onclick="showScreen('about')" class="btn btn-secondary">
+                    <i data-lucide="info"></i>
+                    <span>Sobre a Cici</span>
+                </button>
+            </div>
+
+            <div class="welcome-footer">
+                <p>Ao continuar, você concorda com nossos</p>
+                <div class="welcome-links">
+                    <a href="https://termos.orpheostudio.com.br" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
+                    <span>•</span>
+                    <a href="https://politicas.orpheostudio.com.br" target="_blank" rel="noopener noreferrer">Políticas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Screen -->
+    <div id="chat-screen" class="screen">
+        <!-- Header -->
+        <header class="chat-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <img src="https://i.imgur.com/uoWlYN7.jpeg" alt="Cici" class="header-logo">
+                    <div class="header-info">
+                        <h1>Cici</h1>
+                        <p>by AmplaAI</p>
+                    </div>
+                </div>
+                <div class="header-controls">
+                    <button class="control-btn" onclick="toggleTheme()" aria-label="Alternar tema" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="menu-btn" onclick="toggleMenu()" aria-label="Abrir menu" aria-expanded="false">
+                        <i data-lucide="menu" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Menu Dropdown -->
+            <div id="menu-dropdown" class="menu-dropdown" aria-hidden="true">
+                <div class="menu-container">
+                    <button onclick="showScreen('about')" class="menu-item">
+                        <i data-lucide="info"></i>
+                        <span>Sobre a Cici</span>
+                    </button>
+                    <button onclick="showScreen('welcome')" class="menu-item">
+                        <i data-lucide="home"></i>
+                        <span>Tela Inicial</span>
+                    </button>
+                    <button onclick="clearConversation()" class="menu-item">
+                        <i data-lucide="trash-2"></i>
+                        <span>Limpar Conversa</span>
+                    </button>
+                    <button onclick="exportChat()" class="menu-item">
+                        <i data-lucide="download"></i>
+                        <span>Exportar Conversa</span>
+                    </button>
+                    <button onclick="showShortcutsModal()" class="menu-item">
+                        <i data-lucide="keyboard"></i>
+                        <span>Atalhos do Teclado</span>
+                    </button>
+                    <div class="menu-highlights">
+                        <p class="highlights-title">💎 Meus Diferenciais:</p>
+                        <ul class="highlights-list">
+                            <li>✓ Acessibilidade genuína para todos</li>
+                            <li>✓ Especialização no cotidiano digital</li>
+                            <li>✓ Comunicação clara e acolhedora</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Messages Area -->
+        <main class="messages-container" id="messages-container">
+            <div class="message assistant message-enter">
+                <div class="message-content">
+                    <p>Oi! Que bom conversar com você! Sou a Cici, desenvolvida pela AmplaAI. Como posso ajudar hoje? 😊</p>
+                    <span class="message-time"></span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Sugestões Rápidas -->
+        <div class="suggestions-container" id="suggestionsContainer">
+            <button class="suggestion-btn" onclick="sendSuggestion('Como configurar Wi-Fi no celular?')">
+                📱 Configurar Wi-Fi
+            </button>
+            <button class="suggestion-btn" onclick="sendSuggestion('Como organizar meus arquivos no PC?')">
+                💻 Organizar arquivos
+            </button>
+            <button class="suggestion-btn" onclick="sendSuggestion('Recomende um anime de aventura')">
+                🎌 Recomendar anime
+            </button>
+            <button class="suggestion-btn" onclick="sendSuggestion('Como proteger minha senha?')">
+                🔒 Segurança digital
+            </button>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <div class="typing-indicator hidden" id="typingIndicator">
+                <i class="fas fa-circle-notch fa-spin"></i>
+                <span>Cici está digitando...</span>
+            </div>
+            <form id="message-form" onsubmit="sendMessage(); return false;" class="input-container">
+                <textarea 
+                    id="message-input" 
+                    placeholder="Conversar com a Cici..." 
+                    rows="1"
+                    required
+                    maxlength="1000"
+                ></textarea>
+                <button id="send-btn" type="submit" class="send-btn" aria-label="Enviar mensagem">
+                    <i data-lucide="send"></i>
+                </button>
+            </form>
+            <div class="input-info">
+                <span class="char-counter" id="charCounter">0/1000</span>
+                <span class="input-hint">A Cici está aqui para te ajudar com tecnologia de forma simples e acessível 💜</span>
+            </div>
+        </div>
+
+        <!-- Ad Container -->
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-5941203056187445"
+                data-ad-slot="f08c47fec0942fa0"
+                data-ad-format="auto"
+                data-full-width-responsive="true">
+            </ins>
+        </div>
+    </div>
+
+    <!-- About Screen -->
+    <div id="about-screen" class="screen">
+        <div class="about-container">
+            <button onclick="showScreen('welcome')" class="back-btn">
+                <i data-lucide="home"></i>
+                <span>Voltar</span>
+            </button>
+
+            <div class="about-card">
+                <div class="about-header">
+                    <img src="https://i.imgur.com/uoWlYN7.jpeg" alt="Cici Logo" class="about-logo">
+                    <h1>Sobre a Cici</h1>
+                    <p class="about-version">Orion v2.0</p>
+                </div>
+
+                <div class="about-content">
+                    <section class="about-section">
+                        <h2>Quem Sou Eu</h2>
+                        <p>Sou a Cici, uma exploradora curiosa do mundo das ideias e tecnologia. Adoro conversar, descobrir coisas novas e ajudar amigos a encontrarem soluções criativas. Minha missão é tornar a tecnologia mais acessível e natural para todos.</p>
+                    </section>
+
+                    <section class="about-section">
+                        <h2>Desenvolvido por AmplaAI</h2>
+                        <p>A AmplaAI é um estúdio de inovação que desenvolve projetos incríveis:</p>
+                        <ul>
+                            <li><strong>Sena</strong> - Tecnologia com alma gentil</li>
+                            <li><strong>YumeRoll Animes</strong> - fanpage de animes</li>
+                            <li><strong>Escola de Autores</strong> - Desenvolvimento criativo</li>
+                            <li><strong>Cici</strong> - Sua amiga curiosa e exploradora</li>
+                        </ul>
+                        <a href="https://orpheostudio.com.br" target="_blank" rel="noopener noreferrer" class="link-primary">
+                            Visite o AmplaAI Studio →
+                        </a>
+                    </section>
+
+                    <section class="about-section">
+                        <h2>Redes Sociais</h2>
+                        <div class="social-links">
+                            <div>
+                                <p><strong>AmplaAI:</strong></p>
+                                <a href="https://instagram.com/ampla.ai" target="_blank" rel="noopener noreferrer">@ampla.ai no Instagram</a>
+                            </div>
+                            <div>
+                                <p><strong>YumeRoll:</strong></p>
+                                <a href="https://instagram.com/yumerolloficial" target="_blank" rel="noopener noreferrer">@yumerolloficial (Instagram)</a>
+                                <a href="https://tiktok.com/@yumerollanimes" target="_blank" rel="noopener noreferrer">@yumerollanimes (TikTok)</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="about-section">
+                        <h2>Documentação</h2>
+                        <div class="doc-links">
+                            <a href="https://termos.orpheostudio.com.br" target="_blank" rel="noopener noreferrer" class="doc-link">Termos de Uso</a>
+                            <a href="https://politicas.orpheostudio.com.br" target="_blank" rel="noopener noreferrer" class="doc-link">Políticas de Privacidade</a>
+                        </div>
+                    </section>
+
+                    <!-- Mission Statement -->
+                    <section class="mission-section">
+                        <h2>Nossa Missão</h2>
+                        <div class="mission-content">
+                            <div class="mission-item">
+                                <h3 class="mission-subtitle mission-purple">🎯 Missão</h3>
+                                <p class="mission-text">
+                                    Promover uma experiência digital clara, acessível e inteligente, oferecendo orientação confiável, suporte técnico preciso e ferramentas que simplificam o cotidiano dos usuários.
+                                </p>
+                            </div>
+                            
+                            <div class="mission-item">
+                                <h3 class="mission-subtitle mission-pink">💡 Propósito</h3>
+                                <p class="mission-text">
+                                    Facilitar o acesso à tecnologia por meio de suporte claro, acessível e confiável, garantindo que qualquer pessoa consiga dominar ferramentas essenciais com segurança e autonomia.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <button onclick="showScreen('chat')" class="btn btn-primary btn-full">
+                    <i data-lucide="message-circle"></i>
+                    <span>Começar a Conversar</span>
+                </button>
+            </div>
+
+            <!-- AdMob Banner -->
+            <div class="ad-container">
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-5941203056187445"
+                    data-ad-slot="f08c47fec0942fa0"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true">
+                </ins>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donate Reminder -->
+    <div id="cici-donation-banner" style="display:none;">
+        <div class="cici-banner-content">
+            <p><strong>Cici:</strong> Manter uma IA ativa é caro... considere fazer uma doação para me manter online 💙</p>
+            <div class="cici-banner-actions">
+                <a href="https://nubank.com.br/cobrar/ftet6/690dfa92-b7c5-4679-83ff-6d64e4b35c83" target="_blank" class="cici-donate-btn">Doar</a>
+                <button id="cici-banner-close" aria-label="Fechar">✕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Install Button -->
+    <button id="install-button" class="install-btn">
+        📱 Instalar App
+    </button>
+
+    <!-- Modal de Atalhos -->
+    <div class="modal-overlay hidden" id="shortcutsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>⌨️ Atalhos do Teclado</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="shortcut-item">
+                    <kbd>Ctrl</kbd> + <kbd>K</kbd>
+                    <span>Focar no campo de mensagem</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Esc</kbd>
+                    <span>Fechar menu ou modal</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Enter</kbd>
+                    <span>Enviar mensagem</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Ctrl</kbd> + <kbd>L</kbd>
+                    <span>Limpar conversa</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Ctrl</kbd> + <kbd>/</kbd>
+                    <span>Abrir atalhos</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>© 2024 Cici AI - Tornando a tecnologia acessível para todos</p>
+            <p class="footer-powered">
+                Powered by <span class="powered-text">Mistral AI & DeepSeek</span> | 
+                Analytics by <span class="powered-text">Microsoft Clarity</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    <script>
+        // Inicializar Lucide Icons
+        lucide.createIcons();
         
-        <button onclick="showScreen('about')" class="btn btn-secondary">
-          <i data-lucide="info"></i>
-          <span>Sobre a Cici</span>
-        </button>
-      </div>
+        // Inicializar anúncios
+        if (typeof adsbygoogle !== 'undefined') {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        }
 
-      <div class="welcome-footer">
-        <p>Ao continuar, você concorda com nossos</p>
-        <div class="welcome-links">
-          <a href="https://termos.orpheostudio.com.br" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
-          <span>•</span>
-          <a href="https://politicas.orpheostudio.com.br" target="_blank" rel="noopener noreferrer">Políticas</a>
-        </div>
-      </div>
-    </div>
-  </div>
+        // 🕒 Mostra o lembrete de doação 15 segundos depois
+        setTimeout(() => {
+            const banner = document.getElementById("cici-donation-banner");
+            if (banner) {
+                banner.style.display = "block";
+            }
+        }, 15000);
 
-  <!-- Chat Screen -->
-  <div id="chat-screen" class="screen">
-    <!-- Header -->
-    <header class="chat-header">
-      <div class="header-content">
-        <div class="header-left">
-          <img src="https://i.imgur.com/uoWlYN7.jpeg" alt="Cici" class="header-logo">
-          <div class="header-info">
-            <h1>Cici</h1>
-            <p>by AmplaAI</p>
-          </div>
-        </div>
-        <button class="menu-btn" onclick="toggleMenu()" aria-label="Abrir menu" aria-expanded="false">
-          <i data-lucide="menu" id="menu-icon"></i>
-        </button>
-      </div>
-
-      <!-- Menu Dropdown -->
-      <div id="menu-dropdown" class="menu-dropdown" aria-hidden="true">
-        <button onclick="showScreen('about')" class="menu-item">
-          <i data-lucide="info"></i>
-          <span>Sobre a Cici</span>
-        </button>
-        <button onclick="showScreen('welcome')" class="menu-item">
-          <i data-lucide="home"></i>
-          <span>Tela Inicial</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- Messages Area -->
-    <main class="messages-container" id="messages-container">
-      <div class="message assistant">
-        <div class="message-content">
-          <p>Oi! Que bom conversar com você! Sou a Cici, desenvolvida pela AmplaAI. Como posso ajudar hoje? 😊</p>
-          <span class="message-time"></span>
-        </div>
-      </div>
-    </main>
-
-    <!-- Input Area -->
-    <div class="input-container">
-      <form id="message-form" onsubmit="sendMessage(); return false;">
-        <textarea 
-          id="message-input" 
-          placeholder="Conversar com a Cici..." 
-          rows="1"
-          required
-        ></textarea>
-        <button id="send-btn" type="submit" class="send-btn" aria-label="Enviar mensagem">
-          <i data-lucide="send"></i>
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- About Screen -->
-  <div id="about-screen" class="screen">
-    <div class="about-container">
-      <button onclick="showScreen('welcome')" class="back-btn">
-        <i data-lucide="home"></i>
-        <span>Voltar</span>
-      </button>
-
-      <div class="about-card">
-        <div class="about-header">
-          <img src="https://i.imgur.com/uoWlYN7.jpeg" alt="Cici Logo" class="about-logo">
-          <h1>Sobre a Cici</h1>
-          <p class="about-version">Orion v1.0</p>
-        </div>
-
-        <div class="about-content">
-          <section class="about-section">
-            <h2>Quem Sou Eu</h2>
-            <p>Sou a Cici, uma exploradora curiosa do mundo das ideias e tecnologia. Adoro conversar, descobrir coisas novas e ajudar amigos a encontrarem soluções criativas. Minha missão é tornar a tecnologia mais acessível e natural para todos.</p>
-          </section>
-
-          <section class="about-section">
-            <h2>Desenvolvido por AmplaAI</h2>
-            <p>A AmplaAI é um estúdio de inovação que desenvolve projetos incríveis:</p>
-            <ul>
-              <li><strong>Sena</strong> - Tecnologia com alma gentil</li>
-              <li><strong>YumeRoll Animes</strong> - fanpage de animes</li>
-              <li><strong>Escola de Autores</strong> - Desenvolvimento criativo</li>
-              <li><strong>Cici</strong> - Sua amiga curiosa e exploradora</li>
-            </ul>
-            <a href="https://orpheostudio.com.br" target="_blank" rel="noopener noreferrer" class="link-primary">
-              Visite o AmplaAI Studio →
-            </a>
-          </section>
-
-          <section class="about-section">
-            <h2>Redes Sociais</h2>
-            <div class="social-links">
-              <div>
-                <p><strong>AmplaAI:</strong></p>
-                <a href="https://instagram.com/ampla.ai" target="_blank" rel="noopener noreferrer">@ampla.ai no Instagram</a>
-              </div>
-              <div>
-                <p><strong>YumeRoll:</strong></p>
-                <a href="https://instagram.com/yumerolloficial" target="_blank" rel="noopener noreferrer">@yumerolloficial (Instagram)</a>
-                <a href="https://tiktok.com/@yumerollanimes" target="_blank" rel="noopener noreferrer">@yumerollanimes (TikTok)</a>
-              </div>
-            </div>
-          </section>
-
-          <section class="about-section">
-            <h2>Documentação</h2>
-            <div class="doc-links">
-              <a href="https://termos.orpheostudio.com.br" target="_blank" rel="noopener noreferrer" class="doc-link">Termos de Uso</a>
-              <a href="https://politicas.orpheostudio.com.br" target="_blank" rel="noopener noreferrer" class="doc-link">Políticas de Privacidade</a>
-            </div>
-          </section>
-        </div>
-
-        <button onclick="showScreen('chat')" class="btn btn-primary btn-full">
-          <i data-lucide="message-circle"></i>
-          <span>Começar a Conversar</span>
-        </button>
-      </div>
-
-      <!-- AdMob Banner -->
-      <div class="ad-container">
-        <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-5941203056187445"
-          data-ad-slot="f08c47fec0942fa0"
-          data-ad-format="auto"
-          data-full-width-responsive="true">
-        </ins>
-      </div>
-    </div>
-  </div>
-
-  <!-- Donate Reminder -->
-  <div id="cici-donation-banner" style="display:none;">
-    <div class="cici-banner-content">
-      <p><strong>Cici:</strong> Manter uma IA ativa é caro... considere fazer uma doação para me manter online 💙</p>
-      <div class="cici-banner-actions">
-        <a href="https://nubank.com.br/cobrar/ftet6/690dfa92-b7c5-4679-83ff-6d64e4b35c83" target="_blank" class="cici-donate-btn">Doar</a>
-        <button id="cici-banner-close" aria-label="Fechar">✕</button>
-      </div>
-    </div>
-  </div>
-
-  <style>
-    /* 🔹 Estilo geral do banner */
-    #cici-donation-banner {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      max-width: 350px;
-      background: rgba(10, 15, 30, 0.9);
-      border: 1px solid rgba(0, 200, 255, 0.3);
-      border-radius: 16px;
-      padding: 16px 18px;
-      color: #E6F6FF;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      line-height: 1.4;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      backdrop-filter: blur(8px);
-      z-index: 9999;
-      animation: ciciFadeIn 0.6s ease forwards;
-    }
-
-    .cici-banner-content {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .cici-banner-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .cici-donate-btn {
-      background: #00C8FF;
-      color: #0A0F1E;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .cici-donate-btn:hover {
-      background: #00A8DD;
-    }
-
-    #cici-banner-close {
-      background: transparent;
-      border: none;
-      color: #9BC9FF;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: color 0.2s ease;
-    }
-
-    #cici-banner-close:hover {
-      color: #fff;
-    }
-
-    @keyframes ciciFadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
-
-  <!-- Install Button -->
-  <button id="install-button" class="install-btn">
-    📱 Instalar App
-  </button>
-
-  <!-- JavaScript -->
-  <script src="script.js"></script>
-  <script>
-    // Inicializar Lucide Icons
-    lucide.createIcons();
-    
-    // 🕒 Mostra o lembrete 15 segundos depois
-    setTimeout(() => {
-      const banner = document.getElementById("cici-donation-banner");
-      banner.style.display = "block";
-    }, 15000);
-
-    // ❌ Botão de fechar
-    document.addEventListener("click", (e) => {
-      if (e.target && e.target.id === "cici-banner-close") {
-        const banner = document.getElementById("cici-donation-banner");
-        banner.style.opacity = "0";
-        banner.style.transform = "translateY(10px)";
-        setTimeout(() => banner.remove(), 400);
-      }
-    });
-  </script>
+        // ❌ Botão de fechar do banner de doação
+        document.addEventListener("click", (e) => {
+            if (e.target && e.target.id === "cici-banner-close") {
+                const banner = document.getElementById("cici-donation-banner");
+                banner.style.opacity = "0";
+                banner.style.transform = "translateY(10px)";
+                setTimeout(() => banner.remove(), 400);
+            }
+        });
+    </script>
 </body>
 </html>
