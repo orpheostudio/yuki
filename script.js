@@ -325,72 +325,245 @@ const API_CONFIG = {
 };
 
 // ============================================
-// INICIALIZAÇÃO
+// INICIALIZAÇÃO - VERSÃO CORRIGIDA
 // ============================================
 window.addEventListener('load', async () => {
-  // Carregar configurações do usuário
-  userSettings = storageManager.loadUserSettings();
-  currentTheme = userSettings.theme || 'light';
-  applyTheme(currentTheme);
+  console.log('🚀 Iniciando Cici Chatbot...');
+  
+  try {
+    // Carregar configurações do usuário
+    userSettings = storageManager.loadUserSettings();
+    currentTheme = userSettings.theme || 'light';
+    applyTheme(currentTheme);
 
-  // Esconder loading screen
-  setTimeout(() => {
-    const loadingScreen = document.getElementById('loading-screen');
-    loadingScreen.classList.add('hidden');
+    // Configurar elementos da UI primeiro
+    initializeUI();
+
+    // Esconder loading screen IMEDIATAMENTE
+    hideLoadingScreen();
+
+    // Carregar conversa anterior (pode ser assíncrono)
     setTimeout(() => {
-      loadingScreen.style.display = 'none';
+      loadPreviousConversation().catch(error => {
+        console.log('Erro ao carregar conversa anterior:', error);
+      });
     }, 500);
-  }, 1000);
 
-  // Configurar elementos da UI
-  initializeUI();
+    // Inicializar service worker (não bloqueante)
+    initializeServiceWorker();
 
-  // Carregar conversa anterior
-  await loadPreviousConversation();
+    // Configurar eventos
+    setupEventListeners();
 
-  // Inicializar service worker
-  initializeServiceWorker();
+    console.log('✅ Cici Chatbot inicializado com sucesso!');
 
-  // Configurar eventos
-  setupEventListeners();
-
-  console.log('🚀 Cici Chatbot inicializado com sucesso!');
+  } catch (error) {
+    console.error('❌ Erro na inicialização:', error);
+    // Mesmo com erro, garantir que o loading some
+    hideLoadingScreen();
+    showToast('Erro na inicialização, mas você pode usar o chat', 'error');
+  }
 });
 
 // ============================================
-// INICIALIZAÇÃO DA UI
+// FUNÇÃO PARA ESCONDER LOADING SCREEN
+// ============================================
+function hideLoadingScreen() {
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen) {
+    console.log('🎬 Removendo tela de loading...');
+    
+    // Primeiro adiciona a classe de animação
+    loadingScreen.classList.add('hidden');
+    
+    // Depois de um tempo, remove completamente
+    setTimeout(() => {
+      loadingScreen.style.display = 'none';
+      console.log('✅ Tela de loading removida');
+    }, 500);
+  } else {
+    console.log('⚠️ Elemento loading-screen não encontrado');
+    
+    // Fallback: tenta encontrar qualquer elemento de loading
+    const possibleLoadingScreens = document.querySelectorAll('[class*="loading"], [id*="loading"]');
+    possibleLoadingScreens.forEach(element => {
+      element.style.display = 'none';
+    });
+  }
+}
+
+// ============================================
+// INICIALIZAÇÃO DA UI - VERSÃO CORRIGIDA
 // ============================================
 function initializeUI() {
-  // Configurar textarea auto-resize
-  const textarea = document.getElementById('message-input');
-  textarea.addEventListener('input', autoResizeTextarea);
+  console.log('🎨 Inicializando UI...');
   
-  // Configurar atalhos de teclado
-  textarea.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-    
-    // Atalho Ctrl/Cmd + K para limpar conversa
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-      e.preventDefault();
-      showClearConversationModal();
-    }
-  });
+  try {
+    // Configurar textarea auto-resize
+    const textarea = document.getElementById('message-input');
+    if (textarea) {
+      textarea.addEventListener('input', autoResizeTextarea);
+      
+      // Configurar atalhos de teclado
+      textarea.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
 
-  // Inicializar ícones
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
+        // Atalho Ctrl/Cmd + K para limpar conversa
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+          e.preventDefault();
+          showClearConversationModal();
+        }
+      });
+      
+      // Focar no input após carregamento
+      setTimeout(() => {
+        textarea.focus();
+      }, 1000);
+    } else {
+      console.log('⚠️ Elemento message-input não encontrado');
+    }
+
+    // Inicializar ícones Lucide
+    if (typeof lucide !== 'undefined') {
+      console.log('✨ Inicializando ícones Lucide...');
+      lucide.createIcons();
+    } else {
+      console.log('⚠️ Lucide não encontrado');
+    }
+
+    // Inicializar anúncios Google (se existirem)
+    if (typeof adsbygoogle !== 'undefined') {
+      console.log('📢 Inicializando anúncios...');
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    }
+
+    // Adicionar mensagem de boas-vindas se não houver mensagens
+    const messagesContainer = document.getElementById('messages-container');
+    if (messagesContainer && messagesContainer.children.length === 0) {
+      addMessageToUI(ciciPersonality.getRandomGreeting(), 'assistant', false);
+    }
+
+    console.log('✅ UI inicializada com sucesso');
+
+  } catch (error) {
+    console.error('❌ Erro na inicialização da UI:', error);
+  }
+}
+
+// ============================================
+// CARREGAR CONVERSA ANTERIOR - VERSÃO CORRIGIDA
+// ============================================
+async function loadPreviousConversation() {
+  console.log('💾 Verificando conversa anterior...');
+  
+  try {
+    const saved = storageManager.loadConversation();
+    if (saved && saved.history && saved.history.length > 0) {
+      // Verificar se a conversa é recente (menos de 24 horas)
+      const savedTime = new Date(saved.savedAt);
+      const now = new Date();
+      const hoursDiff = (now - savedTime) / (1000 * 60 * 60);
+
+      if (hoursDiff < 24) {
+        console.log(`🕐 Conversa anterior encontrada (${Math.round(hoursDiff)}h atrás)`);
+        
+        conversationManager.history = saved.history;
+        conversationManager.context = saved.context;
+
+        // Recriar mensagens na UI
+        const messagesContainer = document.getElementById('messages-container');
+        if (messagesContainer) {
+          messagesContainer.innerHTML = '';
+
+          saved.history.forEach(msg => {
+            addMessageToUI(msg.content, msg.role, false);
+          });
+
+          showToast('Conversa anterior carregada! 💾', 'info');
+        }
+      } else {
+        console.log('🕐 Conversa anterior expirada, iniciando nova');
+        // Adicionar mensagem de boas-vindas
+        addMessageToUI(ciciPersonality.getRandomGreeting(), 'assistant', false);
+      }
+    } else {
+      console.log('💾 Nenhuma conversa anterior encontrada');
+      // Adicionar mensagem de boas-vindas
+      addMessageToUI(ciciPersonality.getRandomGreeting(), 'assistant', false);
+    }
+  } catch (error) {
+    console.error('❌ Erro ao carregar conversa anterior:', error);
+    // Em caso de erro, pelo menos mostrar mensagem de boas-vindas
+    addMessageToUI(ciciPersonality.getRandomGreeting(), 'assistant', false);
+  }
+}
+
+// ============================================
+// FUNÇÃO ADD MESSAGE TO UI - VERSÃO CORRIGIDA
+// ============================================
+function addMessageToUI(content, role, animate = true) {
+  console.log(`💬 Adicionando mensagem (${role}):`, content.substring(0, 50) + '...');
+  
+  const messagesContainer = document.getElementById('messages-container');
+  
+  if (!messagesContainer) {
+    console.error('❌ messages-container não encontrado!');
+    return;
   }
 
-  // Inicializar anúncios
-  if (typeof adsbygoogle !== 'undefined') {
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  }
+  try {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${role} ${animate ? 'message-enter' : ''}`;
 
-  // Atualizar timestamp da mensagem de boas-vindas
-  updateMessageTime();
+    const messageContent = document.createElement('div');
+    messageContent.className = 'message-content';
+
+    const messageParagraph = document.createElement('p');
+    messageParagraph.textContent = content;
+
+    const messageTime = document.createElement('span');
+    messageTime.className = 'message-time';
+    messageTime.textContent = getCurrentTime();
+
+    // Adicionar botões de ação para mensagens do usuário
+    if (role === 'user') {
+      const messageActions = document.createElement('div');
+      messageActions.className = 'message-actions';
+
+      const editBtn = document.createElement('button');
+      editBtn.className = 'message-action-btn';
+      editBtn.innerHTML = '<i data-lucide="edit-3"></i>';
+      editBtn.title = 'Editar mensagem';
+      editBtn.onclick = () => editMessage(messageDiv, content);
+
+      messageActions.appendChild(editBtn);
+      messageContent.appendChild(messageActions);
+    }
+
+    messageContent.appendChild(messageParagraph);
+    messageContent.appendChild(messageTime);
+    messageDiv.appendChild(messageContent);
+
+    messagesContainer.appendChild(messageDiv);
+
+    // Scroll para baixo
+    if (userSettings.autoScroll !== false) {
+      scrollToBottom();
+    }
+
+    // Atualizar ícones Lucide
+    if (typeof lucide !== 'undefined') {
+      setTimeout(() => lucide.createIcons(), 100);
+    }
+
+    console.log('✅ Mensagem adicionada com sucesso');
+
+  } catch (error) {
+    console.error('❌ Erro ao adicionar mensagem na UI:', error);
+  }
 }
 
 // ============================================
