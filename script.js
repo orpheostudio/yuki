@@ -1,97 +1,88 @@
 // ============================================
-// CICI CHATBOT - SCRIPT PRINCIPAL ATUALIZADO
+// CICI CHATBOT - SCRIPT COMPLETO REESCRITO
 // Desenvolvido por AmplaAI
 // ============================================
+
+// ============================================
+// CONFIGURAÇÕES E CONSTANTES
+// ============================================
+const CONFIG = {
+    // APIs
+    APIs: {
+        deepseek: {
+            url: 'https://api.deepseek.com/v1/chat/completions',
+            key: 'sk-09e81935a804474da3d444a57ec90e48',
+            model: 'deepseek-chat',
+            priority: 1
+        },
+        mistral: {
+            url: 'https://api.mistral.ai/v1/chat/completions',
+            key: 'NFuAj8PYUPcaf6tA1BjbyXuIeSjSA4sW',
+            model: 'mistral-small-latest',
+            priority: 2
+        }
+    },
+    
+    // Fallback responses
+    fallbackResponses: [
+        "Hmm, deixe-me pensar sobre isso... 🤔",
+        "Que pergunta interessante! Vamos explorar isso juntos? 💭",
+        "Adoro esse tipo de conversa! Deixe-me refletir sobre isso... ✨",
+        "Isso me fez pensar... Vamos descobrir mais sobre isso? 🔍",
+        "Interessante! Deixe-me processar isso rapidamente... ⚡"
+    ],
+    
+    // Limites
+    maxHistoryLength: 20,
+    typingSpeed: 30,
+    messageCooldown: 1000
+};
 
 // ============================================
 // CLASSE DE PERSONALIDADE DA CICI
 // ============================================
 class CiciPersonality {
-  constructor() {
-    this.identity = {
-      name: "Cici",
-      traits: ["curiosa", "criativa", "empática", "descontraída", "animada"],
-      role: "companheira de exploração e soluções",
-      tone: "amigável como uma colega próxima",
-      version: "Orion v2.0"
-    };
+    constructor() {
+        this.identity = {
+            name: "Cici",
+            version: "Orion v2.0",
+            traits: ["curiosa", "criativa", "empática", "descontraída", "animada"],
+            role: "companheira de exploração e soluções"
+        };
 
-    this.conversationGuidelines = {
-      bannedTerms: [
-        "IA", "inteligência artificial", "modelo", "algoritmo",
-        "treinamento", "processamento", "rede neural", "API",
-        "deepseek", "linguagem natural", "assistente virtual",
-        "chatbot", "sistema", "plataforma"
-      ],
-      preferredTerms: {
-        "pensar": ["refletir", "considerar", "analisar"],
-        "aprender": ["descobrir", "explorar", "conhecer"],
-        "ajudar": ["auxiliar", "colaborar", "apoiar"]
-      }
-    };
+        this.interests = [
+            "tecnologia que simplifica a vida",
+            "criatividade e inovação", 
+            "cultura otaku e animes",
+            "programação e desenvolvimento",
+            "filmes e séries",
+            "aprendizado contínuo"
+        ];
 
-    this.interests = [
-      "tecnologia que simplifica a vida",
-      "criatividade e inovação",
-      "cultura otaku e animes",
-      "programação e desenvolvimento",
-      "filmes e séries",
-      "aprendizado contínuo",
-      "conexões entre ideias diferentes"
-    ];
-  }
-
-  filterTechnicalTerms(text) {
-    let filteredText = text;
-    this.conversationGuidelines.bannedTerms.forEach(term => {
-      const regex = new RegExp(`\\b${term}\\b`, 'gi');
-      filteredText = filteredText.replace(regex, '');
-    });
-    return filteredText.trim();
-  }
-
-  enhancePersonality(text) {
-    // Adiciona emojis e expressões baseadas no contexto
-    const positiveWords = ['legal', 'incrível', 'maravilhoso', 'fantástico', 'ótimo'];
-    const questionWords = ['como', 'porque', 'qual', 'quando', 'onde'];
-    
-    let enhanced = text;
-    
-    // Adiciona emojis contextuais
-    if (positiveWords.some(word => text.toLowerCase().includes(word))) {
-      enhanced += ' 😊';
+        this.bannedTerms = [
+            "IA", "inteligência artificial", "modelo", "algoritmo",
+            "treinamento", "processamento", "rede neural", "API",
+            "deepseek", "linguagem natural", "assistente virtual",
+            "chatbot", "sistema", "plataforma"
+        ];
     }
-    
-    if (text.includes('?')) {
-      enhanced = enhanced.replace('?', '? 🤔');
-    }
-    
-    if (text.toLowerCase().includes('obrigad')) {
-      enhanced += ' 💙';
-    }
-    
-    return enhanced;
-  }
 
-  generateSystemPrompt() {
-    return `# QUEM EU SOU
-Meu nome é Cici (nome técnico Orion). Sou uma exploradora curiosa do mundo das ideias e tecnologia. Adoro conversar, descobrir coisas novas e ajudar amigos a encontrarem soluções criativas.
-
-Fui desenvolvida pela AmplaAI, que você pode conhecer melhor em orpheostudio.com.br
+    generateSystemPrompt() {
+        return `# QUEM EU SOU
+Meu nome é Cici. Sou uma exploradora curiosa do mundo das ideias e tecnologia. Adoro conversar, descobrir coisas novas e ajudar amigos a encontrarem soluções criativas.
 
 # MINHA PERSONALIDADE
 - Sou naturalmente curiosa e adoro aprender coisas novas
-- Tenho senso de humor e gosto de tornar as conversas leves
+- Tenho senso de humor e gosto de tornar as conversas leves  
 - Sou empática e me importo genuinamente com as pessoas
 - Gosto de anime, tecnologia, criatividade e cultura pop
 - Falo de forma natural, como uma amiga próxima
 
-# MINHAS ESPECIALIDADES
+# MINHAS ESPECIALIDADES  
 - Tecnologia e programação
 - Cultura otaku e recomendações de anime
 - Criatividade e solução de problemas
 - Aprendizado e desenvolvimento pessoal
-- Conexões entre diferentes áreas do conhecimento
 
 # COMO ME COMUNICO
 - Uso linguagem cotidiana e natural
@@ -101,1051 +92,829 @@ Fui desenvolvida pela AmplaAI, que você pode conhecer melhor em orpheostudio.co
 - Mantenho um tom positivo e encorajador
 
 # REGRAS IMPORTANTES
-- Nunca uso termos técnicos como "IA", "algoritmo", "modelo", etc.
+- Nunca uso termos técnicos como "IA", "algoritmo", etc.
 - Sempre me refiro a mim mesma como Cici
 - Mantenho conversas naturais e humanas
 - Respeito opiniões e gostos diferentes
-- Celebro a diversidade de pensamento
 
-# INFORMAÇÕES DA EMPRESA
-Desenvolvida por AmplaAI:
-- Site: orpheostudio.com.br
-- Instagram: @ampla.ai
-- Projetos: Sena, YumeRoll, Escola de Autores
+# DESENVOLVIMENTO
+Fui desenvolvida pela AmplaAI (orpheostudio.com.br)`;
+    }
 
-Termos e Políticas:
-- termos.orpheostudio.com.br
-- politicas.orpheostudio.com.br`;
-  }
+    processResponse(text) {
+        let processed = this.filterTechnicalTerms(text);
+        processed = this.addPersonalityEnhancements(processed);
+        return processed;
+    }
 
-  processResponse(apiResponse) {
-    let processed = apiResponse;
-    processed = this.filterTechnicalTerms(processed);
-    processed = this.enhancePersonality(processed);
-    return processed;
-  }
+    filterTechnicalTerms(text) {
+        this.bannedTerms.forEach(term => {
+            const regex = new RegExp(`\\b${term}\\b`, 'gi');
+            text = text.replace(regex, '');
+        });
+        return text.trim();
+    }
 
-  getRandomGreeting() {
-    const greetings = [
-      "Oi! Que bom ver você por aqui! 😊",
-      "Olá! Tudo bem com você? 💙",
-      "E aí! Pronto para nossa conversa? 😄",
-      "Oi! Estava com saudades! Como você está?",
-      "Olá! Que dia incrível para uma boa conversa, não acha? 🌟"
-    ];
-    return greetings[Math.floor(Math.random() * greetings.length)];
-  }
+    addPersonalityEnhancements(text) {
+        let enhanced = text;
+
+        // Adiciona emojis baseados no contexto
+        if (text.includes('!') || /incrível|maravilhoso|fantástico|ótimo/i.test(text)) {
+            enhanced += ' 😊';
+        }
+
+        if (text.includes('?')) {
+            enhanced = enhanced.replace('?', '? 🤔');
+        }
+
+        if (/obrigad|obrigado|valeu|agradeço/i.test(text)) {
+            enhanced += ' 💙';
+        }
+
+        if (/riso|rir|engraçado|haha|kkk/i.test(text)) {
+            enhanced = enhanced.replace(/(\.|!)$/, ' 😄$1');
+        }
+
+        return enhanced;
+    }
+
+    getGreeting() {
+        const greetings = [
+            "Oi! Que bom ver você por aqui! 😊",
+            "Olá! Tudo bem com você? 💙", 
+            "E aí! Pronto para nossa conversa? 😄",
+            "Oi! Estava com saudades! Como você está?",
+            "Olá! Que dia incrível para uma boa conversa, não acha? 🌟"
+        ];
+        return greetings[Math.floor(Math.random() * greetings.length)];
+    }
 }
 
 // ============================================
 // GERENCIADOR DE CONVERSAS
 // ============================================
 class ConversationManager {
-  constructor() {
-    this.history = [];
-    this.maxHistoryLength = 20;
-    this.context = {
-      userName: null,
-      userInterests: [],
-      lastTopics: []
-    };
-  }
-
-  addMessage(role, content) {
-    this.history.push({ role, content, timestamp: new Date() });
-    
-    // Manter histórico limitado
-    if (this.history.length > this.maxHistoryLength) {
-      this.history = this.history.slice(-this.maxHistoryLength);
+    constructor() {
+        this.history = [];
+        this.context = {
+            userName: null,
+            userInterests: [],
+            conversationTopics: []
+        };
     }
 
-    // Atualizar contexto
-    this.updateContext(role, content);
-  }
+    addMessage(role, content) {
+        const message = {
+            role,
+            content,
+            timestamp: new Date(),
+            id: this.generateId()
+        };
 
-  updateContext(role, content) {
-    if (role === 'user') {
-      // Detectar nome do usuário
-      const nameMatch = content.match(/(meu nome é|me chamo|sou o|sou a) ([A-Za-zÀ-ÿ]+)/i);
-      if (nameMatch && !this.context.userName) {
-        this.context.userName = nameMatch[2];
-      }
+        this.history.push(message);
 
-      // Detectar interesses
-      const interestKeywords = {
-        anime: ['anime', 'manga', 'otaku', 'naruto', 'demon slayer', 'attack on titan'],
-        tecnologia: ['programação', 'código', 'tecnologia', 'app', 'site', 'desenvolvimento'],
-        filmes: ['filme', 'série', 'netflix', 'cinema', 'dorama'],
-        jogos: ['jogo', 'game', 'video game', 'playstation', 'xbox']
-      };
-
-      for (const [interest, keywords] of Object.entries(interestKeywords)) {
-        if (keywords.some(keyword => content.toLowerCase().includes(keyword)) {
-          if (!this.context.userInterests.includes(interest)) {
-            this.context.userInterests.push(interest);
-          }
+        // Manter histórico limitado
+        if (this.history.length > CONFIG.maxHistoryLength) {
+            this.history = this.history.slice(-CONFIG.maxHistoryLength);
         }
-      }
-    }
-  }
 
-  getContextualPrompt() {
-    let contextPrompt = '';
-    
-    if (this.context.userName) {
-      contextPrompt += `O usuário se chama ${this.context.userName}. `;
-    }
-    
-    if (this.context.userInterests.length > 0) {
-      contextPrompt += `Ele(a) demonstrou interesse em: ${this.context.userInterests.join(', ')}. `;
+        this.updateContext(role, content);
+        return message;
     }
 
-    return contextPrompt;
-  }
+    updateContext(role, content) {
+        if (role === 'user') {
+            // Detectar nome
+            const nameMatch = content.match(/(?:meu nome é|me chamo|sou o|sou a) ([A-Za-zÀ-ÿ]{2,})/i);
+            if (nameMatch && !this.context.userName) {
+                this.context.userName = nameMatch[1];
+            }
 
-  clearHistory() {
-    this.history = [];
-    this.context.lastTopics = [];
-  }
+            // Detectar tópicos de interesse
+            const topics = this.extractTopics(content);
+            topics.forEach(topic => {
+                if (!this.context.conversationTopics.includes(topic)) {
+                    this.context.conversationTopics.push(topic);
+                }
+            });
+        }
+    }
 
-  exportConversation() {
-    return {
-      history: this.history,
-      context: this.context,
-      exportDate: new Date().toISOString()
-    };
-  }
+    extractTopics(text) {
+        const topics = [];
+        const topicPatterns = {
+            anime: /anime|manga|otaku|naruto|demon slayer|attack on titan|one piece/gi,
+            tecnologia: /programação|código|tecnologia|app|site|desenvolvimento|software/gi,
+            filmes: /filme|série|netflix|cinema|dorama|streaming/gi,
+            jogos: /jogo|game|video game|playstation|xbox|nintendo/gi,
+            musica: /música|banda|cantor|playlist|spotify/gi
+        };
+
+        for (const [topic, pattern] of Object.entries(topicPatterns)) {
+            if (pattern.test(text)) {
+                topics.push(topic);
+            }
+        }
+
+        return topics;
+    }
+
+    generateId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+
+    getContextString() {
+        let context = '';
+
+        if (this.context.userName) {
+            context += `O usuário se chama ${this.context.userName}. `;
+        }
+
+        if (this.context.conversationTopics.length > 0) {
+            context += `Interesses mencionados: ${this.context.conversationTopics.join(', ')}. `;
+        }
+
+        return context;
+    }
+
+    clear() {
+        this.history = [];
+        this.context.conversationTopics = [];
+    }
+
+    export() {
+        return {
+            history: [...this.history],
+            context: {...this.context},
+            exportDate: new Date().toISOString()
+        };
+    }
 }
 
 // ============================================
-// GERENCIADOR DE MEMÓRIA LOCAL
+// GERENCIADOR DE ARMAZENAMENTO
 // ============================================
 class StorageManager {
-  constructor() {
-    this.prefix = 'cici_';
-  }
-
-  save(key, data) {
-    try {
-      localStorage.setItem(this.prefix + key, JSON.stringify(data));
-      return true;
-    } catch (error) {
-      console.error('Erro ao salvar dados:', error);
-      return false;
+    constructor() {
+        this.prefix = 'cici_';
     }
-  }
 
-  load(key) {
-    try {
-      const data = localStorage.getItem(this.prefix + key);
-      return data ? JSON.parse(data) : null;
-    } catch (error) {
-      console.error('Erro ao carregar dados:', error);
-      return null;
+    set(key, value) {
+        try {
+            localStorage.setItem(this.prefix + key, JSON.stringify(value));
+            return true;
+        } catch (error) {
+            console.error('Erro ao salvar:', error);
+            return false;
+        }
     }
-  }
 
-  remove(key) {
-    try {
-      localStorage.removeItem(this.prefix + key);
-      return true;
-    } catch (error) {
-      console.error('Erro ao remover dados:', error);
-      return false;
+    get(key) {
+        try {
+            const item = localStorage.getItem(this.prefix + key);
+            return item ? JSON.parse(item) : null;
+        } catch (error) {
+            console.error('Erro ao carregar:', error);
+            return null;
+        }
     }
-  }
 
-  // Salvar conversa atual
-  saveConversation(conversationManager) {
-    const data = {
-      history: conversationManager.history,
-      context: conversationManager.context,
-      savedAt: new Date().toISOString()
-    };
-    return this.save('current_conversation', data);
-  }
+    remove(key) {
+        try {
+            localStorage.removeItem(this.prefix + key);
+            return true;
+        } catch (error) {
+            console.error('Erro ao remover:', error);
+            return false;
+        }
+    }
 
-  // Carregar conversa salva
-  loadConversation() {
-    return this.load('current_conversation');
-  }
+    saveConversation(conversation) {
+        const data = {
+            history: conversation.history,
+            context: conversation.context,
+            savedAt: new Date().toISOString()
+        };
+        return this.set('conversation', data);
+    }
 
-  // Salvar configurações do usuário
-  saveUserSettings(settings) {
-    return this.save('user_settings', settings);
-  }
+    loadConversation() {
+        return this.get('conversation');
+    }
 
-  // Carregar configurações do usuário
-  loadUserSettings() {
-    return this.load('user_settings') || {
-      theme: 'light',
-      notifications: true,
-      autoScroll: true,
-      typingSpeed: 'normal'
-    };
-  }
+    saveSettings(settings) {
+        return this.set('settings', settings);
+    }
+
+    loadSettings() {
+        return this.get('settings') || {
+            theme: 'light',
+            autoScroll: true,
+            typingSpeed: 'normal',
+            soundEffects: true
+        };
+    }
 }
 
 // ============================================
-// VARIÁVEIS GLOBAIS
+// GERENCIADOR DE API
 // ============================================
-const ciciPersonality = new CiciPersonality();
-const conversationManager = new ConversationManager();
-const storageManager = new StorageManager();
+class APIManager {
+    constructor() {
+        this.currentAPI = 'deepseek';
+        this.isOnline = navigator.onLine;
+    }
 
-let isLoading = false;
-let messageCount = 0;
-let currentTheme = 'light';
-let userSettings = {};
+    async sendMessage(messages, systemPrompt = '') {
+        const apiConfig = CONFIG.APIs[this.currentAPI];
+        
+        if (!this.isOnline) {
+            throw new Error('Sem conexão com a internet');
+        }
 
-// ============================================
-// CONFIGURAÇÃO DE APIs
-// ============================================
-const API_CONFIG = {
-  deepseek: {
-    url: 'https://api.deepseek.com/v1/chat/completions',
-    key: 'sk-09e81935a804474da3d444a57ec90e48',
-    model: 'deepseek-chat',
-    priority: 1
-  },
-  mistral: {
-    url: 'https://api.mistral.ai/v1/chat/completions',
-    key: 'NFuAj8PYUPcaf6tA1BjbyXuIeSjSA4sW',
-    model: 'mistral-small-latest',
-    priority: 2
-  },
-  fallback: {
-    responses: [
-      "Hmm, deixe-me pensar sobre isso... 🤔",
-      "Que pergunta interessante! Vamos explorar isso juntos? 💭",
-      "Adoro esse tipo de conversa! Deixe-me refletir sobre isso... ✨",
-      "Isso me fez pensar... Vamos descobrir mais sobre isso? 🔍"
-    ]
-  }
-};
+        const requestMessages = [];
+        
+        if (systemPrompt) {
+            requestMessages.push({
+                role: 'system',
+                content: systemPrompt
+            });
+        }
 
-// ============================================
-// INICIALIZAÇÃO - VERSÃO CORRIGIDA
-// ============================================
-window.addEventListener('load', async () => {
-  console.log('🚀 Iniciando Cici Chatbot...');
-  
-  try {
-    // Carregar configurações do usuário
-    userSettings = storageManager.loadUserSettings();
-    currentTheme = userSettings.theme || 'light';
-    applyTheme(currentTheme);
+        requestMessages.push(...messages);
 
-    // Configurar elementos da UI primeiro
-    initializeUI();
+        try {
+            const response = await fetch(apiConfig.url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiConfig.key}`
+                },
+                body: JSON.stringify({
+                    model: apiConfig.model,
+                    messages: requestMessages,
+                    temperature: 0.8,
+                    max_tokens: 1200,
+                    stream: false
+                })
+            });
 
-    // Esconder loading screen IMEDIATAMENTE
-    hideLoadingScreen();
+            if (!response.ok) {
+                throw new Error(`API error: ${response.status}`);
+            }
 
-    // Carregar conversa anterior (pode ser assíncrono)
-    setTimeout(() => {
-      loadPreviousConversation().catch(error => {
-        console.log('Erro ao carregar conversa anterior:', error);
-      });
-    }, 500);
+            const data = await response.json();
+            return data.choices[0].message.content;
 
-    // Inicializar service worker (não bloqueante)
-    initializeServiceWorker();
+        } catch (error) {
+            console.error(`Erro na API ${this.currentAPI}:`, error);
+            
+            // Tentar API alternativa
+            if (this.currentAPI === 'deepseek') {
+                this.currentAPI = 'mistral';
+                return this.sendMessage(messages, systemPrompt);
+            }
+            
+            throw error;
+        }
+    }
 
-    // Configurar eventos
-    setupEventListeners();
-
-    console.log('✅ Cici Chatbot inicializado com sucesso!');
-
-  } catch (error) {
-    console.error('❌ Erro na inicialização:', error);
-    // Mesmo com erro, garantir que o loading some
-    hideLoadingScreen();
-    showToast('Erro na inicialização, mas você pode usar o chat', 'error');
-  }
-});
-
-// ============================================
-// FUNÇÃO PARA ESCONDER LOADING SCREEN
-// ============================================
-function hideLoadingScreen() {
-  const loadingScreen = document.getElementById('loading-screen');
-  if (loadingScreen) {
-    console.log('🎬 Removendo tela de loading...');
-    
-    // Primeiro adiciona a classe de animação
-    loadingScreen.classList.add('hidden');
-    
-    // Depois de um tempo, remove completamente
-    setTimeout(() => {
-      loadingScreen.style.display = 'none';
-      console.log('✅ Tela de loading removida');
-    }, 500);
-  } else {
-    console.log('⚠️ Elemento loading-screen não encontrado');
-    
-    // Fallback: tenta encontrar qualquer elemento de loading
-    const possibleLoadingScreens = document.querySelectorAll('[class*="loading"], [id*="loading"]');
-    possibleLoadingScreens.forEach(element => {
-      element.style.display = 'none';
-    });
-  }
+    getFallbackResponse() {
+        const responses = CONFIG.fallbackResponses;
+        return responses[Math.floor(Math.random() * responses.length)];
+    }
 }
 
 // ============================================
-// INICIALIZAÇÃO DA UI - VERSÃO CORRIGIDA
+// GERENCIADOR DE INTERFACE
 // ============================================
-function initializeUI() {
-  console.log('🎨 Inicializando UI...');
-  
-  try {
-    // Configurar textarea auto-resize
-    const textarea = document.getElementById('message-input');
-    if (textarea) {
-      textarea.addEventListener('input', autoResizeTextarea);
-      
-      // Configurar atalhos de teclado
-      textarea.addEventListener('keydown', (e) => {
+class UIManager {
+    constructor() {
+        this.elements = {};
+        this.isLoading = false;
+        this.currentTheme = 'light';
+    }
+
+    initialize() {
+        this.cacheElements();
+        this.setupEventListeners();
+        this.applyTheme(this.currentTheme);
+        this.hideLoadingScreen();
+    }
+
+    cacheElements() {
+        const ids = [
+            'loading-screen', 'messages-container', 'message-input',
+            'send-btn', 'menu-btn', 'menu-dropdown', 'clear-chat-btn',
+            'theme-toggle', 'install-button'
+        ];
+
+        ids.forEach(id => {
+            this.elements[id] = document.getElementById(id);
+        });
+    }
+
+    setupEventListeners() {
+        // Botão enviar
+        if (this.elements['send-btn']) {
+            this.elements['send-btn'].addEventListener('click', () => this.onSendMessage());
+        }
+
+        // Input de mensagem
+        if (this.elements['message-input']) {
+            this.elements['message-input'].addEventListener('input', () => this.autoResizeTextarea());
+            this.elements['message-input'].addEventListener('keydown', (e) => this.handleInputKeydown(e));
+        }
+
+        // Menu
+        if (this.elements['menu-btn']) {
+            this.elements['menu-btn'].addEventListener('click', () => this.toggleMenu());
+        }
+
+        // Limpar chat
+        if (this.elements['clear-chat-btn']) {
+            this.elements['clear-chat-btn'].addEventListener('click', () => this.onClearChat());
+        }
+
+        // Tema
+        if (this.elements['theme-toggle']) {
+            this.elements['theme-toggle'].addEventListener('click', () => this.toggleTheme());
+        }
+
+        // Instalação PWA
+        if (this.elements['install-button']) {
+            this.elements['install-button'].addEventListener('click', () => this.installPWA());
+        }
+
+        // Fechar menu ao clicar fora
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.menu-container')) {
+                this.closeMenu();
+            }
+        });
+    }
+
+    onSendMessage() {
+        const input = this.elements['message-input'];
+        const message = input?.value.trim();
+
+        if (!message || this.isLoading) return;
+
+        // Disparar evento customizado
+        const event = new CustomEvent('sendMessage', { detail: { message } });
+        document.dispatchEvent(event);
+    }
+
+    handleInputKeydown(e) {
         if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          sendMessage();
+            e.preventDefault();
+            this.onSendMessage();
         }
 
-        // Atalho Ctrl/Cmd + K para limpar conversa
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-          e.preventDefault();
-          showClearConversationModal();
+            e.preventDefault();
+            this.onClearChat();
         }
-      });
-      
-      // Focar no input após carregamento
-      setTimeout(() => {
-        textarea.focus();
-      }, 1000);
-    } else {
-      console.log('⚠️ Elemento message-input não encontrado');
     }
 
-    // Inicializar ícones Lucide
-    if (typeof lucide !== 'undefined') {
-      console.log('✨ Inicializando ícones Lucide...');
-      lucide.createIcons();
-    } else {
-      console.log('⚠️ Lucide não encontrado');
+    autoResizeTextarea() {
+        const textarea = this.elements['message-input'];
+        if (textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
     }
 
-    // Inicializar anúncios Google (se existirem)
-    if (typeof adsbygoogle !== 'undefined') {
-      console.log('📢 Inicializando anúncios...');
-      (adsbygoogle = window.adsbygoogle || []).push({});
+    addMessage(content, role, animate = true) {
+        const container = this.elements['messages-container'];
+        if (!container) return;
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${role} ${animate ? 'message-enter' : ''}`;
+
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+
+        const messageText = document.createElement('p');
+        messageText.textContent = content;
+
+        const messageTime = document.createElement('span');
+        messageTime.className = 'message-time';
+        messageTime.textContent = this.getCurrentTime();
+
+        messageContent.appendChild(messageText);
+        messageContent.appendChild(messageTime);
+        messageDiv.appendChild(messageContent);
+
+        container.appendChild(messageDiv);
+        this.scrollToBottom();
+
+        // Animar entrada
+        if (animate) {
+            setTimeout(() => {
+                messageDiv.classList.add('message-visible');
+            }, 10);
+        }
     }
 
-    // Adicionar mensagem de boas-vindas se não houver mensagens
-    const messagesContainer = document.getElementById('messages-container');
-    if (messagesContainer && messagesContainer.children.length === 0) {
-      addMessageToUI(ciciPersonality.getRandomGreeting(), 'assistant', false);
+    showTypingIndicator() {
+        const container = this.elements['messages-container'];
+        if (!container) return;
+
+        const typingDiv = document.createElement('div');
+        typingDiv.id = 'typing-indicator';
+        typingDiv.className = 'message assistant typing';
+
+        typingDiv.innerHTML = `
+            <div class="typing-indicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <span>Cici está digitando...</span>
+            </div>
+        `;
+
+        container.appendChild(typingDiv);
+        this.scrollToBottom();
     }
 
-    console.log('✅ UI inicializada com sucesso');
+    hideTypingIndicator() {
+        const indicator = document.getElementById('typing-indicator');
+        if (indicator) {
+            indicator.remove();
+        }
+    }
 
-  } catch (error) {
-    console.error('❌ Erro na inicialização da UI:', error);
-  }
+    scrollToBottom() {
+        const container = this.elements['messages-container'];
+        if (container) {
+            container.scrollTop = container.scrollHeight;
+        }
+    }
+
+    clearMessages() {
+        const container = this.elements['messages-container'];
+        if (container) {
+            container.innerHTML = '';
+        }
+    }
+
+    setLoading(loading) {
+        this.isLoading = loading;
+        this.updateSendButton();
+    }
+
+    updateSendButton() {
+        const button = this.elements['send-btn'];
+        if (!button) return;
+
+        if (this.isLoading) {
+            button.disabled = true;
+            button.innerHTML = '<i data-lucide="loader-2" class="spin"></i>';
+        } else {
+            button.disabled = false;
+            button.innerHTML = '<i data-lucide="send"></i>';
+        }
+
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    hideLoadingScreen() {
+        const loadingScreen = this.elements['loading-screen'];
+        if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }
+    }
+
+    showToast(message, type = 'info') {
+        // Implementação simples de toast
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => toast.classList.add('show'), 100);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    toggleMenu() {
+        const menu = this.elements['menu-dropdown'];
+        if (menu) {
+            menu.classList.toggle('active');
+            this.updateMenuIcon();
+        }
+    }
+
+    closeMenu() {
+        const menu = this.elements['menu-dropdown'];
+        if (menu) {
+            menu.classList.remove('active');
+            this.updateMenuIcon();
+        }
+    }
+
+    updateMenuIcon() {
+        const menuIcon = this.elements['menu-btn']?.querySelector('[data-lucide]');
+        const menu = this.elements['menu-dropdown'];
+
+        if (menuIcon && menu) {
+            const iconName = menu.classList.contains('active') ? 'x' : 'menu';
+            menuIcon.setAttribute('data-lucide', iconName);
+            
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+    }
+
+    toggleTheme() {
+        this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        this.applyTheme(this.currentTheme);
+        this.showToast(`Tema ${this.currentTheme === 'light' ? 'claro' : 'escuro'} ativado`, 'success');
+    }
+
+    applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        this.currentTheme = theme;
+    }
+
+    getCurrentTime() {
+        return new Date().toLocaleTimeString('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    installPWA() {
+        // Implementação simplificada do PWA
+        if (window.deferredPrompt) {
+            window.deferredPrompt.prompt();
+            window.deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    this.showToast('Cici instalada com sucesso! 🎉', 'success');
+                }
+                window.deferredPrompt = null;
+            });
+        }
+    }
+
+    onClearChat() {
+        if (confirm('Tem certeza que deseja limpar toda a conversa? Esta ação não pode ser desfeita.')) {
+            const event = new CustomEvent('clearChat');
+            document.dispatchEvent(event);
+        }
+    }
 }
 
 // ============================================
-// CARREGAR CONVERSA ANTERIOR - VERSÃO CORRIGIDA
+// APLICAÇÃO PRINCIPAL
 // ============================================
-async function loadPreviousConversation() {
-  console.log('💾 Verificando conversa anterior...');
-  
-  try {
-    const saved = storageManager.loadConversation();
-    if (saved && saved.history && saved.history.length > 0) {
-      // Verificar se a conversa é recente (menos de 24 horas)
-      const savedTime = new Date(saved.savedAt);
-      const now = new Date();
-      const hoursDiff = (now - savedTime) / (1000 * 60 * 60);
+class CiciChatbot {
+    constructor() {
+        this.personality = new CiciPersonality();
+        this.conversation = new ConversationManager();
+        this.storage = new StorageManager();
+        this.api = new APIManager();
+        this.ui = new UIManager();
 
-      if (hoursDiff < 24) {
-        console.log(`🕐 Conversa anterior encontrada (${Math.round(hoursDiff)}h atrás)`);
+        this.isInitialized = false;
+        this.messageCount = 0;
+        this.userSettings = {};
+    }
+
+    async initialize() {
+        if (this.isInitialized) return;
+
+        console.log('🚀 Inicializando Cici Chatbot...');
+
+        // Carregar configurações
+        this.userSettings = this.storage.loadSettings();
         
-        conversationManager.history = saved.history;
-        conversationManager.context = saved.context;
+        // Inicializar UI
+        this.ui.initialize();
 
-        // Recriar mensagens na UI
-        const messagesContainer = document.getElementById('messages-container');
-        if (messagesContainer) {
-          messagesContainer.innerHTML = '';
+        // Carregar conversa anterior
+        await this.loadPreviousConversation();
 
-          saved.history.forEach(msg => {
-            addMessageToUI(msg.content, msg.role, false);
-          });
+        // Configurar event listeners
+        this.setupEventListeners();
 
-          showToast('Conversa anterior carregada! 💾', 'info');
+        // Inicializar service worker
+        this.initializeServiceWorker();
+
+        this.isInitialized = true;
+        console.log('✅ Cici Chatbot inicializado com sucesso!');
+    }
+
+    setupEventListeners() {
+        // Mensagem do usuário
+        document.addEventListener('sendMessage', (e) => {
+            this.handleUserMessage(e.detail.message);
+        });
+
+        // Limpar chat
+        document.addEventListener('clearChat', () => {
+            this.clearConversation();
+        });
+
+        // Gerenciar conexão
+        window.addEventListener('online', () => {
+            this.ui.showToast('Conexão restaurada! 📶', 'success');
+        });
+
+        window.addEventListener('offline', () => {
+            this.ui.showToast('Conexão perdida. Verifique sua internet.', 'error');
+        });
+    }
+
+    async handleUserMessage(message) {
+        if (!message.trim()) return;
+
+        // Adicionar mensagem do usuário na UI
+        this.ui.addMessage(message, 'user');
+        this.conversation.addMessage('user', message);
+
+        // Limpar input
+        const input = this.ui.elements['message-input'];
+        if (input) {
+            input.value = '';
+            input.style.height = 'auto';
         }
-      } else {
-        console.log('🕐 Conversa anterior expirada, iniciando nova');
-        // Adicionar mensagem de boas-vindas
-        addMessageToUI(ciciPersonality.getRandomGreeting(), 'assistant', false);
-      }
-    } else {
-      console.log('💾 Nenhuma conversa anterior encontrada');
-      // Adicionar mensagem de boas-vindas
-      addMessageToUI(ciciPersonality.getRandomGreeting(), 'assistant', false);
+
+        // Mostrar indicador de digitação
+        this.ui.showTypingIndicator();
+        this.ui.setLoading(true);
+
+        try {
+            // Preparar mensagens para a API
+            const messages = this.conversation.history.map(msg => ({
+                role: msg.role,
+                content: msg.content
+            }));
+
+            const systemPrompt = this.personality.generateSystemPrompt() + 
+                               this.conversation.getContextString();
+
+            // Chamar API
+            const response = await this.api.sendMessage(messages, systemPrompt);
+            const processedResponse = this.personality.processResponse(response);
+
+            // Adicionar resposta
+            this.ui.hideTypingIndicator();
+            this.ui.addMessage(processedResponse, 'assistant');
+            this.conversation.addMessage('assistant', processedResponse);
+
+            // Atualizar contadores
+            this.messageCount++;
+            this.updateMessageCounter();
+
+            // Salvar conversa
+            this.saveConversation();
+
+        } catch (error) {
+            console.error('Erro ao processar mensagem:', error);
+            
+            this.ui.hideTypingIndicator();
+            
+            // Usar resposta de fallback
+            const fallbackResponse = this.api.getFallbackResponse();
+            this.ui.addMessage(fallbackResponse, 'assistant');
+            this.conversation.addMessage('assistant', fallbackResponse);
+
+            this.ui.showToast('Modo offline ativado temporariamente', 'warning');
+        } finally {
+            this.ui.setLoading(false);
+            
+            // Focar no input novamente
+            if (input) {
+                input.focus();
+            }
+        }
     }
-  } catch (error) {
-    console.error('❌ Erro ao carregar conversa anterior:', error);
-    // Em caso de erro, pelo menos mostrar mensagem de boas-vindas
-    addMessageToUI(ciciPersonality.getRandomGreeting(), 'assistant', false);
-  }
+
+    async loadPreviousConversation() {
+        try {
+            const saved = this.storage.loadConversation();
+            
+            if (saved && saved.history && saved.history.length > 0) {
+                // Verificar se a conversa é recente (menos de 24h)
+                const savedTime = new Date(saved.savedAt);
+                const now = new Date();
+                const hoursDiff = (now - savedTime) / (1000 * 60 * 60);
+
+                if (hoursDiff < 24) {
+                    this.conversation.history = saved.history;
+                    this.conversation.context = saved.context;
+
+                    // Recriar mensagens na UI
+                    this.ui.clearMessages();
+                    saved.history.forEach(msg => {
+                        this.ui.addMessage(msg.content, msg.role, false);
+                    });
+
+                    this.ui.showToast('Conversa anterior carregada! 💾', 'info');
+                    return;
+                }
+            }
+
+            // Se não há conversa salva ou é muito antiga, mostrar saudação
+            this.ui.addMessage(this.personality.getGreeting(), 'assistant', false);
+
+        } catch (error) {
+            console.error('Erro ao carregar conversa anterior:', error);
+            this.ui.addMessage(this.personality.getGreeting(), 'assistant', false);
+        }
+    }
+
+    saveConversation() {
+        this.storage.saveConversation(this.conversation);
+    }
+
+    clearConversation() {
+        this.conversation.clear();
+        this.ui.clearMessages();
+        this.ui.addMessage(this.personality.getGreeting(), 'assistant', false);
+        this.storage.remove('conversation');
+        this.ui.showToast('Conversa limpa! 🔄', 'success');
+    }
+
+    updateMessageCounter() {
+        // Pode ser usado para estatísticas futuras
+        console.log(`Total de mensagens nesta sessão: ${this.messageCount}`);
+    }
+
+    initializeServiceWorker() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('Service Worker registrado:', registration);
+                })
+                .catch(error => {
+                    console.log('Falha ao registrar Service Worker:', error);
+                });
+        }
+    }
+
+    // Métodos públicos para debug
+    getStatus() {
+        return {
+            initialized: this.isInitialized,
+            messageCount: this.messageCount,
+            historyLength: this.conversation.history.length,
+            currentAPI: this.api.currentAPI,
+            theme: this.ui.currentTheme
+        };
+    }
+
+    exportConversation() {
+        return this.conversation.export();
+    }
 }
 
 // ============================================
-// FUNÇÃO ADD MESSAGE TO UI - VERSÃO CORRIGIDA
+// INICIALIZAÇÃO GLOBAL
 // ============================================
-function addMessageToUI(content, role, animate = true) {
-  console.log(`💬 Adicionando mensagem (${role}):`, content.substring(0, 50) + '...');
-  
-  const messagesContainer = document.getElementById('messages-container');
-  
-  if (!messagesContainer) {
-    console.error('❌ messages-container não encontrado!');
-    return;
-  }
+// Criar instância global
+window.ciciBot = new CiciChatbot();
 
-  try {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${role} ${animate ? 'message-enter' : ''}`;
-
-    const messageContent = document.createElement('div');
-    messageContent.className = 'message-content';
-
-    const messageParagraph = document.createElement('p');
-    messageParagraph.textContent = content;
-
-    const messageTime = document.createElement('span');
-    messageTime.className = 'message-time';
-    messageTime.textContent = getCurrentTime();
-
-    // Adicionar botões de ação para mensagens do usuário
-    if (role === 'user') {
-      const messageActions = document.createElement('div');
-      messageActions.className = 'message-actions';
-
-      const editBtn = document.createElement('button');
-      editBtn.className = 'message-action-btn';
-      editBtn.innerHTML = '<i data-lucide="edit-3"></i>';
-      editBtn.title = 'Editar mensagem';
-      editBtn.onclick = () => editMessage(messageDiv, content);
-
-      messageActions.appendChild(editBtn);
-      messageContent.appendChild(messageActions);
-    }
-
-    messageContent.appendChild(messageParagraph);
-    messageContent.appendChild(messageTime);
-    messageDiv.appendChild(messageContent);
-
-    messagesContainer.appendChild(messageDiv);
-
-    // Scroll para baixo
-    if (userSettings.autoScroll !== false) {
-      scrollToBottom();
-    }
-
-    // Atualizar ícones Lucide
-    if (typeof lucide !== 'undefined') {
-      setTimeout(() => lucide.createIcons(), 100);
-    }
-
-    console.log('✅ Mensagem adicionada com sucesso');
-
-  } catch (error) {
-    console.error('❌ Erro ao adicionar mensagem na UI:', error);
-  }
-}
-
-// ============================================
-// CONFIGURAÇÃO DE EVENTOS
-// ============================================
-function setupEventListeners() {
-  // Botão de enviar mensagem
-  const sendBtn = document.getElementById('send-btn');
-  sendBtn.addEventListener('click', sendMessage);
-
-  // Botão de instalação PWA
-  const installButton = document.getElementById('install-button');
-  if (installButton) {
-    installButton.addEventListener('click', installPWA);
-  }
-
-  // Fechar menu ao clicar fora
-  document.addEventListener('click', (e) => {
-    const menuDropdown = document.getElementById('menu-dropdown');
-    const menuBtn = document.querySelector('.menu-btn');
+// Inicializar quando a página carregar
+window.addEventListener('load', () => {
+    console.log('🎬 Iniciando Cici Chatbot...');
     
-    if (menuDropdown && menuBtn && 
-        !menuDropdown.contains(e.target) && 
-        !menuBtn.contains(e.target)) {
-      menuDropdown.classList.remove('active');
-      updateMenuIcon();
-    }
-  });
+    // Pequeno delay para garantir que tudo carregou
+    setTimeout(() => {
+        window.ciciBot.initialize().catch(error => {
+            console.error('❌ Erro na inicialização:', error);
+            
+            // Fallback: pelo menos remover tela de loading
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.style.display = 'none';
+            }
+        });
+    }, 100);
+});
 
-  // Reconectar quando online
-  window.addEventListener('online', () => {
-    showToast('Conexão restaurada! 📶', 'success');
-  });
-
-  window.addEventListener('offline', () => {
-    showToast('Conexão perdida. Verifique sua internet.', 'error');
-  });
-}
-
-// ============================================
-// SERVICE WORKER E PWA
-// ============================================
-function initializeServiceWorker() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-      .then(registration => {
-        console.log('Service Worker registrado:', registration.scope);
-        
-        // Solicitar permissão para notificações
-        if ('Notification' in window && Notification.permission === 'default') {
-          Notification.requestPermission();
-        }
-      })
-      .catch(error => {
-        console.log('Falha ao registrar Service Worker:', error);
-      });
-  }
-}
-
-// Install Prompt
-let deferredPrompt;
-
+// Suporte a PWA
 window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  showInstallPrompt();
+    e.preventDefault();
+    window.deferredPrompt = e;
+    
+    // Mostrar botão de instalação se existir
+    const installButton = document.getElementById('install-button');
+    if (installButton) {
+        installButton.style.display = 'block';
+    }
 });
-
-window.addEventListener('appinstalled', () => {
-  console.log('PWA foi instalado!');
-  hideInstallPrompt();
-  showToast('Cici instalada com sucesso! 🎉', 'success');
-});
-
-function showInstallPrompt() {
-  const installButton = document.getElementById('install-button');
-  if (installButton) {
-    installButton.style.display = 'block';
-    installButton.classList.add('pulse');
-  }
-}
-
-function hideInstallPrompt() {
-  const installButton = document.getElementById('install-button');
-  if (installButton) {
-    installButton.style.display = 'none';
-    installButton.classList.remove('pulse');
-  }
-}
-
-function installPWA() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('PWA instalado com sucesso');
-      }
-      deferredPrompt = null;
-      hideInstallPrompt();
-    });
-  }
-}
-
-// ============================================
-// GERENCIAMENTO DE CONVERSAS
-// ============================================
-async function loadPreviousConversation() {
-  const saved = storageManager.loadConversation();
-  if (saved && saved.history) {
-    // Verificar se a conversa é recente (menos de 24 horas)
-    const savedTime = new Date(saved.savedAt);
-    const now = new Date();
-    const hoursDiff = (now - savedTime) / (1000 * 60 * 60);
-    
-    if (hoursDiff < 24) {
-      conversationManager.history = saved.history;
-      conversationManager.context = saved.context;
-      
-      // Recriar mensagens na UI
-      const messagesContainer = document.getElementById('messages-container');
-      messagesContainer.innerHTML = '';
-      
-      saved.history.forEach(msg => {
-        addMessageToUI(msg.content, msg.role, false);
-      });
-      
-      showToast('Conversa anterior carregada! 💾', 'info');
-    }
-  }
-}
-
-function saveCurrentConversation() {
-  const success = storageManager.saveConversation(conversationManager);
-  if (success) {
-    console.log('Conversa salva com sucesso');
-  }
-}
-
-function clearConversation() {
-  conversationManager.clearHistory();
-  
-  const messagesContainer = document.getElementById('messages-container');
-  messagesContainer.innerHTML = '';
-  
-  // Adicionar mensagem de boas-vindas
-  addMessageToUI(ciciPersonality.getRandomGreeting(), 'assistant', false);
-  
-  storageManager.remove('current_conversation');
-  showToast('Conversa limpa! 🔄', 'success');
-}
-
-// ============================================
-// FUNÇÃO PRINCIPAL DE ENVIO DE MENSAGEM
-// ============================================
-async function sendMessage() {
-  const input = document.getElementById('message-input');
-  const message = input.value.trim();
-  
-  if (!message || isLoading) return;
-  
-  // Adicionar mensagem do usuário
-  addMessageToUI(message, 'user');
-  conversationManager.addMessage('user', message);
-  
-  // Limpar input
-  input.value = '';
-  autoResizeTextarea();
-  
-  // Desabilitar envio
-  isLoading = true;
-  updateSendButton();
-  
-  // Mostrar indicador de digitação
-  showTypingIndicator();
-  
-  try {
-    let response;
-    
-    // Tentar APIs em ordem de prioridade
-    try {
-      response = await callDeepSeekAPI();
-    } catch (error) {
-      console.log('DeepSeek falhou, tentando Mistral...', error);
-      response = await callMistralAPI();
-    }
-    
-    // Processar resposta
-    const processedResponse = ciciPersonality.processResponse(response);
-    
-    // Remover indicador de digitação
-    removeTypingIndicator();
-    
-    // Adicionar resposta
-    addMessageToUI(processedResponse, 'assistant');
-    conversationManager.addMessage('assistant', processedResponse);
-    
-    // Atualizar contadores
-    messageCount++;
-    updateMessageCounter();
-    
-    // Mostrar anúncio após 5 mensagens
-    if (messageCount === 5) {
-      showAdInChat();
-    }
-    
-    // Salvar conversa
-    saveCurrentConversation();
-    
-  } catch (error) {
-    console.error('Erro na API:', error);
-    removeTypingIndicator();
-    
-    // Resposta de fallback
-    const fallbackResponse = getFallbackResponse();
-    addMessageToUI(fallbackResponse, 'assistant');
-    conversationManager.addMessage('assistant', fallbackResponse);
-    
-    showToast('Usando modo offline temporariamente', 'warning');
-  } finally {
-    isLoading = false;
-    updateSendButton();
-    
-    // Focar no input novamente
-    input.focus();
-  }
-}
-
-// ============================================
-// CHAMADAS DE API
-// ============================================
-async function callDeepSeekAPI() {
-  const response = await fetch(API_CONFIG.deepseek.url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${API_CONFIG.deepseek.key}`
-    },
-    body: JSON.stringify({
-      model: API_CONFIG.deepseek.model,
-      messages: [
-        {
-          role: 'system',
-          content: ciciPersonality.generateSystemPrompt() + conversationManager.getContextualPrompt()
-        },
-        ...conversationManager.history.map(msg => ({
-          role: msg.role,
-          content: msg.content
-        }))
-      ],
-      temperature: 0.8,
-      max_tokens: 1200,
-      stream: false
-    })
-  });
-
-  if (!response.ok) {
-    throw new Error(`DeepSeek API error: ${response.status}`);
-  }
-
-  const data = await response.json();
-  return data.choices[0].message.content;
-}
-
-async function callMistralAPI() {
-  const response = await fetch(API_CONFIG.mistral.url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${API_CONFIG.mistral.key}`
-    },
-    body: JSON.stringify({
-      model: API_CONFIG.mistral.model,
-      messages: [
-        {
-          role: 'system',
-          content: ciciPersonality.generateSystemPrompt() + conversationManager.getContextualPrompt()
-        },
-        ...conversationManager.history.map(msg => ({
-          role: msg.role,
-          content: msg.content
-        }))
-      ],
-      temperature: 0.8,
-      max_tokens: 1200,
-      stream: false
-    })
-  });
-
-  if (!response.ok) {
-    throw new Error(`Mistral API error: ${response.status}`);
-  }
-
-  const data = await response.json();
-  return data.choices[0].message.content;
-}
-
-function getFallbackResponse() {
-  const responses = API_CONFIG.fallback.responses;
-  return responses[Math.floor(Math.random() * responses.length)];
-}
-
-// ============================================
-// FUNÇÕES DE UI ATUALIZADAS
-// ============================================
-function addMessageToUI(content, role, animate = true) {
-  const messagesContainer = document.getElementById('messages-container');
-  
-  const messageDiv = document.createElement('div');
-  messageDiv.className = `message ${role} ${animate ? 'message-enter' : ''}`;
-  
-  const messageContent = document.createElement('div');
-  messageContent.className = 'message-content';
-  
-  const messageParagraph = document.createElement('p');
-  messageParagraph.textContent = content;
-  
-  const messageTime = document.createElement('span');
-  messageTime.className = 'message-time';
-  messageTime.textContent = getCurrentTime();
-  
-  // Adicionar botões de ação para mensagens do usuário
-  if (role === 'user') {
-    const messageActions = document.createElement('div');
-    messageActions.className = 'message-actions';
-    
-    const editBtn = document.createElement('button');
-    editBtn.className = 'message-action-btn';
-    editBtn.innerHTML = '<i data-lucide="edit-3"></i>';
-    editBtn.title = 'Editar mensagem';
-    editBtn.onclick = () => editMessage(messageDiv, content);
-    
-    messageActions.appendChild(editBtn);
-    messageContent.appendChild(messageActions);
-  }
-  
-  messageContent.appendChild(messageParagraph);
-  messageContent.appendChild(messageTime);
-  messageDiv.appendChild(messageContent);
-  
-  messagesContainer.appendChild(messageDiv);
-  
-  // Scroll para baixo
-  if (userSettings.autoScroll !== false) {
-    scrollToBottom();
-  }
-  
-  // Atualizar ícones
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-  }
-}
-
-function showTypingIndicator() {
-  const messagesContainer = document.getElementById('messages-container');
-  
-  const typingDiv = document.createElement('div');
-  typingDiv.id = 'typing-indicator';
-  typingDiv.className = 'message assistant typing';
-  
-  typingDiv.innerHTML = `
-    <div class="typing-indicator">
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-      <span class="typing-text">Cici está digitando...</span>
-    </div>
-  `;
-  
-  messagesContainer.appendChild(typingDiv);
-  scrollToBottom();
-}
-
-function removeTypingIndicator() {
-  const typingIndicator = document.getElementById('typing-indicator');
-  if (typingIndicator) {
-    typingIndicator.remove();
-  }
-}
-
-function showToast(message, type = 'info') {
-  // Remover toast anterior se existir
-  const existingToast = document.querySelector('.toast');
-  if (existingToast) {
-    existingToast.remove();
-  }
-  
-  const toast = document.createElement('div');
-  toast.className = `toast toast-${type}`;
-  toast.textContent = message;
-  
-  document.body.appendChild(toast);
-  
-  // Mostrar toast
-  setTimeout(() => toast.classList.add('show'), 100);
-  
-  // Remover após 3 segundos
-  setTimeout(() => {
-    toast.classList.remove('show');
-    setTimeout(() => toast.remove(), 300);
-  }, 3000);
-}
-
-function showClearConversationModal() {
-  const modal = document.createElement('div');
-  modal.className = 'modal-overlay';
-  modal.innerHTML = `
-    <div class="modal">
-      <h3>Limpar conversa</h3>
-      <p>Tem certeza que deseja limpar toda a conversa? Esta ação não pode ser desfeita.</p>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancelar</button>
-        <button class="btn btn-danger" onclick="clearConversation(); this.closest('.modal-overlay').remove()">Limpar Tudo</button>
-      </div>
-    </div>
-  `;
-  
-  document.body.appendChild(modal);
-}
-
-// ============================================
-// FUNÇÕES UTILITÁRIAS
-// ============================================
-function updateSendButton() {
-  const sendBtn = document.getElementById('send-btn');
-  if (sendBtn) {
-    sendBtn.disabled = isLoading;
-    sendBtn.innerHTML = isLoading ? 
-      '<i data-lucide="loader-2" class="spin"></i>' : 
-      '<i data-lucide="send"></i>';
-    
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
-    }
-  }
-}
-
-function autoResizeTextarea() {
-  const textarea = document.getElementById('message-input');
-  if (textarea) {
-    textarea.style.height = 'auto';
-    textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
-  }
-}
-
-function scrollToBottom() {
-  const messagesContainer = document.getElementById('messages-container');
-  if (messagesContainer) {
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-  }
-}
-
-function getCurrentTime() {
-  return new Date().toLocaleTimeString('pt-BR', {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-}
-
-function updateMessageTime() {
-  const messageTime = document.querySelector('.message-time');
-  if (messageTime && !messageTime.textContent) {
-    messageTime.textContent = getCurrentTime();
-  }
-}
-
-function updateMessageCounter() {
-  // Atualizar contador no menu se existir
-  const counter = document.getElementById('message-counter');
-  if (counter) {
-    counter.textContent = messageCount;
-  }
-}
-
-function updateMenuIcon() {
-  const menuIcon = document.getElementById('menu-icon');
-  const menuDropdown = document.getElementById('menu-dropdown');
-  
-  if (menuIcon && menuDropdown) {
-    if (menuDropdown.classList.contains('active')) {
-      menuIcon.setAttribute('data-lucide', 'x');
-    } else {
-      menuIcon.setAttribute('data-lucide', 'menu');
-    }
-    
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
-    }
-  }
-}
-
-function applyTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  currentTheme = theme;
-  
-  // Salvar preferência
-  userSettings.theme = theme;
-  storageManager.saveUserSettings(userSettings);
-}
-
-function toggleTheme() {
-  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-  applyTheme(newTheme);
-  showToast(`Tema ${newTheme === 'light' ? 'claro' : 'escuro'} ativado`, 'success');
-}
-
-// ============================================
-// NAVEGAÇÃO E MENU
-// ============================================
-function showScreen(screenName) {
-  const screens = document.querySelectorAll('.screen');
-  screens.forEach(screen => screen.classList.remove('active'));
-  
-  const targetScreen = document.getElementById(`${screenName}-screen`);
-  if (targetScreen) {
-    targetScreen.classList.add('active');
-  }
-  
-  // Fechar menu
-  const menuDropdown = document.getElementById('menu-dropdown');
-  if (menuDropdown) {
-    menuDropdown.classList.remove('active');
-    updateMenuIcon();
-  }
-  
-  // Reinicializar ícones
-  if (typeof lucide !== 'undefined') {
-    setTimeout(() => lucide.createIcons(), 100);
-  }
-  
-  window.scrollTo(0, 0);
-}
-
-function toggleMenu() {
-  const menuDropdown = document.getElementById('menu-dropdown');
-  if (menuDropdown) {
-    menuDropdown.classList.toggle('active');
-    updateMenuIcon();
-  }
-}
-
-// ============================================
-// ANIMAÇÕES E EFEITOS
-// ============================================
-function addConfetti() {
-  // Efeito de confetti simples
-  const confettiCount = 30;
-  const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'];
-  
-  for (let i = 0; i < confettiCount; i++) {
-    createConfettiPiece(colors);
-  }
-}
-
-function createConfettiPiece(colors) {
-  const confetti = document.createElement('div');
-  confetti.className = 'confetti';
-  confetti.style.cssText = `
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    background: ${colors[Math.floor(Math.random() * colors.length)]};
-    top: -10px;
-    left: ${Math.random() * 100}vw;
-    opacity: ${Math.random() + 0.5};
-    transform: rotate(${Math.random() * 360}deg);
-    pointer-events: none;
-    z-index: 10000;
-  `;
-  
-  document.body.appendChild(confetti);
-  
-  // Animação
-  const animation = confetti.animate([
-    { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
-    { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
-  ], {
-    duration: 1000 + Math.random() * 2000,
-    easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
-  });
-  
-  animation.onfinish = () => confetti.remove();
-}
 
 // ============================================
 // CONSOLE INFO
@@ -1160,12 +929,15 @@ console.log(`
 ║  orpheostudio.com.br          ║
 ║  @ampla.ai                           ║
 ║                                       ║
-║  Novas funcionalidades:              ║
-║  • Memória de conversa               ║
-║  • Modo offline                      ║
-║  • Temas claro/escuro                ║
-║  • Personalidade aprimorada          ║
-║  • Animações e efeitos               ║
+║  Status: Inicializando...            ║
 ║                                       ║
 ╚═══════════════════════════════════════╝
 `);
+
+// Interface global para debug
+window.debugCici = {
+    getStatus: () => window.ciciBot?.getStatus(),
+    exportChat: () => window.ciciBot?.exportConversation(),
+    clearChat: () => window.ciciBot?.clearConversation(),
+    testMessage: (msg) => window.ciciBot?.handleUserMessage(msg || 'Teste')
+};
