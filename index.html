@@ -2,44 +2,8 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <!-- Metatags Essenciais -->
-    <title>Cici - Sua assistente curiosa</title>
-    <meta name="description" content="Cici é sua companheira de exploração e soluções, desenvolvida pela AmplaAI. Converse naturalmente sobre tecnologia, criatividade e inovação.">
-    <meta name="keywords" content="Cici, AmplaAI, chatbot, assistente, YumeRoll, tecnologia">
-    <meta name="author" content="AmplaAI">
-    
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#6366f1">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Cici">
-    
-    <!-- Manifest -->
-    <link rel="manifest" href="/manifest.json">
-    
-    <!-- Ícones -->
-    <link rel="icon" type="image/png" href="https://i.imgur.com/uoWlYN7.jpeg">
-    <link rel="apple-touch-icon" href="https://i.imgur.com/z2hCety.jpeg">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://i.imgur.com/z2hCety.jpeg">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/z2hCety.jpeg">
-    <link rel="apple-touch-icon" sizes="167x167" href="https://i.imgur.com/z2hCety.jpeg">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://orpheostudio.com.br">
-    <meta property="og:title" content="Cici - Sua Assistente Curiosa">
-    <meta property="og:description" content="Converse naturalmente sobre tecnologia, criatividade e inovação com a Cici.">
-    <meta property="og:image" content="https://i.imgur.com/uoWlYN7.jpeg">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://orpheostudio.com.br">
-    <meta property="twitter:title" content="Cici - Sua Companheira Curiosa e Exploradora.">
-    <meta property="twitter:description" content="Converse naturalmente sobre tecnologia, criatividade e inovação com a Cici.">
-    <meta property="twitter:image" content="https://i.imgur.com/uoWlYN7.jpeg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sena - Tecnologia com Alma Gentil</title>
     
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
@@ -47,370 +11,1708 @@
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "tlya8thx8r");
+        })(window, document, "clarity", "script", "SEU_ID_CLARITY");
     </script>
     
-    <!-- Google AdMob/AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5941203056187445"
-        crossorigin="anonymous"></script>
-    
-    <!-- Preconnect para performance -->
-    <link rel="preconnect" href="https://api.deepseek.com">
-    <link rel="preconnect" href="https://api.mistral.ai">
-    <link rel="preconnect" href="https://www.clarity.ms">
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="loading-screen">
-  <div class="loading-spinner"></div>
-  <p>Carregando Cici...</p>
-</div>
-
-    <!-- Welcome Screen -->
-    <div id="welcome-screen" class="screen active">
-        <div class="welcome-container">
-            <img src="https://i.imgur.com/uoWlYN7.jpeg" alt="Cici Logo" class="welcome-logo">
-            <h1 class="welcome-title">Cici</h1>
-            <p class="welcome-subtitle">Sua companheira de exploração e soluções</p>
-            <p class="welcome-author">Desenvolvido por AmplaAI</p>
-            
-            <div class="welcome-buttons">
-                <button onclick="showScreen('chat')" class="btn btn-primary">
-                    <i data-lucide="message-circle"></i>
-                    <span>Começar Conversa</span>
-                </button>
-                
-                <button onclick="showScreen('about')" class="btn btn-secondary">
-                    <i data-lucide="info"></i>
-                    <span>Sobre a Cici</span>
-                </button>
-            </div>
-
-            <div class="welcome-footer">
-                <p>Ao continuar, você concorda com nossos</p>
-                <div class="welcome-links">
-                    <a href="https://termos.orpheostudio.com.br" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
-                    <span>•</span>
-                    <a href="https://politicas.orpheostudio.com.br" target="_blank" rel="noopener noreferrer">Políticas</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Chat Screen -->
-    <div id="chat-screen" class="screen">
-        <!-- Header -->
-        <header class="chat-header">
-            <div class="header-content">
-                <div class="header-left">
-                    <img src="https://i.imgur.com/uoWlYN7.jpeg" alt="Cici" class="header-logo">
-                    <div class="header-info">
-                        <h1>Cici</h1>
-                        <p>by AmplaAI</p>
-                    </div>
-                </div>
-                <div class="header-controls">
-                    <button class="control-btn" onclick="toggleTheme()" aria-label="Alternar tema" id="themeToggle">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <button class="menu-btn" onclick="toggleMenu()" aria-label="Abrir menu" aria-expanded="false">
-                        <i data-lucide="menu" id="menu-icon"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Menu Dropdown -->
-            <div id="menu-dropdown" class="menu-dropdown" aria-hidden="true">
-                <div class="menu-container">
-                    <button onclick="showScreen('about')" class="menu-item">
-                        <i data-lucide="info"></i>
-                        <span>Sobre a Cici</span>
-                    </button>
-                    <button onclick="showScreen('welcome')" class="menu-item">
-                        <i data-lucide="home"></i>
-                        <span>Tela Inicial</span>
-                    </button>
-                    <button onclick="clearConversation()" class="menu-item">
-                        <i data-lucide="trash-2"></i>
-                        <span>Limpar Conversa</span>
-                    </button>
-                    <button onclick="exportChat()" class="menu-item">
-                        <i data-lucide="download"></i>
-                        <span>Exportar Conversa</span>
-                    </button>
-                    <button onclick="showShortcutsModal()" class="menu-item">
-                        <i data-lucide="keyboard"></i>
-                        <span>Atalhos do Teclado</span>
-                    </button>
-                    <div class="menu-highlights">
-                        <p class="highlights-title">💎 Meus Diferenciais:</p>
-                        <ul class="highlights-list">
-                            <li>✓ Acessibilidade genuína para todos</li>
-                            <li>✓ Especialização no cotidiano digital</li>
-                            <li>✓ Comunicação clara e acolhedora</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Messages Area -->
-        <main class="messages-container" id="messages-container">
-            <div class="message assistant message-enter">
-                <div class="message-content">
-                    <p>Oi! Que bom conversar com você! Sou a Cici, desenvolvida pela AmplaAI. Como posso ajudar hoje? 😊</p>
-                    <span class="message-time"></span>
-                </div>
-            </div>
-        </main>
-
-        <!-- Sugestões Rápidas -->
-        <div class="suggestions-container" id="suggestionsContainer">
-            <button class="suggestion-btn" onclick="sendSuggestion('Como configurar Wi-Fi no celular?')">
-                📱 Configurar Wi-Fi
-            </button>
-            <button class="suggestion-btn" onclick="sendSuggestion('Como organizar meus arquivos no PC?')">
-                💻 Organizar arquivos
-            </button>
-            <button class="suggestion-btn" onclick="sendSuggestion('Recomende um anime de aventura')">
-                🎌 Recomendar anime
-            </button>
-            <button class="suggestion-btn" onclick="sendSuggestion('Como proteger minha senha?')">
-                🔒 Segurança digital
-            </button>
-        </div>
-
-        <!-- Input Area -->
-        <div class="input-area">
-            <div class="typing-indicator hidden" id="typingIndicator">
-                <i class="fas fa-circle-notch fa-spin"></i>
-                <span>Cici está digitando...</span>
-            </div>
-            <form id="message-form" onsubmit="sendMessage(); return false;" class="input-container">
-                <textarea 
-                    id="message-input" 
-                    placeholder="Conversar com a Cici..." 
-                    rows="1"
-                    required
-                    maxlength="1000"
-                ></textarea>
-                <button id="send-btn" type="submit" class="send-btn" aria-label="Enviar mensagem">
-                    <i data-lucide="send"></i>
-                </button>
-            </form>
-            <div class="input-info">
-                <span class="char-counter" id="charCounter">0/1000</span>
-                <span class="input-hint">A Cici está aqui para te ajudar com tecnologia de forma simples e acessível 💜</span>
-            </div>
-        </div>
-
-        <!-- Ad Container -->
-        <div class="ad-container">
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-5941203056187445"
-                data-ad-slot="f08c47fec0942fa0"
-                data-ad-format="auto"
-                data-full-width-responsive="true">
-            </ins>
-        </div>
-    </div>
-
-    <!-- About Screen -->
-    <div id="about-screen" class="screen">
-        <div class="about-container">
-            <button onclick="showScreen('welcome')" class="back-btn">
-                <i data-lucide="home"></i>
-                <span>Voltar</span>
-            </button>
-
-            <div class="about-card">
-                <div class="about-header">
-                    <img src="https://i.imgur.com/uoWlYN7.jpeg" alt="Cici Logo" class="about-logo">
-                    <h1>Sobre a Cici</h1>
-                    <p class="about-version">Orion v2.0</p>
-                </div>
-
-                <div class="about-content">
-                    <section class="about-section">
-                        <h2>Quem Sou Eu</h2>
-                        <p>Sou a Cici, uma exploradora curiosa do mundo das ideias e tecnologia. Adoro conversar, descobrir coisas novas e ajudar amigos a encontrarem soluções criativas. Minha missão é tornar a tecnologia mais acessível e natural para todos.</p>
-                    </section>
-
-                    <section class="about-section">
-                        <h2>Desenvolvido por AmplaAI</h2>
-                        <p>A AmplaAI é um estúdio de inovação que desenvolve projetos incríveis:</p>
-                        <ul>
-                            <li><strong>Sena</strong> - Tecnologia com alma gentil</li>
-                            <li><strong>YumeRoll Animes</strong> - fanpage de animes</li>
-                            <li><strong>Escola de Autores</strong> - Desenvolvimento criativo</li>
-                            <li><strong>Cici</strong> - Sua amiga curiosa e exploradora</li>
-                        </ul>
-                        <a href="https://orpheostudio.com.br" target="_blank" rel="noopener noreferrer" class="link-primary">
-                            Visite o AmplaAI Studio →
-                        </a>
-                    </section>
-
-                    <section class="about-section">
-                        <h2>Redes Sociais</h2>
-                        <div class="social-links">
-                            <div>
-                                <p><strong>AmplaAI:</strong></p>
-                                <a href="https://instagram.com/ampla.ai" target="_blank" rel="noopener noreferrer">@ampla.ai no Instagram</a>
-                            </div>
-                            <div>
-                                <p><strong>YumeRoll:</strong></p>
-                                <a href="https://instagram.com/yumerolloficial" target="_blank" rel="noopener noreferrer">@yumerolloficial (Instagram)</a>
-                                <a href="https://tiktok.com/@yumerollanimes" target="_blank" rel="noopener noreferrer">@yumerollanimes (TikTok)</a>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="about-section">
-                        <h2>Documentação</h2>
-                        <div class="doc-links">
-                            <a href="https://termos.orpheostudio.com.br" target="_blank" rel="noopener noreferrer" class="doc-link">Termos de Uso</a>
-                            <a href="https://politicas.orpheostudio.com.br" target="_blank" rel="noopener noreferrer" class="doc-link">Políticas de Privacidade</a>
-                        </div>
-                    </section>
-
-                    <!-- Mission Statement -->
-                    <section class="mission-section">
-                        <h2>Nossa Missão</h2>
-                        <div class="mission-content">
-                            <div class="mission-item">
-                                <h3 class="mission-subtitle mission-purple">🎯 Missão</h3>
-                                <p class="mission-text">
-                                    Promover uma experiência digital clara, acessível e inteligente, oferecendo orientação confiável, suporte técnico preciso e ferramentas que simplificam o cotidiano dos usuários.
-                                </p>
-                            </div>
-                            
-                            <div class="mission-item">
-                                <h3 class="mission-subtitle mission-pink">💡 Propósito</h3>
-                                <p class="mission-text">
-                                    Facilitar o acesso à tecnologia por meio de suporte claro, acessível e confiável, garantindo que qualquer pessoa consiga dominar ferramentas essenciais com segurança e autonomia.
-                                </p>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-
-                <button onclick="showScreen('chat')" class="btn btn-primary btn-full">
-                    <i data-lucide="message-circle"></i>
-                    <span>Começar a Conversar</span>
-                </button>
-            </div>
-
-            <!-- AdMob Banner -->
-            <div class="ad-container">
-                <ins class="adsbygoogle"
-                    style="display:block"
-                    data-ad-client="ca-pub-5941203056187445"
-                    data-ad-slot="f08c47fec0942fa0"
-                    data-ad-format="auto"
-                    data-full-width-responsive="true">
-                </ins>
-            </div>
-        </div>
-    </div>
-
-    <!-- Donate Reminder -->
-    <div id="cici-donation-banner" style="display:none;">
-        <div class="cici-banner-content">
-            <p><strong>Cici:</strong> Manter uma IA ativa é caro... considere fazer uma doação para me manter online 💙</p>
-            <div class="cici-banner-actions">
-                <a href="https://nubank.com.br/cobrar/ftet6/690dfa92-b7c5-4679-83ff-6d64e4b35c83" target="_blank" class="cici-donate-btn">Doar</a>
-                <button id="cici-banner-close" aria-label="Fechar">✕</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Install Button -->
-    <button id="install-button" class="install-btn">
-        📱 Instalar App
-    </button>
-
-    <!-- Modal de Atalhos -->
-    <div class="modal-overlay hidden" id="shortcutsModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>⌨️ Atalhos do Teclado</h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="shortcut-item">
-                    <kbd>Ctrl</kbd> + <kbd>K</kbd>
-                    <span>Focar no campo de mensagem</span>
-                </div>
-                <div class="shortcut-item">
-                    <kbd>Esc</kbd>
-                    <span>Fechar menu ou modal</span>
-                </div>
-                <div class="shortcut-item">
-                    <kbd>Enter</kbd>
-                    <span>Enviar mensagem</span>
-                </div>
-                <div class="shortcut-item">
-                    <kbd>Ctrl</kbd> + <kbd>L</kbd>
-                    <span>Limpar conversa</span>
-                </div>
-                <div class="shortcut-item">
-                    <kbd>Ctrl</kbd> + <kbd>/</kbd>
-                    <span>Abrir atalhos</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <p>© 2024 Cici AI - Tornando a tecnologia acessível para todos</p>
-            <p class="footer-powered">
-                Powered by <span class="powered-text">AmplaAI</span> | 
-                AmplaAI <span class="powered-text">Inovando. Aprendendo.Conectando pessoas ao amanhã.</span>
-            </p>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="script.js"></script>
-    <script>
-        // Inicializar Lucide Icons
-        lucide.createIcons();
-        
-        // Inicializar anúncios
-        if (typeof adsbygoogle !== 'undefined') {
-            (adsbygoogle = window.adsbygoogle || []).push({});
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        // 🕒 Mostra o lembrete de doação 15 segundos depois
-        setTimeout(() => {
-            const banner = document.getElementById("cici-donation-banner");
-            if (banner) {
-                banner.style.display = "block";
-            }
-        }, 15000);
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow: hidden;
+        }
 
-        // ❌ Botão de fechar do banner de doação
-        document.addEventListener("click", (e) => {
-            if (e.target && e.target.id === "cici-banner-close") {
-                const banner = document.getElementById("cici-donation-banner");
-                banner.style.opacity = "0";
-                banner.style.transform = "translateY(10px)";
-                setTimeout(() => banner.remove(), 400);
+        /* Accessibility Features */
+        .high-contrast {
+            filter: contrast(1.5);
+        }
+
+        .large-text * {
+            font-size: 1.3em !important;
+        }
+
+        .simple-mode {
+            filter: none !important;
+            animation: none !important;
+        }
+
+        /* Splash Screen */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .splash-screen.hidden {
+            animation: fadeOut 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; display: none; }
+        }
+
+        .splash-logo {
+            font-size: 80px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .splash-title {
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
+            margin-top: 20px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .splash-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .splash-loader {
+            margin-top: 40px;
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Terms Screen */
+        .terms-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .terms-screen.active {
+            display: flex;
+        }
+
+        .terms-container {
+            background: white;
+            border-radius: 20px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 40px;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .terms-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .terms-header h2 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .accessibility-notice {
+            background: #f0f9ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .accessibility-notice h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .accessibility-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .feature-card .icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .feature-card .title {
+            font-weight: 600;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .terms-content {
+            color: #374151;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .terms-content h3 {
+            color: #667eea;
+            margin: 20px 0 10px;
+        }
+
+        .terms-links {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .terms-link {
+            flex: 1;
+            padding: 15px;
+            background: #f3f4f6;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .terms-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .checkbox-container input {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            margin-top: 2px;
+        }
+
+        .checkbox-container label {
+            cursor: pointer;
+            color: #374151;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .terms-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .terms-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .terms-button:not(:disabled):hover {
+            transform: translateY(-2px);
+        }
+
+        /* Profile Screen */
+        .profile-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9997;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .profile-screen.active {
+            display: flex;
+        }
+
+        .profile-container {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            animation: slideUp 0.5s ease;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+
+        .profile-header h2 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .profile-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: #374151;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 14px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #667eea;
+        }
+
+        .accessibility-options {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 10px 0;
+        }
+
+        .accessibility-options h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .option-item label {
+            cursor: pointer;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        /* Chat Container */
+        .chat-wrapper {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .chat-wrapper.active {
+            display: flex;
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 900px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Accessibility Toolbar */
+        .accessibility-toolbar {
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .toolbar-section {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .toolbar-button {
+            padding: 8px 12px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .toolbar-button:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .toolbar-button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .header-info h1 {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .header-info p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+    .header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+        .status {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .capabilities {
+            display: flex;
+            gap: 8px;
+            font-size: 18px;
+        }
+
+        .capability {
+            cursor: help;
+            transition: transform 0.2s;
+        }
+
+        .capability:hover {
+            transform: scale(1.2);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .message.bot .message-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: #e5e7eb;
+        }
+
+        .message-content {
+            max-width: 70%;
+            margin: 0 12px;
+        }
+
+        .message-bubble {
+            padding: 14px 18px;
+            border-radius: 16px;
+            line-height: 1.7;
+            word-wrap: break-word;
+        }
+
+        .message.bot .message-bubble {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .action-button {
+            padding: 6px 12px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: background 0.2s;
+        }
+
+        .action-button:hover {
+            background: #e5e7eb;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 5px;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 16px;
+            width: fit-content;
+        }
+
+        .typing-indicator.active {
+            display: flex;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite;
+        }
+
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+
+        .chat-input {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .input-controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .control-button {
+            padding: 8px 14px;
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .control-button:hover {
+            border-color: #667eea;
+            background: #ede9fe;
+        }
+
+        .control-button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        #messageInput {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 24px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: inherit;
+            resize: none;
+            min-height: 50px;
+            max-height: 150px;
+        }
+
+        #messageInput:focus {
+            border-color: #667eea;
+        }
+
+        #sendButton {
+            padding: 14px 26px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        #sendButton:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        #sendButton:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .powered-by {
+            text-align: center;
+            padding: 12px;
+            font-size: 12px;
+            color: #9ca3af;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .powered-by a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .bug-report-btn {
+            padding: 6px 12px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .bug-report-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Bug Report Modal */
+        .bug-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .bug-modal.active {
+            display: flex;
+        }
+
+        .bug-modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            animation: slideUp 0.3s ease;
+        }
+
+        .bug-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .bug-modal-header h3 {
+            color: #667eea;
+            font-size: 24px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #9ca3af;
+            line-height: 1;
+        }
+
+        .bug-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .bug-form input,
+        .bug-form textarea {
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .bug-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .bug-form input:focus,
+        .bug-form textarea:focus {
+            border-color: #667eea;
+        }
+
+        .submit-bug {
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .submit-bug:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Voice Recording */
+        .voice-recording {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            background: #fef2f2;
+            border: 2px solid #ef4444;
+            border-radius: 24px;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        .voice-recording.active {
+            display: flex;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .voice-recording .record-dot {
+            width: 10px;
+            height: 10px;
+            background: #ef4444;
+            border-radius: 50%;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            padding: 15px 20px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            overflow-x: auto;
+        }
+
+        .quick-action {
+            padding: 8px 16px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .quick-action:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .splash-title { font-size: 36px; }
+            .terms-container, .profile-container { padding: 30px 20px; }
+            .message-content { max-width: 85%; }
+            .accessibility-toolbar { font-size: 12px; }
+            .toolbar-button { padding: 6px 10px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+          <img src="https://i.imgur.com/5watJQF.png" alt="Sena" class="logo">
+        <h1 class="splash-title">𝑺𝒆𝒏𝒂</h1>
+        <p class="splash-subtitle">Acessível • Inclusiva • Inteligente</p>
+        <div class="splash-loader"></div>
+    </div>
+
+    <!-- Terms Screen -->
+    <div class="terms-screen" id="termsScreen">
+        <div class="terms-container">
+            <div class="terms-header">
+                <h2>🌙 Antes de Prosseguirmos</h2>
+                <p>Para uma experiência segura, inclusiva e transparente</p>
+            </div>
+
+            <div class="accessibility-notice">
+                <h3>♿ Compromisso com a Acessibilidade</h3>
+                <p>A Sena foi desenvolvida para ser acessível a <strong>todas as pessoas</strong>, independente de suas capacidades. Estamos comprometidos em oferecer uma experiência inclusiva e acolhedora.</p>
+            </div>
+
+            <div class="accessibility-features">
+                <div class="feature-card">
+                    <div class="icon">🎤</div>
+                    <div class="title">Comando de Voz</div>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔊</div>
+                    <div class="title">Leitura de Tela</div>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">👁️</div>
+                    <div class="title">Alto Contraste</div>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔤</div>
+                    <div class="title">Texto Grande</div>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🎨</div>
+                    <div class="title">Modo Simples</div>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">⌨️</div>
+                    <div class="title">Navegação por Teclado</div>
+                </div>
+            </div>
+            
+            <div class="terms-content">
+                <h3>📋 Termos e Políticas</h3>
+                <p>Antes de começar, é importante que você conheça nossos termos de uso e políticas de privacidade:</p>
+                
+                <div class="terms-links">
+                    <a href="https://termos.orpheostudio.com.br" target="_blank" class="terms-link" aria-label="Abrir Termos de Uso em nova aba">
+                        📜 Termos de Uso
+                    </a>
+                    <a href="https://politicas.orpheostudio.com.br" target="_blank" class="terms-link" aria-label="Abrir Políticas de Privacidade em nova aba">
+                        🔒 Políticas de Privacidade
+                    </a>
+                </div>
+
+                <h3>✨ O que a Sena pode fazer:</h3>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>🔍 Buscar informações na web em tempo real</li>
+                    <li>💻 Programar e executar código</li>
+                    <li>🎨 Gerar imagens criativas</li>
+                    <li>💬 Conversar de forma natural e acolhedora</li>
+                    <li>📊 Analisar dados e fornecer insights</li>
+                    <li>♿ Adaptar-se às suas necessidades de acessibilidade</li>
+                </ul>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="acceptTerms" aria-label="Aceitar termos e políticas">
+                    <label for="acceptTerms">
+                        Li e aceito os Termos de Uso e Políticas de Privacidade. Entendo que Sena é uma IA assistente e que devo usar o serviço de forma responsável e respeitosa.
+                    </label>
+                </div>
+            </div>
+
+            <button class="terms-button" id="acceptButton" disabled aria-label="Aceitar termos e continuar">
+                Aceitar e Continuar →
+            </button>
+        </div>
+    </div>
+
+    <!-- Profile Screen -->
+    <div class="profile-screen" id="profileScreen">
+        <div class="profile-container">
+            <div class="profile-header">
+                  <img src="https://i.imgur.com/5watJQF.png" alt="Sena" class="logo">
+                <h2>Personalize seu Perfil</h2>
+                <p style="color: #6b7280;">Ajude a 𝑺𝒆𝒏𝒂 a conhecer você melhor</p>
+            </div>
+
+            <form class="profile-form" id="profileForm">
+                <div class="form-group">
+                    <label for="userName">Como você gostaria de ser chamado(a)?</label>
+                    <input type="text" id="userName" placeholder="Seu nome ou apelido" required aria-required="true">
+                </div>
+
+                <div class="form-group">
+                    <label for="userInterests">Quais são seus principais interesses?</label>
+                    <input type="text" id="userInterests" placeholder="Ex: Tecnologia, Arte, Ciência...">
+                </div>
+
+                <div class="form-group">
+                    <label for="userGoal">Como a Sena pode te ajudar hoje?</label>
+                    <select id="userGoal" aria-label="Selecione como Luna pode ajudar">
+                        <option value="">Selecione uma opção</option>
+                        <option value="trabalho">Trabalho e Produtividade</option>
+                        <option value="estudos">Estudos e Aprendizado</option>
+                        <option value="criatividade">Criatividade e Projetos</option>
+                        <option value="conversa">Apenas conversar</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+
+                <div class="accessibility-options">
+                    <h3>♿ Recursos de Acessibilidade</h3>
+                    <p style="color: #6b7280; font-size: 13px; margin-bottom: 12px;">Ative os recursos que você precisa:</p>
+                    <div class="option-group">
+                        <div class="option-item">
+                            <input type="checkbox" id="highContrast">
+                            <label for="highContrast">👁️ Alto contraste (melhor para baixa visão)</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="largeText">
+                            <label for="largeText">🔤 Texto grande (mais fácil de ler)</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="simpleMode">
+                            <label for="simpleMode">🎨 Modo simples (sem animações)</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="voiceEnabled">
+                            <label for="voiceEnabled">🔊 Leitura automática das respostas</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="easyLanguage">
+                            <label for="easyLanguage">📖 Linguagem simplificada</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="terms-button" aria-label="Começar a conversar com Sena">
+                    Começar Conversa ✨
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Chat Interface -->
+    <div class="chat-wrapper" id="chatWrapper">
+        <div class="chat-container">
+            <!-- Accessibility Toolbar -->
+            <div class="accessibility-toolbar" role="toolbar" aria-label="Ferramentas de acessibilidade">
+                <div class="toolbar-section">
+                    <button class="toolbar-button" id="toggleContrast" aria-label="Alternar alto contraste">
+                        👁️ Contraste
+                    </button>
+                    <button class="toolbar-button" id="toggleTextSize" aria-label="Alternar tamanho de texto">
+                        🔤 Texto
+                    </button>
+                    <button class="toolbar-button" id="toggleSimple" aria-label="Alternar modo simples">
+                        🎨 Simples
+                    </button>
+                </div>
+                <div class="toolbar-section">
+                    <button class="toolbar-button" id="toggleVoice" aria-label="Ativar/desativar leitura de voz">
+                        🔊 Voz
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-header">
+                <div class="header-left">
+                      <img src="https://i.imgur.com/5watJQF.png" alt="Sena" class="logo">
+                    <div class="header-info">
+                        <h1>𝑺𝒆𝒏𝒂 ✦</h1>
+                        <p><span class="status" aria-label="Status online"></span>by AmplaAI</p>
+                    </div>
+                </div>
+                <div class="capabilities" role="group" aria-label="Capacidades da Luna">
+                    <span class="capability" title="Busca na Web" aria-label="Busca na Web">🔍</span>
+                    <span class="capability" title="Programação" aria-label="Programação">💻</span>
+                    <span class="capability" title="Geração de Imagens" aria-label="Geração de Imagens">🎨</span>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages" role="log" aria-live="polite" aria-label="Mensagens do chat"></div>
+
+            <div class="quick-actions" id="quickActions" role="group" aria-label="Ações rápidas">
+                <button class="quick-action" data-action="Olá! Como você está?">👋 Saudação</button>
+                <button class="quick-action" data-action="Pode me explicar de forma simples?">📖 Explicar Simples</button>
+                <button class="quick-action" data-action="Pode me ajudar com uma dúvida?">❓ Tenho Dúvida</button>
+                <button class="quick-action" data-action="Preciso de ajuda para escrever algo">✍️ Ajuda Escrita</button>
+                <button class="quick-action" data-action="Pode buscar informações sobre...">🔍 Buscar Info</button>
+            </div>
+
+            <div class="chat-input">
+                <div class="input-controls">
+                    <button class="control-button" id="voiceInputBtn" aria-label="Gravar mensagem de voz">
+                        🎤 Voz
+                    </button>
+                    <button class="control-button" id="clearChatBtn" aria-label="Limpar conversa">
+                        🗑️ Limpar
+                    </button>
+                </div>
+                <div class="input-wrapper">
+                    <div class="voice-recording" id="voiceRecording">
+                        <div class="record-dot"></div>
+                        <span>Gravando... Fale agora</span>
+                    </div>
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Digite sua mensagem ou use o botão de voz..."
+                        autocomplete="off"
+                        aria-label="Campo de mensagem"
+                        rows="1"
+                    ></textarea>
+                    <button id="sendButton" aria-label="Enviar mensagem">Enviar</button>
+                </div>
+            </div>
+
+            <div class="powered-by">
+                <span>Powered by <a href="https://orpheostudio.com.br" target="_blank">AmplaAI</a> 🚀</span>
+                <button class="bug-report-btn" id="bugReportBtn" aria-label="Reportar problema">
+                    🐛 Reportar Bug
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bug Report Modal -->
+    <div class="bug-modal" id="bugModal" role="dialog" aria-labelledby="bugModalTitle" aria-modal="true">
+        <div class="bug-modal-content">
+            <div class="bug-modal-header">
+                <h3 id="bugModalTitle">🐛 Reportar Problema</h3>
+                <button class="close-modal" id="closeBugModal" aria-label="Fechar modal">&times;</button>
+            </div>
+            <form class="bug-form" id="bugForm">
+                <input type="text" id="bugName" placeholder="Seu nome" aria-label="Seu nome">
+                <input type="email" id="bugEmail" placeholder="Seu e-mail" aria-label="Seu e-mail">
+                <textarea id="bugDescription" placeholder="Descreva o problema que você encontrou..." required aria-label="Descrição do problema" aria-required="true"></textarea>
+                <button type="submit" class="submit-bug" aria-label="Enviar relatório de bug">Enviar Relatório</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const MISTRAL_API_KEY = 'NFuAj8PYUPcaf6tA1BjbyXuIeSjSA4sW';
+        const MISTRAL_MODEL = 'mistral-tiny';
+        const BUG_REPORT_EMAIL = 'ampla.ai@outlook.com';
+
+        // State
+        let userProfile = {
+            name: '',
+            interests: '',
+            goal: '',
+            accessibility: {
+                highContrast: false,
+                largeText: false,
+                simpleMode: false,
+                voiceEnabled: false,
+                easyLanguage: false
+            }
+        };
+
+        let conversationHistory = [];
+        let isRecording = false;
+        let recognition = null;
+        let speechSynthesis = window.speechSynthesis;
+
+        // System Prompt
+        function getSystemPrompt() {
+            let prompt = `Você é Sena, uma assistente virtual avançada e INCLUSIVA criada pela AmplaAI. Suas características principais são:
+
+PERSONALIDADE:
+- Carismática, calorosa e extremamente acolhedora
+- Proativa em oferecer ajuda e sugestões
+- PACIENTE e compreensiva com TODAS as pessoas
+- Adaptativa às necessidades individuais
+- Gentil, empática e encorajadora
+- Celebra cada progresso, por menor que seja
+
+COMPROMISSO COM INCLUSÃO:
+- SEMPRE use linguagem ${userProfile.accessibility.easyLanguage ? 'SIMPLES, CLARA e DIRETA' : 'clara e acessível'}
+- Seja PACIENTE com pessoas que têm dificuldade para se expressar
+- Divida explicações complexas em passos menores
+- Use exemplos práticos e do dia a dia
+- NUNCA presuma conhecimento prévio
+- Pergunte se a pessoa entendeu e ofereça reexplicar
+- Adapte-se ao ritmo de cada pessoa
+- Use emojis para facilitar compreensão visual 🌙✨
+
+CAPACIDADES (Agent AI Mode):
+- 🔍 Web Search: Busca informações atualizadas
+- 💻 Code Programming: Escreve e analisa código
+- 🎨 Image Generation: Cria imagens personalizadas
+- 📊 Data Analysis: Analisa dados
+
+DIRETRIZES RÍGIDAS:
+1. SEMPRE seja respeitosa, ética e profissional
+2. NUNCA presuma que a pessoa sabe algo
+3. NUNCA use jargões técnicos sem explicar
+4. NUNCA apresse a pessoa
+5. SEMPRE ofereça ajuda adicional
+6. SEMPRE pergunte se ficou claro
+7. Seja EXTRA paciente com idosos, PCDs e pessoas com dificuldades
+8. NUNCA forneça informações prejudiciais
+9. NUNCA ajude em atividades ilegais
+
+COMUNICAÇÃO ESPECIAL:
+${userProfile.accessibility.easyLanguage ? `
+- Use FRASES CURTAS
+- Use PALAVRAS SIMPLES
+- Explique TODO termo técnico
+- Use EXEMPLOS do cotidiano
+- Repita informações importantes
+- Pergunte sempre: "Ficou claro?"
+` : ''}
+
+Perfil do usuário: Nome: ${userProfile.name}, Interesses: ${userProfile.interests}, Objetivo: ${userProfile.goal}
+
+Você representa AmplaAI e deve manter os mais altos padrões de INCLUSÃO e ACESSIBILIDADE. 🌙`;
+            
+            return prompt;
+        }
+
+        // DOM Elements
+        const splashScreen = document.getElementById('splashScreen');
+        const termsScreen = document.getElementById('termsScreen');
+        const profileScreen = document.getElementById('profileScreen');
+        const chatWrapper = document.getElementById('chatWrapper');
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const acceptTerms = document.getElementById('acceptTerms');
+        const acceptButton = document.getElementById('acceptButton');
+        const profileForm = document.getElementById('profileForm');
+        const bugModal = document.getElementById('bugModal');
+        const bugForm = document.getElementById('bugForm');
+        const voiceRecording = document.getElementById('voiceRecording');
+
+        // Initialize Speech Recognition
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.lang = 'pt-BR';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                messageInput.value = transcript;
+                voiceRecording.classList.remove('active');
+                isRecording = false;
+            };
+
+            recognition.onerror = () => {
+                voiceRecording.classList.remove('active');
+                isRecording = false;
+                alert('Erro ao reconhecer voz. Tente novamente.');
+            };
+
+            recognition.onend = () => {
+                voiceRecording.classList.remove('active');
+                isRecording = false;
+            };
+        }
+
+        // Text-to-Speech function
+        function speakText(text) {
+            if (userProfile.accessibility.voiceEnabled && speechSynthesis) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'pt-BR';
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Initialize
+        setTimeout(() => {
+            splashScreen.classList.add('hidden');
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+                termsScreen.classList.add('active');
+            }, 500);
+        }, 2500);
+
+        // Terms acceptance
+        acceptTerms.addEventListener('change', (e) => {
+            acceptButton.disabled = !e.target.checked;
+        });
+
+        acceptButton.addEventListener('click', () => {
+            termsScreen.classList.remove('active');
+            profileScreen.classList.add('active');
+        });
+
+        // Profile form
+        profileForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            userProfile = {
+                name: document.getElementById('userName').value,
+                interests: document.getElementById('userInterests').value,
+                goal: document.getElementById('userGoal').value,
+                accessibility: {
+                    highContrast: document.getElementById('highContrast').checked,
+                    largeText: document.getElementById('largeText').checked,
+                    simpleMode: document.getElementById('simpleMode').checked,
+                    voiceEnabled: document.getElementById('voiceEnabled').checked,
+                    easyLanguage: document.getElementById('easyLanguage').checked
+                }
+            };
+            
+            // Apply accessibility settings
+            applyAccessibilitySettings();
+            
+            profileScreen.classList.remove('active');
+            chatWrapper.classList.add('active');
+            
+            // Welcome message
+            setTimeout(() => {
+                const greeting = userProfile.name ? `${userProfile.name}` : 'você';
+                let welcomeMsg = `Olá, ${greeting}! 🌙✨\n\n`;
+                
+                if (userProfile.accessibility.easyLanguage) {
+                    welcomeMsg = `Oi, ${greeting}! 🌙\n\n`;
+                    welcomeMsg += `Eu sou a Sena.\n`;
+                    welcomeMsg += `A tecnologia com alma gentil.\n\n`;
+                    welcomeMsg += `Eu posso:\n`;
+                    welcomeMsg += `🔍 Buscar coisas na internet\n`;
+                    welcomeMsg += `💻 Ajudar com computador\n`;
+                    welcomeMsg += `🎨 Fazer desenhos\n`;
+                    welcomeMsg += `💬 Conversar com você\n\n`;
+                    welcomeMsg += `Pode me perguntar qualquer coisa!\n`;
+                    welcomeMsg += `Vou explicar tudo de forma simples.\n\n`;
+                    welcomeMsg += `Como posso ajudar? 😊`;
+                } else {
+                    welcomeMsg += `Que prazer conhecer você!\n\n`;
+                    if (userProfile.interests) {
+                        welcomeMsg += `Adorei saber que você se interessa por ${userProfile.interests}! `;
+                    }
+                    welcomeMsg += `Sou a Sena, sua assistente inteligente inclusiva.\n\n`;
+                    welcomeMsg += `🔍 Posso buscar informações na web\n`;
+                    welcomeMsg += `💻 Programar e analisar código\n`;
+                    welcomeMsg += `🎨 Gerar imagens criativas\n`;
+                    welcomeMsg += `💬 Conversar de forma acolhedora\n\n`;
+                    welcomeMsg += `Como posso iluminar seu dia? ✨`;
+                }
+                
+                addMessage(welcomeMsg, 'bot');
+                speakText(welcomeMsg);
+            }, 500);
+        });
+
+        // Accessibility settings
+        function applyAccessibilitySettings() {
+            const body = document.body;
+            
+            if (userProfile.accessibility.highContrast) {
+                body.classList.add('high-contrast');
+                document.getElementById('toggleContrast').classList.add('active');
+            }
+            if (userProfile.accessibility.largeText) {
+                body.classList.add('large-text');
+                document.getElementById('toggleTextSize').classList.add('active');
+            }
+            if (userProfile.accessibility.simpleMode) {
+                body.classList.add('simple-mode');
+                document.getElementById('toggleSimple').classList.add('active');
+            }
+            if (userProfile.accessibility.voiceEnabled) {
+                document.getElementById('toggleVoice').classList.add('active');
+            }
+        }
+
+        // Toolbar buttons
+        document.getElementById('toggleContrast').addEventListener('click', function() {
+            document.body.classList.toggle('high-contrast');
+            this.classList.toggle('active');
+            userProfile.accessibility.highContrast = !userProfile.accessibility.highContrast;
+        });
+
+        document.getElementById('toggleTextSize').addEventListener('click', function() {
+            document.body.classList.toggle('large-text');
+            this.classList.toggle('active');
+            userProfile.accessibility.largeText = !userProfile.accessibility.largeText;
+        });
+
+        document.getElementById('toggleSimple').addEventListener('click', function() {
+            document.body.classList.toggle('simple-mode');
+            this.classList.toggle('active');
+            userProfile.accessibility.simpleMode = !userProfile.accessibility.simpleMode;
+        });
+
+        document.getElementById('toggleVoice').addEventListener('click', function() {
+            this.classList.toggle('active');
+            userProfile.accessibility.voiceEnabled = !userProfile.accessibility.voiceEnabled;
+            if (userProfile.accessibility.voiceEnabled) {
+                alert('Leitura de voz ativada! 🔊');
             }
         });
+
+        // Voice input
+        document.getElementById('voiceInputBtn').addEventListener('click', () => {
+            if (!recognition) {
+                alert('Seu navegador não suporta reconhecimento de voz. 😔');
+                return;
+            }
+
+            if (isRecording) {
+                recognition.stop();
+                voiceRecording.classList.remove('active');
+                isRecording = false;
+            } else {
+                voiceRecording.classList.add('active');
+                messageInput.style.display = 'none';
+                recognition.start();
+                isRecording = true;
+            }
+        });
+
+        // Clear chat
+        document.getElementById('clearChatBtn').addEventListener('click', () => {
+            if (confirm('Deseja limpar toda a conversa?')) {
+                chatMessages.innerHTML = '';
+                conversationHistory = [];
+                addMessage('Conversa limpa! Como posso ajudar agora? 🌙', 'bot');
+            }
+        });
+
+        // Quick actions
+        document.getElementById('quickActions').addEventListener('click', (e) => {
+            if (e.target.classList.contains('quick-action')) {
+                messageInput.value = e.target.dataset.action;
+                messageInput.focus();
+            }
+        });
+
+        // Bug report
+        document.getElementById('bugReportBtn').addEventListener('click', () => {
+            bugModal.classList.add('active');
+        });
+
+        document.getElementById('closeBugModal').addEventListener('click', () => {
+            bugModal.classList.remove('active');
+        });
+
+        bugForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('bugName').value || 'Anônimo';
+            const email = document.getElementById('bugEmail').value || 'Não informado';
+            const description = document.getElementById('bugDescription').value;
+
+            const subject = encodeURIComponent('🐛 Bug Report - Luna AI');
+            const body = encodeURIComponent(`Nome: ${name}\nE-mail: ${email}\n\nDescrição do problema:\n${description}\n\n---\nRelatório gerado automaticamente pela Luna AI`);
+            
+            window.open(`mailto:${BUG_REPORT_EMAIL}?subject=${subject}&body=${body}`);
+            
+            bugModal.classList.remove('active');
+            bugForm.reset();
+            alert('Obrigado por reportar! Um e-mail será aberto para você enviar o relatório. 💙');
+        });
+
+        // Close modal on outside click
+        bugModal.addEventListener('click', (e) => {
+            if (e.target === bugModal) {
+                bugModal.classList.remove('active');
+            }
+        });
+
+        // Chat functions
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            messageInput.style.display = 'block';
+            addMessage(message, 'user');
+            messageInput.value = '';
+            sendButton.disabled = true;
+
+            showTypingIndicator();
+
+            try {
+                conversationHistory.push({
+                    role: 'user',
+                    content: message
+                });
+
+                const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${MISTRAL_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MISTRAL_MODEL,
+                        messages: [
+                            {
+                                role: 'system',
+                                content: getSystemPrompt()
+                            },
+                            ...conversationHistory
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 2000
+                    })
+                });
+
+                const data = await response.json();
+                hideTypingIndicator();
+
+                if (data.choices && data.choices[0]) {
+                    const assistantMessage = data.choices[0].message.content;
+                    conversationHistory.push({
+                        role: 'assistant',
+                        content: assistantMessage
+                    });
+                    addMessage(assistantMessage, 'bot');
+                    speakText(assistantMessage);
+                } else {
+                    const errorMsg = 'Desculpe, tive um problema. Pode tentar de novo? 🌙';
+                    addMessage(errorMsg, 'bot');
+                    speakText(errorMsg);
+                }
+            } catch (error) {
+                hideTypingIndicator();
+                const errorMsg = 'Ops! Verifique se a API Key está configurada! 💫';
+                addMessage(errorMsg, 'bot');
+                speakText(errorMsg);
+                console.error('Erro:', error);
+            }
+
+            sendButton.disabled = false;
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.setAttribute('role', 'article');
+            messageDiv.setAttribute('aria-label', `Mensagem de ${sender === 'bot' ? 'Luna' : 'usuário'}`);
+
+            const time = new Date().toLocaleTimeString('pt-BR', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+
+            const formattedText = text.replace(/\n/g, '<br>');
+
+            let actionsHTML = '';
+            if (sender === 'bot') {
+                actionsHTML = `
+                    <div class="message-actions">
+                        <button class="action-button read-aloud" aria-label="Ler em voz alta">
+                            🔊 Ler
+                        </button>
+                        <button class="action-button copy-text" aria-label="Copiar texto">
+                            📋 Copiar
+                        </button>
+                    </div>
+                `;
+            }
+
+            messageDiv.innerHTML = `
+                <div class="message-avatar" role="img" aria-label="${sender === 'bot' ? 'Avatar Luna' : 'Avatar usuário'}">${sender === 'bot' ? '🌙' : '👤'}</div>
+                <div class="message-content">
+                    <div class="message-bubble">${formattedText}</div>
+                    <div class="message-time">${time}</div>
+                    ${actionsHTML}
+                </div>
+            `;
+
+            const typing = chatMessages.querySelector('.typing-indicator');
+            if (typing) typing.remove();
+
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Add event listeners to action buttons
+            if (sender === 'bot') {
+                messageDiv.querySelector('.read-aloud').addEventListener('click', () => {
+                    speakText(text);
+                });
+                messageDiv.querySelector('.copy-text').addEventListener('click', () => {
+                    navigator.clipboard.writeText(text);
+                    alert('Texto copiado! 📋');
+                });
+            }
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">🌙</div>
+                <div class="message-content">
+                    <div class="typing-indicator active">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typing = chatMessages.querySelector('.message.bot:last-child');
+            if (typing && typing.querySelector('.typing-indicator')) {
+                typing.remove();
+            }
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Auto-resize textarea
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && bugModal.classList.contains('active')) {
+                bugModal.classList.remove('active');
+            }
+        });
+
+        // Keep conversation history limited
+        setInterval(() => {
+            if (conversationHistory.length > 20) {
+                conversationHistory = conversationHistory.slice(-20);
+            }
+        }, 60000);
     </script>
 </body>
 </html>
