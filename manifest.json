@@ -9,13 +9,13 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://i.imgur.com/z2hCety.jpeg",
+      "src": "https://i.imgur.com/TNxclJq.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://i.imgur.com/z2hCety.jpeg",
+      "src": "https://i.imgur.com/TNxclJq.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -26,7 +26,7 @@
   "dir": "ltr",
   "screenshots": [
     {
-      "src": "https://i.imgur.com/z2hCety.jpeg",
+      "src": "https://i.imgur.com/TNxclJq.png",
       "sizes": "540x720",
       "type": "image/png"
     }
@@ -39,7 +39,7 @@
       "url": "/?action=new-chat",
       "icons": [
         {
-          "src": "https://i.imgur.com/z2hCety.jpeg",
+          "src": "https://i.imgur.com/TNxclJq.png",
           "sizes": "192x192"
         }
       ]
@@ -51,7 +51,7 @@
       "url": "/?action=about",
       "icons": [
         {
-          "src": "https://i.imgur.com/z2hCety.jpeg",
+          "src": "https://i.imgur.com/TNxclJq.png",
           "sizes": "192x192"
         }
       ]
