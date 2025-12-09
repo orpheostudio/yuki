@@ -1,13 +1,43 @@
 {
-  "name": "Cici - Sua amiga curiosa",
+  "name": "Cici - AmplaAI",
   "short_name": "Cici",
-  "description": "Sua companheira de exploração e soluções desenvolvida pela AmplaAI",
+  "description": "Assistente pessoal AI com funcionalidades avançadas",
+  "version": "2.0.0",
+  "version_name": "2.0.0",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#6366f1",
-  "theme_color": "#6366f1",
   "orientation": "portrait",
+  "theme_color": "#4F46E5",
+  "background_color": "#FFFFFF",
+  "scope": "/",
+  "categories": ["productivity", "utilities"],
   "icons": [
+    {
+      "src": "https://i.imgur.com/TNxclJq.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.imgur.com/TNxclJq.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/TNxclJq.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/TNxclJq.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/TNxclJq.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
     {
       "src": "https://i.imgur.com/TNxclJq.png",
       "sizes": "192x192",
@@ -16,46 +46,53 @@
     },
     {
       "src": "https://i.imgur.com/TNxclJq.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/TNxclJq.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "categories": ["productivity", "utilities", "lifestyle"],
-  "lang": "pt-BR",
-  "dir": "ltr",
   "screenshots": [
     {
-      "src": "https://i.imgur.com/TNxclJq.png",
-      "sizes": "540x720",
-      "type": "image/png"
+      "src": "/screenshots/mobile-1.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshots/tablet-1.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
     }
   ],
   "shortcuts": [
     {
       "name": "Nova Conversa",
       "short_name": "Conversar",
-      "description": "Iniciar uma nova conversa com a Cici",
-      "url": "/?action=new-chat",
+      "description": "Iniciar nova conversa com Cici",
+      "url": "/new-chat",
       "icons": [
         {
           "src": "https://i.imgur.com/TNxclJq.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Sobre",
-      "short_name": "Sobre",
-      "description": "Saiba mais sobre a Cici",
-      "url": "/?action=about",
-      "icons": [
-        {
-          "src": "https://i.imgur.com/TNxclJq.png",
-          "sizes": "192x192"
+          "sizes": "96x96"
         }
       ]
     }
   ],
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "com.amplaai.cici",
+      "url": "https://play.google.com/store/apps/details?id=com.amplaai.cici"
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
 }
