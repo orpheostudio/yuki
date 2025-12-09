@@ -1,0 +1,14 @@
+{
+  "name": "cici-pwa",
+  "version": "2.0.0",
+  "description": "PWA da Cici para Play Store",
+  "scripts": {
+    "build": "node build.js",
+    "test": "pwa-asset-generator ./public/logo.svg ./public/icons",
+    "deploy": "npm run build && firebase deploy"
+  },
+  "dependencies": {
+    "workbox-build": "^7.0.0",
+    "pwa-asset-generator": "^5.0.0"
+  }
+}
