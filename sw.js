@@ -25,6 +25,9 @@ const PRECACHE_URLS = [
   'https://i.imgur.com/TNxclJq.png',
   'https://i.imgur.com/TNxclJq.png',
   '/offline.html',
+  '/version.js',
+  'builds.js',
+  'package.json',
 ];
 
 // Recursos para cache dinâmico (API responses, etc.)
