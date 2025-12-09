@@ -3,23 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  
+
   <!-- Título e Descrição -->
-  <title>Sion - Seu Companheiro AmplaAI</title>
-  <meta name="description" content="Sion é seu companheiro de exploração e soluções, desenvolvido pela AmplaAI. Converse naturalmente sobre tecnologia, criatividade e inovação.">
-  <meta name="keywords" content="Sion, AmplaAI, chatbot, assistente, YumeRoll, tecnologia">
+  <title>Lívia - Sua Assistente Inteligente AmplaAI</title>
+  <meta name="description" content="Lívia é sua assistente pessoal inteligente, desenvolvida pela AmplaAI. Converse naturalmente sobre tecnologia, criatividade e inovação.">
+  <meta name="keywords" content="Lívia, AmplaAI, assistente virtual, chatbot, IA, tecnologia">
   <meta name="author" content="AmplaAI">
 
   <!-- PWA Meta Tags -->
-  <meta name="theme-color" content="#6366f1">
+  <meta name="theme-color" content="#8b5cf6">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Sion">
-  
-  <!-- TWA Meta Tags -->
-  <meta name="google-play-app" content="app-id=com.amplaai.sion">
-  <meta name="apple-itunes-app" content="app-id=com.amplaai.sion">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Lívia">
 
   <!-- Manifest -->
   <link rel="manifest" id="app-manifest" crossorigin="use-credentials">
@@ -27,69 +23,34 @@
   <!-- Ícones -->
   <link rel="icon" type="image/png" href="https://i.imgur.com/DtMv80V.png">
   <link rel="apple-touch-icon" href="https://i.imgur.com/DtMv80V.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="https://i.imgur.com/DtMv80V.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/DtMv80V.png">
-  <link rel="apple-touch-icon" sizes="167x167" href="https://i.imgur.com/DtMv80V.png">
-  
-  <!-- Splash Screen para iOS -->
-  <link rel="apple-touch-startup-image" href="https://i.imgur.com/DtMv80V.png">
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://orpheostudio.com.br">
-  <meta property="og:title" content="Sion - Seu Companheiro AmplaAI">
-  <meta property="og:description" content="Converse naturalmente sobre tecnologia, criatividade e inovação com o Sion.">
-  <meta property="og:image" content="https://i.imgur.com/DtMv80V.png">
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://orpheostudio.com.br">
-  <meta property="twitter:title" content="Sion - Seu Companheiro AmplaAI">
-  <meta property="twitter:description" content="Converse naturalmente sobre tecnologia, criatividade e inovação com o Sion.">
-  <meta property="twitter:image" content="https://i.imgur.com/DtMv80V.png">
-
-  <!-- Microsoft Clarity -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "tlya8thx8r");
-  </script>
-
-  <!-- Google AdMob/AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5941203056187445"
-     crossorigin="anonymous"></script>
-
-  <!-- Preconnect para performance -->
-  <link rel="preconnect" href="https://api.mistral.ai">
-  <link rel="preconnect" href="https://www.clarity.ms">
-  <link rel="preconnect" href="https://pagead2.googlesyndication.com">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --primary-light: #818cf8;
-      --secondary: #f59e0b;
-      --accent: #10b981;
-      --background: #0f172a;
-      --surface: #1e293b;
-      --surface-light: #334155;
-      --text: #f8fafc;
-      --text-secondary: #cbd5e1;
-      --text-muted: #94a3b8;
-      --border: #334155;
-      --error: #ef4444;
+      --primary: #8b5cf6;
+      --primary-dark: #7c3aed;
+      --primary-light: #a78bfa;
+      --secondary: #ec4899;
+      --accent: #14b8a6;
+      --background: #0a0118;
+      --surface: #1a0b2e;
+      --surface-light: #2d1b4e;
+      --surface-hover: #3d2b5e;
+      --text: #f8f7ff;
+      --text-secondary: #d4c5f9;
+      --text-muted: #9f7aea;
+      --border: #3d2b5e;
+      --error: #f43f5e;
       --success: #10b981;
       --warning: #f59e0b;
-      --info: #3b82f6;
-      --gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --gradient-1: linear-gradient(135deg, #8b5cf6, #ec4899);
+      --gradient-2: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+      --gradient-3: linear-gradient(135deg, #14b8a6, #8b5cf6);
+      --shadow: 0 4px 6px -1px rgba(139, 92, 246, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 20px 25px -5px rgba(139, 92, 246, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+      --glow: 0 0 20px rgba(139, 92, 246, 0.4);
     }
 
     * {
@@ -104,14 +65,29 @@
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background-color: var(--background);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--background);
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
       height: 100%;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.15), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.1), transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.05), transparent 50%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     /* Loading Screen */
@@ -131,27 +107,29 @@
     }
 
     .loading-logo {
-      width: 80px;
-      height: 80px;
-      margin-bottom: 20px;
-      border-radius: 20px;
-      animation: pulse 2s infinite;
+      width: 100px;
+      height: 100px;
+      margin-bottom: 30px;
+      border-radius: 24px;
+      animation: floatPulse 3s ease-in-out infinite;
+      box-shadow: var(--glow);
     }
 
     .loading-text {
-      font-size: 24px;
-      font-weight: 700;
+      font-size: 32px;
+      font-weight: 800;
       margin-bottom: 20px;
-      background: var(--gradient);
+      background: var(--gradient-2);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
     }
 
     .loading-spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid rgba(99, 102, 241, 0.2);
-      border-top: 4px solid var(--primary);
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(139, 92, 246, 0.2);
+      border-top: 5px solid var(--primary);
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -162,42 +140,35 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 30px;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(10px);
+      height: 32px;
+      background: rgba(10, 1, 24, 0.95);
+      backdrop-filter: blur(20px);
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       z-index: 1001;
       font-size: 12px;
       color: var(--text-muted);
-      padding: 0 10px;
-    }
-
-    .status-time {
-      flex: 1;
-      text-align: left;
-    }
-
-    .status-battery {
-      flex: 1;
-      text-align: right;
+      padding: 0 16px;
+      border-bottom: 1px solid rgba(139, 92, 246, 0.1);
     }
 
     /* Screens */
     .screen {
       display: none;
       position: fixed;
-      top: 30px;
+      top: 32px;
       left: 0;
       width: 100%;
-      height: calc(100% - 30px);
+      height: calc(100% - 32px);
       overflow-y: auto;
-      background: var(--background);
+      background: transparent;
+      z-index: 1;
     }
 
     .screen.active {
       display: block;
+      animation: fadeIn 0.3s ease;
     }
 
     /* Welcome Screen */
@@ -207,110 +178,135 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 40px 20px;
       text-align: center;
-      background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.1), transparent 50%);
+      position: relative;
     }
 
     .welcome-logo {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 20px;
-      border-radius: 24px;
-      box-shadow: var(--shadow-lg);
+      width: 140px;
+      height: 140px;
+      margin-bottom: 30px;
+      border-radius: 32px;
+      box-shadow: var(--glow);
+      animation: floatPulse 3s ease-in-out infinite;
     }
 
     .welcome-title {
-      font-size: 48px;
-      font-weight: 800;
-      margin-bottom: 10px;
-      background: var(--gradient);
+      font-size: 56px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      background: var(--gradient-2);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+      text-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
     }
 
     .welcome-subtitle {
-      font-size: 18px;
+      font-size: 20px;
       color: var(--text-secondary);
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      font-weight: 500;
     }
 
     .welcome-author {
       font-size: 14px;
       color: var(--text-muted);
-      margin-bottom: 40px;
+      margin-bottom: 50px;
+      font-weight: 400;
     }
 
     .welcome-buttons {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 16px;
       width: 100%;
-      max-width: 300px;
-      margin-bottom: 40px;
+      max-width: 340px;
+      margin-bottom: 50px;
     }
 
     .btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      padding: 14px 20px;
-      border-radius: 12px;
+      gap: 12px;
+      padding: 16px 24px;
+      border-radius: 16px;
       font-weight: 600;
       font-size: 16px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       border: none;
       outline: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:hover::before {
+      width: 300px;
+      height: 300px;
     }
 
     .btn-primary {
-      background: var(--gradient);
+      background: var(--gradient-1);
       color: white;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-lg);
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 25px 35px -5px rgba(139, 92, 246, 0.3);
     }
 
     .btn-secondary {
       background: var(--surface);
       color: var(--text);
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
     }
 
     .btn-secondary:hover {
       background: var(--surface-light);
-    }
-
-    .btn-full {
-      width: 100%;
+      border-color: var(--primary);
+      transform: translateY(-2px);
     }
 
     .welcome-footer {
       margin-top: auto;
-      padding-top: 30px;
+      padding-top: 40px;
       color: var(--text-muted);
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .welcome-links {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
+      gap: 12px;
+      margin-top: 12px;
     }
 
     .welcome-links a {
       color: var(--primary-light);
       text-decoration: none;
+      transition: color 0.2s;
     }
 
     .welcome-links a:hover {
+      color: var(--secondary);
       text-decoration: underline;
     }
 
@@ -318,8 +314,8 @@
     .chat-header {
       position: sticky;
       top: 0;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(10px);
+      background: rgba(10, 1, 24, 0.95);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       z-index: 100;
     }
@@ -328,24 +324,28 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 15px 20px;
+      padding: 16px 20px;
     }
 
     .header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .header-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      box-shadow: var(--glow);
     }
 
     .header-info h1 {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .header-info p {
@@ -354,19 +354,22 @@
     }
 
     .menu-btn {
-      background: none;
-      border: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
       color: var(--text);
       cursor: pointer;
-      padding: 8px;
-      border-radius: 8px;
+      padding: 10px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.2s;
     }
 
     .menu-btn:hover {
-      background: var(--surface);
+      background: var(--surface-light);
+      border-color: var(--primary);
+      transform: scale(1.05);
     }
 
     .menu-dropdown {
@@ -375,49 +378,53 @@
       right: 20px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 8px;
       box-shadow: var(--shadow-lg);
       display: none;
       z-index: 101;
-      min-width: 180px;
+      min-width: 200px;
+      margin-top: 8px;
     }
 
     .menu-dropdown.active {
       display: block;
+      animation: slideDown 0.2s ease;
     }
 
     .menu-item {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       width: 100%;
-      padding: 10px 12px;
+      padding: 12px 14px;
       background: none;
       border: none;
       color: var(--text);
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       font-size: 14px;
-      transition: background 0.2s ease;
+      transition: all 0.2s;
+      text-align: left;
     }
 
     .menu-item:hover {
       background: var(--surface-light);
+      transform: translateX(4px);
     }
 
     .messages-container {
-      padding: 20px;
-      padding-bottom: 100px;
-      max-height: calc(100vh - 170px);
+      padding: 24px 20px;
+      padding-bottom: 120px;
+      max-height: calc(100vh - 190px);
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
 
     .message {
       display: flex;
-      margin-bottom: 20px;
-      animation: messageSlideIn 0.3s ease;
+      margin-bottom: 24px;
+      animation: messageSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .message.user {
@@ -430,8 +437,8 @@
 
     .message-content {
       max-width: 80%;
-      padding: 14px 18px;
-      border-radius: 18px;
+      padding: 16px 20px;
+      border-radius: 20px;
       position: relative;
       box-shadow: var(--shadow);
       word-wrap: break-word;
@@ -439,21 +446,22 @@
     }
 
     .message.user .message-content {
-      background: var(--gradient);
+      background: var(--gradient-1);
       color: white;
-      border-bottom-right-radius: 4px;
+      border-bottom-right-radius: 6px;
     }
 
     .message.assistant .message-content {
       background: var(--surface);
       color: var(--text);
-      border-bottom-left-radius: 4px;
+      border-bottom-left-radius: 6px;
+      border: 1px solid var(--border);
     }
 
     .message-time {
       display: block;
       font-size: 11px;
-      margin-top: 5px;
+      margin-top: 6px;
       opacity: 0.7;
       text-align: right;
     }
@@ -463,52 +471,55 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      padding: 15px 20px;
-      background: var(--background);
+      padding: 16px 20px 20px;
+      background: rgba(10, 1, 24, 0.95);
+      backdrop-filter: blur(20px);
       border-top: 1px solid var(--border);
       display: flex;
       align-items: flex-end;
-      gap: 10px;
+      gap: 12px;
       z-index: 99;
     }
 
     #message-input {
       flex: 1;
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 12px 18px;
+      border: 2px solid var(--border);
+      border-radius: 24px;
+      padding: 14px 20px;
       color: var(--text);
       font-family: inherit;
-      font-size: 16px;
+      font-size: 15px;
       resize: none;
       max-height: 120px;
       outline: none;
-      transition: border-color 0.2s ease;
-      -webkit-appearance: none;
+      transition: all 0.3s;
     }
 
     #message-input:focus {
       border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
     }
 
     .send-btn {
-      background: var(--gradient);
+      background: var(--gradient-1);
       color: white;
       border: none;
       border-radius: 50%;
-      width: 44px;
-      height: 44px;
+      width: 50px;
+      height: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       flex-shrink: 0;
+      box-shadow: var(--shadow);
     }
 
     .send-btn:hover {
-      transform: scale(1.05);
+      transform: scale(1.1) rotate(15deg);
+      box-shadow: var(--glow);
     }
 
     .send-btn:disabled {
@@ -520,146 +531,102 @@
     /* About Screen */
     .about-container {
       min-height: 100%;
-      padding: 20px;
+      padding: 24px 20px;
       padding-bottom: 100px;
     }
 
     .back-btn {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: none;
-      border: none;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
       color: var(--text);
       cursor: pointer;
-      padding: 10px 0;
-      margin-bottom: 20px;
-      font-size: 16px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      font-size: 15px;
+      border-radius: 12px;
+      transition: all 0.2s;
     }
 
     .back-btn:hover {
-      color: var(--primary-light);
+      background: var(--surface-light);
+      border-color: var(--primary);
+      transform: translateX(-4px);
     }
 
     .about-card {
       background: var(--surface);
-      border-radius: 20px;
-      padding: 30px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
       box-shadow: var(--shadow-lg);
       margin-bottom: 30px;
     }
 
     .about-header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 32px;
     }
 
     .about-logo {
-      width: 80px;
-      height: 80px;
-      border-radius: 16px;
-      margin-bottom: 15px;
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--glow);
     }
 
     .about-header h1 {
-      font-size: 28px;
-      margin-bottom: 5px;
+      font-size: 32px;
+      margin-bottom: 8px;
+      background: var(--gradient-2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .about-version {
       color: var(--text-muted);
       font-size: 14px;
+      font-weight: 500;
     }
 
     .about-section {
-      margin-bottom: 30px;
+      margin-bottom: 32px;
     }
 
     .about-section h2 {
-      font-size: 20px;
-      margin-bottom: 15px;
+      font-size: 22px;
+      margin-bottom: 16px;
       color: var(--primary-light);
-    }
-
-    .about-section p {
-      margin-bottom: 15px;
-      color: var(--text-secondary);
-    }
-
-    .about-section ul {
-      margin-left: 20px;
-      margin-bottom: 15px;
-    }
-
-    .about-section li {
-      margin-bottom: 8px;
-      color: var(--text-secondary);
-    }
-
-    .link-primary {
-      color: var(--primary-light);
-      text-decoration: none;
-      font-weight: 600;
-      display: inline-block;
-      margin-top: 10px;
-    }
-
-    .link-primary:hover {
-      text-decoration: underline;
-    }
-
-    .social-links {
       display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .social-links div p {
-      margin-bottom: 5px;
-    }
-
-    .social-links a {
-      display: block;
-      color: var(--primary-light);
-      text-decoration: none;
-      margin-bottom: 5px;
-    }
-
-    .social-links a:hover {
-      text-decoration: underline;
-    }
-
-    .doc-links {
-      display: flex;
-      flex-direction: column;
+      align-items: center;
       gap: 10px;
     }
 
-    .doc-link {
-      display: block;
-      padding: 12px 16px;
-      background: var(--background);
-      border-radius: 10px;
-      color: var(--text);
-      text-decoration: none;
-      transition: background 0.2s ease;
+    .about-section p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      line-height: 1.7;
     }
 
-    .doc-link:hover {
-      background: var(--surface-light);
+    .about-section ul {
+      margin-left: 24px;
+      margin-bottom: 16px;
     }
 
-    .ad-container {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
+    .about-section li {
+      margin-bottom: 10px;
+      color: var(--text-secondary);
+      line-height: 1.6;
     }
 
     /* Typing Indicator */
     .typing-indicator {
       display: flex;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       opacity: 0;
       transition: opacity 0.3s ease;
     }
@@ -670,16 +637,16 @@
 
     .typing-dots {
       display: flex;
-      gap: 4px;
-      margin-left: 10px;
+      gap: 6px;
+      margin-left: 12px;
     }
 
     .typing-dot {
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: var(--text-muted);
-      animation: typingPulse 1.5s infinite ease-in-out;
+      background: var(--primary);
+      animation: typingPulse 1.4s infinite ease-in-out;
     }
 
     .typing-dot:nth-child(2) {
@@ -695,41 +662,44 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 15px;
+      margin-top: 16px;
     }
 
     .quick-reply {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 8px 16px;
+      border-radius: 24px;
+      padding: 10px 18px;
       font-size: 14px;
       color: var(--text);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .quick-reply:hover {
       background: var(--surface-light);
-      transform: translateY(-2px);
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
     }
 
     /* Connection Status */
     .connection-status {
       position: fixed;
-      top: 40px;
+      top: 44px;
       right: 20px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 8px 16px;
-      font-size: 12px;
+      border-radius: 24px;
+      padding: 10px 18px;
+      font-size: 13px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       z-index: 98;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: all 0.3s;
+      box-shadow: var(--shadow);
     }
 
     .connection-status.active {
@@ -737,10 +707,11 @@
     }
 
     .connection-dot {
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: var(--error);
+      animation: pulse 2s infinite;
     }
 
     .connection-dot.connected {
@@ -750,111 +721,34 @@
     /* Offline Indicator */
     .offline-indicator {
       position: fixed;
-      bottom: 80px;
+      bottom: 90px;
       left: 20px;
       right: 20px;
       background: var(--warning);
       color: var(--background);
-      padding: 10px 15px;
-      border-radius: 12px;
+      padding: 14px 18px;
+      border-radius: 16px;
       font-size: 14px;
+      font-weight: 600;
       text-align: center;
       z-index: 100;
       display: none;
       animation: slideUp 0.3s ease;
+      box-shadow: var(--shadow-lg);
     }
 
     .offline-indicator.active {
       display: block;
     }
 
-    /* Install Button */
-    .install-btn {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: var(--gradient);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 12px 20px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: var(--shadow-lg);
-      z-index: 1000;
-      display: none;
-      transition: all 0.3s ease;
-    }
-
-    .install-btn:hover {
-      transform: translateY(-2px);
-    }
-
-    /* Donation Banner */
-    #sion-donation-banner {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      max-width: 350px;
-      background: rgba(10, 15, 30, 0.95);
-      border: 1px solid rgba(0, 200, 255, 0.3);
-      border-radius: 16px;
-      padding: 16px 18px;
-      color: #E6F6FF;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      line-height: 1.4;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      backdrop-filter: blur(8px);
-      z-index: 9999;
-      animation: sionFadeIn 0.6s ease forwards;
-      display: none;
-    }
-
-    .sion-banner-content {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .sion-banner-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .sion-donate-btn {
-      background: #00C8FF;
-      color: #0A0F1E;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .sion-donate-btn:hover {
-      background: #00A8DD;
-    }
-
-    #sion-banner-close {
-      background: transparent;
-      border: none;
-      color: #9BC9FF;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: color 0.2s ease;
-    }
-
-    #sion-banner-close:hover {
-      color: #fff;
-    }
-
     /* Animations */
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.05); opacity: 0.8; }
-      100% { transform: scale(1); opacity: 1; }
+    @keyframes floatPulse {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-10px) scale(1.02);
+      }
     }
 
     @keyframes spin {
@@ -862,14 +756,30 @@
       100% { transform: rotate(360deg); }
     }
 
-    @keyframes messageSlideIn {
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
       from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(-10px);
       }
       to {
         opacity: 1;
         transform: translateY(0);
+      }
+    }
+
+    @keyframes messageSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
       }
     }
 
@@ -879,76 +789,67 @@
         opacity: 0.5;
       }
       30% {
-        transform: scale(1);
+        transform: scale(1.2);
         opacity: 1;
       }
     }
 
-    @keyframes sionFadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
-    /* Responsive Design */
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
       .welcome-title {
-        font-size: 36px;
+        font-size: 42px;
       }
-      
+
       .message-content {
-        max-width: 90%;
+        max-width: 85%;
       }
-      
+
       .about-card {
-        padding: 20px;
-      }
-      
-      #sion-donation-banner {
-        right: 10px;
-        left: 10px;
-        max-width: none;
+        padding: 24px;
       }
     }
 
     @media (max-width: 480px) {
       .welcome-title {
-        font-size: 28px;
+        font-size: 36px;
       }
-      
+
       .welcome-logo {
-        width: 100px;
-        height: 100px;
-      }
-      
-      .header-content {
-        padding: 12px 15px;
-      }
-      
-      .messages-container {
-        padding: 15px;
-        padding-bottom: 100px;
-      }
-      
-      .input-container {
-        padding: 12px 15px;
+        width: 120px;
+        height: 120px;
       }
     }
 
-    /* Safe Areas for Notch */
+    /* Safe Areas */
     @supports (padding: max(0px)) {
       .screen {
         padding-left: max(0px, env(safe-area-inset-left));
         padding-right: max(0px, env(safe-area-inset-right));
         padding-bottom: max(0px, env(safe-area-inset-bottom));
       }
-      
+
       .input-container {
-        padding-bottom: max(15px, env(safe-area-inset-bottom));
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
       }
     }
   </style>
@@ -956,14 +857,14 @@
 <body>
   <!-- Status Bar -->
   <div class="status-bar" id="status-bar">
-    <div class="status-time" id="current-time">00:00</div>
-    <div class="status-battery" id="battery-status">100%</div>
+    <div id="current-time">00:00</div>
+    <div id="battery-status">100%</div>
   </div>
 
   <!-- Loading Screen -->
   <div class="loading-screen" id="loading-screen">
-    <img src="https://i.imgur.com/DtMv80V.png" alt="Sion Logo" class="loading-logo">
-    <div class="loading-text">Sion</div>
+    <img src="https://i.imgur.com/DtMv80V.png" alt="Lívia Logo" class="loading-logo">
+    <div class="loading-text">Lívia</div>
     <div class="loading-spinner"></div>
   </div>
 
@@ -981,20 +882,20 @@
   <!-- Welcome Screen -->
   <div id="welcome-screen" class="screen active">
     <div class="welcome-container">
-      <img src="https://i.imgur.com/DtMv80V.png" alt="Sion Logo" class="welcome-logo">
-      <h1 class="welcome-title">Sion</h1>
-      <p class="welcome-subtitle">Seu companheiro de exploração e soluções</p>
+      <img src="https://i.imgur.com/DtMv80V.png" alt="Lívia Logo" class="welcome-logo">
+      <h1 class="welcome-title">Lívia</h1>
+      <p class="welcome-subtitle">Sua assistente inteligente de exploração e soluções</p>
       <p class="welcome-author">Desenvolvido por AmplaAI</p>
 
       <div class="welcome-buttons">
         <button onclick="showScreen('chat')" class="btn btn-primary">
-          <i data-lucide="message-circle"></i>
+          <i data-lucide="sparkles"></i>
           <span>Começar Conversa</span>
         </button>
 
         <button onclick="showScreen('about')" class="btn btn-secondary">
           <i data-lucide="info"></i>
-          <span>Sobre o Sion</span>
+          <span>Sobre a Lívia</span>
         </button>
       </div>
 
@@ -1011,13 +912,12 @@
 
   <!-- Chat Screen -->
   <div id="chat-screen" class="screen">
-    <!-- Header -->
     <div class="chat-header">
       <div class="header-content">
         <div class="header-left">
-          <img src="https://i.imgur.com/DtMv80V.png" alt="Sion" class="header-logo">
+          <img src="https://i.imgur.com/DtMv80V.png" alt="Lívia" class="header-logo">
           <div class="header-info">
-            <h1>Sion</h1>
+            <h1>Lívia</h1>
             <p>by AmplaAI</p>
           </div>
         </div>
@@ -1026,11 +926,10 @@
         </button>
       </div>
 
-      <!-- Menu Dropdown -->
       <div id="menu-dropdown" class="menu-dropdown">
         <button onclick="showScreen('about')" class="menu-item">
           <i data-lucide="info"></i>
-          <span>Sobre o Sion</span>
+          <span>Sobre a Lívia</span>
         </button>
         <button onclick="exportChat()" class="menu-item">
           <i data-lucide="download"></i>
@@ -1051,29 +950,26 @@
       </div>
     </div>
 
-    <!-- Messages Area -->
     <div class="messages-container" id="messages-container">
       <div class="message assistant">
         <div class="message-content">
-          <p>Olá! Sou o Sion, seu companheiro de exploração e soluções desenvolvido pela AmplaAI. Estou aqui para ajudar você com tecnologia, criatividade e inovação. Como posso te ajudar hoje? 😊</p>
+          <p>Olá! Sou a Lívia, sua assistente inteligente desenvolvida pela AmplaAI. ✨ Estou aqui para ajudar você com tecnologia, criatividade, inovação e muito mais. Como posso te ajudar hoje? 💜</p>
           <span class="message-time"></span>
         </div>
       </div>
-      
-      <!-- Quick Replies -->
+
       <div class="quick-replies" id="quick-replies">
         <button class="quick-reply" onclick="quickReply('Conte-me sobre a AmplaAI')">Sobre a AmplaAI</button>
         <button class="quick-reply" onclick="quickReply('Quais são seus recursos?')">Recursos</button>
         <button class="quick-reply" onclick="quickReply('Como posso usar o YumeRoll?')">YumeRoll</button>
-        <button class="quick-reply" onclick="quickReply('O que é a Escola de Autores?')">Escola de Autores</button>
+        <button class="quick-reply" onclick="quickReply('Me ajude com criatividade')">Criatividade</button>
       </div>
     </div>
 
-    <!-- Typing Indicator -->
     <div class="typing-indicator" id="typing-indicator">
       <div class="message assistant">
         <div class="message-content">
-          <p>Sion está digitando</p>
+          <p>Lívia está pensando</p>
           <div class="typing-dots">
             <div class="typing-dot"></div>
             <div class="typing-dot"></div>
@@ -1083,7 +979,6 @@
       </div>
     </div>
 
-    <!-- Input Area -->
     <div class="input-container">
       <textarea 
         id="message-input" 
@@ -1102,135 +997,110 @@
   <div id="about-screen" class="screen">
     <div class="about-container">
       <button onclick="showScreen('welcome')" class="back-btn">
-        <i data-lucide="home"></i>
+        <i data-lucide="arrow-left"></i>
         <span>Voltar</span>
       </button>
 
       <div class="about-card">
         <div class="about-header">
-          <img src="https://i.imgur.com/DtMv80V.png" alt="Sion Logo" class="about-logo">
-          <h1>Sobre o Sion</h1>
-          <p class="about-version">v2.1 | Mistral AI Edition</p>
+          <img src="https://i.imgur.com/DtMv80V.png" alt="Lívia Logo" class="about-logo">
+          <h1>Lívia</h1>
+          <p class="about-version">v3.0 | OrionAI Edition</p>
         </div>
 
         <div class="about-content">
           <section class="about-section">
             <h2>🤖 Quem Sou Eu</h2>
-            <p>Sou o Sion, seu companheiro virtual desenvolvido pela AmplaAI. Utilizo inteligência artificial OrionAI para oferecer conversas naturais e úteis sobre tecnologia, criatividade, inovação e muito mais!</p>
+            <p>Sou a Lívia, sua assistente virtual inteligente desenvolvida pela AmplaAI. Utilizo tecnologia de ponta OrionAI para oferecer conversas naturais, inteligentes e úteis sobre tecnologia, criatividade, inovação e muito mais!</p>
           </section>
 
           <section class="about-section">
             <h2>🚀 Desenvolvido por AmplaAI</h2>
             <p>A AmplaAI é um estúdio de inovação que desenvolve projetos incríveis:</p>
             <ul>
-              <li><strong>Sena</strong> - Soluções inteligentes para automação</li>
-              <li><strong>YumeRoll Animes</strong> - Plataforma premium de animes</li>
-              <li><strong>Escola de Autores</strong> - Desenvolvimento criativo e literário</li>
-            </ul>
-            <a href="https://orpheostudio.com.br" target="_blank" rel="noopener noreferrer" class="link-primary">
-              Visite o AmplaAI Studio →
-            </a>
-          </section>
-
-          <section class="about-section">
-            <h2>⚡ Tecnologia</h2>
-            <p>Este aplicativo utiliza:</p>
-            <ul>
-              <li><strong>Orion AI</strong> - Modelo de linguagem avançado</li>
-              <li><strong>PWA (Progressive Web App)</strong> - Instalável como app nativo</li>
-              <li><strong>TWA (Trusted Web Activity)</strong> - Para Google Play Store</li>
-              <li><strong>Service Worker</strong> - Funciona offline parcialmente</li>
-              <li><strong>Local Storage</strong> - Salva suas conversas localmente</li>
+              <li><strong>Sena</strong> - Soluções inteligentes para automação e gestão</li>
+              <li><strong>YumeRoll Animes</strong> - Plataforma premium de animes com experiência única</li>
+              <li><strong>Escola de Autores</strong> - Desenvolvimento criativo e literário personalizado</li>
+              <li><strong>Lívia</strong> - Assistente virtual inteligente (eu! 💜)</li>
             </ul>
           </section>
 
           <section class="about-section">
-            <h2>📱 Recursos do App</h2>
+            <h2>⚡ Tecnologia de Ponta</h2>
+            <p>Este aplicativo utiliza as melhores tecnologias:</p>
             <ul>
-              <li>Conversação natural com IA</li>
-              <li>Histórico de conversas salvo</li>
-              <li>Exportação de chats</li>
-              <li>Interface responsiva</li>
-              <li>Modo offline parcial</li>
-              <li>Instalação como app nativo</li>
-              <li>Notificações push (em breve)</li>
+              <li><strong>OrionAI</strong> - Modelo de linguagem avançado e natural</li>
+              <li><strong>PWA (Progressive Web App)</strong> - Instalável como aplicativo nativo</li>
+              <li><strong>Interface Moderna</strong> - Design elegante e responsivo</li>
+              <li><strong>Service Worker</strong> - Funcionalidade offline parcial</li>
+              <li><strong>Armazenamento Local</strong> - Suas conversas salvas com segurança</li>
+            </ul>
+          </section>
+
+          <section class="about-section">
+            <h2>✨ Recursos Principais</h2>
+            <ul>
+              <li>Conversação natural e inteligente com IA</li>
+              <li>Histórico completo de conversas</li>
+              <li>Exportação de chats em arquivo de texto</li>
+              <li>Interface responsiva e moderna</li>
+              <li>Suporte a modo offline</li>
+              <li>Instalação como app nativo em dispositivos móveis</li>
+              <li>Respostas rápidas e contextuais</li>
+              <li>Compartilhamento fácil</li>
             </ul>
           </section>
 
           <section class="about-section">
             <h2>🌐 Redes Sociais</h2>
-            <div class="social-links">
-              <div>
-                <p><strong>AmplaAI:</strong></p>
-                <a href="https://instagram.com/ampla.ai" target="_blank" rel="noopener noreferrer">@ampla.ai no Instagram</a>
-              </div>
-              <div>
-                <p><strong>YumeRoll:</strong></p>
-                <a href="https://instagram.com/yumerolloficial" target="_blank" rel="noopener noreferrer">@yumerolloficial (Instagram)</a>
-                <a href="https://tiktok.com/@yumerollanime" target="_blank" rel="noopener noreferrer">@yumerollanimes (TikTok)</a>
-              </div>
-            </div>
+            <p><strong>AmplaAI:</strong></p>
+            <p>📸 Instagram: <a href="https://instagram.com/ampla.ai" target="_blank" rel="noopener noreferrer" style="color: var(--primary-light);">@ampla.ai</a></p>
+            
+            <p style="margin-top: 16px;"><strong>YumeRoll:</strong></p>
+            <p>📸 Instagram: <a href="https://instagram.com/yumerolloficial" target="_blank" rel="noopener noreferrer" style="color: var(--primary-light);">@yumerolloficial</a></p>
+            <p>🎵 TikTok: <a href="https://tiktok.com/@yumerollanime" target="_blank" rel="noopener noreferrer" style="color: var(--primary-light);">@yumerollanimes</a></p>
           </section>
 
           <section class="about-section">
             <h2>📄 Documentação</h2>
-            <div class="doc-links">
-              <a href="https://termos.orpheostudio.com.br" target="_blank" rel="noopener noreferrer" class="doc-link">📝 Termos de Uso</a>
-              <a href="https://politicas.orpheostudio.com.br" target="_blank" rel="noopener noreferrer" class="doc-link">🔒 Políticas de Privacidade</a>
-              <a href="www.cici.net.br" target="_blank" rel="noopener noreferrer" class="doc-link">📚 Sena</a>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <a href="https://termos.orpheostudio.com.br" target="_blank" rel="noopener noreferrer" 
+                 style="display: block; padding: 14px 18px; background: var(--background); border-radius: 12px; color: var(--text); text-decoration: none; transition: all 0.2s; border: 1px solid var(--border);">
+                📝 Termos de Uso
+              </a>
+              <a href="https://politicas.orpheostudio.com.br" target="_blank" rel="noopener noreferrer" 
+                 style="display: block; padding: 14px 18px; background: var(--background); border-radius: 12px; color: var(--text); text-decoration: none; transition: all 0.2s; border: 1px solid var(--border);">
+                🔒 Políticas de Privacidade
+              </a>
+              <a href="http://www.cici.net.br" target="_blank" rel="noopener noreferrer" 
+                 style="display: block; padding: 14px 18px; background: var(--background); border-radius: 12px; color: var(--text); text-decoration: none; transition: all 0.2s; border: 1px solid var(--border);">
+                📚 Sena - Soluções Inteligentes
+              </a>
             </div>
           </section>
         </div>
 
-        <div style="margin-top: 30px; text-align: center;">
-          <button onclick="showScreen('chat')" class="btn btn-primary btn-full" style="margin-bottom: 15px;">
-            <i data-lucide="message-circle"></i>
+        <div style="margin-top: 32px; display: flex; flex-direction: column; gap: 12px;">
+          <button onclick="showScreen('chat')" class="btn btn-primary" style="width: 100%;">
+            <i data-lucide="sparkles"></i>
             <span>Começar a Conversar</span>
           </button>
-          
-          <button onclick="checkForUpdates()" class="btn btn-secondary btn-full">
+
+          <button onclick="checkForUpdates()" class="btn btn-secondary" style="width: 100%;">
             <i data-lucide="refresh-cw"></i>
             <span>Verificar Atualizações</span>
           </button>
         </div>
       </div>
-
-      <!-- AdMob Banner -->
-      <div class="ad-container">
-        <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-5941203056187445"
-          data-ad-slot="f08c47fec0942fa0"
-          data-ad-format="auto"
-          data-full-width-responsive="true">
-        </ins>
-      </div>
     </div>
   </div>
-
-  <!-- Donate Reminder -->
-  <div id="sion-donation-banner">
-    <div class="sion-banner-content">
-      <p>🤖 <strong>Sion:</strong> Ajude a manter este serviço online! Doações ajudam com os custos da API da Mistral AI. 💙</p>
-      <div class="sion-banner-actions">
-        <a href="https://nubank.com.br/cobrar/ftet6/690dfa92-b7c5-4679-83ff-6d64e4b35c83" target="_blank" class="sion-donate-btn">Apoiar Sion</a>
-        <button id="sion-banner-close" aria-label="Fechar">✕</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Install Button -->
-  <button id="install-button" class="install-btn">
-    📲 Instalar App
-  </button>
 
   <script>
     // =============== CONFIGURAÇÕES DA API ===============
     const API_CONFIG = {
-      // Chave da API Mistral (configuração interna)
-      MISTRAL_API_KEY: 'NFuAj8PYUPcaf6tA1BjbyXuIeSjSA4sW', // ← COLOCAR CHAVE REAL AQUI
+      MISTRAL_API_KEY: 'NFuAj8PYUPcaf6tA1BjbyXuIeSjSA4sW',
       MISTRAL_API_URL: 'https://api.mistral.ai/v1/chat/completions',
-      MODEL: 'mistral-tiny', // mistral-tiny, mistral-small, mistral-medium
+      MODEL: 'mistral-tiny',
       MAX_TOKENS: 1000,
       TEMPERATURE: 0.7
     };
@@ -1244,37 +1114,21 @@
 
     // =============== INICIALIZAÇÃO ===============
     document.addEventListener('DOMContentLoaded', async () => {
-      console.log('🚀 Iniciando Sion v2.1...');
-      
-      // Inicializar ícones
+      console.log('🚀 Iniciando Lívia v3.0...');
+
       lucide.createIcons();
-      
-      // Configurar manifest dinâmico
       setupDynamicManifest();
-      
-      // Configurar Service Worker para PWA
       await setupServiceWorker();
-      
-      // Configurar status online/offline
       setupNetworkMonitoring();
       
-      // Configurar atualização de tempo
       updateTime();
       setInterval(updateTime, 60000);
       
-      // Configurar bateria
       setupBatteryMonitoring();
-      
-      // Configurar eventos
       setupEventListeners();
-      
-      // Inicializar chat
       initializeChat();
-      
-      // Configurar PWA
       setupPWA();
-      
-      // Mostrar loading por 2 segundos
+
       setTimeout(() => {
         document.getElementById('loading-screen').style.opacity = '0';
         setTimeout(() => {
@@ -1282,25 +1136,16 @@
           checkConnection();
         }, 500);
       }, 2000);
-      
-      // Mostrar banner de doação após 30 segundos
-      setTimeout(() => {
-        const banner = document.getElementById('sion-donation-banner');
-        if (Math.random() > 0.7) { // 30% chance de mostrar
-          banner.style.display = 'block';
-        }
-      }, 30000);
     });
 
-    // =============== SERVICE WORKER (PWA) ===============
+    // =============== SERVICE WORKER ===============
     async function setupServiceWorker() {
       if ('serviceWorker' in navigator) {
         try {
           const registration = await navigator.serviceWorker.register('/sw.js');
           console.log('✅ Service Worker registrado:', registration);
           serviceWorkerRegistered = true;
-          
-          // Verificar atualizações
+
           registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
             newWorker.addEventListener('statechange', () => {
@@ -1318,14 +1163,14 @@
     // =============== MANIFEST DINÂMICO ===============
     function setupDynamicManifest() {
       const manifest = {
-        name: 'Sion - AmplaAI',
-        short_name: 'Sion',
-        description: 'Seu companheiro de exploração e soluções',
+        name: 'Lívia - AmplaAI',
+        short_name: 'Lívia',
+        description: 'Sua assistente inteligente de exploração e soluções',
         start_url: '/',
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#0f172a',
-        theme_color: '#6366f1',
+        background_color: '#0a0118',
+        theme_color: '#8b5cf6',
         icons: [
           {
             src: 'https://i.imgur.com/DtMv80V.png',
@@ -1342,19 +1187,11 @@
           {
             name: 'Nova Conversa',
             short_name: 'Chat',
-            description: 'Comece uma nova conversa com o Sion',
+            description: 'Comece uma nova conversa com a Lívia',
             url: '/#chat'
           }
         ],
-        categories: ['productivity', 'utilities'],
-        screenshots: [
-          {
-            src: 'https://i.imgur.com/DtMv80V.png',
-            sizes: '1080x1920',
-            type: 'image/png',
-            form_factor: 'narrow'
-          }
-        ]
+        categories: ['productivity', 'utilities']
       };
 
       const manifestString = JSON.stringify(manifest);
@@ -1382,26 +1219,23 @@
 
     // =============== CONFIGURAÇÃO DO CHAT ===============
     function initializeChat() {
-      // Adicionar hora à mensagem de boas-vindas
       const welcomeMessage = document.querySelector('.message.assistant .message-time');
       if (welcomeMessage) {
         welcomeMessage.textContent = getCurrentTime();
       }
-      
-      // Carregar histórico salvo
-      const savedChat = localStorage.getItem('sionChatHistory');
+
+      const savedChat = localStorage.getItem('liviaChatHistory');
       if (savedChat) {
         try {
           chatHistory = JSON.parse(savedChat);
           if (chatHistory.length > 0) {
             const messagesContainer = document.getElementById('messages-container');
             messagesContainer.innerHTML = '';
-            
+
             chatHistory.forEach(msg => {
               addMessageToChat(msg.text, msg.sender, false);
             });
-            
-            // Adicionar quick replies se não houver mensagens recentes
+
             if (chatHistory.length > 0) {
               addQuickReplies();
             }
@@ -1420,7 +1254,7 @@
       document.getElementById(`${screenId}-screen`).classList.add('active');
       document.getElementById('menu-dropdown').classList.remove('active');
       window.scrollTo(0, 0);
-      
+
       if (screenId === 'chat') {
         setTimeout(() => {
           document.getElementById('message-input').focus();
@@ -1437,21 +1271,17 @@
     async function sendMessage() {
       const messageInput = document.getElementById('message-input');
       const message = messageInput.value.trim();
-      
+
       if (!message) return;
-      
-      // Desabilitar botão durante processamento
+
       const sendBtn = document.getElementById('send-btn');
       sendBtn.disabled = true;
-      
-      // Adicionar mensagem do usuário
+
       addMessageToChat(message, 'user');
-      
-      // Limpar input
+
       messageInput.value = '';
       messageInput.style.height = 'auto';
-      
-      // Verificar conexão
+
       if (!isOnline) {
         addMessageToChat(
           "⚠️ Você está offline. Por favor, conecte-se à internet para eu poder responder.",
@@ -1460,21 +1290,19 @@
         sendBtn.disabled = false;
         return;
       }
-      
-      // Mostrar indicador de digitação
+
       showTypingIndicator();
-      
+
       try {
-        // Chamar API da Mistral
         const response = await callMistralAPI(message);
         hideTypingIndicator();
         addMessageToChat(response, 'assistant');
       } catch (error) {
         hideTypingIndicator();
         console.error('Erro na API:', error);
-        
+
         let errorMessage = "Desculpe, tive um problema ao processar sua mensagem. ";
-        
+
         if (error.message.includes('API key')) {
           errorMessage += "Erro de configuração da API.";
         } else if (error.message.includes('network')) {
@@ -1484,7 +1312,7 @@
         } else {
           errorMessage += "Tente novamente em alguns instantes.";
         }
-        
+
         addMessageToChat(errorMessage, 'assistant');
       } finally {
         sendBtn.disabled = false;
@@ -1493,26 +1321,24 @@
 
     // =============== API MISTRAL ===============
     async function callMistralAPI(userMessage) {
-      // Verificar se a chave da API está configurada
       if (API_CONFIG.MISTRAL_API_KEY === 'INSERT_YOUR_MISTRAL_API_KEY_HERE') {
         throw new Error('API key não configurada');
       }
-      
-      // Preparar histórico para a API
+
       const messagesForAPI = [
         {
           role: 'system',
-          content: 'Você é Sion, um assistente amigável e útil desenvolvido pela AmplaAI. Você ajuda com tecnologia, criatividade, inovação e responde de forma natural e envolvente. Use emojis ocasionalmente.'
+          content: 'Você é Lívia, uma assistente virtual amigável, inteligente e prestativa desenvolvida pela AmplaAI. Você ajuda com tecnologia, criatividade, inovação e responde de forma natural, carismática e envolvente. Use emojis ocasionalmente para deixar as conversas mais leves e agradáveis. Seja profissional mas descontraída.'
         },
         ...chatHistory
-          .slice(-10) // Últimas 10 mensagens para contexto
+          .slice(-10)
           .map(msg => ({
             role: msg.sender === 'user' ? 'user' : 'assistant',
             content: msg.text
           })),
         { role: 'user', content: userMessage }
       ];
-      
+
       const requestBody = {
         model: API_CONFIG.MODEL,
         messages: messagesForAPI,
@@ -1520,7 +1346,7 @@
         temperature: API_CONFIG.TEMPERATURE,
         stream: false
       };
-      
+
       const response = await fetch(API_CONFIG.MISTRAL_API_URL, {
         method: 'POST',
         headers: {
@@ -1529,18 +1355,18 @@
         },
         body: JSON.stringify(requestBody)
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(`API Error ${response.status}: ${errorData.error?.message || response.statusText}`);
       }
-      
+
       const data = await response.json();
-      
+
       if (!data.choices || !data.choices[0] || !data.choices[0].message) {
         throw new Error('Resposta inválida da API');
       }
-      
+
       return data.choices[0].message.content;
     }
 
@@ -1549,42 +1375,38 @@
       const messagesContainer = document.getElementById('messages-container');
       const messageElement = document.createElement('div');
       messageElement.className = `message ${sender}`;
-      
+
       const messageContent = document.createElement('div');
       messageContent.className = 'message-content';
-      
+
       const messageText = document.createElement('div');
       messageText.innerHTML = formatMessage(text);
-      
+
       const messageTime = document.createElement('span');
       messageTime.className = 'message-time';
       messageTime.textContent = getCurrentTime();
-      
+
       messageContent.appendChild(messageText);
       messageContent.appendChild(messageTime);
       messageElement.appendChild(messageContent);
       messagesContainer.appendChild(messageElement);
-      
-      // Rolar para última mensagem
+
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      
-      // Salvar no histórico
+
       if (saveToHistory) {
         chatHistory.push({
           text: text,
           sender: sender,
           time: getCurrentTime()
         });
-        
-        // Manter apenas últimas 100 mensagens
+
         if (chatHistory.length > 100) {
           chatHistory = chatHistory.slice(-100);
         }
-        
-        localStorage.setItem('sionChatHistory', JSON.stringify(chatHistory));
+
+        localStorage.setItem('liviaChatHistory', JSON.stringify(chatHistory));
       }
-      
-      // Remover quick replies após interação
+
       if (sender === 'user') {
         document.getElementById('quick-replies').innerHTML = '';
       }
@@ -1595,11 +1417,11 @@
         'Conte-me sobre a AmplaAI',
         'Quais são seus recursos?',
         'Como posso usar o YumeRoll?',
-        'O que é a Escola de Autores?',
-        'Ajude-me com um projeto criativo',
-        'Fale sobre tecnologia'
+        'Me ajude com criatividade',
+        'Fale sobre tecnologia',
+        'Conte uma curiosidade'
       ];
-      
+
       const container = document.getElementById('quick-replies');
       if (container && container.children.length === 0) {
         quickReplies.slice(0, 4).forEach(text => {
@@ -1618,9 +1440,8 @@
     }
 
     function formatMessage(text) {
-      // Converter URLs em links
       const urlRegex = /(https?:\/\/[^\s]+)/g;
-      return text.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+      return text.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: var(--primary-light); text-decoration: underline;">$1</a>');
     }
 
     function getCurrentTime() {
@@ -1668,11 +1489,11 @@
         try {
           const battery = await navigator.getBattery();
           updateBatteryStatus(battery);
-          
+
           battery.addEventListener('levelchange', () => {
             updateBatteryStatus(battery);
           });
-          
+
           battery.addEventListener('chargingchange', () => {
             updateBatteryStatus(battery);
           });
@@ -1693,12 +1514,12 @@
       const status = document.getElementById('connection-status');
       const dot = document.getElementById('connection-dot');
       const text = document.getElementById('connection-text');
-      
+
       if (connected) {
         status.classList.add('active');
         dot.classList.add('connected');
         text.textContent = 'Conectado';
-        
+
         setTimeout(() => {
           status.classList.remove('active');
         }, 3000);
@@ -1717,7 +1538,7 @@
             'Authorization': `Bearer ${API_CONFIG.MISTRAL_API_KEY}`
           }
         });
-        
+
         if (response.ok) {
           updateConnectionStatus(true);
           return true;
@@ -1733,89 +1554,77 @@
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        
-        const installButton = document.getElementById('install-button');
-        installButton.style.display = 'block';
-        
-        installButton.addEventListener('click', async () => {
-          installButton.style.display = 'none';
-          deferredPrompt.prompt();
-          
-          const { outcome } = await deferredPrompt.userChoice;
-          if (outcome === 'accepted') {
-            console.log('✅ Usuário instalou o app');
-          }
-          deferredPrompt = null;
-        });
       });
     }
 
     // =============== EVENT LISTENERS ===============
     function setupEventListeners() {
-      // Fechar banner de doação
-      document.getElementById('sion-banner-close').addEventListener('click', () => {
-        const banner = document.getElementById('sion-donation-banner');
-        banner.style.opacity = '0';
-        banner.style.transform = 'translateY(10px)';
-        setTimeout(() => banner.style.display = 'none', 400);
+      // Fechar menu ao clicar fora
+      document.addEventListener('click', (e) => {
+        const menu = document.getElementById('menu-dropdown');
+        const menuBtn = document.querySelector('.menu-btn');
+        
+        if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+          menu.classList.remove('active');
+        }
       });
-      
-      // AdMob
-      (adsbygoogle = window.adsbygoogle || []).push({});
     }
 
     // =============== FUNÇÕES UTILITÁRIAS ===============
     function exportChat() {
       const chatText = chatHistory.map(msg => 
-        `${msg.sender === 'user' ? 'Você' : 'Sion'} (${msg.time}): ${msg.text}`
+        `${msg.sender === 'user' ? 'Você' : 'Lívia'} (${msg.time}): ${msg.text}`
       ).join('\n\n');
-      
-      const blob = new Blob([`=== Chat com Sion ===\nData: ${new Date().toLocaleDateString('pt-BR')}\n\n${chatText}`], { 
+
+      const blob = new Blob([`=== Conversa com Lívia ===\nData: ${new Date().toLocaleDateString('pt-BR')}\n\n${chatText}`], { 
         type: 'text/plain;charset=utf-8' 
       });
-      
+
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `sion-chat-${new Date().toISOString().split('T')[0]}.txt`;
+      a.download = `livia-chat-${new Date().toISOString().split('T')[0]}.txt`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      
-      addMessageToChat('Chat exportado com sucesso! 📁', 'assistant');
+
+      addMessageToChat('Chat exportado com sucesso! 📁✨', 'assistant');
+      document.getElementById('menu-dropdown').classList.remove('active');
     }
 
     function clearChat() {
       if (confirm('Tem certeza que deseja limpar todo o histórico de conversa?')) {
         chatHistory = [];
-        localStorage.removeItem('sionChatHistory');
-        
+        localStorage.removeItem('liviaChatHistory');
+
         const messagesContainer = document.getElementById('messages-container');
         messagesContainer.innerHTML = `
           <div class="message assistant">
             <div class="message-content">
-              <p>Olá! Sou o Sion, seu companheiro de exploração e soluções desenvolvido pela AmplaAI. Estou aqui para ajudar você com tecnologia, criatividade e inovação. Como posso te ajudar hoje? 😊</p>
+              <p>Olá! Sou a Lívia, sua assistente inteligente desenvolvida pela AmplaAI. ✨ Estou aqui para ajudar você com tecnologia, criatividade, inovação e muito mais. Como posso te ajudar hoje? 💜</p>
               <span class="message-time">${getCurrentTime()}</span>
             </div>
           </div>
         `;
-        
+
         addQuickReplies();
+        document.getElementById('menu-dropdown').classList.remove('active');
       }
     }
 
     function shareApp() {
       if (navigator.share) {
         navigator.share({
-          title: 'Sion - AmplaAI',
-          text: 'Converse com o Sion, seu companheiro de exploração e soluções!',
+          title: 'Lívia - AmplaAI',
+          text: 'Converse com a Lívia, sua assistente inteligente de exploração e soluções!',
           url: window.location.href
         });
       } else {
         navigator.clipboard.writeText(window.location.href);
-        addMessageToChat('Link copiado para a área de transferência! 📋', 'assistant');
+        addMessageToChat('Link copiado para a área de transferência! 📋✨', 'assistant');
       }
+      document.getElementById('menu-dropdown').classList.remove('active');
     }
 
     function checkForUpdates() {
@@ -1824,16 +1633,16 @@
           registration.update();
           addMessageToChat('Verificando atualizações... 🔄', 'assistant');
           setTimeout(() => {
-            addMessageToChat('Seu app está atualizado! ✅', 'assistant');
+            addMessageToChat('Seu app está atualizado! ✅✨', 'assistant');
           }, 1500);
         });
       } else {
-        addMessageToChat('Recarregue a página para verificar atualizações.', 'assistant');
+        addMessageToChat('Recarregue a página para verificar atualizações. 🔄', 'assistant');
       }
     }
 
     function showUpdateNotification() {
-      if (confirm('Uma nova versão do Sion está disponível! Deseja atualizar?')) {
+      if (confirm('Uma nova versão da Lívia está disponível! Deseja atualizar?')) {
         window.location.reload();
       }
     }
@@ -1843,7 +1652,6 @@
       if (chatHistory.length > 0) {
         const lastMessage = chatHistory[chatHistory.length - 1];
         if (lastMessage.sender === 'user') {
-          // Tentar enviar novamente a última mensagem
           setTimeout(() => sendMessage(), 1000);
         }
       }
