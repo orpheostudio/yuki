@@ -13,7 +13,7 @@ const PRECACHE_URLS = [
   '/style.css',
   '/script.js',
   '/manifest.json',
-  'https://i.imgur.com/z2hCety.jpeg',
+  'https://i.imgur.com/TNxclJq.png',
   'https://unpkg.com/lucide@latest'
 ];
 
@@ -178,8 +178,8 @@ self.addEventListener('push', (event) => {
   
   const options = {
     body: event.data ? event.data.text() : 'Nova mensagem da Cici!',
-    icon: 'https://i.imgur.com/z2hCety.png',
-    badge: 'https://i.imgur.com/z2hCety.png',
+    icon: 'https://i.imgur.com/TNxclJq.png',
+    badge: 'https://i.imgur.com/TNxclJq.png',
     vibrate: [200, 100, 200],
     data: {
       dateOfArrival: Date.now(),
@@ -189,12 +189,12 @@ self.addEventListener('push', (event) => {
       {
         action: 'open',
         title: 'Abrir',
-        icon: 'https://i.imgur.com/z2hCety.png'
+        icon: 'https://i.imgur.com/TNxclJq.png'
       },
       {
         action: 'close',
         title: 'Fechar',
-        icon: 'https://i.imgur.com/z2hCety.png'
+        icon: 'https://i.imgur.com/TNxclJq.png'
       }
     ],
     tag: 'sion-notification',
@@ -282,7 +282,7 @@ async function updateContent() {
     const endpoint = 'https://api.mistral.ai/v1/chat/completions';
 
     const body = {
-      model: 'mistral-large-latest', // ou o modelo que você quiser
+      model: 'mistral-tiny', // ou o modelo que você quiser
       messages: [
         { role: 'system', content: 'Você é a Cici, uma IA fofinha.' },
         { role: 'user', content: 'Atualize o conteúdo para sincronização.' }
