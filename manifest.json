@@ -1,8 +1,8 @@
 {
   "name": "Valora - Assistente Virtual",
   "short_name": "Valora",
-  "description": "Assistente virtual inteligente com IA avançada da MistralAI",
-  "start_url": "/",
+  "description": "Assistente virtual inteligente com IA avançada da AmplaAI",
+  "start_url": "https://sion.orpheostudio.com.br",
   "scope": "/",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],
