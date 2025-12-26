@@ -1,98 +1,130 @@
 {
-  "name": "Cici - AmplaAI",
-  "short_name": "Cici",
-  "description": "Assistente pessoal AI com funcionalidades avançadas",
-  "version": "2.0.0",
-  "version_name": "2.0.0",
+  "name": "Valora - Assistente Virtual",
+  "short_name": "Valora",
+  "description": "Assistente virtual inteligente com IA avançada da MistralAI",
   "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "theme_color": "#4F46E5",
-  "background_color": "#FFFFFF",
   "scope": "/",
-  "categories": ["productivity", "utilities"],
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#f8fafc",
+  "theme_color": "#667eea",
+  "categories": ["productivity", "utilities", "education"],
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "prefer_related_applications": false,
   "icons": [
     {
-      "src": "https://i.imgur.com/TNxclJq.png",
+      "src": "https://i.imgur.com/ZN77gnE.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.imgur.com/ZN77gnE.png",
       "sizes": "72x72",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "https://i.imgur.com/TNxclJq.png",
+      "src": "https://i.imgur.com/ZN77gnE.png",
       "sizes": "96x96",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "https://i.imgur.com/TNxclJq.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
-      "src": "https://i.imgur.com/TNxclJq.png",
+      "src": "https://i.imgur.com/ZN77gnE.png",
       "sizes": "144x144",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "https://i.imgur.com/TNxclJq.png",
-      "sizes": "152x152",
-      "type": "image/png"
-    },
-    {
-      "src": "https://i.imgur.com/TNxclJq.png",
+      "src": "https://i.imgur.com/ZN77gnE.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://i.imgur.com/TNxclJq.png",
-      "sizes": "384x384",
-      "type": "image/png"
+      "src": "https://i.imgur.com/ZN77gnE.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "https://i.imgur.com/TNxclJq.png",
+      "src": "https://i.imgur.com/ZN77gnE.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.imgur.com/ZN77gnE.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/screenshots/mobile-1.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "/screenshots/tablet-1.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide"
-    }
-  ],
   "shortcuts": [
     {
-      "name": "Nova Conversa",
+      "name": "Nova conversa",
       "short_name": "Conversar",
-      "description": "Iniciar nova conversa com Cici",
-      "url": "/new-chat",
+      "description": "Iniciar nova conversa com Valora",
+      "url": "/?new=true",
       "icons": [
         {
-          "src": "https://i.imgur.com/TNxclJq.png",
-          "sizes": "96x96"
+          "src": "https://i.imgur.com/ZN77gnE.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Configurações",
+      "short_name": "Config",
+      "description": "Abrir configurações do app",
+      "url": "/?settings=true",
+      "icons": [
+        {
+          "src": "https://i.imgur.com/ZN77gnE.png",
+          "sizes": "96x96",
+          "type": "image/png"
         }
       ]
     }
   ],
-  "prefer_related_applications": false,
-  "related_applications": [
+  "screenshots": [
     {
-      "platform": "play",
-      "id": "com.amplaai.cici",
-      "url": "www.cici.net.br"
+      "src": "screenshot-mobile.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Tela inicial do Valora"
+    },
+    {
+      "src": "screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Chat do Valora no desktop"
     }
   ],
-  "edge_side_panel": {
-    "preferred_width": 400
+  "related_applications": [],
+  "protocol_handlers": [
+    {
+      "protocol": "web+valora",
+      "url": "/?conversation=%s"
+    }
+  ],
+  "share_target": {
+    "action": "/",
+    "method": "GET",
+    "params": {
+      "title": "Compartilhar com Valora",
+      "text": "Texto para Valora analisar"
+    }
+  },
+  "capture_links": "new-client",
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": "auto"
   }
 }
