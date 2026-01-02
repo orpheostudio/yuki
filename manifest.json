@@ -1,130 +1,118 @@
 {
-  "name": "Valora - Assistente Virtual",
-  "short_name": "Valora",
-  "description": "Assistente virtual inteligente com IA avançada da AmplaAI",
-  "start_url": "https://sion.orpheostudio.com.br",
-  "scope": "/",
+  "name": "SENA - AmplaAI",
+  "short_name": "SENA",
+  "description": "Tecnologia com alma gentil",
+  "start_url": "/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
-  "orientation": "portrait-primary",
-  "background_color": "#f8fafc",
-  "theme_color": "#667eea",
-  "categories": ["productivity", "utilities", "education"],
+  "background_color": "#ffffff",
+  "theme_color": "#128C7E",
+  "orientation": "portrait",
+  "scope": "/",
   "lang": "pt-BR",
-  "dir": "ltr",
-  "prefer_related_applications": false,
+  "categories": ["productivity", "utilities"],
+  
   "icons": [
     {
-      "src": "https://i.imgur.com/ZN77gnE.png",
-      "sizes": "48x48",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://i.imgur.com/ZN77gnE.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://i.imgur.com/ZN77gnE.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://i.imgur.com/ZN77gnE.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://i.imgur.com/ZN77gnE.png",
+      "src": "https://i.imgur.com/yLblPzu.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://i.imgur.com/ZN77gnE.png",
-      "sizes": "256x256",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://i.imgur.com/ZN77gnE.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://i.imgur.com/ZN77gnE.png",
+      "src": "https://i.imgur.com/GQgeU67.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Nova conversa",
-      "short_name": "Conversar",
-      "description": "Iniciar nova conversa com Valora",
-      "url": "/?new=true",
-      "icons": [
-        {
-          "src": "https://i.imgur.com/ZN77gnE.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
     },
     {
-      "name": "Configurações",
-      "short_name": "Config",
-      "description": "Abrir configurações do app",
-      "url": "/?settings=true",
-      "icons": [
-        {
-          "src": "https://i.imgur.com/ZN77gnE.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "screenshot-mobile.png",
-      "sizes": "375x667",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Tela inicial do Valora"
+      "src": "https://i.imgur.com/yLblPzu.png",
+      "sizes": "144x144",
+      "type": "image/png"
     },
     {
-      "src": "screenshot-desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Chat do Valora no desktop"
+      "src": "https://i.imgur.com/GQgeU67.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
     }
   ],
-  "related_applications": [],
-  "protocol_handlers": [
-    {
-      "protocol": "web+valora",
-      "url": "/?conversation=%s"
-    }
-  ],
-  "share_target": {
-    "action": "/",
-    "method": "GET",
-    "params": {
-      "title": "Compartilhar com Valora",
-      "text": "Texto para Valora analisar"
+
+  // Configurações específicas para app nativo
+  "prefer_related_applications": false,
+  
+  // Splash screen para app nativo (Android/iOS)
+  "splash_screen": {
+    "backgroundColor": "#ffffff",
+    "image": "https://i.imgur.com/GQgeU67.png",
+    "imageDark": "https://i.imgur.com/yLblPzu.png",
+    "resizeMode": "contain"
+  },
+
+  // Configurações de plataforma específicas
+  "android": {
+    "package": "com.amplaai.sena",
+    "versionCode": 1,
+    "permissions": [
+      "INTERNET",
+      "ACCESS_NETWORK_STATE"
+    ],
+    "allowMixedContent": true,
+    "webContentsDebuggingEnabled": false
+  },
+
+  "ios": {
+    "scheme": "senaapp",
+    "target": "12.0",
+    "permissions": {
+      "Camera": "Usada para funcionalidades de realidade aumentada",
+      "Microphone": "Usada para comandos de voz",
+      "Photos": "Usada para upload de imagens"
+    },
+    "usesIonCloud": false
+  },
+
+  // Capacitor/Cordova specific
+  "cordova": {
+    "preferences": {
+      "ScrollEnabled": "false",
+      "BackupWebStorage": "none",
+      "SplashMaintainAspectRatio": "true",
+      "FadeSplashScreenDuration": "300",
+      "SplashShowOnlyFirstTime": "false",
+      "SplashScreen": "screen",
+      "SplashScreenDelay": "3000"
     }
   },
-  "capture_links": "new-client",
-  "handle_links": "preferred",
-  "launch_handler": {
-    "client_mode": "auto"
+
+  // Configurações de push notification
+  "push": {
+    "presentationOptions": ["badge", "sound", "alert"]
+  },
+
+  // Configurações de segurança
+  "content_security_policy": "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; object-src 'self'",
+  
+  // Features para app-like experience
+  "features": [
+    "Cross Platform",
+    "fast",
+    "simple",
+    "Offline Capabilities"
+  ],
+
+  // Configurações de cache
+  "cache_busting_mode": "version",
+  
+  // URL do service worker (importante para PWA)
+  "serviceworker": {
+    "src": "service-worker.js",
+    "scope": "/",
+    "use_cache": true
+  },
+
+  // Configurações de tela
+  "screen_sizes": {
+    "mobile": "360x640",
+    "tablet": "768x1024",
+    "desktop": "1280x720"
   }
 }
