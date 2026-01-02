@@ -1,6 +1,6 @@
 {
-  "appId": "com.amplaai.sena",
-  "appName": "SENA - AmplaAI",
+  "appId": "com.amplaai.lívia",
+  "appName": "Lívia - AmplaAI",
   "webDir": "dist",
   "bundledWebRuntime": false,
   "plugins": {
