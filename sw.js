@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valora-v4';
+const CACHE_NAME = 'livia-v4';
 const ASSETS = [
   '/',
   '/index.html',
