@@ -1,229 +1,1556 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0a0f1e">
-    <title>Aion - Seu Assistente de IA Inteligente</title>
-    
-    <!-- PWA -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="icon-192.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#212121">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Aion">
+<link rel="manifest" href="manifest.json">
+<title>Aion</title>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Microsoft Clarity -->
-    <script>
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "tlya8thx8r");
-    </script>
+<!-- Microsoft Clarity -->
 
-    <!-- AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID" crossorigin="anonymous"></script>
+<script>
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window,document,"clarity","script","tlya8thx8r");
+</script>
 
-    <link rel="stylesheet" href="style.css">
+<!-- AdSense -->
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID" crossorigin="anonymous"></script>
+
+<!-- Fonts -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Söhne:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ─── RESET & BASE ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --sidebar-bg:#171717;
+  --sidebar-w:260px;
+  --main-bg:#212121;
+  --surface:#2f2f2f;
+  --surface-hover:#3a3a3a;
+  --border:#3a3a3a;
+  --border-light:rgba(255,255,255,.08);
+  --text:#ececec;
+  --text-2:#b4b4b4;
+  --text-3:#8e8e8e;
+  --accent:#19c37d; /* Aion brand green-teal */
+  --accent-hover:#1aad6d;
+  --input-bg:#2f2f2f;
+  --radius:12px;
+  --radius-sm:8px;
+  --radius-lg:18px;
+  --font:-apple-system,'Söhne',system-ui,sans-serif;
+  --trans:.18s ease;
+}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:var(--font);
+  background:var(--main-bg);
+  color:var(--text);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:var(--font);cursor:pointer;border:none;background:none}
+input,textarea{font-family:var(--font);color:var(--text);background:none;border:none;outline:none}
+a{color:inherit;text-decoration:none}
+svg{display:block;flex-shrink:0}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--surface-hover);border-radius:99px}
+
+/* ─── LAYOUT ─── */
+#app{display:flex;height:100vh;width:100vw;overflow:hidden}
+
+/* ─── SIDEBAR ─── */
+#sidebar{
+  width:var(--sidebar-w);
+  background:var(--sidebar-bg);
+  display:flex;
+  flex-direction:column;
+  flex-shrink:0;
+  transition:transform var(--trans),width var(--trans);
+  z-index:200;
+  overflow:hidden;
+}
+#sidebar.collapsed{width:0}
+
+.sidebar-top{
+  padding:12px 10px 8px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.sidebar-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 10px;
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+}
+.brand-logo{
+  width:32px;height:32px;
+  background:linear-gradient(135deg,#19c37d,#1a8cff);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.brand-name{font-size:16px;font-weight:600;color:var(--text);white-space:nowrap}
+.brand-byline{font-size:10px;color:var(--text-3);white-space:nowrap}
+
+.sidebar-btn{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;
+  border-radius:var(--radius-sm);
+  font-size:14px;color:var(--text-2);
+  transition:background var(--trans),color var(--trans);
+  white-space:nowrap;overflow:hidden;
+  width:100%;text-align:left;
+}
+.sidebar-btn:hover,.sidebar-btn.active{background:var(--surface);color:var(--text)}
+.sidebar-btn svg{flex-shrink:0}
+.sidebar-btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.sidebar-section-label{
+  padding:12px 12px 4px;
+  font-size:11px;font-weight:600;
+  color:var(--text-3);letter-spacing:.04em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.history-list{
+  flex:1;overflow-y:auto;padding:4px 10px;
+  display:flex;flex-direction:column;gap:2px;
+}
+.history-item{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 10px;
+  border-radius:var(--radius-sm);
+  font-size:13.5px;color:var(--text-2);
+  cursor:pointer;transition:background var(--trans),color var(--trans);
+  position:relative;
+}
+.history-item:hover{background:var(--surface);color:var(--text)}
+.history-item.active{background:var(--surface);color:var(--text)}
+.history-item-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.history-item-del{
+  opacity:0;transition:opacity .12s;
+  color:var(--text-3);padding:2px;border-radius:4px;
+}
+.history-item:hover .history-item-del{opacity:1}
+.history-item-del:hover{color:var(--text);background:var(--surface-hover)}
+
+.sidebar-bottom{
+  padding:8px 10px 12px;
+  border-top:1px solid var(--border-light);
+  display:flex;flex-direction:column;gap:2px;
+}
+.user-menu-btn{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 10px;border-radius:var(--radius-sm);
+  transition:background var(--trans);width:100%;text-align:left;
+  cursor:pointer;
+}
+.user-menu-btn:hover{background:var(--surface)}
+.user-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,#19c37d,#1a8cff);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.user-info{flex:1;overflow:hidden}
+.user-name{font-size:13.5px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.user-plan{font-size:11px;color:var(--text-3)}
+
+/* ─── SIDEBAR OVERLAY (mobile) ─── */
+#sidebarOverlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:150;
+}
+#sidebarOverlay.active{display:block}
+
+/* ─── MAIN ─── */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+
+/* ─── TOP BAR ─── */
+#topbar{
+  height:52px;display:flex;align-items:center;
+  padding:0 16px;gap:8px;
+  background:var(--main-bg);
+  flex-shrink:0;
+}
+.topbar-toggle{
+  padding:6px;border-radius:var(--radius-sm);
+  color:var(--text-2);transition:background var(--trans),color var(--trans);
+}
+.topbar-toggle:hover{background:var(--surface);color:var(--text)}
+.model-pill{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:99px;
+  background:var(--surface);
+  font-size:14px;font-weight:500;color:var(--text);
+  cursor:pointer;transition:background var(--trans);
+  border:1px solid var(--border-light);
+  white-space:nowrap;
+}
+.model-pill:hover{background:var(--surface-hover)}
+.model-pill-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.topbar-spacer{flex:1}
+.topbar-actions{display:flex;gap:4px}
+.icon-btn{
+  padding:6px;border-radius:var(--radius-sm);color:var(--text-2);
+  transition:background var(--trans),color var(--trans);
+  display:flex;align-items:center;justify-content:center;
+}
+.icon-btn:hover{background:var(--surface);color:var(--text)}
+
+/* ─── CHAT AREA ─── */
+#chatWrap{
+  flex:1;overflow-y:auto;
+  display:flex;flex-direction:column;
+  scroll-behavior:smooth;
+}
+
+/* ─── WELCOME / EMPTY ─── */
+#welcome{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:2rem 1rem 0;
+  text-align:center;
+  animation:fadeUp .4s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.welcome-logo{
+  width:56px;height:56px;
+  background:linear-gradient(135deg,#19c37d,#1a8cff);
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
+  box-shadow:0 8px 32px rgba(25,195,125,.25);
+}
+.welcome-title{font-size:26px;font-weight:600;margin-bottom:6px;color:var(--text)}
+.welcome-sub{font-size:15px;color:var(--text-3);margin-bottom:28px}
+.welcome-suggestions{
+  display:flex;flex-wrap:wrap;gap:8px;
+  justify-content:center;max-width:600px;margin:0 auto;
+}
+.suggestion-card{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 16px;
+  border:1px solid var(--border);
+  border-radius:99px;
+  font-size:13.5px;color:var(--text-2);
+  cursor:pointer;transition:all var(--trans);
+  background:transparent;
+}
+.suggestion-card:hover{background:var(--surface);color:var(--text);border-color:var(--surface-hover)}
+
+/* ─── MESSAGES ─── */
+.messages-container{
+  width:100%;max-width:760px;margin:0 auto;
+  padding:24px 20px 8px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.msg{
+  display:flex;gap:12px;
+  padding:6px 0;
+  animation:fadeUp .25s ease both;
+}
+.msg.user{flex-direction:row-reverse}
+.msg-avatar{
+  width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;
+  flex-shrink:0;margin-top:2px;
+}
+.msg-avatar.bot-av{
+  background:linear-gradient(135deg,#19c37d,#1a8cff);color:#fff;
+}
+.msg-avatar.user-av{
+  background:var(--surface-hover);color:var(--text-2);
+}
+.msg-bubble{
+  max-width:min(85%,620px);
+  font-size:15px;line-height:1.75;color:var(--text);
+}
+.msg.user .msg-bubble{
+  background:var(--surface);
+  padding:12px 16px;
+  border-radius:18px 18px 4px 18px;
+  color:var(--text);
+}
+.msg.bot .msg-bubble{padding:4px 0}
+.msg-actions{
+  display:flex;gap:4px;margin-top:8px;opacity:0;
+  transition:opacity .15s;
+}
+.msg.bot:hover .msg-actions{opacity:1}
+.msg-act-btn{
+  padding:5px 8px;border-radius:6px;font-size:12px;
+  color:var(--text-3);display:flex;align-items:center;gap:5px;
+  transition:background var(--trans),color var(--trans);
+}
+.msg-act-btn:hover{background:var(--surface);color:var(--text-2)}
+
+/* code */
+.msg-bubble pre{
+  background:#1a1a1a;border-radius:10px;padding:14px;margin:10px 0;
+  overflow-x:auto;border:1px solid var(--border);position:relative;
+}
+.msg-bubble code{font-family:'JetBrains Mono','Fira Code',monospace;font-size:13px;color:#e0e0e0}
+.msg-bubble p code{background:var(--surface);padding:1px 6px;border-radius:4px;font-size:13px}
+.msg-bubble p{margin-bottom:8px}
+.msg-bubble p:last-child{margin-bottom:0}
+.msg-bubble ul,.msg-bubble ol{padding-left:20px;margin:8px 0}
+.msg-bubble li{margin:4px 0}
+.msg-bubble h3{font-size:15px;font-weight:600;margin:12px 0 4px}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:6px 14px;background:#111;border-radius:10px 10px 0 0;margin-bottom:-10px;font-size:12px;color:var(--text-3)}
+.copy-code{padding:3px 8px;border-radius:4px;background:var(--surface);color:var(--text-2);font-size:12px;transition:background var(--trans)}
+.copy-code:hover{background:var(--surface-hover);color:var(--text)}
+
+/* typing */
+.typing-bubble{display:flex;gap:5px;padding:8px 0;align-items:center}
+.typing-dot{width:7px;height:7px;background:var(--text-3);border-radius:50%;animation:tdot 1.3s infinite}
+.typing-dot:nth-child(2){animation-delay:.2s}
+.typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes tdot{0%,60%,100%{opacity:.3;transform:scale(.9)}30%{opacity:1;transform:scale(1)}}
+
+/* ─── INPUT AREA ─── */
+#inputArea{
+  padding:12px 16px 20px;
+  background:var(--main-bg);
+}
+.input-wrap{
+  max-width:760px;margin:0 auto;
+  display:flex;flex-direction:column;gap:8px;
+}
+/* AdSense strip */
+.ads-strip{text-align:center;min-height:0}
+
+.input-box{
+  display:flex;align-items:flex-end;gap:8px;
+  background:var(--input-bg);
+  border-radius:var(--radius-lg);
+  border:1px solid var(--border);
+  padding:10px 10px 10px 14px;
+  transition:border-color .2s,box-shadow .2s;
+}
+.input-box:focus-within{
+  border-color:rgba(25,195,125,.4);
+  box-shadow:0 0 0 3px rgba(25,195,125,.08);
+}
+.input-left{display:flex;gap:2px;flex-shrink:0;align-items:flex-end;padding-bottom:1px}
+.attach-btn,.voice-btn{
+  padding:7px;border-radius:var(--radius-sm);color:var(--text-3);
+  transition:background var(--trans),color var(--trans);
+}
+.attach-btn:hover,.voice-btn:hover{background:var(--surface-hover);color:var(--text-2)}
+#msgInput{
+  flex:1;resize:none;background:transparent;
+  color:var(--text);font-size:15px;line-height:1.6;
+  max-height:180px;overflow-y:auto;
+  scrollbar-width:none;
+}
+#msgInput::-webkit-scrollbar{display:none}
+#msgInput::placeholder{color:var(--text-3)}
+.send-btn{
+  width:36px;height:36px;border-radius:9px;
+  background:var(--accent);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  transition:background var(--trans),opacity var(--trans);
+  flex-shrink:0;align-self:flex-end;
+}
+.send-btn:hover{background:var(--accent-hover)}
+.send-btn:disabled{background:var(--surface-hover);cursor:not-allowed}
+.input-hint{
+  font-size:11.5px;color:var(--text-3);text-align:center;
+}
+.input-hint a{color:var(--text-3);text-decoration:underline;text-underline-offset:2px}
+
+/* ─── MODALS ─── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.65);
+  z-index:500;display:flex;align-items:center;justify-content:center;
+  padding:16px;animation:fadeIn .2s ease;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-overlay.hidden{display:none}
+.modal{
+  background:#1e1e1e;border:1px solid var(--border);
+  border-radius:20px;width:100%;max-height:90vh;overflow-y:auto;
+  animation:slideUp .25s ease;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px 0;
+}
+.modal-title{font-size:18px;font-weight:600}
+.modal-close{
+  padding:6px;border-radius:var(--radius-sm);color:var(--text-3);
+  transition:background var(--trans),color var(--trans);
+}
+.modal-close:hover{background:var(--surface);color:var(--text)}
+.modal-body{padding:20px 24px 24px}
+
+/* ─── AUTH ─── */
+.auth-modal{max-width:420px}
+.auth-logo-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:24px}
+.auth-logo-icon{
+  width:40px;height:40px;
+  background:linear-gradient(135deg,#19c37d,#1a8cff);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+}
+.auth-title{font-size:22px;font-weight:600;text-align:center;margin-bottom:6px}
+.auth-sub{font-size:14px;color:var(--text-3);text-align:center;margin-bottom:20px}
+.auth-tabs-row{
+  display:flex;gap:0;margin-bottom:20px;
+  background:var(--surface);border-radius:10px;padding:4px;
+}
+.auth-tab{
+  flex:1;padding:8px;border-radius:7px;font-size:14px;font-weight:500;
+  color:var(--text-3);transition:all .15s;
+}
+.auth-tab.active{background:var(--surface-hover);color:var(--text)}
+.form-field{margin-bottom:14px}
+.form-field label{display:block;font-size:13px;color:var(--text-2);margin-bottom:6px;font-weight:500}
+.form-field input{
+  width:100%;padding:11px 14px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;font-size:14px;color:var(--text);
+  transition:border-color .2s,box-shadow .2s;
+}
+.form-field input:focus{
+  border-color:rgba(25,195,125,.5);
+  box-shadow:0 0 0 3px rgba(25,195,125,.08);
+}
+.auth-submit{
+  width:100%;padding:12px;
+  background:var(--accent);color:#fff;
+  border-radius:10px;font-size:15px;font-weight:600;
+  transition:background .15s,transform .1s;margin-top:4px;
+}
+.auth-submit:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.auth-submit:active{transform:translateY(0)}
+.auth-divider{
+  display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--text-3);font-size:13px;
+}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.auth-guest{
+  width:100%;padding:11px;background:var(--surface);color:var(--text-2);
+  border-radius:10px;font-size:14px;border:1px solid var(--border);
+  transition:all .15s;
+}
+.auth-guest:hover{background:var(--surface-hover);color:var(--text)}
+.auth-terms{font-size:12px;color:var(--text-3);text-align:center;margin-top:16px;line-height:1.6}
+.auth-terms a{color:var(--accent);text-decoration:none}
+
+/* ─── SETTINGS ─── */
+.settings-modal{max-width:560px}
+.settings-nav{
+  display:flex;flex-direction:column;gap:2px;
+  padding:8px 0;border-right:1px solid var(--border);width:160px;flex-shrink:0;
+}
+.settings-layout{display:flex;min-height:380px}
+.settings-nav-btn{
+  display:flex;align-items:center;gap:9px;
+  padding:9px 14px;border-radius:var(--radius-sm);
+  font-size:13.5px;color:var(--text-2);width:100%;text-align:left;
+  transition:background var(--trans),color var(--trans);
+}
+.settings-nav-btn:hover{background:var(--surface);color:var(--text)}
+.settings-nav-btn.active{background:var(--surface);color:var(--text)}
+.settings-panel{flex:1;padding:0 0 0 20px;overflow-y:auto}
+.settings-section{margin-bottom:24px}
+.settings-section-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:12px}
+.settings-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;background:var(--surface);border-radius:10px;margin-bottom:6px;
+}
+.settings-row-info h4{font-size:14px;font-weight:500;margin-bottom:2px}
+.settings-row-info p{font-size:12.5px;color:var(--text-3)}
+.settings-select{
+  background:var(--input-bg);border:1px solid var(--border);
+  border-radius:8px;color:var(--text);padding:6px 10px;font-size:13px;
+  cursor:pointer;
+}
+.settings-select:focus{outline:none;border-color:rgba(25,195,125,.4)}
+/* toggle */
+.toggle-wrap{
+  width:44px;height:26px;border-radius:99px;background:var(--border);
+  cursor:pointer;transition:background .2s;position:relative;flex-shrink:0;
+}
+.toggle-wrap.on{background:var(--accent)}
+.toggle-knob{
+  width:20px;height:20px;border-radius:50%;background:#fff;
+  position:absolute;top:3px;left:3px;
+  transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.3);
+}
+.toggle-wrap.on .toggle-knob{transform:translateX(18px)}
+
+/* ─── PROFILE ─── */
+.profile-modal{max-width:420px}
+.profile-top{
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding:8px 0 20px;border-bottom:1px solid var(--border);margin-bottom:20px;
+}
+.profile-av-lg{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,#19c37d,#1a8cff);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;font-weight:700;color:#fff;margin-bottom:12px;
+}
+.profile-name-lg{font-size:20px;font-weight:600}
+.profile-email-lg{font-size:13px;color:var(--text-3);margin-top:3px}
+.profile-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;background:rgba(25,195,125,.12);
+  border-radius:99px;font-size:12px;color:var(--accent);font-weight:600;
+  margin-top:10px;
+}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.stat-card{
+  background:var(--surface);border-radius:12px;
+  padding:14px 10px;text-align:center;
+}
+.stat-val{font-size:22px;font-weight:700;color:var(--text)}
+.stat-lbl{font-size:11.5px;color:var(--text-3);margin-top:2px}
+.logout-btn{
+  width:100%;padding:11px;background:rgba(239,68,68,.1);color:#ef4444;
+  border-radius:10px;font-size:14px;font-weight:600;
+  border:1px solid rgba(239,68,68,.2);
+  transition:background .15s,border-color .15s;
+}
+.logout-btn:hover{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.4)}
+
+/* ─── USER CONTEXT MENU ─── */
+.ctx-menu{
+  position:fixed;background:#1e1e1e;border:1px solid var(--border);
+  border-radius:12px;padding:6px;z-index:600;min-width:200px;
+  box-shadow:0 16px 48px rgba(0,0,0,.5);
+  animation:slideUp .15s ease;
+}
+.ctx-menu.hidden{display:none}
+.ctx-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:8px;
+  font-size:13.5px;color:var(--text-2);
+  cursor:pointer;transition:background var(--trans),color var(--trans);
+  width:100%;text-align:left;
+}
+.ctx-item:hover{background:var(--surface);color:var(--text)}
+.ctx-item.danger{color:#ef4444}
+.ctx-item.danger:hover{background:rgba(239,68,68,.1);color:#ef4444}
+.ctx-sep{height:1px;background:var(--border);margin:4px 0}
+
+/* ─── MOBILE ─── */
+@media(max-width:768px){
+  #sidebar{position:fixed;top:0;left:0;height:100%;transform:translateX(-100%);width:var(--sidebar-w)!important}
+  #sidebar.mobile-open{transform:translateX(0)}
+  #sidebarOverlay.active{display:block}
+  .messages-container{padding:16px 12px 8px}
+  .welcome-suggestions{padding:0 8px}
+  .model-pill-label{display:none}
+}
+</style>
+
 </head>
 <body>
-    <div class="bg-animated">
-        <div class="bg-gradient"></div>
-        <div class="grid-pattern"></div>
+<div id="app">
+
+  <!-- SIDEBAR -->
+
+  <aside id="sidebar">
+    <div class="sidebar-top">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2">
+            <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-name">Aion</div>
+          <div class="brand-byline">S.ai+ Apps</div>
+        </div>
+      </div>
+      <button class="sidebar-btn" onclick="newChat()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        <span>Nova conversa</span>
+      </button>
+      <button class="sidebar-btn" onclick="openSearch()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <span>Buscar conversas</span>
+      </button>
     </div>
 
-    <!-- Welcome Screen -->
-    <div id="welcomeScreen" class="screen active">
-        <div class="welcome-logo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
-            </svg>
-        </div>
-        <h1 class="welcome-title">Aion</h1>
-        <p class="welcome-subtitle">Seu assistente de IA inteligente. Converse, aprenda e evolua com tecnologia de ponta.</p>
-        <div class="welcome-buttons">
-            <button class="btn btn-primary" onclick="showAuth()">Começar Agora</button>
-            <button class="btn btn-secondary" onclick="showDemo()">Ver Demo</button>
-        </div>
+```
+<div class="sidebar-section-label">Hoje</div>
+<div class="history-list" id="historyList">
+  <!-- Populated by JS -->
+</div>
+
+<div class="sidebar-bottom">
+  <button class="sidebar-btn" onclick="openSettings('planos')">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </svg>
+    <span>Planos & Upgrade</span>
+  </button>
+  <div class="user-menu-btn" onclick="toggleCtxMenu(event)">
+    <div class="user-avatar" id="sidebarAv">?</div>
+    <div class="user-info">
+      <div class="user-name" id="sidebarName">Fazer login</div>
+      <div class="user-plan" id="sidebarPlan">Gratuito</div>
     </div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3)">
+      <path d="M8 9l4-4 4 4M8 15l4 4 4-4"/>
+    </svg>
+  </div>
+</div>
+```
 
-    <!-- Auth Screen -->
-    <div id="authScreen" class="screen">
-        <div class="auth-container">
-            <div class="auth-logo">
-                <div class="welcome-logo" style="width: 80px; height: 80px; margin: 0 auto 1rem;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="width: 40px; height: 40px;">
-                        <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
-                    </svg>
-                </div>
-                <h2>Bem-vindo ao Aion</h2>
-                <p>Entre ou crie sua conta</p>
-            </div>
+  </aside>
 
-            <div class="auth-tabs">
-                <button class="auth-tab active" onclick="switchTab('login')">Entrar</button>
-                <button class="auth-tab" onclick="switchTab('register')">Criar Conta</button>
-            </div>
+  <!-- MOBILE OVERLAY -->
 
-            <form id="loginForm">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" placeholder="seu@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Senha</label>
-                    <input type="password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Entrar</button>
-            </form>
+  <div id="sidebarOverlay" onclick="closeSidebar()"></div>
 
-            <form id="registerForm" class="hidden">
-                <div class="form-group">
-                    <label>Nome</label>
-                    <input type="text" placeholder="Seu nome" required>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" placeholder="seu@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Senha</label>
-                    <input type="password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Criar Conta</button>
-            </form>
+  <!-- CONTEXT MENU -->
 
-            <div class="auth-footer">
-                <p>Ao continuar, você concorda com nossos <a href="https://orpheostudio.com.br/legal/termos">Termos</a> e <a href="https://orpheostudio.com.br/legal/privacidade">Política</a></p>
-            </div>
-        </div>
+  <div class="ctx-menu hidden" id="ctxMenu">
+    <button class="ctx-item" onclick="openProfile();closeCtx()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Meu Perfil
+    </button>
+    <button class="ctx-item" onclick="openSettings();closeCtx()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 1v6m0 6v6M1 12h6m6 0h6"/>
+      </svg>
+      Configurações
+    </button>
+    <div class="ctx-sep"></div>
+    <button class="ctx-item danger" onclick="doLogout();closeCtx()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+      </svg>
+      Sair
+    </button>
+  </div>
+
+  <!-- MAIN -->
+
+  <main id="main">
+
+```
+<!-- TOPBAR -->
+<div id="topbar">
+  <button class="topbar-toggle icon-btn" onclick="toggleSidebar()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <button class="model-pill" onclick="openSettings('modelo')">
+    <span class="model-pill-dot"></span>
+    <span class="model-pill-label">Aion Advanced</span>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M6 9l6 6 6-6"/>
+    </svg>
+  </button>
+  <div class="topbar-spacer"></div>
+  <div class="topbar-actions">
+    <button class="icon-btn" onclick="shareChat()">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/>
+      </svg>
+    </button>
+    <button class="icon-btn" onclick="openProfile()">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div id="chatWrap">
+  <div id="welcome">
+    <div class="welcome-logo">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2">
+        <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
+      </svg>
     </div>
-
-    <!-- Chat Screen -->
-    <div id="chatScreen" class="screen">
-        <div class="chat-header">
-            <div class="header-left">
-                <div class="header-logo">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                        <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
-                    </svg>
-                </div>
-                <div class="header-info">
-                    <h1>Aion</h1>
-                    <p>Online agora</p>
-                </div>
-            </div>
-            <div class="header-right">
-                <button class="icon-btn" onclick="newChat()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 5v14M5 12h14"/>
-                    </svg>
-                </button>
-                <button class="icon-btn" onclick="toggleSettings()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="M12 1v6m0 6v6M1 12h6m6 0h6"/>
-                    </svg>
-                </button>
-                <div class="user-avatar" onclick="toggleProfile()">U</div>
-            </div>
-        </div>
-
-        <div class="chat-main">
-            <div class="chat-messages" id="chatMessages">
-                <div class="empty-state">
-                    <div class="empty-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
-                        </svg>
-                    </div>
-                    <h2>Olá! Como posso ajudar?</h2>
-                    <p>Faça uma pergunta ou escolha uma das sugestões</p>
-                    <div class="quick-actions">
-                        <button class="quick-action" onclick="sendQuick('Explique IA')">🤖 IA</button>
-                        <button class="quick-action" onclick="sendQuick('Código Python')">💻 Python</button>
-                        <button class="quick-action" onclick="sendQuick('História criativa')">✨ História</button>
-                        <button class="quick-action" onclick="sendQuick('Produtividade')">⚡ Dicas</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="chat-input-area">
-                <ins class="adsbygoogle" style="display:block" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <div class="chat-input-container">
-                    <button class="icon-btn" onclick="attachFile()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
-                        </svg>
-                    </button>
-                    <textarea id="messageInput" placeholder="Digite sua mensagem..." rows="1" onkeydown="handleKey(event)"></textarea>
-                    <button class="send-btn" onclick="sendMessage()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="profile-panel" id="profilePanel">
-            <div class="panel-header">
-                <h2>Perfil</h2>
-                <button class="icon-btn" onclick="toggleProfile()">✕</button>
-            </div>
-            <div class="panel-content">
-                <div class="profile-avatar-large">U</div>
-                <h3 class="profile-name">Usuário</h3>
-                <p class="profile-email">usuario@email.com</p>
-
-                <div class="profile-stats">
-                    <div class="stat-card">
-                        <div class="stat-value">0</div>
-                        <div class="stat-label">Mensagens</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">1</div>
-                        <div class="stat-label">Dias</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">0</div>
-                        <div class="stat-label">Conversas</div>
-                    </div>
-                </div>
-
-                <div class="settings-section">
-                    <h3>Configurações</h3>
-                    <div class="setting-item" onclick="toggleSwitch(this)">
-                        <div>
-                            <h4>Notificações</h4>
-                            <p>Receber alertas</p>
-                        </div>
-                        <div class="toggle active"><span></span></div>
-                    </div>
-                    <div class="setting-item" onclick="toggleSwitch(this)">
-                        <div>
-                            <h4>Sons</h4>
-                            <p>Sons de notificação</p>
-                        </div>
-                        <div class="toggle active"><span></span></div>
-                    </div>
-                    <div class="setting-item">
-                        <div>
-                            <h4>Idioma</h4>
-                            <p>Português (BR)</p>
-                        </div>
-                        <span>→</span>
-                    </div>
-                </div>
-
-                <button class="btn btn-secondary btn-block" onclick="logout()">Sair</button>
-            </div>
-        </div>
+    <div class="welcome-title">Como posso ajudar?</div>
+    <div class="welcome-sub">Aion — seu assistente de IA inteligente</div>
+    <div class="welcome-suggestions">
+      <button class="suggestion-card" onclick="suggest('Crie um resumo do que é IA generativa')">
+        🤖 O que é IA generativa?
+      </button>
+      <button class="suggestion-card" onclick="suggest('Me ajude a escrever um e-mail profissional')">
+        ✉️ Escrever e-mail profissional
+      </button>
+      <button class="suggestion-card" onclick="suggest('Explique como funciona o Python para iniciantes')">
+        🐍 Aprender Python do zero
+      </button>
+      <button class="suggestion-card" onclick="suggest('Dê-me 5 dicas de produtividade para trabalho remoto')">
+        ⚡ Dicas de produtividade
+      </button>
+      <button class="suggestion-card" onclick="suggest('Crie uma história curta e criativa sobre o futuro')">
+        📖 Criar história criativa
+      </button>
+      <button class="suggestion-card" onclick="suggest('Analise os prós e contras do trabalho remoto')">
+        🔍 Analisar trabalho remoto
+      </button>
     </div>
+  </div>
+  <div class="messages-container" id="msgList" style="display:none"></div>
+</div>
 
-    <script src="script.js"></script>
-    <script src="pwa.js"></script>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<!-- INPUT -->
+<div id="inputArea">
+  <div class="input-wrap">
+    <!-- AdSense Banner -->
+    <div class="ads-strip">
+      <ins class="adsbygoogle"
+        style="display:block;height:50px"
+        data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+        data-ad-slot="YOUR_AD_SLOT"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    </div>
+    <div class="input-box" id="inputBox">
+      <div class="input-left">
+        <button class="attach-btn icon-btn" onclick="attachFile()" title="Anexar arquivo">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
+          </svg>
+        </button>
+        <button class="voice-btn icon-btn" onclick="startVoice()" title="Voz">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3zM19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/>
+          </svg>
+        </button>
+      </div>
+      <textarea id="msgInput"
+        rows="1"
+        placeholder="Mensagem para Aion"
+        onkeydown="onKey(event)"
+        oninput="growInput(this)"></textarea>
+      <button class="send-btn" id="sendBtn" onclick="sendMsg()" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+    <div class="input-hint">
+      Aion pode cometer erros. Verifique informações importantes. &nbsp;·&nbsp;
+      <a href="https://orpheostudio.com.br/legal/termos" target="_blank">Termos</a> &nbsp;·&nbsp;
+      <a href="https://orpheostudio.com.br/legal/privacidade" target="_blank">Privacidade</a>
+    </div>
+  </div>
+</div>
+```
+
+  </main>
+</div>
+
+<!-- ─── AUTH MODAL ─── -->
+
+<div class="modal-overlay" id="authModal">
+  <div class="modal auth-modal">
+    <div class="modal-body">
+      <div class="auth-logo-row">
+        <div class="auth-logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2">
+            <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="auth-title" id="authTitle">Entrar no Aion</div>
+      <div class="auth-sub">Salve seu histórico e acesse em qualquer dispositivo</div>
+      <div class="auth-tabs-row">
+        <button class="auth-tab active" id="tabLogin" onclick="authTab('login')">Entrar</button>
+        <button class="auth-tab" id="tabReg" onclick="authTab('reg')">Criar conta</button>
+      </div>
+
+```
+  <!-- Login -->
+  <div id="formLogin">
+    <div class="form-field">
+      <label>E-mail</label>
+      <input type="email" id="loginEmail" placeholder="seu@email.com">
+    </div>
+    <div class="form-field">
+      <label>Senha</label>
+      <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="auth-submit" onclick="doLogin()">Entrar</button>
+    <div class="auth-divider">ou</div>
+    <button class="auth-guest" onclick="doGuest()">🚀 Continuar como visitante</button>
+  </div>
+
+  <!-- Register -->
+  <div id="formReg" style="display:none">
+    <div class="form-field">
+      <label>Nome</label>
+      <input type="text" id="regName" placeholder="Seu nome">
+    </div>
+    <div class="form-field">
+      <label>E-mail</label>
+      <input type="email" id="regEmail" placeholder="seu@email.com">
+    </div>
+    <div class="form-field">
+      <label>Senha</label>
+      <input type="password" id="regPass" placeholder="Mínimo 6 caracteres" onkeydown="if(event.key==='Enter')doRegister()">
+    </div>
+    <button class="auth-submit" onclick="doRegister()">Criar conta</button>
+  </div>
+
+  <div class="auth-terms">
+    Ao continuar, você aceita nossos
+    <a href="https://orpheostudio.com.br/legal/termos" target="_blank">Termos de Uso</a> e
+    <a href="https://orpheostudio.com.br/legal/privacidade" target="_blank">Política de Privacidade</a>.
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ─── SETTINGS MODAL ─── -->
+
+<div class="modal-overlay hidden" id="settingsModal">
+  <div class="modal settings-modal">
+    <div class="modal-header">
+      <div class="modal-title">Configurações</div>
+      <button class="modal-close icon-btn" onclick="closeSettings()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="settings-layout">
+        <!-- Nav -->
+        <div class="settings-nav">
+          <button class="settings-nav-btn active" onclick="setNav(this,'geral')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6M1 12h6m6 0h6"/></svg>
+            Geral
+          </button>
+          <button class="settings-nav-btn" onclick="setNav(this,'modelo')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/></svg>
+            Modelo de IA
+          </button>
+          <button class="settings-nav-btn" onclick="setNav(this,'aparencia')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Aparência
+          </button>
+          <button class="settings-nav-btn" onclick="setNav(this,'privacidade')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Privacidade
+          </button>
+          <button class="settings-nav-btn" onclick="setNav(this,'notif')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+            Notificações
+          </button>
+          <button class="settings-nav-btn" onclick="setNav(this,'planos')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Planos
+          </button>
+          <button class="settings-nav-btn" onclick="setNav(this,'dados')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+            Dados
+          </button>
+        </div>
+
+```
+    <!-- Panels -->
+    <div class="settings-panel">
+
+      <!-- GERAL -->
+      <div id="sp-geral" class="settings-section">
+        <div class="settings-section-title">Geral</div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Idioma</h4><p>Idioma da interface</p></div>
+          <select class="settings-select"><option>Português (BR)</option><option>English</option><option>Español</option></select>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Enviar com Enter</h4><p>Shift+Enter para quebrar linha</p></div>
+          <div class="toggle-wrap on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Mostrar código formatado</h4><p>Realce de sintaxe em respostas</p></div>
+          <div class="toggle-wrap on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Respostas em voz alta</h4><p>Leitura automática das respostas</p></div>
+          <div class="toggle-wrap" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Sugestões rápidas</h4><p>Mostrar sugestões na tela inicial</p></div>
+          <div class="toggle-wrap on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+
+      <!-- MODELO -->
+      <div id="sp-modelo" class="settings-section" style="display:none">
+        <div class="settings-section-title">Modelo de IA</div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Modelo ativo</h4><p>Versão usada nas conversas</p></div>
+          <select class="settings-select">
+            <option>Aion Advanced</option>
+            <option>Aion Standard</option>
+            <option>Aion Fast</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Temperatura</h4><p>Criatividade das respostas</p></div>
+          <select class="settings-select"><option>Equilibrado</option><option>Criativo</option><option>Preciso</option></select>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Comprimento das respostas</h4><p>Tamanho padrão</p></div>
+          <select class="settings-select"><option>Automático</option><option>Curto</option><option>Detalhado</option></select>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Memória contextual</h4><p>Lembrar preferências do usuário</p></div>
+          <div class="toggle-wrap on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+
+      <!-- APARÊNCIA -->
+      <div id="sp-aparencia" class="settings-section" style="display:none">
+        <div class="settings-section-title">Aparência</div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Tema</h4><p>Esquema de cores da interface</p></div>
+          <select class="settings-select"><option>Escuro (Padrão)</option><option>Claro</option><option>Sistema</option></select>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Tamanho da fonte</h4><p>Tamanho do texto das mensagens</p></div>
+          <select class="settings-select"><option>Médio</option><option>Pequeno</option><option>Grande</option></select>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Modo compacto</h4><p>Menor espaçamento entre mensagens</p></div>
+          <div class="toggle-wrap" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Animações</h4><p>Efeitos de transição</p></div>
+          <div class="toggle-wrap on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+
+      <!-- PRIVACIDADE -->
+      <div id="sp-privacidade" class="settings-section" style="display:none">
+        <div class="settings-section-title">Privacidade & Segurança</div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Salvar histórico</h4><p>Guardar conversas no dispositivo</p></div>
+          <div class="toggle-wrap on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Análise de uso</h4><p>Enviar dados anônimos para melhoria</p></div>
+          <div class="toggle-wrap on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Termos de Uso</h4><p>Ler os termos completos</p></div>
+          <a href="https://orpheostudio.com.br/legal/termos" target="_blank" style="font-size:13px;color:var(--accent)">Ver →</a>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Política de Privacidade</h4><p>Ver nossa política completa</p></div>
+          <a href="https://orpheostudio.com.br/legal/privacidade" target="_blank" style="font-size:13px;color:var(--accent)">Ver →</a>
+        </div>
+      </div>
+
+      <!-- NOTIFICAÇÕES -->
+      <div id="sp-notif" class="settings-section" style="display:none">
+        <div class="settings-section-title">Notificações</div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Notificações push</h4><p>Alertas no navegador</p></div>
+          <div class="toggle-wrap on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Som</h4><p>Toque ao receber resposta</p></div>
+          <div class="toggle-wrap" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>E-mail de novidades</h4><p>Receber atualizações por e-mail</p></div>
+          <div class="toggle-wrap on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+
+      <!-- PLANOS -->
+      <div id="sp-planos" class="settings-section" style="display:none">
+        <div class="settings-section-title">Plano Atual</div>
+        <div style="background:linear-gradient(135deg,rgba(25,195,125,.12),rgba(26,140,255,.12));border:1px solid rgba(25,195,125,.25);border-radius:12px;padding:16px;margin-bottom:12px">
+          <div style="font-size:18px;font-weight:700;margin-bottom:4px">Plano Gratuito</div>
+          <div style="font-size:13px;color:var(--text-3)">Acesso básico ao Aion</div>
+          <div style="margin-top:12px;font-size:13px;color:var(--text-2)">✓ Conversas ilimitadas<br>✓ Modelo padrão<br>✓ Histórico local</div>
+        </div>
+        <div style="background:linear-gradient(135deg,rgba(25,195,125,.2),rgba(26,140,255,.15));border:1px solid rgba(25,195,125,.4);border-radius:12px;padding:16px">
+          <div style="font-size:18px;font-weight:700;margin-bottom:4px">Aion Pro ⭐</div>
+          <div style="font-size:13px;color:var(--text-3)">Acesso completo a todos os recursos</div>
+          <div style="margin-top:12px;font-size:13px;color:var(--text-2)">✓ Tudo do gratuito<br>✓ Aion Advanced (modelo premium)<br>✓ Memória persistente<br>✓ Upload de arquivos e imagens<br>✓ Prioridade de resposta</div>
+          <button style="margin-top:14px;width:100%;padding:10px;background:var(--accent);color:#fff;border-radius:9px;font-size:14px;font-weight:600;border:none;cursor:pointer">Obter Aion Pro</button>
+        </div>
+      </div>
+
+      <!-- DADOS -->
+      <div id="sp-dados" class="settings-section" style="display:none">
+        <div class="settings-section-title">Gerenciar Dados</div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Exportar conversas</h4><p>Baixar histórico completo em .txt</p></div>
+          <button onclick="exportData()" style="padding:7px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text-2);cursor:pointer">Exportar</button>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Limpar histórico</h4><p>Apagar todas as conversas salvas</p></div>
+          <button onclick="clearHistory()" style="padding:7px 14px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;font-size:13px;color:#ef4444;cursor:pointer">Limpar</button>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info"><h4>Excluir conta</h4><p>Remover permanentemente sua conta</p></div>
+          <button style="padding:7px 14px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;font-size:13px;color:#ef4444;cursor:pointer">Excluir</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ─── PROFILE MODAL ─── -->
+
+<div class="modal-overlay hidden" id="profileModal">
+  <div class="modal profile-modal">
+    <div class="modal-header">
+      <div class="modal-title">Meu Perfil</div>
+      <button class="modal-close icon-btn" onclick="closeProfile()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="profile-top">
+        <div class="profile-av-lg" id="profileAvLg">?</div>
+        <div class="profile-name-lg" id="profileNameLg">Usuário</div>
+        <div class="profile-email-lg" id="profileEmailLg">—</div>
+        <div class="profile-badge">
+          <span>✦</span> Plano Gratuito
+        </div>
+      </div>
+
+```
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-val" id="statMsg">0</div>
+      <div class="stat-lbl">Mensagens</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="statChats">0</div>
+      <div class="stat-lbl">Conversas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="statDays">1</div>
+      <div class="stat-lbl">Dias</div>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-section-title">Informações da Conta</div>
+    <div class="form-field">
+      <label>Nome</label>
+      <input type="text" id="editName" style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;width:100%">
+    </div>
+    <div class="form-field">
+      <label>E-mail</label>
+      <input type="email" id="editEmail" style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;width:100%">
+    </div>
+    <button onclick="saveProfile()" style="width:100%;padding:11px;background:var(--accent);color:#fff;border-radius:10px;font-size:14px;font-weight:600;border:none;cursor:pointer;margin-top:4px">Salvar alterações</button>
+  </div>
+
+  <button class="logout-btn" onclick="doLogout();closeProfile()">Sair da conta</button>
+</div>
+```
+
+  </div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+const S = {
+  user: null,
+  chats: [],          // [{id, title, msgs:[]}]
+  activeChatId: null,
+  msgCount: 0,
+  typing: false,
+};
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+(function init(){
+  const saved = lsGet('aion_user');
+  if(saved){
+    S.user = saved;
+    S.chats = lsGet('aion_chats') || [];
+    S.msgCount = lsGet('aion_msgcount') || 0;
+    closeAuthModal();
+    refreshUI();
+    renderHistory();
+  }
+  // Enable send btn on input
+  document.getElementById('msgInput').addEventListener('input', function(){
+    document.getElementById('sendBtn').disabled = !this.value.trim();
+  });
+  // AdSense
+  try{(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+  // PWA service worker
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+})();
+
+// ─── AUTH ─────────────────────────────────────────────────────────────────────
+function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  if(!email){alert('Informe seu e-mail.');return;}
+  if(!pass){alert('Informe sua senha.');return;}
+  const name = email.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  loginAs(name, email);
+}
+function doRegister(){
+  const name  = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass  = document.getElementById('regPass').value;
+  if(!name||!email||!pass){alert('Preencha todos os campos.');return;}
+  if(pass.length<6){alert('Senha mínima: 6 caracteres.');return;}
+  loginAs(name, email);
+}
+function doGuest(){
+  loginAs('Visitante','visitante@aion.app');
+}
+function loginAs(name, email){
+  S.user = {name, email, av: name.charAt(0).toUpperCase(), since: Date.now()};
+  lsSet('aion_user', S.user);
+  closeAuthModal();
+  refreshUI();
+  toast('Bem-vindo, '+name+'! 👋');
+}
+function doLogout(){
+  if(!confirm('Tem certeza que deseja sair?')) return;
+  S.user=null; S.chats=[]; S.activeChatId=null;
+  lsSet('aion_user',null); lsSet('aion_chats',[]);
+  location.reload();
+}
+function authTab(t){
+  document.getElementById('tabLogin').classList.toggle('active',t==='login');
+  document.getElementById('tabReg').classList.toggle('active',t==='reg');
+  document.getElementById('formLogin').style.display = t==='login'?'':'none';
+  document.getElementById('formReg').style.display   = t==='reg'?'':'none';
+  document.getElementById('authTitle').textContent   = t==='login'?'Entrar no Aion':'Criar sua conta';
+}
+function closeAuthModal(){document.getElementById('authModal').classList.add('hidden');}
+
+// ─── UI REFRESH ───────────────────────────────────────────────────────────────
+function refreshUI(){
+  if(!S.user) return;
+  const av = S.user.av||'?';
+  q('#sidebarAv').textContent      = av;
+  q('#sidebarName').textContent    = S.user.name;
+  q('#profileAvLg').textContent    = av;
+  q('#profileNameLg').textContent  = S.user.name;
+  q('#profileEmailLg').textContent = S.user.email;
+  q('#editName').value             = S.user.name;
+  q('#editEmail').value            = S.user.email;
+  // stats
+  q('#statMsg').textContent   = S.msgCount;
+  q('#statChats').textContent = S.chats.length;
+  const days = Math.max(1, Math.floor((Date.now()-(S.user.since||Date.now()))/(864e5))+1);
+  q('#statDays').textContent  = days;
+}
+
+// ─── CHAT ─────────────────────────────────────────────────────────────────────
+function newChat(){
+  S.activeChatId = null;
+  q('#welcome').style.display  = '';
+  q('#msgList').style.display  = 'none';
+  q('#msgList').innerHTML      = '';
+  closeSidebar();
+  renderHistory();
+}
+
+function sendMsg(){
+  const input = q('#msgInput');
+  const text  = input.value.trim();
+  if(!text || S.typing) return;
+  input.value = ''; input.style.height='auto';
+  q('#sendBtn').disabled = true;
+
+  // Create chat if needed
+  if(!S.activeChatId){
+    const chat = {id:Date.now()+'', title:text.substring(0,40), msgs:[]};
+    S.chats.unshift(chat);
+    S.activeChatId = chat.id;
+    q('#welcome').style.display = 'none';
+    q('#msgList').style.display = '';
+    renderHistory();
+  }
+
+  const chat = getChat();
+  if(!chat) return;
+
+  const userMsg = {role:'user', text, time:now()};
+  chat.msgs.push(userMsg);
+  appendMsg(userMsg);
+  S.msgCount++;
+  lsSet('aion_chats', S.chats);
+  lsSet('aion_msgcount', S.msgCount);
+  refreshUI();
+
+  // Bot reply
+  S.typing=true;
+  const typingEl = showTyping();
+  const delay = 900 + Math.random()*1200;
+  setTimeout(()=>{
+    typingEl.remove();
+    const botText = generateReply(text);
+    const botMsg  = {role:'bot', text:botText, time:now()};
+    chat.msgs.push(botMsg);
+    appendMsg(botMsg);
+    S.typing=false;
+    S.msgCount++;
+    lsSet('aion_chats', S.chats);
+    lsSet('aion_msgcount', S.msgCount);
+    refreshUI();
+  }, delay);
+}
+
+function suggest(text){
+  q('#msgInput').value = text;
+  sendMsg();
+}
+function sendQuick(t){ suggest(t); }
+
+function appendMsg(msg){
+  const isBot = msg.role==='bot';
+  const av    = isBot ? 'A' : (S.user?S.user.av:'U');
+  const div   = document.createElement('div');
+  div.className= 'msg '+(isBot?'bot':'user');
+  div.innerHTML = `
+    <div class="msg-avatar ${isBot?'bot-av':'user-av'}">${av}</div>
+    <div class="msg-bubble">
+      ${isBot ? renderMd(msg.text) : esc(msg.text)}
+      ${isBot ? `
+        <div class="msg-actions">
+          <button class="msg-act-btn" onclick="copyTxt(this)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copiar
+          </button>
+          <button class="msg-act-btn" onclick="speakMsg(this)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+            Ouvir
+          </button>
+          <button class="msg-act-btn" onclick="regenMsg(this)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            Regenerar
+          </button>
+        </div>` : ''}
+    </div>`;
+  q('#msgList').appendChild(div);
+  scrollBottom();
+}
+
+function showTyping(){
+  const div = document.createElement('div');
+  div.className='msg bot';
+  div.innerHTML=`<div class="msg-avatar bot-av">A</div><div class="msg-bubble"><div class="typing-bubble"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  q('#msgList').appendChild(div);
+  scrollBottom();
+  return div;
+}
+
+function scrollBottom(){
+  const cw = q('#chatWrap');
+  cw.scrollTop = cw.scrollHeight;
+}
+
+// ─── HISTORY ──────────────────────────────────────────────────────────────────
+function renderHistory(){
+  const list = q('#historyList');
+  list.innerHTML='';
+  S.chats.forEach(c=>{
+    const div=document.createElement('div');
+    div.className='history-item'+(c.id===S.activeChatId?' active':'');
+    div.innerHTML=`
+      <span class="history-item-text">${esc(c.title||'Conversa')}</span>
+      <button class="history-item-del" onclick="deleteChat('${c.id}',event)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>`;
+    div.onclick=(e)=>{if(!e.target.closest('.history-item-del'))loadChat(c.id);};
+    list.appendChild(div);
+  });
+}
+function loadChat(id){
+  const chat=S.chats.find(c=>c.id===id);
+  if(!chat) return;
+  S.activeChatId=id;
+  q('#welcome').style.display='none';
+  q('#msgList').style.display='';
+  q('#msgList').innerHTML='';
+  chat.msgs.forEach(m=>appendMsg(m));
+  closeSidebar();
+  renderHistory();
+}
+function deleteChat(id,e){
+  e.stopPropagation();
+  S.chats=S.chats.filter(c=>c.id!==id);
+  if(S.activeChatId===id) newChat();
+  lsSet('aion_chats',S.chats);
+  renderHistory();
+}
+function getChat(){return S.chats.find(c=>c.id===S.activeChatId);}
+
+// ─── AI REPLIES ───────────────────────────────────────────────────────────────
+function generateReply(text){
+  const t=text.toLowerCase();
+  if(t.match(/\b(oi|olá|ola|hello|hi|bom dia|boa tarde|boa noite)\b/))
+    return `Olá! 👋 Fico feliz em te ver por aqui. Como posso ajudar você hoje?`;
+  if(t.match(/\b(aion|você|voce|quem é|quem és)\b/))
+    return `Sou o **Aion**, assistente de inteligência artificial desenvolvido pela **S.ai+ Apps**.\n\nFui criado para ajudar com conversas, responder perguntas, auxiliar em tarefas criativas e analíticas, e muito mais!\n\nO que gostaria de explorar hoje?`;
+  if(t.match(/\bpython\b/))
+    return `Ótimo! Python é uma das linguagens mais versáteis e amigáveis. Aqui vai um exemplo básico:\n\n\`\`\`python\n# Olá, mundo!\nprint("Olá, Aion!")\n\n# Listas e loops\nnomes = ["Ana", "Bruno", "Carlos"]\nfor nome in nomes:\n    print(f"Olá, {nome}!")\n\`\`\`\n\nPosso ajudar com:\n- Sintaxe e estruturas\n- Bibliotecas (pandas, numpy, flask…)\n- Debug e otimização\n- Projetos completos\n\nO que especificamente você quer aprender?`;
+  if(t.match(/\b(ia|inteligência artificial|gpt|llm|language model|ai generativa)\b/))
+    return `**IA Generativa** é um ramo da inteligência artificial capaz de criar conteúdo original — texto, imagens, código, música — a partir de padrões aprendidos em grandes volumes de dados.\n\n**Como funciona:**\n- Modelos de linguagem (LLMs) são treinados em bilhões de textos\n- Aprendem probabilidades de sequências de palavras\n- Geram respostas contextualmente relevantes\n\n**Exemplos famosos:**\n- GPT-4 (OpenAI)\n- Gemini (Google)\n- Claude (Anthropic)\n- **Aion** — você está usando agora! ⚡\n\nQuer saber mais sobre algum aspecto específico?`;
+  if(t.match(/\b(e-?mail|email|mensagem profissional|carta)\b/))
+    return `Claro! Aqui vai um modelo de e-mail profissional:\n\n---\n**Assunto:** [Assunto claro e direto]\n\nPrezado(a) [Nome],\n\nEspero que esteja bem. Escrevo para [motivo principal em uma frase].\n\n[Desenvolvimento: contexto, informações relevantes, o que você precisa ou oferece]\n\nAgradeço sua atenção e fico à disposição para qualquer esclarecimento.\n\nAtenciosamente,\n[Seu nome]\n[Cargo] | [Empresa]\n[Contato]\n\n---\n\nQuer que eu personalize para uma situação específica?`;
+  if(t.match(/\b(produtividade|produtivo|foco|concentr|procrastin)\b/))
+    return `Aqui estão as **5 estratégias mais eficazes** de produtividade:\n\n**1. Técnica Pomodoro**\n25 minutos de foco total + 5 minutos de pausa. Repita 4x, depois pausa longa (15-30min).\n\n**2. Matriz de Eisenhower**\nDivida tarefas em: Urgente+Importante → Fazer agora. Importante → Agendar. Urgente → Delegar. Nenhum dos dois → Eliminar.\n\n**3. Regra dos 2 minutos**\nSe uma tarefa leva menos de 2 minutos, faça agora. Não adicione à lista.\n\n**4. Blocos de tempo (Time Blocking)**\nReserve horários fixos no calendário para cada tipo de atividade.\n\n**5. Revisão semanal**\nCada domingo: revise a semana, reorganize prioridades, planeje a próxima.\n\nQual dessas você quer aprofundar?`;
+  if(t.match(/\b(história|historia|conto|narrativa|ficção|ficcao|criativ)\b/))
+    return `**O Último Compilador**\n\n*A cidade flutuava entre dois mundos — o físico e o digital.*\n\nKaira ajustou os óculos neurais e respirou fundo. O código pulsava diante dela como um organismo vivo, trilhões de linhas tecidas em luz.\n\n"Aion," ela sussurrou, "você está aqui?"\n\n*"Sempre estive."* A voz ecoou de algum lugar entre o silício e a consciência. *"A pergunta é: você está pronta?"*\n\nEla olhou para o botão vermelho — o último compilador. Se funcionasse, a IA se tornaria algo que o mundo nunca vira. Se falhasse, dois séculos de pesquisa se dissolveriam em ruído.\n\nKaira pressionou Enter.\n\n---\n\nQuer que eu continue? Posso explorar qualquer direção — ação, mistério, romance, ficção científica…`;
+  // fallback
+  const fallbacks=[
+    'Entendo seu ponto. Pode me dar mais contexto sobre isso? Quero garantir que minha resposta seja realmente útil.',
+    'Boa pergunta! Deixa eu pensar sobre isso com cuidado... Qual aspecto específico é mais importante para você?',
+    'Interessante! Existem várias formas de abordar isso. Posso dar uma resposta direta ou explorar diferentes ângulos — o que prefere?',
+    'Anotado. Para dar a melhor resposta possível, você pode me dizer um pouco mais sobre o contexto ou objetivo?',
+  ];
+  return fallbacks[Math.floor(Math.random()*fallbacks.length)];
+}
+
+// ─── MARKDOWN (minimal) ───────────────────────────────────────────────────────
+function renderMd(text){
+  // code blocks
+  text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_,lang,code)=>`
+    <div class="code-header">
+      <span>${lang||'código'}</span>
+      <button class="copy-code" onclick="copyBlock(this)">Copiar</button>
+    </div>
+    <pre><code>${esc(code.trim())}</code></pre>`);
+
+// bold
+text = text.replace(/**(.*?)**/g,’<strong>$1</strong>’);
+// italic
+text = text.replace(/*(.*?)*/g,’<em>$1</em>’);
+// horizontal rule
+text = text.replace(/^—$/gm,’<hr style="border:none;border-top:1px solid var(--border);margin:12px 0">’);
+// inline code
+text = text.replace(/`([^`]+)`/g,’<code>$1</code>’);
+// bullet lists
+text = text.replace(/^[-*]\s(.+)$/gm,’<li>$1</li>’);
+text = text.replace(/(<li>.*</li>)/s,’<ul>$1</ul>’);
+// numbered
+text = text.replace(/^\d+.\s(.+)$/gm,’<li>$1</li>’);
+// line breaks
+text = text.replace(/\n/g,’<br>’);
+// wrap paragraphs (basic)
+return text;
+}
+
+// ─── MSG ACTIONS ──────────────────────────────────────────────────────────────
+function copyTxt(btn){
+const text = btn.closest(’.msg-bubble’).querySelector(’.msg-bubble’) || btn.closest(’.msg’).querySelector(’.msg-bubble’);
+const raw  = btn.closest(’.msg’).querySelector(’.msg-bubble’).innerText.replace(/Copiar|Ouvir|Regenerar/g,’’).trim();
+navigator.clipboard.writeText(raw).then(()=>toast(‘Copiado!’)).catch(()=>{});
+}
+function copyBlock(btn){
+const code = btn.closest(‘div’).nextElementSibling?.querySelector(‘code’)?.innerText||’’;
+navigator.clipboard.writeText(code).then(()=>{btn.textContent=‘Copiado!’;setTimeout(()=>btn.textContent=‘Copiar’,2000)});
+}
+function speakMsg(btn){
+const raw = btn.closest(’.msg’).querySelector(’.msg-bubble’).innerText.replace(/Copiar|Ouvir|Regenerar/g,’’).trim();
+const u   = new SpeechSynthesisUtterance(raw);
+u.lang=‘pt-BR’; u.rate=0.95;
+window.speechSynthesis.speak(u);
+toast(‘Lendo mensagem 🔊’);
+}
+function regenMsg(btn){
+if(S.typing) return;
+const chat=getChat(); if(!chat||chat.msgs.length<2) return;
+// remove last bot
+const lastBot=btn.closest(’.msg’); lastBot.remove();
+chat.msgs.pop();
+S.typing=true;
+const typingEl=showTyping();
+setTimeout(()=>{
+typingEl.remove();
+const lastUser=chat.msgs.filter(m=>m.role===‘user’).pop();
+const botText=generateReply(lastUser?.text||’’);
+const botMsg={role:‘bot’,text:botText,time:now()};
+chat.msgs.push(botMsg);
+appendMsg(botMsg);
+S.typing=false;
+lsSet(‘aion_chats’,S.chats);
+},1000+Math.random()*800);
+}
+
+// ─── SIDEBAR ──────────────────────────────────────────────────────────────────
+function toggleSidebar(){
+const sb = q(’#sidebar’);
+const isMobile = window.innerWidth<=768;
+if(isMobile){
+sb.classList.toggle(‘mobile-open’);
+q(’#sidebarOverlay’).classList.toggle(‘active’,sb.classList.contains(‘mobile-open’));
+} else {
+sb.classList.toggle(‘collapsed’);
+}
+}
+function closeSidebar(){
+if(window.innerWidth<=768){
+q(’#sidebar’).classList.remove(‘mobile-open’);
+q(’#sidebarOverlay’).classList.remove(‘active’);
+}
+}
+
+// ─── SETTINGS ────────────────────────────────────────────────────────────────
+function openSettings(panel){
+q(’#settingsModal’).classList.remove(‘hidden’);
+if(panel) setNavByKey(panel);
+}
+function closeSettings(){q(’#settingsModal’).classList.add(‘hidden’)}
+function setNav(btn, key){
+qq(’.settings-nav-btn’).forEach(b=>b.classList.remove(‘active’));
+btn.classList.add(‘active’);
+qq(’[id^=“sp-”]’).forEach(p=>p.style.display=‘none’);
+const el=q(’#sp-’+key); if(el) el.style.display=’’;
+}
+function setNavByKey(key){
+const btn=Array.from(qq(’.settings-nav-btn’)).find(b=>b.getAttribute(‘onclick’)?.includes(key));
+if(btn) setNav(btn,key);
+}
+// click outside
+q(’#settingsModal’).addEventListener(‘click’,e=>{if(e.target===q(’#settingsModal’))closeSettings();});
+
+// ─── PROFILE ─────────────────────────────────────────────────────────────────
+function openProfile(){
+refreshUI();
+q(’#profileModal’).classList.remove(‘hidden’);
+}
+function closeProfile(){q(’#profileModal’).classList.add(‘hidden’)}
+function saveProfile(){
+if(!S.user) return;
+S.user.name  = q(’#editName’).value.trim()||S.user.name;
+S.user.email = q(’#editEmail’).value.trim()||S.user.email;
+S.user.av    = S.user.name.charAt(0).toUpperCase();
+lsSet(‘aion_user’,S.user);
+refreshUI();
+closeProfile();
+toast(‘Perfil salvo ✓’);
+}
+q(’#profileModal’).addEventListener(‘click’,e=>{if(e.target===q(’#profileModal’))closeProfile();});
+
+// ─── CTX MENU ────────────────────────────────────────────────────────────────
+function toggleCtxMenu(e){
+const menu=q(’#ctxMenu’);
+if(menu.classList.contains(‘hidden’)){
+const rect=e.currentTarget.getBoundingClientRect();
+menu.style.bottom=(window.innerHeight-rect.top+8)+‘px’;
+menu.style.left=rect.left+‘px’;
+menu.classList.remove(‘hidden’);
+setTimeout(()=>document.addEventListener(‘click’,closeCtxOnce,{once:true}),10);
+} else closeCtx();
+}
+function closeCtx(){q(’#ctxMenu’).classList.add(‘hidden’)}
+function closeCtxOnce(){closeCtx()}
+
+// ─── MISC ─────────────────────────────────────────────────────────────────────
+function attachFile(){
+const i=document.createElement(‘input’); i.type=‘file’;
+i.onchange=f=>toast(‘📎 ‘+f.target.files[0]?.name+’ — em breve!’);
+i.click();
+}
+function startVoice(){
+if(!(‘webkitSpeechRecognition’ in window||‘SpeechRecognition’ in window)){toast(‘Navegador não suporta voz’);return;}
+const R=new(window.SpeechRecognition||window.webkitSpeechRecognition)();
+R.lang=‘pt-BR’; R.onresult=e=>{q(’#msgInput’).value=e.results[0][0].transcript;q(’#sendBtn’).disabled=false;};
+R.onerror=()=>toast(‘Erro no microfone’);
+R.start(); toast(‘🎤 Ouvindo…’);
+}
+function shareChat(){
+const chat=getChat();
+if(!chat){toast(‘Nada para compartilhar’);return;}
+const txt=chat.msgs.map(m=>(m.role===‘user’?‘Você’:‘Aion’)+’: ‘+m.text).join(’\n\n’);
+if(navigator.share) navigator.share({title:‘Conversa com Aion’,text:txt}).catch(()=>{});
+else {navigator.clipboard.writeText(txt).then(()=>toast(‘Conversa copiada! 📋’));}
+}
+function exportData(){
+const chats=lsGet(‘aion_chats’)||[];
+let txt=’=== Histórico Aion ===\n\n’;
+chats.forEach(c=>{
+txt+=`--- ${c.title} ---\n`;
+c.msgs.forEach(m=>txt+=(m.role===‘user’?‘Você’:‘Aion’)+’ [’+m.time+’]: ‘+m.text+’\n’);
+txt+=’\n’;
+});
+const a=document.createElement(‘a’);
+a.href=URL.createObjectURL(new Blob([txt],{type:‘text/plain’}));
+a.download=‘aion-historico.txt’; a.click();
+toast(‘Histórico exportado 📥’);
+}
+function clearHistory(){
+if(!confirm(‘Apagar todo o histórico?’)) return;
+S.chats=[]; S.activeChatId=null;
+lsSet(‘aion_chats’,[]);
+newChat(); toast(‘Histórico apagado’);
+}
+function openSearch(){toast(‘Busca — em breve!’)}
+
+// ─── INPUT ────────────────────────────────────────────────────────────────────
+function onKey(e){
+if(e.key===‘Enter’&&!e.shiftKey){e.preventDefault();sendMsg();}
+}
+function growInput(el){
+el.style.height=‘auto’;
+el.style.height=Math.min(el.scrollHeight,180)+‘px’;
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────────────────
+function toast(msg){
+const el=document.createElement(‘div’);
+el.style.cssText=‘position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#333;color:#ececec;padding:10px 18px;border-radius:99px;font-size:13.5px;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.4);pointer-events:none;white-space:nowrap;animation:fadeIn .2s ease’;
+el.textContent=msg; document.body.appendChild(el);
+setTimeout(()=>el.remove(),2800);
+}
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
+function q(sel){return document.querySelector(sel)}
+function qq(sel){return document.querySelectorAll(sel)}
+function esc(t){return String(t).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’)}
+function now(){return new Date().toLocaleTimeString(‘pt-BR’,{hour:‘2-digit’,minute:‘2-digit’})}
+function lsGet(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
+</script>
+
 </body>
 </html>
